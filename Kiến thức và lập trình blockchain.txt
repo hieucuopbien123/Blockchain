@@ -1,0 +1,75 @@
+Ta đã biết mỗi block chứa: data, hash, hash of previous block. Nhưng thực ra cụ thể hơn, block có 2 phần là header và body. Phần body chứa data là tất cả các transaction.
+Còn header chứa: 1 là hash of previous block; 2 là difficulty, timestamp, nonce(số dùng 1 lần); 3 là merkle có thể coi là 1 bản tóm tắt các giao dịch trong block đó;...
+=>mã hash của block này k ghi như 1 trường của block này đâu, nó được coi như 1 định danh duy nhất của block được xác định sau khi băm toàn bộ phần header bằng 1 thuật toán SHA256(or thuật hash có độ mạnh tương tự)(Chú ý là chỉ băm tiêu đề thôi)
+
+giao dịch off chain là giao dịch thực hiện bên ngoài blockchain. Còn thông thường khi trans được gửi đi và được xác nhận trên mạng blockchain thì đó là giao dịch on chain.
+Giao dịch onchain có nhược điểm là tốn kém và chậm. Ngày càng nh người tham gia làm cho mạng bitcoin blockchain dễ bị nghẽn, chậm hơn nhiều với giải pháp truyền thống là gửi qua ngân hàng. Người ta chọn giải pháp là thêm 1 layer thứ 2 để cải tiến, giúp giao dịch offchain xảy ra tức thời
+VD: Lightning network là hệ thống giao dịch off-chain xd trên blockchain của bitcoin. Nó tạo ra kênh thanh toán 2 chiều(do 2 bên đồng thuận điều đó) để 2 bên thực hiện các giao dịch liền mạch. Mặc dù vc thiết lập kênh thanh toán liên quan đến các giao dịch onchain nhưng mọi giao dịch được thực hiện trong kênh đó đều là offchain mà k cần tới sự đồng thuận của toàn bộ hệ thống=> các giao dịch được thực hiện tức thời với smart contract + chi phí thấp.
+=> tức là họ k cần sự đồng thuận của toàn bộ mạng nx mà 2 người giao dịch cho nhau thì chỉ cần 2 người đó đồng thuận với nhau là được r.
+=> 2 bên sẽ khởi tạo 1 ví đa chữ ký có sẵn 1 số tiền nhất định, số tiền này chỉ truy cập khi 2 bên cùng cung mã cá nhân(đa chữ ký là 2 chữ ký của họ). VD: Alice giao dịch với Bob qua Lightning Network, cả 2 cùng tạo 1 kênh thanh toán dùng ví đa chữ ký, kênh đó sẽ mang 1 hợp đồng thông minh còn ví đa chữ ký là két giữ tiền, tiền trong ví chỉ sử dụng khi cả 2 đồng ý. Trong suốt quá trình này, Alice muốn tạo bao nhiêu giao dịch off chain tùy thích. Sau khi giao dịch, cả 2 phải cập nhập bảng cân đối của riêng  họ, khi giao dịch hoàn tất thì kênh thanh toán sẽ đóng lại và bảng cân đối cuối cùng mới được gửi lên mạng blockchain, thực hiện số giao dịch ngắn nhất để đạt kết quả trong bảng cân đối. Smart contract của Lightning network sẽ đảm bảo mỗi bên nhận được đúng số coin theo bảng cân đối cuối cùng. Tiếp theo chỉ cần chờ tiền về do bitcoin network xác nhận thôi.
+Bảng cân đối hay nói cách khác là LN sẽ theo dõi số dư theo thời gian
+=> 2 bên tham gia chỉ tương tác với mạng blockchain của bitcoin 2 lần, 1 lần mở kênh và 1 lần đóng lại. 
+
+K nhất thiết mọi giao dịch phải tạo kênh thanh toán trực tiếp. A và B có kênh thanh toán với nhau, B và C cũng v-> A có thể chuyển tiền cho C thông qua B(B k được offline). Miễn giữa 2 người tồn tại 1 tuyến mạng đủ số lượng thanh toán. Vc điều hướng như v cần có sự tham gia của nhiều node trong LN tuy nhiên các smart contract sẽ khai thác các tuyền tối ưu nhất.
+Nhược điểm LN: chỉ thanh toán khi online(on-chain có thể thực hiện offline); Người tham gia phải giám sát kênh thanh toán thường xuyên để bảo vệ tìa khoản(có các dịch vụ giám sát bên ngoài hỗ trợ điều này); Thực chất vẫn liên quan đến onchain
+
+Blockchain luôn là 10 phút và số coin giảm đi nên phần thưởng ms giảm dần. Kể cả dùng siêu máy tính thì vẫn là 10p vì nó luôn tự tăng difficulity lên để thời gian bị fix ở 10p
+
+permissioned blockchain là blockchain được cấp phép(đóng) ngược với permisstionless blockchain(mở). Bất kỳ ai cũng có thể tham gia blockchain mở mà k cần cấp phép. 
+VD: tiền điện tử luôn dùng permissionless blockchain vì k ai có thể kiểm soát nó. Còn các công ty chẳng hạn sử dụng blockchain để theo dõi dịch vụ vận chuyển của mình chẳng hạn, họ sẽ k muốn đưa dữ liệu bí mật của mình lên 1 permissionless blockchain. 
+Cả 2 đều bất biến, có consensus rule, decentralized
+Permissionless blockchain k bị hạn chế quyền truy cập, người dùng vẫn ẩn danh vì k cần phải công khai thông tin cá nhận để có 1 address. Kiểu này có thể chậm, quá công khai và khó kiểm soát truy cập
+Permissioned blockchain chỉ dành cho những người được phép truy cập. Bất cứ ai muốn xác thực giao dịch or xem dữ liệu phải được central author chấp nhận. Có chế độ phân cấp quyền khác nhau.
+VD: 1 công ty bán dưa hấu theo dõi chuỗi cung ứng của họ: họ xd 1 blockchain theo dõi trái cây từ trang trại đến cửa hàng, họ sẽ biết ai là người tham gia mỗi bước-> Họ xd 1 melonchain và cung cấp cho mỗi điểm trên chuỗi cung ứng để mn truy cập và thêm dữ liệu, dữ liệu về mọi quả dưa hấu đều đc ghi lại và có thể tra cứu sau đó-> 1 số dữ liệu về mỗi quả như thời gian địa điểm thu hoạch được công khai cho người tiêu dùng, còn các dữ liệu khác sẽ giữ bí mật để công ty duy trì lợi thế. 
+=>tùy biến cao hơn, kiếm soát tốt hơn, khả năng mở rộng tốt hơn. Tập trung hơn, ít minh bạch, dễ bị tấn công hơn.
+
+truffle là 1 framework của lập trình ethereum, cho phép tạo test environment, viết test cho contract,... => có thể dùng nó để kiểm thử solidity
+Trava là 1 loại tiền điện tử trên Binance Smart Chain
+Web3js là thư viện js kết nối ứng dụng js chạy trên trình duyệt với Ethereum blokchain
+Metamask là 1 phần mềm ví điện tử, nó tích hợp nhiều blockchain khác nhau gồm ví App cho mobile or extension trên browser; phổ biến nhất dùng để tương tác với hầu hết các blockchain or thử nghiệm testnet; rất nhiều thao tác; có sẵn trong extension của chrome; metamask cho phép sign signature;
+
+Binance Smart Chain tồn tại song song với BC sử dụng đồng BNB. BSC dùng giải thuật đồng thuận POS, POA(proof of authority). BSC mất 5s tạo 1 block và có đk khắt khe hơn khi trở thanh validator, validator offline mà k validator cx bị phạt tiền.
+
+Ethereum có nhiều tính năng mở rộng hơn bitcoin: Ethereum cho phép mn phát triển ứng dụng trên nền tảng ethereum; chứa smart contract vận hành DApps; Tốc độ giao dịch nhanh hơn dù Ethereum và bitcoin đều dùng POW; Đồng Ether vô hạn; 
+
+Ethereum đã từng bị hack như vụ Dao hack(2016),.. và bị rẽ nhánh; ethereum bị thiếu phân tán hơn; phí giao dịch cao hơn nhiều;
+
+ETC(Ethereum Classic) được hardfork từ Ethereum(ETH): Năm 2016, quỹ The DAO bị hacker đánh cắp 168 triệu USD, cộng đồng ETH đã bỏ phiếu thực hiện 1 hard fork để đảo ngược giao dịch; 1 nhóm người k đồng ý điều đó vì cho răng bản chất của blockchain là k thể đổi và vẫn dùng phiên bản cũ-> sinh ra ETC
+
+Bitcoin cũng nhiều lần bị hard fork phổ biến nhất là Bitcoin cash(BCH) và Bitcoin Gold(BTG). BCH giá tăng vọt còn BTG giá giảm mạnh.
+=> hard fork xảy ra khi người ta muốn có 1 sự thay đổi nào đó chứ kp vô nghĩa. TH của bitcoin kp vì bị hack mà vì nhiều lý do khác.
+
+Non-fungible token(NFT) là loại token mã hóa trên blockchain đại diện cho 1 loại tài sản duy nhất, nó tạo ra 1 chuỗi mã độc nhất đại diện cho 1 vật phẩm nào đó và không thể thay thế. Nó sẽ định danh phiên bản số của bất cứ thứ gì trong thực tế. Tức là bth thì ta có đồng token có vai trò thanh toán cho việc gì đó. Bh thì bất cứ thứ gì người ta cx có thể biến thành tài sản số trên blockchain, người ta sở hữu nó và bán nó đi cho người khác. Thế thì tại sao người ta lại mua tài sản số, bởi vì nó có giá trị, giá trị của tài sản số nằm ở tính duy nhất của nó. NFT có thể đại diện cho bất cứ thứ gì, 1 video, 1 bức tranh hay 1 dòng trạng thái trên facebook.
+NFT mở rộng hơn có thể là vật phẩm bán trong game, tên miền internet, vé sự kiện,.. Khả năng sử dụng của NFT là bởi quyền sở hữu độc quyền của chúng, chỉ người mua NFT mới sở hữu vật phẩm gốc dù có vô số bản sao trôi nổi miễn phí trên internet. VD: 1 bức tranh mona lisa có nhiều bản sao trên thế giới nhưng bản gốc chỉ có 1 và người ta chỉ đấu giá bán bản gốc chứ chả ai quan tâm đến bản sao. Vc phân biệt bản gốc hay bản sao là do cơ quan có uy tín kiểm chứng và bản gốc rất nổi tiếng, được nh người biết tới. NFT lưu trên blockchain nên là duy nhất và bất biến. Các tài sản số trên blockchain luôn được ghi lại ngày giờ tạo ra và ai là chủ, người mua nó sẽ là người duy nhất trên thế giới sở hữu nó nên nó mới có giá trị, k cần 1 bên pháp lý kiểm chứng thật giả vì mọi thứ công khai r. 
+Người ta có thể gắn NFT với 1 mảnh đất để mua bán đất online, album âm nhạc,.. Để tránh vc bị lừa, chỉ nên mua những NFT từ những người bán đã được xác minh
+Vấn đề: những đoạn mã của NFT liệu có còn giá trị sau vài chục năm khi mà công nghệ thay đổi mỗi ngày. Nếu người sở hữu đánh mất khóa riêng thì cx sẽ mất NFT vì nó cx như tiền ảo thôi. 
+Tính chất: NFT có tính độc nhất, tính khan hiếm, tính k thể tách rời
+Không phải ta gắn 1 cái gì duy nhất lên là người ta cũng mua đâu, vd ta token hóa 1 cái bút chì và bán sẽ trả có ai mua, nhưng token hóa bức tranh của họa sĩ mona lisa bản gốc thì sẽ rất đắt.
+NFT k thể tách rời, ví dụ 2 tờ tiền 50 đổi sang dược 1 tờ 100 nhưng NFT thì không vì ta k thể chia nhỏ 1 bức tranh được.
+Trong game, để sở hữu vật phẩm, ta nạp tiền vào để mua nhưng thực tế nhà phát hành là người sở hữu. Hơn nx 2 người mua 2 nhân vật như nhau thì là 2 cái như nhau. Server sập thì mất tất cả. Với NFT, vật phẩm sẽ gắn với mã dữ liệu có thể dễ dàng trao đổi cho bất cứ ai sở hữu đồng tiền blockchain. Nó là duy nhất và k ai tác động được. Tuy nhiên nếu người phát hành game NFTs hủy server game k hoạt động nx, dù ng dùng vẫn sở hữu NFT vì bất biến nhưng NFT đó trở nên vô dụng
+Tài sản thật cũng được số hóa nếu muốn như đất đai, vé điện tử,..
+Những người mua NFT là những người mua những thứ đó đó, sau mong rằng nó sẽ tăng giá và bán kiếm lời.
+ERC721 là tiêu chuẩn phát triền NFT trên Ethereum, or tiêu chuẩn ERC1155
+NFT tồn tại trên 1 địa chỉ k thể copy or transfer mà k có sự cho phép của chủ sở hữu, ngay cả bên phát hành NFT. Giá NFT cx thay đổi theo quy luật cung cầu của thị trường. 
+NFT có thể ứng dụng trong Dapp để phát hành các vật phẩm kỹ thuật số, món đồ sưu tầm dạng mã hóa,.. Họ thường dùng NFT để token hóa tài sản trong game.
+Vc sử dụng NFT sẽ tăng thanh khoản cho các thị trường kém như mỹ thuật, bất động sản,..
+
+Initial DEX Offering(IDO) là lần phát hành coin đầu tiên trên sàn DEX. DEX(Decentralized Exchange) tức sàn giao dịch phi tập trung, ngược với sàn CEX là sàn giao dịch tập trung.
+Initial Public Offering(IPO) là hình thức phát hành coin public. Họ mở bán công khai cổ phiếu như 1 hình thức huy động vốn vói vc niêm yết giá cổ phiếu trên sàn.
+ICO(Initial Coin Offering) là hình thức phát hành coin đời đầu của thị trường crypto. Nó khác với IPO ở chỗ dự án huy động vốn dù chưa phát hành sản phẩm, thậm chí chỉ là ý tưởng trong white paper.
+IEO(Initial Exchange Offering): là hình thức gọi vốn trên các nền tảng sàn giao dịch, khác với ICO thì IEO được quản lý và đại diện uy tín bởi 1 sàn giao dịch điện tử cho 1 startup. Hình thức này tương tự cổ phiếu nhưng k dùng cổ phiếu mà dùng token.
+=> IDO tương tự IEO nhưng chỉ xét các sàn phi tập trung
+IDO: giúp dự án có tiền; giúp nhà đầu tư mua và nắm token của dự án qua sàn luôn; giúp sàn DEX được thêm danh tiếng và độ phổ biến
+=> Như v đầu tư tiền mã hóa phải vào các sàn giao dịch để mua các token phát hành này.
+
+Pancakeswap là 1 sàn giao dịch phi tập trung phát triển trên nền tảng BSC. Đã là phi tập trung thì nó cx có token riêng là Cake token. Giao dịch trên đây sẽ k có số lệnh để chờ khớp với ng khác. 
+Để giao dịch trên sàn này thì phải kết nối ví với pancakeswap qua mạng BSC. 
+Ta có thể swap coin ở nền tảng này và thay đổi tính thanh khoản or tự ta thêm thanh khoản cho cặp pair. Nó cũng hỗ trợ nh tính năng như: farm, pools(stake), collectibles(chợ NFT rao bán or mua các tác phẩm NFT), lottery(dự đoán kiếm tiền),..
+
+Trava là thị trường phi tập trung cho vay đầu tiên trên thế giới. Người dùng có thể tạo và quản lý các nhóm cho vay để kinh doanh cho vay. Hoạt động trên BSC với smart contract.
+Trava cũng có đồng token TRAVA, dựa trên BSC.
+Nó sẽ mở rộng cross-chain lending trong tương lai.
+
+Lending Pool: là 1 pool cho vay ví dụ ta có thể gửi vào pool 1 khoản để cho vay và nếu ai cần vay sẽ vào pool lấy ra và trả lãi dần dần. Để điều đó xảy ra thì người vay phải thế chấp NFT or 1 đồng coin khác,.. -> nếu là coin thì phải cân đối giá thị trường, nếu giá coin đã vay tăng mạnh đến mức tổng tiền của họ k trả đủ thì pool sẽ thanh lý tất cả. 
+
+

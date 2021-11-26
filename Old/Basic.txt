@@ -1,0 +1,54 @@
+Block chain cũng  như 1 bên thứ 3 trung lập nhưng ta có thể tin tưởng vì nó là code và nó kbh sai. Ví dụ ứng dụng đầu tiên là blockchain bitcoin
+blockchain sử dụng 1 sổ cái-file kĩ thuật số(ledger) theo dõi toàn bộ giao dịch. Tính phi tập trung: file này k lưu giữ trên máy chủ và phân tán trên toàn thế giới thông qua mạng máy tính
+vừa chia sẻ và tính toán liên tục. Các nút(node) sẽ giữ 1 bản sao, do k có máy chủ nên hacker k biết tấn công vào đâu.
+Phương thức bảo vệ: ta dùng 1 ví lưu trữ bitcoin, mỗi ví đc BV bằng 1 khóa riêng tư(private) và công khai(public). Nếu mội thông điệp đc mã hóa bằng khóa public thì chỉ khóa private ví đó
+mới giải mã và đọc đc. VD khi A muốn gửi tiền cho B, A sẽ lấy khóa public của B để truyền đi thông điệp là "truyền 5 bitcoin" chẳng hạn.Do các node đc liên kết trong mạng lưới nên thông 
+điệp truyền đi tới các node khác bằng khóa private của A, các node khác sẽ nhận đc thông báo và yêu cầu lưu bản sao vào sổ cái thông qua public của A, các node đó cx có VT xác thực giao 
+dịch luôn. Sau đó số dư tài khoản đc cập nhật, A giảm 5 bitcoin, B tăng 5 bitcoin trong ví. B nhận đc thông điệp đó bằng private key của mình do A gửi vào public key của B. Do tất cả điều
+đó thực hiện nhờ các hàm toán học và code nên k có ai để kiện, k có trung tâm hỗ trợ.
+Tính an toàn: khi A truyền đi thông điệp thì thông điệp đó đc mã hóa thành chữ kí số(digitally signed transaction) đc mã hóa từ private key của A + thông điệp "truyền 5 bitcoin".Đặc điểm
+là chỉ cần 1 kí tự bị thay đổi thì chữ kí số sẽ bị thay đổi, do đó k thể gửi hay nhận đc gì nx, tất cả sẽ bị hủy như chưa từng có.Hơn nx, hệ thống blockchain k cho phép theo dõi số dư tài
+khoản, nó chỉ ghi lại toàn bộ giao dịch. V để biết số dư trong tài khoản là bao nhiêu thì phải xem xét toàn bộ giao dịch trc đó thêm, bớt bnh mà tính ra. Khi A gửi 5 bitcoin cho B, hệ thống
+sẽ cộng trừ các giao dịch của A và tính xem nó có nhiều hơn hoặc bằng 5 bitcoin hay k, nếu có thì ms phát đi thông điệp. Tất cả để là mã nguồn mở và bất cứ ai cx có thể truy cập để thực \
+hiện giao dịch. Nếu như có 1 lỗi trong code khi truyền thông điệp thì bitcoin liên quan sẽ mất vĩnh viễn.
+Dữ liệu phân tán: chẳng qua chỉ là nó lưu giữ toàn bộ dữ liệu ở mọi nút và truy cập bởi bất cứ ai. Khi một máy tính mới tham gia vào mạng blockchain, nó sẽ tự động tải sổ cái chứa mọi thứ.
+Do nó lưu trữ bởi hàng triệu máy tính cùng lúc nên hacker k có cái tập trung để hack
+tính bền vững: chẳng qua là ai cx là máy chủ lưu giữ toàn bộ thông tin của mạng blockchain nên k bị kiểm soát bởi 1 thực thể nào(kiểu truyền thống thì ngân hàng là nơi kiểm soát)
+Tính minh bạch: chẳng qua là dữ liệu đc nhúng trong mạng như một khối nối tiếp nhau và công khai với tất cả mọi người.Blockchain là 1 chuỗi khối chứa thông tin gồm nhiều block, Ví dụ 2 giao
+dịch liên tiếp nhau A->B 5 bitcoin xog c->A 5bitcoin thì trong sổ cái của mạng blockchain, 2 thông tin đó lưu vào 2 block cạnh nhau block sau chứa thông tin đc mã hóa(hash) của block trc
+nên nếu hacker muốn động vào 1 block thì phải sửa cả triệu block phía sau.
+Tính k thể bị phá vỡ: chẳng qua là nếu muốn thay đổi thông tin của 1 chuỗi khối tức là phải dùng số lượng máy tính lớn để ghi đè lên toàn bộ mạng, thực tế là impossible. kể cả có đi chăng
+nx thì GT của bitcoin sẽ bị hủy hoại.
+Tính phân quyền: cx chỉ là mạng lưới peer to peer, giống như mạng lưới internet
+Tính bảo mật: khóa private key là do ng dùng tự bảo mật, có nó là có tất cả, k thể hack bằng mạng đc
+Nhược điểm: do quá an toàn nên nếu như chủ nhân die or mất khóa private thì bitcoin trong hệ thống blockchain đó sẽ biến mất vĩnh viễn; Tốn điện do xử lí hàng nghìn giao dịch mỗi phút(bitcoin)
+Tốn k gian lưu trữ, các giao dịch xa lơ xa lắc nó vẫn lưu làm tốn k gian
+Bitcoin để đào đc thì bản chất là giải mã hàm toán học hay đào(mine), tồn tại 21 triệu bitcoin trên thế giới(1/4 đã mất vĩnh viễn do owner mất private key)
+Etherium cx là 1 loại tiền ảo(tài sản mã hóa) hay đồng ETH cx sử dụng công nghệ blockchain và nó vô hạn chứ k giới hạn như bitcoin
+Hợp đồng thông minh(smart contract) dùng blockchain hay cụ thể là có các tc k đổi,thỏa thuận k có bên thứ 3,giao dịch xảy ra khi thỏa thuận đáp ứng(ĐK trong code)
+Bằng chứng công việc(proof of work) là thuật toán đồng thuận trong blockchain.Từ lâu, để tránh spam thư rác hay tấn công thì ng ta yêu cầu ng gửi phải giải 1 bài toán nho nhỏ, vì máy k có sự
+thông minh nên nó k giải đc và k spam thư đc. POW đc ứng dụng mạnh trong blockchain, là thuật toán nhưng yêu cầu ng dùng giải bài toán phức tạp hơn rất nhiều để thêm 1 block, hay tạo đc 1
+bitcoin. Tại sao blockchain phải dùng pow vào vc thêm 1 block? Để tránh chi tiêu kép, tức tiêu nhiều lần cho 1 đồng tiền. Vc tính toán sẽ tính số tiền thông qua giao dịch và cản trở chi tieu kép
+1 block đc thêm vào theo 2 cách, cách 1 là tạo ra yêu cầu ảnh hưởng đến số tiền trong ví, ví dụ chuyển tiền "A->B 5 bitcoin" thì ngay lập tức 1 block mới đc thêm vào chứa prev hash của block trc
+đó,cái message trên,... Block này đc mã hóa bằng private key và message. Cách 2 để thêm block cx là ảnh hưởng đến số tiền trong ví nhưng là đào bitcoin làm số tiền tăng lên.
+Đào bitcoin là vc tìm ra chỉ số hash của block nào đó. Chỉ số hash là 1 mã kí tự dài ngoằng đc tạo từ private key+message. Do ai cx có thể xem đc nên bất cứ ai cx có thể đào bitcoin. tức là có 
+rất nhiều block chứa thông điệp và trong đó có hash của bitcoin đã đc đào và chưa đc đào.Để đào đc bitcoin, tức là tìm đc cái chỉ số hash kia để thêm 1 block vào hệ thống blockchain chứa thông 
+tin là "A nhận đc 1 bitcoin" do đào đc, thì họ sẽ phải thực hiện thuật toán SHA256, đó là thuật toán nhận đầu vào là 1 chuỗi string bát kì trả ra 1 chuỗi string độ dài cố định(hash function).
+Hàm băm là hàm có đặc điểm 1 chiều, đầu vào chỉ cho ra 1 đầu duy nhất, k đc trùng, nhưng do đầu vào là vô hạn mà đầu ra là hữu hạn nên luôn luôn có TH trùng của hàm băm, chỉ là xác xuất trùng 
+càng thấp khi đầu ra có phạm vi càng lớn. Ở đây dùng 256 bit thì có thể coi là đầu ra gần như k thể trùng vì quá lớn, thay thế các hàm SHA vs lượng bit nhỏ hơn.
+Do blockchain sử dụng SHA256 để mã hóa thông tin nên miner cx phải dùng SHA256 để mã hóa tìm hash. Họ sẽ truyền vào 3 thứ: thời gian thực, chỉ số nonce, data(là thông điệp của 1 block).Sau đó
+ghép nó thành 1 chuỗi và cho trải qua hàm băm r so sánh liên tục, mỗi lần kiểm tra khác là tăng nonce lên 1 đơn vị. số nonce chạy từ 0 đến 4 tỷ(256 bit)nên phải may mắn lắm ms tìm đc bitcoin = pp 
+thử-sai(brute force).Hash thỏa mãn khi nhỏ hơn hoặc bằng target hash.
+Target hash là GT băm đích mà nếu như GT băm ta tìm đc từ thông điệp của block gần nhất, nonce và time nhỏ hơn hoặc bằng nó thì thỏa mãn. Ta có thể tìm GT băm đích này trong cái tiêu đề khối của
+giao dịch gần nhất, từ đó xác định difficulty là số các số 0 ở đầu hàm băm. Đương nhiên là ta k thể chém bừa 1 GT bất kì nhỏ hơn target hash đc vì nó k xuất phát từ bất kì 1 time hay message nào
+cả. Ta phải tìm bầng SHA256. Càng nhiều só 0 ở đầu thì càng khó vì xs tìm đc 1 GT băm mà nhiều số đầu =0 rất khó.Trung bình cứ 10p là 1 bitcoin đc đào lên, khi tổng là 21 triệu thì k đào đc nx.
+Tiêu đề khối(block header) là cái chứa thông tin của 1 khối, bao gồm target hash, hash trc nó, message. 
+Trong thực tế để tăng tỉ lệ đào lên 1 tí, mn thg tham gia vào mining pool là bể đào, trong đó khi 1 ai đó có giao dịch sẽ lập tức thông báo và những ng trong bể kiểm tra sổ cái của mình lấy block
+header của giao dịch đó và bắt đầu đào từ message,time,nonce(chạy từ 0),target hash để lấy dificulty.Khi 1 ng trong nhóm đào đc thì cả nhóm sẽ dừng, và ng may mắn đó sẽ lại lấy thông điệp giao dịch
+của mình làm blockheader để bảo mn đào tiếp, cứ thế mãi.
+Khi chúng ta gửi chữ kí điện tử đi, nó đc tạo thành từ SHA256(“thông điệp cần xác thực”, “khóa bí mật”) và đó là 1 hash. Khi truyền thì hash sẽ công khai, chữ kí công khai, thông điệp cx công khai.
+Nhưng khóa bí mật lại k thể bị lộ. Nếu muốn hack thì hacker phải truy ngược lại hàm SHA256- 1 điều k thể thực hiện, theo tính toán phải có dàn máy tính tuổi thọ gấp vài lần vũ trụ.
+Do SHA256 xs là như nhau nên ta k thể tìm đc quy luật j từ hàm băm đb này.Nonce là chỉ số mà tìm đc nó là giải đc bài toán, máy phải chạy từ 0 đến 4 tỷ
+Công thức tính difficulty=original_target/target. original_target là target gốc cố định của block0 của bitcoin còn target là GT hash của block hiện tại, nó càng nhỏ thì difficulty càng lớn, càng
+khó. Trong thực tế difficulty là 1 GT lớn vô cùng và hash cx dài vô cùng.Nó thay đổi trung bình 14 ngày 1 lần,trung bình là sau 2016 block ms đc tạo ra trên sổ cái và tăng dần liên tục. Trung bình
+1 block ms đc tạo ra do đào cách nhau 10p, nếu như trong 14 ngày mà tìm đc hơn 2016 block thì diff sẽ giảm, ngc lại sẽ tăng. Vì v nó còn thay đổi phụ thuộc vào độ may mắn

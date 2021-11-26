@@ -1,0 +1,20 @@
+StableCoin là tiền thiết kế nhằm giảm sự biến động giás, gắn với tài sản có giá ổn định như Fiat, vàng, or 1 loại tiền điện tử khác => tức là DAI chẳng hạn gắn với fiat là USD. Nếu có 1 loại tiền điện tử gắn cố định với giá vàng thì cx gọi là stable coin.
+
+Tại sao lại cần stable coin: cầu nối vào thế giới crypto vì stable coin gắn với 1 tài sản ổn định ở thế giới thực như USD, vàng; tránh biến động giá cho những ai muốn có 1 số tiền tương đương cố định trong thực tế chứ k muốn bị giảm r lại tăng biến động như token; chuyển giá trị
+
+Có 2 loại Stable coin: 1 là USD-backed 1:1 là các đồng chuyển từ $ tỉ lệ 1:1 như USDT, USDC, TUSD,..; 2 là crypto-collateral như DAI(sinh từ MarketDAO), sUSD(sinh từ Synthetix),.., loại này chỉ được sinh mới khi ta thế chấp 1 loại tài sản crypto khác
+
+2 loại này là stablecoin cũ -> nếu ta có bnh trong ví thì mãi mãi nó là tưng đấy k có sự biến động. Nhưng smart stablecoin sẽ = stablecoin cũ + yield lãi suất. Tức là ví ta có smart stablecoin thì coin sẽ tự tăng lên
+Cơ chế thật ra chính là vault của defi: họ lấy đồng stablecoin cũ và mine ra smart stablecoin(từ cũ -> mine-> mới)-> đem coin đi farm bằng cách cho vào vaults-> và earn yields theo thời gian. Khi muốn tiêu tiền-> thì rút lại stable coin ban đầu
+=> Đó chỉ là 1 hình thức farm bị động với vault, ta có thể đi farm nhiều hình thức khác nhau.
+Tất cả stablecoin đều được hỗ trợ trong ethereum, các blockchain khác cũng đang dần hỗ trợ
+USDT là stablecoin đầu tiên dùng được trong tất cả các blockchain. Dù về sau có nhiều đồng stablecoin khác ra đời thì họ vẫn dùng USDT. USDT cũng luôn luôn thử phát triển trên nhiều platform khác nhau nên nó mới dùng được trong tất cả các blockchain. Ta chỉ cần chọn 1 nền tảng rẻ và nhanh nhất mà dùng thôi. 
+Các stable coin luôn luôn muốn mở rộng từ các platform chậm sang platform nhanh hơn, rẻ hơn. Hiện các đồng như DAI,.. cx đang phát triển tiếp trên các blockchain khác ngoài ethereum với mong muốn rẻ hơn, nhanh hơn.
+Ethereum ra đời khắc phục nhược điểm chậm của Bitcoin nhưng Ethereum lại gặp vấn đề phí cao khi mà bị nghẽn mạng-> nh blockchain khác như Algorand, solona ra đời nhằm khắc phục tiếp các nhược điểm của ethereum. 
+
+Cách đồng DAI duy trì mức giá cố định: 
+Mn thế chấp tài sản crypto nhận lại đồng DAI Stablecoin thông qua smart contract. Smart contract này là Collateralized Debt Position Smart Contracts(CDPs).
+Người dùng gửi giao dịch tới Maker tạo CDP-> deposit tài sản thế chấp và nhận DAI, CDP coi là tài sản thế chấp-> người dùng phải gửi thêm 1 giao dịch yêu cầu lượng DAI muốn lấy nằm trong giới hạn tài sản thế chấp-> CDP chuyển thành nợ và bị khóa.
+Để trả: Trả lại lượng coin ban đầu + stability fee tính bằng thời gian user vay, chỉ được trả bằng DAI or MRK token(MarkerDAO token)
+=> Nếu tài sản ta thế chấp vào DAI mà giảm đến 1 mức nào đó, nó sẽ tiến hành thanh lý CDP chứ kp ta đưa vào ETH thì nhận ra tất cả lượng DAI tương ứng số ETH đó đâu, chi rút được theo 1 lượng mà ta k thể lừa đảo
+

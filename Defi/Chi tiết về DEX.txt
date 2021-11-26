@@ -1,0 +1,83 @@
+Decentralized Exchange(DEX) gồm 2 mảng: sàn phi tập trung AMM và sàn phi tập trung order book
+Order book: vd huybi, binance,.. -> giao diện order book, đặt lệnh buy/sell/limit/market
+ => có thể đặt lệnh mức cao, giao dịch lớn mà k trượt giá vì splippage
+AMM: vd uniswap,.. -> giao diện đơn giản như khi ta vào pancakeswap, from là mua, to là bán xong enter là xong
+ => phù hợp với các đồng coin thanh khoản kém, mới ra mắt
+slippage là khoản chênh giữa lệnh mua và bán
+VD: các đồng thành khoản thấp ta mua vào 500 và ngay lập tức bán đi thì nó là 400-> khoản chênh slippage lớn với các đồng thành khoản thấp ở sàn order book làm cho người ta vừa mua đã lỗ rồi nên các đồng thanh khoản kém sẽ chả ai dại mua ở sàn order book hết. Khoảng cách giữa tường buy và sell quá xa ở order book vì order book xác định sẵn tường buy và sell nên ta phải mua đúng lệnh mà người ta bán như v. Nhưng AMM sẽ tối ưu cho thị trường thanh khoản kém. Ta mua thì mua được, và bán là bán được luôn, dù ta vẫn trả khoản slippage nhưng sẽ nhỏ hơn rất nhiều so với orderbook. Tường buy sell ở AMM nó xác định sẵn r nên ta mua 1 tỉ lệ ở tổng pool, nó sẽ chỉ đổi bấy nhiêu phần trăm thôi. 
+Token ngày đầu nên trade ở AMM, sau thanh khoản lớn sẽ trade ở order book => 2 loại tồn tại song song
+
+Tổng kết có 3 loại sàn cho đến h:
+CEX: tiền do sàn quản lý, tin tưởng bên trung gian, hoạt động theo kiểu order book => tức là người mua và bán cùng đặt lệnh-> 2 lệnh khớp thì giao dịch được thực hiện. VD: sàn Binance, Huobi, Kucoin,..
+Order book DEX: tiền ví mình, k cần tin ai, hoạt động theo orderbook => khắc phục nhược điểm của sàn binance nhưng vẫn có nhược điểm là thiếu hụt thanh khoản
+AMM DEX: tiền ví mình, k cần tin ai, hoạt động theo liquidity pool. VD: sushi swap, honey swap, coin98,..
+Người dùng có thể giao dịch các token chưa niêm yết trên các sàn tập trung thoải mái trên sàn DEX miễn là có cung và cầu
+
+AMM: Automated Market Maker - giao thức tạo lập thị trường tự động => smart contract tự thực thi giao dịch, k cần order book, cung cấp liquidity tự động, dựa trên công thức toán học
+
+Uniswap là sàn dựa trên AMM dành cho token ERC-20. Giúp người dùng swap, cung cấp thanh khoản, niêm yết token ERC-20
+Công thức: x*y = k => x, y là số lượng token A, B; k là tổng giá trị của pool token A và B và = const => nên gọi là mô hình Constant Product Market Maker
+
+Gồm 2 đối tượng: Trader: người muốn swap token ERC-20; Liquidity Provider: người cung thanh khoản cho các token ERC-20 đó
+Về phía trader: Vd 1 người muốn swap token A sang token B -> họ lên uniswap và tìm 1 pool chứa token A và B->  Họ nạp vào 3 Token A + 0.03% A phí giao dịch -> giả sử trong pool có tổng 1200 token A / 400 token B và giá trị hiện tại là 1 token B = 3 token A -> pool gửi lại cho ta 1 token B-> số lượng tiền trong pool bh là 1203.03 token A / 399 token B và giá trị hiện tại là 1 token B = 3.01 token A -> khoản phí kia 1 phần trả cho liquidity provider, 1 phần cho uni holder. UNI token là token của sàn này.
+Về phía liquidity provider: cung 2 token A và B với giá ngang nhau. VD: token B có giá = 10 * token A -> họ phải cung vào uniswap pool 10 token A và 1 token B -> họ nhận về 1 lượng LP Token thể hiện cho tỉ lệ thanh khoản mà họ đóng góp vào pool này => thế là có trader vào trade và nạp phí thì provider sẽ nhận fee dựa vào phần trăm đóng góp của họ trong pool -> muốn rút token A và B của mình và phần lãi thì phải đốt LP đi. 
+=> Bất cứ ai cũng có thể lên Uniswap niêm yết token và giao dịch. Phí nền tảng này là 0.3% để swap token. LP token như là chứng nhận phần share của họ trong pool. Uniswap thậm chí có số lượng giao dịch lớn hơn cả sàn coinbase là sàn CEX lớn nhất hiện giờ.
+Có nền tảng hoạt động tương tự uniswap nhưng yêu cầu phải đặt cọc 1 lượng token như Bancor, còn uniswap k cần
+Ở version 1, mọi thứ trao đổi phải thông qua ETH. VD muốn tạo pool cho đồng DAI và USDT thì phải tạo 2 pool là DAI/ETH và ETH/USDT nhưng như v sẽ bất lợi nếu ETH trượt giá. Do đó version 2 của uniswap cho phép tạo pool trực tiếp của 2 token ERC20 
+
+=> Quan trọng là nó cũng có cơ chế tự động kết nối các pool cho họ. VD: trên sàn có 1 pool DAI/USDT và 1 pool DAI/KNC, 1 người muốn đổi từ DAI sang KNC nhưng pool này lại k tồn tại-> uniswap sẽ tự tính toán con đường ngắn nhất kết nối các pool với nhau sao cho đổi từ DAI sang KNC với mức phí rẻ nhất để đổi cho người dùng, với ĐK là phải đổi được
+
+Mạng Ethereum tập hợp hầu hết các AMM ở thời điểm hiện tại: Mooniswap, Balancer, Sushiswap,.. Tuy nhiên các AMM phải khắc phục nhiều bất lợi như tốc độ giao dịch chậm, phí cao khi ethereum nghẽn mạng, giới hạn cặp giao dịch chỉ trên Ethereum, tránh impermanent loss cho provider,..
+Các blockchain layer-1 khác cung có AMM của riêng mình: JustSwap của Tron, Flamingo trên NEO,.. Tuy nhiên các blockchain k nổi bật này thì lượng token còn ít hơn nx nên bị giới hạn chỉ swap trong blockchain của chính nó. Nhiều blockchain cố thu hút user từ ethereum bằng cách dùng tính năng wrap để chuyển qua lại với ethereum nhưng vẫn tốn phí giao dịch nên k nổi bật
+=> Khắc phục: HoneySwap trên xDAI là dự án trên layer 2 có tốc độ nhanh và phí rẻ hơn; AMM cross-chain giúp giao dịch các tài sản đa nền tảng dễ hơn
+
+Balancer: AMM ra đời sau UniSwap. Nó vẫn có tính năng của 1 AMM bình thường nhưng nó có nhiều tính năng bổ sung. 
+Pb balancer và uniswap: Chỉ hỗ trợ ETH&ERC20; có thể cung max 8 token vào 1 pool chứ uni chỉ là 2; tỉ trọng khi cung vào uniswap pool là 1:1 nhưng balancer thì có thể cung tỉ trọng bất kỳ max là 98:2; LP token của Uniswap chỉ có 1 chức năng là minh chứng số tiền trong pool, còn balancer có token là BBT và dùng nó trong nhiều chức năng hơn ở các dự án yield farming khác; cả 2 dự án đều k sử dụng dữ liệu giá từ outside oracle mà nó định giá dựa vào thay đổi trên giao dịch ở trong pool, chỉ cần lúc cung vào đúng giá mà thôi; uniswap luôn fee là 0.3% còn balancer thì phí trải từ 0.00001-10% do provider set; Token gốc của Balancer là BAL, của Uniswap là UNI
+Lidquidity Provider: có thể cung token vào pool có sẵn or cung vào 1 pool mới và nhận ra LP token là BPT và BAL(governance token - token quản trị)
+Trader: tương tự, xuất hiện arbitrageur là các nhà kinh doanh dựa vào chênh lệch giá giữa các sàn-> họ cũng là người xử lý vấn đề chênh lệch giá giữa 1 sàn giao dịch với price oracle bên ngoài=> đừng lo vì họ rất đông và nguy hiểm.
+Các loại pool của balancer:
+Shared pool: bất cứ ai cũng thêm đc liquidity và thông số của pool là cố định, kể cả người tạo pool cx k đổi được; Private pool: chỉ người tạo pool mới thêm liquidity vào pool được, họ có thể thay đổi thông số các token trong pool, tùy ý thêm bớt token, đổi mức fee; Smart pool: chủ pool là smart contract, mn có thể thêm liquidity vào pool khi thỏa mãn điều kiện nhát định và tỉ lệ share trong pool cũng tính bằng BPT. Smart contract cũng là cửa để mn thêm thanh khoản vào pool
+
+Liquidity Bootstrapping Pool(LBP) là 1 smart pool có chức năng thay đổi tỷ trọng các token trong pool theo thời gian định sẵn. VD: Pool DAI-xHDX có tỉ trọng ban đầu là 90%-10% và tỉ trọng pool khi kết thúc là 20-80 sau 4 ngày => đồ thị hình chữ X vì tỉ trọng đổi dần 1 cái tăng 1 cái giảm. Nó làm điều này bằng cách rút dần tiền ra để tỉ lệ này được thỏa mãn.
+
+Ứng dụng của LBP:
+1) Tạo thanh khoản sớm:
+Trên các sàn CEX như binance, ta muốn list token lên sàn để tạo thanh khoản thì chi phí cho việc listing cao và phải có mỗi quan hệ nx. Chi phí để niêm yết trên sàn k hề nhỏ. Ta phải có 1 đợt ICO đầu tiên, sau đó list token của ta lên sàn CEX qua nhiều thủ tục phức tạp. Nếu thanh khoản thấp thì đừng nên list coin lên CEX. Nó yêu cầu trải qua rất nhiều thủ tục phức tạp chứng minh đồng coin được mn chấp nhận
+Trên các sàn DEX, vc tạo thanh khoản dễ hơn rất nhiều. Để list defi token lên uniswap chẳng hạn ta chỉ cần kết nối vào là add liquidity được luôn. VD: nếu ta có 1ETH và 1 token và ta list lên thì ban đầu nó coi là 1 token của ta có giá bằng 1 ETH và market tự tạo price ngang nhau-> truyền vào địa chỉ contract token và tên token là xong cmnl. Cái đó gọi là IDO khác với ICO. ICO là nơi token được bán trước khi niêm yết trên sàn nhưng IDO là niêm yết lên sàn cmnl, tạo ra thanh khoản cho đồng token ngay lập tức. Token của ta list lên có giá trị luôn bằng bao nhiêu ETH. 
+=> Rõ ràng DEX tiện nhưng vẫn bị hạn chế, tạo thanh khoản dễ hơn r nhưng vẫn chưa hiệu quả.
+Trước tiên phải hiểu mức trượt giá slippage: Vd ta đặt lệnh mua 1 KNC nó quy ra là 10$ -> nhưng quá trình ta thực sự mua, do KNC có giá bị biến động nên lúc xác nhận thì nó thành 11$ mất r-> ta confirm vc mua thì nếu ví có đủ 11$ sẽ mua được, ví chỉ có 10$ sẽ k revert. Ta nói đồng KNC bị trượt giá, biến động nhanh. Tùy TH mà nó có thể trượt giá có lợi or trượt giá bất lợi vì ta chỉ cần mua sơm hay muộn hơn 1 chút thôi là có thể chỉ phải bỏ ít tiền hơn r.
+Các đồng token có thanh khoản thấp bị trượt giá rất mạnh và nhu cầu mua bán ít dẫn đến phải chờ lâu. Cũng chính vì lý do trượt giá nên thanh khoản thấp ta mới k nên list trên các sàn CEX vì chả ai đụng đến 1 đồng coin trượt giá, mua phát lỗ luôn cả. Để 1 đồng coin k bị trượt giá thì nó phải có nhiều và giá trị lớn. 
+=> Điểm hạn chế của sàn DEX như uniswap: VD trong 1 pool có 400 token và ETH là 400 (để người dùng muốn lấy token của ta sẽ cung ETH vào) thì slippage cho order 1000$ ví dụ là 1%. Nếu muốn slippage giảm thì họ phải cung thêm thanh khoản thành 800 ETH và cung thành 400 token để giảm slippage xuống còn 0.5% => khoản ETH lớn đó chính là điểm hạn chế
+=> LSP giải quyết vấn đề: ta có thể điều chỉnh tùy ý tỷ lệ token trong pool mà họ mong muốn chứ k còn tỉ lệ 1:1. VD ta chỉ có 400 ETH nhưng dùng với 1000 token cũng được dẫn đến mức trượt giá sẽ giảm xuống. Nếu ta cung nhiều ETH hơn nx và tăng lượng token lên hơn nx thì slippage rất thấp => thanh khoản gấp 1000/400 lần 
+Cần chú ý giá cả k quyết định thanh khoản nhé; ở trên 400 token và 400 ETH chỉ là lần phát hành đầu tiên, chứ thực tế 400 ETH có thể đi với bao nhiêu token miễn là thỏa mãn tỉ lệ 1:1 khi đổi sang USD cơ => Dự án bỏ ít vốn nhưng thanh khoản lại cao hơn so với uniswap.
+VD dự án muốn tạo pool thanh khoản cho đồng ATH với mức 1000000 USDC và đinh giá là $1/ATH
+C1 Uniswap: dự án cần góp 1000000ATh để đảm bảo tỉ lệ 1:1 => tổng thanh khoản là 2 triệu đô cho pool ATH-USDC
+C2 LBP: giá token vẫn là $1, USDT vẫn lấy 1 triệu. Tỉ lệ pool lúc này ta lấy là 80-20-> lượng ATh góp vào là 4000000 -> tổng thanh khoản là 5000000-> thanh khoản của token ATH tăng 4 lần so với uniswap. Đó là trường hợp k tính token tăng giá sau khi bán token, thanh khoản lớn cx làm slippage nhỏ hơn.
+2) Fair Distribution
+Nhất là các nhà đầu tư nhỏ, bh nhiều trader dùng bot front run vì con bot này lập trình cho mục đích mua token sớm nhất có thể. Họ muốn mua càng nhiều coin ICO càng tốt để kiếm lời nhưng họ chạy bot tự động dẫn đến sự bất công 1 người có thể mua gần hết số token. LSP giải quyết bằng cách giảm tỉ lệ token trong pool theo thời gian và giá token sẽ giảm theo thời gian-> những con bot mua sớm sẽ thành lỗ. Tức tỉ lệ đồng token tăng dần sau vài ngày
+=> Cách mua 1 token sử dụng LBP: người mua sẽ phải đoán người chơi khác sẽ mua lúc nào và mua trước đó nhưng k được mua quá sớm vì giá sẽ giảm bởi tỉ trọng token thay đổi. Lựa chọn có lợi nhất là k mua token cho đến khi biết chắc phía bên kia sẵn sàng mua token
+Bởi vì: nếu ta mua mà k có ai mua sau đó-> giá sẽ giảm theo cơ chế LBP-> lỗ
+Nếu k mua mà bên kia mua-> ta vẫn có thời gian chờ giá thấp hơn để mua
+Nếu cả 2 k mua-> token sẽ giảm giá từ từ theo quy luật > giá tốt hơn
+Khi giá giảm về mức hợp lý, nh người có nhu cầu mua xuất hiện giá tăng mạnh vượt mốc ban đầu trong thời gian ngắn => nếu ta mua trước khi giá tăng mạnh như v là tốt nhất. Token sẽ phân bổ đều.
+
+Balancer's Liquidity Mining: user cung thanh khoản cho giao thức đổi lấy token gốc của giao thức đó. VD đồng BAL được phát hành qua hình thức Liquidity Mining.
+Các BAL holder có thể dùng BAL để vote các thay đổi trên Balancer, vote dùng layer 2 mở rộng quy mô,..
+Đó cx là 1 cách khuyến khích các provider giảm fee: lượng BAL mà provider nhận được = giá trị nap vào pool*fee factor với fee factor càng cao khi fee càng thấp. Khi phí càng thấp thì người dùng càng muốn giao dịch trên Balancer nên họ dùng cách này để khuyến khích giảm phí giao dịch. Họ đơn giản là chuyển hướng phần thưởng thành BAL để họ giảm phí cho các user khác vào borrow. 
+
+LBP chỉ là 1 ứng dụng của smart pool, khi mà smart pool có thể lập trình tùy biến thì sẽ mở ra nhiều hình thức giao dịch được lập trình thông qua API rất mạnh
+
+Impermanent Loss: VD: ta gửi vào pool 100USDT và 100CIV với giá là 1$-> hệ số k là 10,000. Ta k xét fee vì fee rất nhỏ
+Th1: giá k biến động -> 1 ông nào đó có nhu cầu đổi tiền chẳng hạn nạp vào 10CIV -> trong pool còn: 110CIV và 90.9 USDT và giá của CIV giảm còn: 0.8264$ ở trong pool, giá chỉ có hiệu lực tính reserve trong pool=> nếu những người khác muốn đổi lấy CIV sẽ ưu tiên pool này vì reserve đc nhiều CIV hơn còn đổi USDT sẽ k ưu tiên pool này trong hệ thống nx. Nếu ta rút thì sẽ nhận được 110CIV + 90.9USDT và giá của 2 đồng ở thị trường bên ngoài vẫn là 1$ nên coi hòa vốn nhưng lại được fee coi như lãi
+TH2: giá ông CIV tăng thành 1.5$ -> các trade săn chênh lệch giá sẽ tìm các pool để lấy ra CIV để ăn lãi-> chẳng hạn hắn swap vào 23 coin USDT -> trong pool còn 123USDT + 81.5CIV là giá trong pool lại cân bằng(vì nhiệm vụ mấy ông trade chênh lệch giá là v mà). Chẳng hạn bh ông ta rút: thì nhận 123*1+81.5*1.5=245.23$ => nếu ông ta k farm như v mà hold thì vẫn có: 100*1+100*1.5=250 -> thành ra ông farm lại lỗ 5$
+=> thành ra 2 coin trong pool cứ biến động giá đều dẫn đến impermanent loss và họ khôi phục lại khi giá lại quay lại ban đầu nhưng nếu k quay lại sẽ thành permanent loss.
+TH3: xả hàng scam. Cái tổ chức dùng token CIV tạo ra vô số r xả CIV để lấy hết USDT ở các pool(k lấy hết vì kbh về 0) -> hắn nạp vào pool 900CIV luôn để lấy ra 90USDT r bỏ trốn-> pool có 10USDT và 1000CIV-> đương nhiên biến động giá CIV càng mạnh thì provider càng lỗ. Ở đây biến động giá còn 0.01 ở thì hiển nhiên lỗ năng r
+
+VD: 1 dự án gọi vốn được 100,000$ -> bh họ muốn tạo pool thanh khoản token của họ. Nếu dùng uniswap họ tạo 100,000USDT với 100,000 token A -> thế là để tạo thanh khoản 100,000 token A họ đã bay luôn 100,000$ mới gây quỹ xong.
+Nếu dùng Balancer tạo pool 98:2 -> cung vào 2,000$ là có 98,000 tokenA luôn mà chỉ mất có 2,000$
+Những người khác muốn cung thanh khoản cho đồng token A này để farm nó cũng dùng pool 98:2 luôn
+Giả sử dự án với uniswap IDO thành công đi nx và họ dùng pool 1:1 của uniswap thì tỉ lệ: 100-100 với tỉ lệ 98-2 nếu tính toán sẽ thấy-> token A vừa phát sinh nên giá biến động mạnh-> nếu cung 100-100 mà giá biến động mạnh thì dễ permanent loss cho họ. Nhưng nếu cung 98-2 thì họ chỉ mất max là 2$ mà thôi.
+
+VD: cung USDT vào pool ETH-USDT thì balancer sẽ tự bán USDT với giá hiện tại lấy 1 lượng ETH đủ và cung vào pool cho ta, còn uniswap phải chủ động có 2 đồng để thao tác-> cx chỉ là UI/UX tiện
+
+Pool càng lớn, giá ảnh hưởng càng nhỏ, slippage càng nhỏ, nó ưu tiên hơn khi reserve 2 pool bằng nhau

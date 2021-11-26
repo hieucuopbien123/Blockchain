@@ -1,0 +1,84 @@
+node lk trong mạng với flat-topology(cấu trúc liên kết phẳng). 
+Bitcoin network là tập hợp các nodes chạy bitcoin p2p protocol. Bên cạnh đó có các protocol khác như Stratum, các protocol đó provided bởi gateway routing server access vào bitcoin network bằng bitcoin p2p protocol, sau đó extend network với các node running other protocols =>Tức là các node trong bitcoin network k chỉ chạy bitcoin p2p protocol mà còn chạy nhiều protocol khác nx, các protocols lạ này do các server kết nối vào bitcoin network, làm cho protocol bitcoin thêm phong phú
+VD: Stratum server connect Stratum mining nodes thông qua Stratum protocol với main bitcoin network và là cầu nối Stratum protocol với bitcoin P2P protocol.
+
+Roles of node: 1 node có thể chứa nhiều function trong 4 function: routing node-N-xác thực, lan truyền giao dịch, duy trì connection peer to peer; full node-B-uptodate copy of blockchain nên tự xác thực giao dịch mà k cần lấy dữ liệu gì từ bên ngoài. 1 số loại chỉ chứa 1 subset của blockchain và xác thực giao dịch bằng method simplified payment verification(SPV)-> gọi là SPV or lightweight node; Mining node-M-cạnh tranh giải bài toán khó. Có mining node là full node, có mining node là lightweight phụ thuộc vào pool mining để duy trì fullnode; wallet-W-có thể là 1 phần của fullnode, VD: desktop bitcoin client, ứng dụng ví trên điện thoại->đó là 1 chức năng qtr khi cần giao dịch; 
+Cx có các function khác như: Pool server-P or Stratum server-S là gateway router kêt nối bitcoin P2P network với nodes chạy các protocol khác như pool mining nodes or Stratum nodes=> tức là có các nodes chạy các giao thức khác, các node này kết nối với mạng p2p bitcoin thông qua các pool protocol server.
+
+Tổng quan extended bitcoin network giả sử network đó có các node sử dụng pool mining protocol, Stratum protocol, bitcoin protocol: 
+full node client: dựa trên Bitcoin Core client với full copy of blockchain, nó có thể k có chức năng đào hay ví=> k có chức năng đào hay ví tức là nó chỉ có vai trò duy trì mạng lưới hoạt động, gọi là Edge Routers(full blockchain node)
+solo miner: miner lẻ có MBN, k tham gia bể đào
+SPV wallet: chỉ có WN để duy trì mạng lưới và là ví thôi, là lightweight đó.
+Bitcoin Core client: chứa 4 chức năng luôn(reference client).
+Pool miners: có PM, các miner này đào chung trong 1 pool, họ dùng các giao thức khác với bth, và kết nối đc vào bitcoin network qua 1 gateway là:
+Mining Pool: là pool server đó
+Stratum network: là công vào, là Stratum server
+Stratum mining: MS, thợ đào sử dụng giao thức khác với bth, lk bitcoin network qua Stratum network
+Thin Client wallets: WS, tương tự nhưng chỉ là ví thôi(lightweight(SPV) Stratum wallet)
+
+Bitcoin Relay networks là mạng giảm độ trễ trong transmission of blocks between miner, tăng tốc độ sync. Hiện nay có nhiều loại network như v hoạt động như 1 overlay lên bitcoin network vì các thợ đào cạnh tranh nhau luôn muốn độ trễ giữa lần kết thúc này và lần bắt đầu sau là ngắn nhất. 
+
+1 node mới tham gia sẽ discover ít nhất 1 bitcoin node có sẵn trong mạng và kết nối với nó. Nó chọn random, sau đó tạo TCP connection cổng 8333(trong bitcoin), có r thì chuyển cổng=> thiết lập handshake bằng cách transmit version message chứa các thông tin cần thiết. Version message luôn là message đầu tiên trao đổi giữa bất kỳ 2 peers nào với nhau. Nếu remote peer kia compatible thì local peer trả lại verack.
+version message: nTime-tg ht; nVersion-bitcoin protocol version; subver-type of software running on this node, VD:/Satoshi:0.9.2.1/;BestHeight-block height
+Để 1 node tìm đc 1 node mới trong mạng: query DNS bằng DNS seeds-nó là DNS server cung 1 list các IP address của bitcoin node. Có DNS seeds cung 1 list tĩnh các IP address, có loại trả ra random subset của bitcoin node addr by crawler or long-running bitcoin node. Bitcoin Core có 5 loại DNS seeds. Kết nối thiết lập, nó sẽ dùng node mới làm seed r disconnect và lại kết nối với các node mới khác. Nó gửi addr to neighbor và neighbor đã là 1 thành phần của mạng sẽ trả ra 1 list các IP addr of other peer. Nodes đó sẽ connect với peers để thông báo về sự tồn tại của nó là 1 node mới tham gia mạng. Nó sẽ connect với 1 vài peer khác nhau để thiết lập nhiều đường path vào bitcoin network. Vì các path k đáng tin cậy do 1 node thông thường có thể kết nối xong out ra nên các node mới vào phải tiếp tục discover new node. Sau khi kết nối, node sẽ ghi nhớ peer connect thành công gần nhất để lần sau có thể kết nối nhanh hơn vào peer đó, peer đó k có thì lại dùng seed node để kết nối lại như ban đầu.
+
+Có nhiều other implementations of bitcoin P2P protocol: Bitcoin Classic, Bitcoin Unlimited, BitcoinJ,.. Nó là các phiên bản khác của Bitcoin Core. Trên mạng bitcoin hiện h có hơn 75% node trong bitcoin network chạy nhiều phiên bản khác nhau của Bitcoin Core và sub-version của nó có chữ Satoshi Vd: /Satoshi:0.8.6/
+
+Block height of 1 block là số lượng block nằm trước block đó, nó tỉ lệ thuận với số lượng transaction or kích thước nằm trước nó. 
+
+fullnode khi mới tham gia mạng lần đầu sẽ chỉ có block genesis #0. Nó sẽ phải download các block trước đó để đồng bộ. Từ version message, nó chứa BestHeight, 1 node nào đó kết nối sẽ tính xem node mới có bao nhiêu blocks r và nó gửi getblocks là message chứa hash của top block trong blockchain local của nó. 1 trong 2 peer sẽ check getblocks của ng còn lại, xác định block đó ở top hay là 1 block cũ, nếu cũ thì peer của nó có ít block hơn. Peer nh block sẽ tính toán cần bao nhiều block nx thì peer của nó sẽ catch up với nó. Nó xác định 500 block đầu tiên để share hash của the next 500 block đó bằng inv message. Node k có các block này sẽ retrieve dữ liệu bằng getdata với hash nhận đc trong inv message, peer nhận getdata sẽ trả lại các block để ông kia cập nhập.
+=>Dù v nó luôn đảm bảo là request block sẽ kbh bị overwhelm on the network. Vì 1 node request block from all of its connected peers. Nó luôn bị gh với MAX_BLOCKS_IN_TRANSIT_PER_PEER. Nó cho phép 1 request new block chỉ thực hiện khi request trc đc hoàn thành. 
+Vc inv message và getblock message diễn ra mọi lúc khi 1 full node bất kỳ rơi vào tình trạng offline dù ngắn hay dài cơ chế vẫn như trên.
+
+SPV nodes chỉ tải header của block, kp các transaction bên trong nên kích thước sẽ nhỏ hơn 1000 lần fullnode. SPV rely on peer để verify transaction, peer cung cho SPV 1 phần cần thiết của blockchain mà ta cần dùng thôi.
+Vd: check trans ở block 300000, fullnode link từ #300000 tới genesis block và xây full database of UTXO và xác nhận the UTXO chưa unspent; 1 SPV k thể xác định UTXO là unspent hay k vì nó éo có giao dịch, chỉ có header thôi. Nó sẽ tạo kết nối tới trans và block chứa trans đó bằng merkle path. Khác với fullnode refer to height thì SPV refer to depth. Nó chờ cho đến khi thấy 6 block 300001 đến 300006 on top chứa transaction và xác thực nó theo depth từ 300006 đến 300001. Thực tế thì other node chấp nhận block 300000 và làm các thứ cần thiết để tạo ra thêm 6 block on top, chứng minh transaction k bị double-spend. Hay nó check độ sâu của block đó bị đè bởi các block khác trên nó, bị đè càng nhiều thì càng an toàn vì nếu node đó fake 1 block sẽ phải fake toàn bộ các block đằng sau. SPV node rất yêu nếu connect vào fake node or fake network, do đó nó cần connect randomly to several node để tăng xác suất ít nhất là connect với 1 node thật.
+=>dùng getheaders chứ kp getblocks như fullnode và cơ chế tương tự fullnode. Nó cx filter các blocks và trans đc gửi bởi peer. Các trans nào cần sẽ được lấy tương tự bởi getdata request.
+Rủi ro: SPV node retrieve trans cụ thể để verify chúng để tiêu tiền sẽ phải lộ địa chỉ ví của ta. Third party có thể theo dõi các giao dịch bởi cái ví đó và biết được địa chỉ bitcoin đó của ai có ví nào. Để tránh điều đó, người ta cho ra Bloom Filter cho phép lấy subset của trans mà k lộ địa chỉ.
+Thay vì lấy transaction có output tiền gửi đến địa chỉ như này thì lấy transaction thỏa mãn cái search pattern như này, k làm lộ địa chỉ. Nếu search pattern quá chuẩn thì sẽ trả ra đúng các trans cần tìm thì sẽ lộ nên họ cho 1 bộ quy tắc và lấy tất cả trans thỏa mãn quy tắc đó, xong lấy về sẽ tự lọc tiếp, ta chịu thêm vc lấy 1 vài trans k cần thiết nhưng lại đc bảo mật
+
+Bloom filter là 1 dãy variable-size array N binary digits và M hash function. Hash function sẽ nhận đầu vào tạo đầu ra là số nằm giữa 1 và N. 1 node sẽ dùng 1 same hash function và luôn tạo same result cho 1 input. Bằng vc đổi N và M sẽ cho ra kết quả khác nhau có độ chuẩn xác và bảo mật khác nhau. Càng nhiều N và M sẽ càng chuẩn. Mỗi hash function sẽ set 1 bit trong dãy binary digits là 1. Mặc định lúc khởi tạo bloom filter sẽ toàn bit 0 và k hợp với bất cứ search pattern nào.
+VD: 1 bloom filter dùng M=3 và N=16. Thêm A vào bloom filter cho ra K1(A)=3; K2(A)=1; K3(A)=14 thì trong 16 bit có 3 bit đó là 1, còn lại là 0. Khi check 1 ký tự có trong bloom filter k thì nếu cả 3 bit đều có thì sẽ là maybe, 1 trong 3 bit k có sẽ là definitely not. 
+
+UTXO set bh mới hiểu, nó là tập hợp unspent output. Nhưng mỗi node có 1 tập hợp UTXO riêng. Riêng các fullnode có UTXO mọi node trong mạng. Nó độc lập với chuỗi blockchain. Fullnode sẽ lưu chuỗi blockchain, đồng thời lưu thêm UTXO set tính toán từ chuỗi đó nx. Các lightweight cx có UTXO của cái mà nó cần, tức mỗi client dùng lightweight sẽ có khoản tiền mà client tự sở hữu, k có UTXO của client khác như fullnode. Khi tiêu tiền thì UTXO của người đó co lại dần.
+
+SPV tạo 1 list các address, key, hash cần lấy và add vào bloom filter. Peer sẽ dùng bloom filter để check transaction. SPV gửi filterload message to peer chứa bloom filter. gửi getdata để lấy dữ liệu. peer send merkleblock message chứa header thỏa mãn. peer send tiếp tx message chứa transaction thỏa mãn. SPV có thể send filteradd message để thêm filter or filterclear để clear bloom filter vì node k thể xóa pattern trong bloom filter mà chỉ có cách xóa filter và gửi 1 filter khác nếu pattern cũ k còn dùng. SPV nhận được sẽ discard các transaction k cần và update UTXO của nó với transaction đúng, đồng thời modify bloom filter có các future trans.
+
+Kể cả có bloom filter thì người ta chỉ kb ta cần request các transaction gì chứ các node connect trực tiếp vào node đó vẫn có thể tìm đc address của ví (nhược điểm của SPV) khi thu thập đủ thông tin cần thiết.
+
+Bitcoin bh dùng 2 cơ chế mã hóa connection để tăng cường bảo mật(fullnode chả lo nhưng SPV thì cần đấy)->ngăn chặn 1 người khác can thiệp vào connection lấy data:
+Tor Transport: Bitcoin Core hỗ trợ run bitcoin node với traffic transported trên Tor network. Có tor, có bitcoin core thì connect đc thôi. 
+Peer-to-Peer Authentication and Encryption với BIP 150/151: BIP 151 cho phép 2 nodes hỗ trợ BIP 151 thiết lập encrypted connection for mọi communication giữa 2 nodes. BIP-150 cho phép 2 nodes xác thực nhân dạng của nhau bằng ECDSA và pivkey, để dùng BIP 150 thì 2 nodes phải thiết lập connection BIP-151 trước. Với cách này sẽ giữ được quyền riêng tư cho SPV client đặc biệt là các nơi mà Nhà nước độc tài kiểm soát internet truy cập của công dân. 
+
+Transaction pool(memory pool/ mempool) là temp list of unconfirmed transaction. 
+Các transaction tới đây đã nhận được từ mạng như chưa đc confirm, nhưng nó đã đc verified(xác thực dùng đc UTXO), sau khi đc xác thực bởi node khác, nó sẽ lan truyền trong mạng. 
+Orphan Pool: vài node có thể chứa 1 pool như v, chứa các giao dịch k có cha. Tức cha của nó k tồn tại ở bất cứ đâu. Chỉ khi cha xuất hiện thì nó mới bị loại khỏi orphan pool. Khi 1 transaction đc add vào transaction pool, orphan pool sẽ check bất cứ orphan nào dùng output của trans đó, nếu match sẽ validate và được loại khỏi orphan pool và thêm vào trans pool và tiếp tục như v. 
+2 cái pool đó được lưu trong local memory, kp persistent storage.
+UTXO pool là nơi chứa unspent trans output với hàng nghàn entries cho đến genesis block. Nó khác với 2 cái trên là chỉ chứa confirmed output và lưu trên persistent storage. 
+
+1 block chỉ có 1 parent nhưng 1 block có thể tạm thời có nhiều child during 1 blockchain fork or 1 block mới xuất hiện đồng thời bởi nhiều thợ đào khác nhau. Nhưng đến cuối sẽ chỉ có 1 child là 1 phần của blockchain và fork đc resolved. 
+
+Blockchain càng dài thì càng an toàn và k thể thay đổi. Người ta bảo dưới 6 block kể từ block mới nhất là an toàn và k thể đổi, còn các block mới đc tạo ra gần đây có thể được recalculation due to a fork tức là có khả năng bị đổi dù rất thấp. Cơ chế đồng thuận sẽ khiến tất cả đều đồng ý cho sự thay đổi đó mới đc. Dưới 6 block thì số lượng tính toán sẽ trở nên rất lớn và trong lúc tính toán thì block mới vẫn ra đời làm cho sự thay đổi là impossible
+
+1 block header là 80 bytes, 1 average trans có tầm 250 bytes=> 1 block khoảng hơn 500 trans nên kích thước của nó lớn hơn 1000 lần header trung bình. 
+các trường block: block size(4 bytes) chứa kích thước block; block header(80 bytes); transaction counter(1-9 bytes) chứa số lượng trans; transactions(variable-size)
+
+header: prevhash(32 bytes), version(4 bytes), metadata(difficulty(4 bytes), timestamp(4 bytes) là thời gian block được tạo ra kể từ Unix Epoch, nonce(4 bytes)), merkle tree root(cấu trúc dữ liệu tổng hợp mọi transaction trong block)(32 bytes)
+
+hash block header là ra block hash. Nó lưu trên 1 database table riêng biệt như 1 phần của block's metadata. Nó or block height chính là identifer of block. Dùng height để lấy 1 block cx đc vì các block được xếp lên nhau chồng lên trong vertical stack. Tuy nhiên 1 block height có thể k specific 1 block vì blockchain fork, chúng sẽ compete để giành lấy vị trí đó trong blockchain.
+
+merkle tree là binary hash tree chứa cryptographic hash sẽ summarize all transaction in block, tạo ra 1 fingerprint cho tập hợp toàn bộ transaction.
+Tức là xét 1 block có rất nhiều trans, để tạo ra merkle tree cho block đó, ta dùng double-SHA256(gọi SHA256 2 lần). 
+Ha=SHA256(SHA256(Transaction A))
+Hab=SHA256(SHA256(HA+HB)) =>concat 2 H vào r lại double-SHA256
+Tương tự ta sẽ gom hết các transaction vào VD chỉ có 4 trans thì Habcd là merkle root. Merkle tree là binary tree nên luôn có 2 node con từ 1 node cha nên nếu số trans là lẻ thì sẽ tự nhân đôi để đủ. VD A B C thì Habcc là merkle root. Kết quả là 32 bit nhé dù cộng nhiều hash vào nhưng mỗi khi gọi SHA256 sẽ trả ra 32 bits.
+VD: Có N element đc hashed và summarized trong merkle tree, ta có thể kiểm tra 1 transaction có trong merkle tree đó k với nhiều nhất 2*log2N calculation. 
+VD: có 16 element và root là Habcdefghjklmnop thì kiểm tra xem K có thuộc block có merkle đó k bằng cách tạo ra 1 merkle path có 4 32 bytes hashes: Hl, Hij, Hmnop, Habcdefgh. Từ 4 paths bất cứ ai cũng có thể lấy path của K với Hkl, Hijkl, Hijklmnop, root. Path size là 4*32 = 128 bytes
+=> Nhờ merkle tree mà a node có thể biết được 1 block có chứa transaction ta cần tìm hay k nhanh chóng chỉ với header mà k cần tải tất cả transaction về nên luôn có trong SPV để xác thực với merkle path.
+=> khi peer gửi lại merkleblock message, nó chứa block header và merkle path link cái transaction SPV cần với merkle root của block. SPV node dùng merkle path này để connect tới trans cần lấy ở trong block nhận được. SPV dùng block header to link block đó vào block chain của mình(block mà chỉ có header với merkle mà k có transaction ấy)=> như v SPV nhận lại rất ít. 
+
+mainnet là mạng blockchain do Satoshi tạo ra, còn có testnet, segnet, regtest. 
+testnet là test blockchain có các chức năng như mainnet. Coin của testnet là worthless và difficulty cực nhỏ. Tuy nhiên do nhiều người dùng các thiết bị mạnh để đào coin trong testnet làm cho coin trở nên có giá trị và k thể đào đc theo kiểu bth nx. Every now and then, testnet bị scrapped và restarted from new genesis block để reset difficulty. VD: testnet3 là lần reset thứ 3 của nó r. Dù v nhưng do nhiều người test nên nó vẫn là 1 large blockchain nên fullnode dù nhẹ hơn mainnet nhưng vẫn rất nặng, có thể chạy bằng máy ảo.
+Có thể dùng Bitcoin Core để chạy các operation của testnet thoải mái, nó hỗ trợ cả 2, chạy fullnode, đào coin thoải mái. 
+Segnet(Segregated Witness Testnet) như testnet nhưng nó dùng cho 1 special purpose kiểu test 1 feature nào đó.
+Regtest(regression testing)-Local blockchain: khác với testnet là pub blockchain thì regtest yêu cầu ta phải tạo từ scratch, tự tạo genesis block và chạy có mình ta-> dùng để test vd Bitcoin Core software cho mình ta thấy mà thôi.
+=> quy trình thg test trên regtest trước-> testnet-> mainnet

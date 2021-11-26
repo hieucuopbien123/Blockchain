@@ -1,0 +1,13 @@
+Ví meta mask khởi tạo sẽ cho ta mnemonic words đã biết.
+
+Ta có 1 tài khoản master, các tài khoản khác tạo thêm là derived từ tài khoản master mà thôi. Để xóa các tk khác, xóa trên ví luôn, nếu k được thì phải đăng xuất hết ra r nhập lại bằng mnemonic words mới được.
+
+Khi đăng nhập metamask trên 2 máy khác nhau thì nó chỉ khôi phục tài khoản gốc master mà thôi. Vd trên laptop meta mask có 2 tài khoản, mỗi tài khoản đều có coin. Ta dùng thêm metamask trên điện thoại thì nó chỉ hiện mỗi tài khoản master mà thôi. Nếu ta muốn lấy tài khoản thứ 2 thì create a new account là account thứ 2 của điện thoại và laptop là 1 là vì cơ chế các key con sinh ra từ key cha-> ta chỉ cần lấy mỗi tài khoản master là derived ra hết các tài khoản khác chứ kp tiền trong các tài khoản khác bị mất khi ta nhập lại mnemonic.
+
+Khi xóa các tài khoản, xong derived lại nó vẫn theo thứ tự đó và tiền ở địa chỉ đó vẫn còn nguyên. Khi nhập lại ví bằng mnemonic words thì nó tự hiện các account vẫn có tiền, các account k tiền sẽ k hiện ra
+
+Ví metamask kp là 1 ví chứa coin bth, nó cho phép ta liên kết với bất cứ mạng blockchain nào, hiển thị các giao dịch, coin, token của 1 account trên mạng blockchain đó. Chứ nó kp ví chứa ethereum hay của riêng 1 mạng nào hết, nó dùng tất cả luôn.
+
+
+
+
