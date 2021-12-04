@@ -7,7 +7,3 @@ Khi đăng nhập metamask trên 2 máy khác nhau thì nó chỉ khôi phục t
 Khi xóa các tài khoản, xong derived lại nó vẫn theo thứ tự đó và tiền ở địa chỉ đó vẫn còn nguyên. Khi nhập lại ví bằng mnemonic words thì nó tự hiện các account vẫn có tiền, các account k tiền sẽ k hiện ra
 
 Ví metamask kp là 1 ví chứa coin bth, nó cho phép ta liên kết với bất cứ mạng blockchain nào, hiển thị các giao dịch, coin, token của 1 account trên mạng blockchain đó. Chứ nó kp ví chứa ethereum hay của riêng 1 mạng nào hết, nó dùng tất cả luôn.
-
-
-
-

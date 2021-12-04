@@ -3,7 +3,7 @@ Blockchain: chuỗi các block là sổ cái công khai, P2P network
 Đặc điểm của blockchain: tính bất biến, tính phi tập trung, tính minh bạch. 
 1 block: data, hash, hash của previous block
 3 cơ chế bảo mật: đổi 1 block phải đổi cả, POW tốn thời gian, mọi node xác thực
-Smart contract: chỉ là đặt thêm điều kiện, tiny program trong block 
+Smart contract: chỉ là đặt thêm điều kiện, tiny program trong block -> bitcoin k có, ethereum có
 Permissioned(private) blockchain: có phân quyền, riêng tư, ít phi tập trung
 Permissionless(public) blockchain: công khai
 Bitcoin: POW, 10 phút, tìm nonce(1-4 tỷ), ASIC, tính tổng tiền từ unspent output
@@ -22,7 +22,7 @@ Defi: nên tài chính phi tập trung
 PolyNetwork: nền tảng Defi
 Cold Storage: ký trans offline, online thì transmit
 Sàn Binance: nơi mua bán coin, đổi tiền
-Binance Chain: chian của sàn Binance, NBN
+Binance Chain: chain của sàn Binance, NBN
 Binance Smart Chain: dùng Smart Contract, dùng song song với Binance Chain
 V-Chain
 token: dùng trên 1 blockchain khác, phát hành từ ICO, Token ERC20 của Etherium, là phần thưởng trong ứng dụng cụ thể hơn
