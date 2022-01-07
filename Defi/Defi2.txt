@@ -74,8 +74,16 @@ Mặt trái: do các nền tảng lending quá lạm dụng liquidity mining nê
 =>Do đó liquidity mining cần được dùng đúng, sinh ra token thì phải có nhu cầu sử dụng cân bằng với tốc độ sinh ra, nếu sinh quá nhiều mà các nền tảng lại chả dùng nó vì nhu cầu gì cả thì sẽ lạm phát mạnh. Do đó khi build bất cứ dự án nào thì phải cân bằng token tạo ra mà mạnh thì vai trò sử dụng cũng phải mạnh nếu ta thực sử muốn token của ta tăng trưởng và phát triển. Ngược lại token k có giá trị thì giá sẽ giảm mãi và dần dần chả ai quan tâm đến dự án của ta nx, thưởng token đem lại sự thu hút ngắn hạn nhưng dài hạn sẽ toang. 
 Kbh hold 1 token trong 1 dự án chỉ có in ra mà k sử dụng
 
+Curve Finance: là AMM chỉ dành cho stable assets là những thứ giá fix. Nó có 1 chức năng khác là single side supply.
+Curve Finance(CRV) là 1 sàn DEX phí tập trung hoạt động tương tự uniswap nhưng chỉ với stable coins.
+Bth ta cung Liquidity thì cung 1 cặp nhưng với curve finance thì chỉ cần cung vào 1 assets VD DAI thì hệ thống sẽ tự động bán đi lấy đồng pair còn lại và cung vào pool theo tỉ lệ ở thời điểm đấy
+VD: cung DAI vào YPool(nền tảng riêng) nó sẽ tự động convert DAI của ta sang các token kia và cung vào pool-> ta nhận lại Y Curve chứng thực quyền sở hữu. Ta hiểu là mỗi nền tảng có stable assets của riêng nó VD Synthetic có sBTC, Y có YUSDT,..
+Khi các nền tảng mới ra đời, họ phát hành ra stable assets của riêng nền tảng đó nhưng k có liquidity, họ đã dùng curve(CRV) để khuyến khích nhà đầu tư cung thanh khoản cho stable coin của họ.
+Cứ dự án nào có stable assets là họ lại contact với curve để tạo ra những pool riêng, thu hút thêm trader, kiếm thời lợi nhuận
 
+Nhu cầu swap stable coin hiện tại rất lớn. Thông qua curve, ta không cần phải trao đổi thông qua ETH trung gian sẽ mất phí 2 lần giao dịch mà có thể chuyển 1 phát từ stable coins này sang stable coins khác trực tiếp. Nhưng do chỉ chơi với stable coins nên nhà đầu tư liquidity provider thích hơn do giá trị k bị biến động như token nên họ coi curve là phiên bản tốt hơn của uniswap với stable coin
 
-
+VD: Supplier cung liquidity cho curve và nhận lại đồng quản trị (CRV), curve có liquidity tăng cao. Khi các DApps, retail trader có nhu cầu hoán đổi stable coin, nó sẽ lái user tới curve để họ dùng trong curve. Stable coin trong curve có liquidity rất cao nên slippage nhỏ, càng nhỏ thì trader càng thích-> cứ thế giao dịch nhiều thì fee trong curve trả cho supplier càng nhiều. Supplier sau khi sở hữu CRV có thể rút như uniswap or dùng để quản trị bằng cách: lock đồng CRV vào smart contract để nhận lại veCRV-> dùng veCRV để quản trị tính năng gì trong curve
+Mặc dù protocol curve rất hot được dùng nhiều nhưng đồng quản trị CRV lại giá dump mạnh là vì nó in ra quá nhiều mỗi tháng trong khi doanh thu đầu vào ít hơn làm giá token bị dump
 
 
