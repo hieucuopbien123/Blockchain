@@ -1,0 +1,18 @@
+Cần phân biệt BSC, Solana, Ethereum là các blockchain layer1
+Các dự án như Polkadot hay Cosmos có thể coi là blockchain cho mọi blockchain. Nó cung giao thức kết nối các blockchain với nhau, bản thân nó cũng coi là 1 blockchain có thể trao đổi với các blockchain khác.
+
+Kava nó như phiên bản khác của MakerDAO nhưng MakerDAO chỉ trên ethereum còn Kava dùng cho cross-chain và nhiều blockchain khác. Nó hoạt động trên cả cosmos và BCS,.. 2 đồng USDX và KAVA giống như DAI và MKR của MakerDAO.
+Nó nhận vài token trên BSC như BNB làm tài sản thế chấp với max collateral là 150% và tạo ra CDP(hay vault đó) mint ra USDX. Nó cũng có stability fee(5%), liquidation fee(7.5%) và liquidation ratio(150%) => tức là vay max 150% và ratio min 150% -> tức là nếu vay max luôn thì giá giảm 1 xíu là bị thanh lý. MakerDAO có OSM delay chờ 1h, còn Kava thì nó lấy giá của chainlink và thanh lý ngay lập tức chứ k có delay gì hết. 
+Cũng có collateral auction đổi từ collateral assets về USDX, khi fee thu nhiều thì surplus auction để thu lại KAVA, còn USDX mà dư nợ trên thị trường thì debt auction phát hành KAVA để thu lại USDX
+KAVA sử dụng Cosmos SDK để tạo blockchain riêng nên đồng KAVA là coin của blockchain riêng đó nên có thêm tính năng hiển nhiên. Nó có thể stake, mint USDX, dùng làm collateral assets, governance,... 
+Trong MakerDAO thì đồng DAI được nhiều dự án ủng hộ nhưng KAVA thì nền tảng k thể bằng các ứng dụng bên ethereum đc nên ít demand dùng đồng USDX. USDX được sinh ra khi người dùng thế chấp và cũng là phần thưởng cho thợ đào ở trong blockchain riêng này. Do đó, KAVA phải có hướng đi khác với MakerDAO, nó cho ra Harvest là 1 ứng dụng mà người dùng lending USDX vào để kiếm lời. Do đó ban đầu đồng USDX k có ai đào cả nhưng sau khi áp dụng thì đã có hơn 9 triệu USDX đào lên.
+
+
+
+
+
+
+
+
+
+

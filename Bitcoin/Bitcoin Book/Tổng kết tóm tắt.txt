@@ -9,7 +9,6 @@ Permissionless(public) blockchain: công khai
 Bitcoin: POW, 10 phút, tìm nonce(1-4 tỷ), ASIC, tính tổng tiền từ unspent output
 Ý nghĩa của coin: động lực đào
 Chi tiêu kép: ngăn bởi cơ chế đồng thuận, chữ ký số đảm bảo duy nhất.
-Bể đào: nguy cơ 51%
 POS: Cardano, chọn validator đặt cọc stake, POS dùng tiền và POW dùng NL
 Các ứng dụng của blockchain: track theo dấu 1 cái gì đó, veryfi thật giả, tin tưởng cá cược, lưu data và phân quyền.
 Chữ ký số: pub và piv, pub xác nhận signature tạo từ đúng piv key hay k, tính k thể chối bỏ khi xác nhận bằng khóa riêng.
@@ -86,7 +85,7 @@ script language: thông dịch, phạm vi nhỏ trong Ct khác; trong bitcoin sc
 -Push vào stack: unlocking_script locking_script trả ra TRUE/FALSE lên stack; 
 => cải tiến: execute unlocking_script-> copy mainstack->execute locking_script-> trả TRUE/FALSE;
 -ECDSA tạo signature 2 phần: 
-  thuật toán tạo signture bằng pivkey từ trans
+  thuật toán tạo signature bằng pivkey từ trans
   thuật toán cho phép bất cứ ai cũng xác thực được signature
     Sig=Fsig(Fhash(tran),pivkey)=(R,S)=> serialized R,S thành bytestream(DER)-> SIGHASH flag: 1 byte thêm vào cuối-> xác thực 1 phần trans, 1 input; 
       kết hợp với modifier flag định kiểu input
@@ -209,4 +208,4 @@ Pool: dùng pool-mining protocol; miner tạo tk trong pool-> được set highe
 Proposed Change: name(BIPN), bit(block version) báo hiệu dùng proposal nào, starttime bắt đầu proposal, endtime: chưa activate sau endtime sẽ reject
     vượt quá 95% + sau retarget period tiếp theo sẽ thực hiện; DEFINED state-> MedianTimePast >= starttime -> STARTED state
       75% sử dụng + timeout chưa exceed-> LOCKED_IN state-> đợt retarget tiếp theo, ACTIVE state-> vĩnh viễn ACTIVE
-      timeout đã qua-> FAILED-> đợt retarget tiếp theo, REJECT 
+      timeout đã qua-> FAILED-> đợt retarget tiếp theo, REJECT

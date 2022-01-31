@@ -1,0 +1,8 @@
+Tỷ giá hối đoái là tỉ giá tiền tệ đổi tiền nước này sang tiền nước khác
+
+Phái sinh: Hợp đồng mà giá trị phụ thuộc vào tài sản cơ sở. Vd hợp đồng xác nhận quyền và nghĩa vụ các bên trong việc thanh toán tiền và chuyển giao tài sản cơ sở vào thời điểm xác định trong tương lai với mức giá thỏa thuận trước. Synthetic assets có nói rõ về nó.
+
+
+
+
+
