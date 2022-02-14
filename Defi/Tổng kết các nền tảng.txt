@@ -1,0 +1,50 @@
+Huobi: sàn tập trung order-book
+Binance: sàn tập trung order-book
+Bittrex: sàn tập trung order-book
+Okex: sàn tập trung order-book
+Kucoin: sàn tập trung order-book
+Serum: sàn phi tập trung order-book
+Uniswap: sàn phi tập trung AMM
+Pancakeswap: sàn phi tập trung AMM trên BSC
+Sushiswap: AMM DEX của ethereum
+Honeyswap: AMM DEX trên xDAI là layer2
+Coin98: AMM DEX; Ví defi; web tổng hợp tin tức về blockchain
+Coinbase: CEX, ví cefi
+Bancor: sàn phi tập trung AMM nhưng phải đặt cọc
+Mooniswap: AMM DEX của ethereum
+Balancer: AMM DEX của ethereum nhưng có nhiều loại pool
+Justswap: AMM DEX của Tron
+Airswap: AMM DEX
+Flamingo: AMM DEX của NEO
+MakerDAO: Cho vay; Đấu giá
+Synthetix: Cho vay; phái sinh; tài sản tổng hợp
+Tether: nền tảng centralized trên ethereum và bitcoin cho derivative và spot trading
+VouchForMe: công ty bảo hiểm defi
+Matcha: sàn chứng khoán(broker) defi
+Metamask: ví defi
+IDEX: DEX
+Oasis: Cho vay
+Compound: Cho vay
+Opyn: Decentralized Insurance
+Idle: phái sinh phi tập trung
+Hegic: phái sinh phi tập trung
+Tokenlon: Tài sản tổng hợp
+Bounce: DEX AMM trên BSC
+AnySwap: DEX AMM trên BSC
+AAVE: Cho vay
+Chainlink: decentralized Oracle về giá cả
+Band: decentralized Oracle về giá cả, thời tiết,.. trên COSMOS
+Tellor: decentralized Oracle về giá cả
+Dia: decentralized Oracle
+Nest: decentralized Oracle về giá cả
+Nexus Mutual: decentralized insurance
+KyberSwap: DEX AMM của KyberNetwork trên ethereum
+OpenLaw: platform tạo văn bản pháp lý trên ethereum
+Curve: DEX AMM dành cho stable assets
+3F Mutual: Bảo hiểm defi chỉ dành cho MakerDAO
+YEarn: dùng Fair Launch; lending/borrowing; Insurance; AMM
+UMA: Synthetic assets
+COSMOS: mạng lưới phi tập trung kết nối nhiều blockchain với nhau
+CoinGecko: web tổng hợp tin tức về blockchain
+dYdX: DEX Ethereum; lending, borrowing; spot trading; perpetual trading; margin trading
+

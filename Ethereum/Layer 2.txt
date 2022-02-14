@@ -27,4 +27,4 @@ Layer2 là hệ thống chạy trên layer1, kế thừa tính bảo mật từ 
 Khả năng mở rộng: hàng nghìn giao dịch 1s => tốt nhât là dùng State channels, plasma, validium, sidechains > zkrollups, optimistic rollups
 Giảm độ trễ, tăng tốc độ => layer 2 giúp thời gian xác thực gần như tức thời
 Giảm tác động ngoại cảnh -> lúc cryptokitty mới nổi, các dự án khác của ether bị nghẽn kinh khủng, L2 có thể giảm bằng cách đưa rất ít dữ liệu lên layer1
-Giảm chi phí => L2 tốn ít gas hơn => tốt nhất là state channels, plasma, validiumn, sidechains > roll ups
+Giảm chi phí => L2 tốn ít gas hơn
