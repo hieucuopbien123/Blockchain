@@ -77,7 +77,7 @@ FDV(Fully dilluted valuation) là vốn hóa của dự án nhưng tính bằng 
 
 Token allocation:
 Team gồm founder, co-founder, developer, marketer, advisor,... những người có đóng góp quan trọng và lý tưởng đề xuất là 20% vì nếu quá thấp thì đội ngũ dự án không có động lực, quá cao thì sẽ bị tập trung, cộng đồng không muốn nắm giữ token của dự án nx
-Foundation reserve(dự trữ) là khoản dự trữ cho việc phát triển sản phẩm cũng như các tính năng trong tương lái
+Foundation reserve(dự trữ) là khoản dự trữ cho việc phát triển sản phẩm cũng như các tính năng trong tương lai
 Liquidity Mining như phần thưởng cho các trader tích cực cung cấp thanh khoản cho dự án
 Seed/Private/Public sale: token còn được dùng cho các đợt mở bán để huy động vốn phát triển sản phẩm. Thông thường sẽ có 3 đợt mở bán như v
 Airdrop/retroactive: token 1 phần còn được dùng làm quà tặng tri ân miễn phí cho người dùng ủng hộ dự án, lý tưởng tầm dưới 5%. Ngày xưa đơn giản là follow hay retweet còn bh phải skin in the game mới được nhận
