@@ -1,0 +1,292 @@
+## Transaction
+
+
+
+# Cơ chế xử lý về tiền
+-> Ta đã biết là bitcoin chỉ có thể tạo ra thông qua cách là đào(khác với token được mint lần đầu và phát trong ICO). 1 người có được bitcoin chỉ thông qua 2 phương thức đào hoặc mua từ người đã có(cả 2 hình thức này đều là 1 giao dịch). Số lượng bitcoin đang có thực chất là tính tổng từ các transaction trong blockchain. Như v, nó giống như kiểu ta k hề sở hữu đồng coin nào mà khi thực hiện 1 giao dịch gửi tiền đi cx chỉ là chuyển giá trị từ output các transaction trước(mà ta gọi là coin) tới 1 chủ sở hữu mới có địa chỉ bitcoin cụ thể. Nhưng kp ai cũng lấy được output của transaction trước. Đó là cơ chế chữ ký số(private/public key) để xác định ai sở hữu bao nhiêu bitcoin thực ra là dùng private key unlock output các transaction và tính tổng các output đó sẽ ra số bitcoin đang sở hữu.
+=> wallet thực chất k chứa coin mà wallet chứa key để sign giao dịch mà thôi.
+
+-> Transaction inputs: là các đầu vào, chứa lượng tiền đầu vào(refer tới previous transaction); transaction outputs là đầu ra, chứa lượng tiền đầu ra ít hơn đầu vào 1 tí để 1 phần làm transaction fee cho miner.
+Transaction outputs còn chứa bài toán cryptographic => refer tới "Transaction input và output"
+
+-> Transaction output k thể chia nhỏ. bitcoin full nodes track all spendable outputs là unspent transaction outputs(UTXO). Tập hợp tất cả UTXO gọi là UTXO set. Tổng số lượng mỗi UXTO trong set chính là tổng lượng coin đang exist ở thời điểm hiện tại. UTXO set lớn dần khi new UTXO được tạo và co nhỏ lại khi UTXO được chi tiêu. Khi nói wallet nhận được bitcoin, thực chất là wallet đã detect đc thêm UTXO mà có thể spent bằng 1 trong các key của nó.
+Output k thể chia nhỏ, tức là khi spend ít hơn số tiền đang có sẽ phải trả lại tiền thừa cho chính họ. Ứng dụng ví phải xử lý tất cả như check số tiền, tìm tiền thừa, gửi như thế nào 1 cách tự động và user k nhìn thấy.
+
+VD: Khi thực hiện 1 giao dịch ví dụ với 5 bitcoin mà trong tk của ta lại có tới 20 bitcoin -> ta phải gửi 5 bitcoin tới chủ nợ và 15 bitcoin tới chính ta. Thực chất nó thực hiện ngầm là như v, ta có thể gửi phần tiền thừa tới địa chỉ khác của ví ta vì ví ta có nh địa chỉ cx đc hết. Tuy nhiên tùy loại ví lại có cách xử lý khác nhau, họ có thể trích từ tài khoản ra 1 phần từ từ đến khi nào bằng khoản phí cần gửi + fee cho miner thì dừng lại or dùng kiểu tiền thừa cx đc, tùy developer.
+
+-> Khi giao dịch đã được xác thực thì nó sẽ được propagate tới tất cả p2p network để cập nhập block mới. Thg thì người nhận sẽ là người đầu tiên nhận đc transaction và nhận đc coin nhờ private key của mình
+Khi giao dịch được gửi đi, nó sẽ tạo ra 1 script kiểu bất cứ ai có chữ ký tương ứng với public adress này sẽ nhận đc output, do đó chỉ có người cần nhận có đúng private key mới nhận đc mà thôi
+
+-> Coinbase transaction là loại transaction đặc biệt(nó có type tên chuẩn là coinbase luôn). Đó là transaction sinh coin mới cho thợ đào winning do thợ đào tạo ra.
+
+
+
+# Thực chất khi thực hiện 1 giao dịch, trong bitcoin k hề có địa chỉ, k hề có coin, sender, account,..
+Tất cả những thứ đó là người ta nghĩ ra, quy ước như 1 user interface để người dùng dễ hiểu mà thôi. Cái giao dịch xem trên trang web có địa chỉ này nọ thực chất k xuất hiện trong 1 transaction thực sự của bitcoin. Transaction chỉ chứa script lock và unlock. 
+
+-> Vậy địa chỉ người gửi và người nhận lấy từ đâu? 
+VD khi thực hiện 1 giao dịch, nó hiển thị địa chỉ của người gửi Alice bằng cách:
+Khi blockchain lấy thông tin transaction đó, nó cũng lấy thông tin của previous transaction mà input refer tới và extracted output đầu tiên từ older transaction. Output đầu tiên như ta đã biết là người nhận của transaction đó chính là UTXO của Alice hay chính là giao dịch từng gửi tiền cho Alice. Trong output đó là locking script cái mà lock UTXO với Alice pubkey hash(P2PKH script). Blockchain sẽ extracted pubkey hash và encoded nó vói Base58Check để tạo và hiển thị ra bitcoin address có pubkey đó(chính là address của Alice).
+Địa chỉ ng nhận cx hiển thị với cơ chế tương tự: blockchain extract locking script từ mỗi output, recognized it as P2PKH script, extract pubkey hash, mã hóa với Base58Check và hiển thị địa chỉ ra màn hình. 
+
+-> Khi click vào địa chỉ người nhận Bob: hiển thị balance(tiền còn lại) của Bob address, total received,..
+Cơ chế thực ra là: trang web blockchain explorer sẽ decode Base58Check ta vừa click để lấy 160-bit hash-> tìm kiếm trong database of transaction output với P2PKH locking script chứa địa chỉ pubkey hash của Bob. Tính tổng value tất cả ouput đó, hiển thị total. 
+
+Hiển thị Final Balance(current balance): blockchain explorer giữ 1 separate database của outputs unspent(để lấy nhanh hơn). Để duy trì nó thì blockchain explorer phải monitor bitcoin network in real time. Giữ nguyên tính đồng thuận và update mới nhất transaction khi nó được propagate. Nó tính tổng các unspent outputs refer Bob pubkey hash và tạo ra Final Balance number để hiển thị.
+
+=> Mỗi ứng dụng đều phải abstract dữ liệu theo hướng người dùng hiểu đc để hiển thị ra như v, nhưng các transaction phức tạp với nh inputs, outputs thì kiểu abstraction thông thương như 1 địa chỉ gửi, 1 địa chỉ nhận nó k thể đáp ứng đc. Kiểu bên trên mới chỉ là P2PKH chuyển tiền cơ bản
+VD: mỗi ngày có hàng trăm giao dịch k chứa P2PKH outputs đc confirmed thì các ứng dụng như blockchain explorer sẽ hiển thị red warning là k thể decode đc địa chỉ là lý do đó, gọi là strange transaction. Đó cũng chỉ là các transaction có complex script than common P2PKH. P2PKH là the most common type of transaction script với pay to pubkey. Phức tạp hơn sẽ là multisignature, pay theo thời gian, pay to script hash,...
+
+
+
+# Transaction input và output
+-> Thực tế, transaction output bao gồm 2 phần: lượng bitcoin với satoshi là đơn vị nhỏ nhất; 1 bài toán cryptographic xác định điều kiện để spend cái output đó. 
+Bài toán đó gọi là cryptographic puzzle hay locking script(witness script)
+
+VD xét TH tiền thừa: transaction outputs chứa 2 thành phần(vout là mảng có 2 phần tử). Mỗi phần tử chứa value và scriptPubKey. Value là lượngcoin hay là  1 số là bội số satoshi; scriptPubKey là bài toán khó cần giải để xác thực giao dịch(vì nó chứa public key or bitcoin address(public key hash), bản chất nó k chứa thông tin ai gửi ai nhận mà chứa bài toán để ai giải đc thì lấy mà thôi). 2 phần tử thì 1 là tiền thừa gửi lại chính mình, 1 là tiền gửi đi.
+
+-> Transaction input xác định UTXO nào sẽ đc dùng và cung bằng chứng sở hữu UTXO đó để thực hiện giao dịch thông qua unlockcing script. 
+Để build giao dịch gửi tiền, ví phải chọn 1 UTXO, nếu UTXO đó đủ value để gửi tiền thì dùng, nếu k nó sẽ dùng thêm các UTXO đến khi đủ(và UTXO k chia nhỏ đc nên xuất hiện tiền thừa đó). Mỗi UTXO consumed, phải tạo ra 1 input trỏ vào cái UTXO đó và unlock nó với unlocking script. 
+
+Input có 3 phần(output chỉ có 2): 1 là con trỏ tới UTXO, tức là trỏ tới mã hash của transaction và sequence number, nơi mà UTXO được recorded trong blockchain; 2 là 1 cái unlocking script mà ví tạo ra để thỏa mãn điều kiện spending được set trong UTXO. Thông thường, unlocking script chỉ là signature và pubkey là thỏa mãn điều kiện chứng minh chủ sở hữu bitcoin r; 3 là sequence number
+Trong blockchain explorer có người gửi, người nhận này nọ nhưng thực tế dạng raw của transaction chỉ có mỗi vin. vin là mảng gồm 1 phần tử có txid(transaction id chứa UTXO), vout(output index xác định UTXO nào trong transaction có id là phần tử đầu tiên được sử dụng, thường có giá tị là 0 vì cái đầu tiên sẽ là zero. VD transaction có nhiều người nhận thì ở đây lấy người nhận đầu tiên(first UTXO created by transaction)(luôn là ng nhận coin và 2 là xử lý tiền thối nên k tính)), scriptSig, sequence.
+Unlocking script hay gọi là scriptSig(vì nó thg chứa signature) có trong input là thứ mà ví người gửi sẽ lấy thông tin từ UTXO của output và check cái locking script của nó kèm với pivkey và dùng nó để tạo ra unlocking script thỏa mãn locking script cho vào trong input dưới dạng scriptSig(thg là signature và pubkey), VD thao tác ký transaction trên metamask.
+
+Người gửi dùng UTXO nhưng k bt gì về UTXO này mà chỉ refer đến nó thông qua transaction hiện tại. K chỉ ta mà khi transaction mới được broadcast vào network, các validating node cx sẽ refer đến UTXO này để xác thực unlocking có đúng quyền sở hữu hay k. 
+Người gửi sẽ k bt gì về UTXO kể cả có bao nhiêu coin trong nó. Khi viết phần mềm bitcoin, bất cứ khi nào tạo transaction sẽ cần count fee(fee phụ thuộc vào kích thước transaction, VD có input size là bnh chẳng hạn), checking unlocking script,.. thì vc đầu tiên cần làm là refer đến UTXO trong blockchain để xác định đủ lượng UTXO cần dùng và build lên context. Nếu k transaction sẽ bị lỗi thiếu context. 
+
+=> Chú ý transaction output có vout, transaction input có vin và vin là 1 mảng có chứa 1 cái vout nữa thường có giá trị là 0 chỉ định id đầu tiên của UTXO.
+
+--> Các bitcoin software phải xử lý các transaction fee. transaction fee cũng làm tăng bảo mật vì hacker muốn đổi block và gửi lên cx phải bỏ ra 1 khoản fee. Transaction fee tính toán dựa vào kích thước của transaction bằng kilo bytes(kp là value output nhé). Nhưng nhìn chung thì fee dựa trên market. Ví dụ giá bitcoin tăng giảm cx ảnh hưởng đến fee chứ. Fee cx có phí cao hay thấp tùy vào người thực hiện giao dịch lựa chọn, cx có những lúc transaction được thực hiện mà k có fee. Fee cao sẽ được ưu tiên đào hơn, fee thấp or nofee có thể k được đào luôn hoặc đc đào sau 1 số block nhất định. Ban đầu fee là cố định nhưng như v sẽ gây ra sự tắc nghẽn nên phải có sự ưu tiên như v. Nó tính theo kiểu bao nhiêu bitcoin per kilobyte transaction.
+minrelaytxfee là thứ điều chỉnh giá trị của fee mà mỗi node có thể tùy ý lựa chọn, trong ví cx có option để ta lựa chọn kiểu đó. fee mà thấp hơn 0.0001 bitcoin thì coi như free luôn.
+VD: http://bitcoinfees.21.co là trang cung API để tính toán fee và cả fee recommended cho user
+
+--> Ví phải xử lý manually input, nếu k tất cả khoản change sẽ thành transaction fee mặc định là toang. Thật ra là chỉ cần set change và set khoản gửi, độ chênh lệch unallocated sẽ hiểu ngầm là cho miner. 
+VD gây quỹ, 1 người sẽ nhận được rất nhiều tiền từ nhiều người khác nhau giả sử hàng trăm nghàn người và họ dùng khoản tiền gây quỹ đó mua sách. V thì transaction sẽ bao gồm many inputs sẽ có size rất lớn. Phí bỏ ra sẽ lớn, người đó phải tính số tiền bằng cách lấy kích thước transaction nhân với per-kilobyte fee. Vì phải refer tới các UTXO cũ mà có rất nhiều UTXO vì ở đây ta coi là TH mỗi người gửi vào 1 lượng nhỏ thành 1 số tiền lớn và dùng số tiền lớn đó.
+
+-> Trước khi transaction được truyền đi, nó được serialized. Tức là convert data structure đó thành format mà chỉ truyền đc 1 byte 1 lúc(byte stream). 
+VD: 1 chuỗi output các trường: amount-lockingscript size-lockingscript
+
+Các lib và framework bitcoin k lưu transaction dưới dạng byte-stream vì nó cần parse rất phức tạp mỗi khi ta muốn access vào các trường. Do đó nó lưu các transaction dưới dạng data structure(thg là structure hướng đối tượng). Chuyển từ byte-stream sang data structure đó gọi là deserialization or transaction parsing, và ngược lại gọi là serialization. 
+=> Hầu hết các bitcoin lib đều có built-in functions serialization và deserialization.
+
+Tương tự trc khi transmit to network thì input cx đc serialized tương tự output theo: transaction hash-outputindex-unlocking script size-unlocking script-sequence number
+
+
+
+# Script language
+Script language là ngôn ngữ kịch bản(khác với programming language). Ngôn ngữ kịch bản đc thông dịch(chứ kp biên dịch), trọng tâm của nó kp là xd ứng dụng mà là cung cấp hành vi cho ứng dụng hiện có, bảo ứng dụng làm gì step by step nên nó dễ học hơn 1 ngôn ngữ lập trình, k cần biên dịch sang mã nhị phân, thg chạy bên trong 1 ct khác, code ngắn gọn, vd: JS, PHP, Python, Perl,..
+=> Ns là v chứ vai trò của nó như 1 ngôn ngữ lập trình, có thể dùng phát triển ứng dụng nhưng dễ học và dễ hiểu hơn rất nhiều.
+
+-> Ứng dụng trong bitcoin
+Cả locking script trong UTXO và unlocking script đều được viết bằng scripting language. Khi validate transaction, unlocking script sẽ được thực thi để xem có thỏa mãn điều kiện đặt ra trong locking script hay k.
+Ngôn ngữ kịch bản đơn giản có thể thiết kế để hoạt động trong 1 phạm vi nhỏ và thực thi bên trong hardware, nhưng lại làm đc những điều to lớn với những cú pháp đơn giản mà ngôn ngữ lập trình bth có thể xử lý. Ở đây nó đc dùng trong phạm vi hẹp là unlocking script để xác thực giao dịch. 
+=> Mặc dù các transaction bây giờ chỉ đơn giản là pay to public key hash script nhưng thực tế locking script có thể thực hiện đc rất nhiều thứ phức tạp.
+
+-> Bitcoin transaction script language là ngôn ngữ bị giới hạn. Nó k có vòng lặp or luồng phức tạp. Giới hạn này làm cho nó k thể tạo ra vòng lặp vô tận hay các logic quá phức tạp that can be embedded in a transaction để gây ra DDOS attack -> tức là DDOS làm gián đoạn kiểu gửi 1 request bị lặp vô tận chẳng hạn làm cho hệ thống xử lý nh cái như v sẽ chậm lại thì script language của bitcoin cản đc điều đó bằng vc giới hạn script language như v. 
+
+Script language của bitcoin là stateless. Tức là k có trạng thái trước và sau khi xác thực mà script sẽ chứa mọi thông tin cần để xác thực. Điều này ép buộc 1 người đã verify script, thì tất cả các ng khác k thể lấy kết quả đó mà vẫn phải verify lại script. Tức là tất cả mn đều biết verify tạo sự đồng thuận, tăng cường bảo mật.
+
+-> Cơ chế:
+Mỗi input sẽ chứa unlocking script và refer tới UTXO trc đó. Phần mềm sẽ copy unlocking script và lấy UTXO referenced bởi input và copy locking script từ UTXO. 2 cái script sẽ đc executed in squence. Input valid nếu unlocking script thỏa mãn locking script conditions. Mọi inputs đc validated independently là 1 phần của validation toàn bộ giao dịch. 
+
+Bitcoin'scripting language sử dụng stack thao tác với item từ trái sang phải. Khi có 1 operation, VD: OP_ADD or OP_EQUAL(ss 2 thứ) -> nó pop 2 thứ đó khỏi stack -> xử lý và push lại kết quả TRUE (khi so sánh) chẳng hạn vào stack. Đó chính là cơ chế nó kiểm tra và nếu validate đúng nó sẽ push TRUE vào stack báo hiệu valid transaction
+VD: locking script có bài toán: 3 OP_ADD 5 OP_EQUAL
+unlocking script chứa: 2
+=> Software tạo ra sẽ kết hợp thành: 2 3 OP_ADD 5 OP_EQUAL => đây là bài toán check 2+3=5 thì đúng, trả ra OP_TRUE thêm vào top của stack báo hiệu đây là 1 valid transaction(trong thực tế bài toán nó sẽ cực kỳ khó chứ k vớ vẩn như này).
+Nếu top của stack mà trống or FALSE hay gì đó (software phải xử lý) thì invalid transaction.
+=> Đó là phiên bản cũ: vì lý do bảo mật, ng ta có thể tạo ra các unlocking dị dạng để push vào stack làm hỏng locking script. Thế nên bh, người ta làm kiểu: executed unlocking script nếu k có lỗi(các OP và số k thừa hay thiếu gì) thì main stack sẽ đc copy và execute tiếp locking script với dữ liệu đã copy đó. Tiếp tục tương tự, chỉ là nó tách riêng ra và exec r kiểm chứng k có lỗi mới exec tiếp locking script mà thôi.
+
+Pay-to-Public-Key-Hash (P2PKH). Outputs gồm locking script khóa cái output gắn vào 1 cái public key hash. VD: Alice gửi vào quán cafe của Bob thì locking script của transaction kiểu: OP_DUP OP_HASH160 <Cafe Public Key Hash> OP_EQUALVERIFY OP_CHECKSIG. Còn unlocking script kiểu: <Cafe Signature> <Cafe Public Key>
+=> 2 cái kết hợp: <Cafe Signature> <Cafe Public Key> OP_DUP OP_HASH160 <Cafe Public Key Hash> OP_EQUALVERIFY OP_CHECKSIG => đúng thứ tự thêm vào stack
+OP_CHECKSIG check signature với public key(2 cái đó đang ở trong stack thì pop ra để kiểm tra)
+OP_EQUALVERIFY kiểm tra PubKHash trong script với cái PubKHash người dùng gửi và được hash bởi Hash160 và push vào stack trước đó
+
+-> Bitcoin Script là stack language. Câu đk của nó dùng các opcodes: IF ELSE ENDIF NOTIF. Condition sẽ được thực thi trước IF opcode, khác với language bth.
+
+VERIFY là opcode nếu condition not TRUE-> terminate luôn(Kiểu assert trong ngôn ngữ khác ấy, k có else mà dừng luôn CT)
+VD: HASH160 <expected hash> EQUALVERIFY <Bob's Pubkey> CHECKSIG
+Bob dùng unlocking script là <Bob's Sig> <hash pre-image> => cả pre-image và sig phải đủ thì mới unlock đc. Viết lại dưới dạng IF: 
+HASH160 <expected hash> EQUAL
+IF
+<Bob's Pubkey> CHECKSIG
+ENDIF
+=> EQUAL sẽ push result TRUE/FALSE vào stack và để cho opcode tiếp theo xử lý, EQUALVERIFY k lưu kết quả vào stack mà chỉ cho biết exec tiếp hay k.
+
+VD: 1 trong 2 người Alice or Bob sẽ có thể nhận tiền. Sử dụng multisig script, ta tạo IF clause kiểu: 
+IF
+<Alice's Pubkey> CHECKSIG
+ELSE
+<Bob's Pubkey> CHECKSIG
+ENDIF
+=>Alice redeem với unlocking script: <Alice's Sig> 1
+Bob redeem với <Bob's Sig> 0
+=>tương tự phức tạp:
+IF
+script A
+ELSE
+IF
+script B
+ELSE
+script C
+ENDIF
+ENDIF
+=> TRUE FALSE sẽ chạy script B. Như v ta có thể mở rộng vô hạn execution path và sử dụng bằng cách tạo ra unlocking script với true false kiểu này. 
+
+VD: multisig với 2-of-3 người và lawyer là người dự phòng TH mọi người mất key.
+IF
+ IF
+  2
+ ELSE
+  <30 days> CHECKSEQUENCEVERIFY DROP
+  <Abdul the Lawyer's Pubkey> CHECKSIGVERIFY
+  1
+ ENDIF
+ <Mohammed's Pubkey> <Saeed's Pubkey> <Zaira's Pubkey> 3 CHECKMULTISIG
+ELSE
+ <90 days> CHECKSEQUENCEVERIFY DROP
+ <Abdul the Lawyer's Pubkey> CHECKSIG
+ENDIF
+= >2 trong 3 người dùng tiền(path 1): 0 <Mohammed's Sig> <Zaira's Sig> TRUE TRUE
+luật sư giúp lấy tiền(path 2): 0 <Saeed's Sig> <Abdul's Sig> FALSE TRUE
+luật sử lấy hết(path3) vì cả 3 mất hết key: <Abdul's Sig> FALSE
+
+
+
+# Thuật toán tạo signature cho transaction
+Digital signature gồm 2 phần: 1 là thuật toán để tạo ra signature bằng private key từ transaction, 2 là thuật toán cho phép bất cứ ai cũng có thể xác thực signature.
+
+-> Thuật toán tạo digital signature là ECDSA (Elliptic Curve Digital Signature Algorithm) (thuật toán này cũng dùng để tạo pubkey từ pivkey)
+=> Sig=Fsig(Fhash(m),dA) => dA là private key, m là transaction, Fsig là signing alg tạo ra Sig=(R,S) có 2 thành phần. R, S được calculate sẽ đc serialize thành byte-stream bằng international standard encoding scheme-Distinguished Encoding Rules(DER)
+
+--> Một signature chỉ xác nhận 1 phần dữ liệu từ transaction. Bitcoin signature có thể indicate phần nào của transaction signed băng private key thông qua SIGHASH flag. Nó là 1 byte được thêm vào signature. Mỗi signature có 1 SIGHASH flag và cờ có thể khác nhau với input khác nhau.
+VD: 1 transaction với 3 signed inputs có 3 signatures với SIGHASH khác nhau. Mỗi chữ ký sẽ sign(commit) từng phần khác nhau của transaction. 
+Mỗi input có 1 signature trong unlocking script nên 1 transaction có nhiều input nên mới cần nhiều signature để xác thực. VD: 1 transaction có thể chứa nhiều owner, mỗi người chỉ ký 1 input trong transaction, tập hợp lại mới ký thành 1 transaction valid (Flag này như kiểu ENUM đã biết ấy).
+
+---> SIGHASH flag sẽ dùng trong quá trình ký và xác thực, nó copy transaction và các trường xác định bị truncated rồi transaction sẽ được serialized. SIGHASH sẽ thêm vào cuối signature ở bước cuối và kết quả được hash. Hash đó là message được signed: Hash(DER + SIGHASH) với DER là Sig sau khi được serialize.
+=> SIGHASH flag có nhiều option, chọn cái nào thì những phần khác nhau của transaction sẽ bị truncated. Bằng cách thêm SIGHASH là bước cuối trước khi hash nên signature xác thực SIGHASH luôn để SIGHASH k thể bị thay đổi(VD bởi miner)
+2 bits cờ cuối của DER chính là SIGHASH flag đó.
+
+Tùy loại SIGHASH khác nhau mà sẽ có ứng dụng khác nhau. SIGHASH(ALL,NONE,SINGLE) có thể dùng kết hợp với modifier flag(ANYONECANPAY). VD: ALL|ANYONECANPAY(crowdfunding transaction) vì cung signature sẽ ký mọi input để dùng tất cả tiền trong tk và anyone can pay vào tk đó; NONE(blank check-chi phiếu trắng. Là chi phiếu được ký sẵn mà chưa ghi số tiền(bình thường thì người tạo ra chi phiếu sẽ ghi số tiền trên nó và ký vào, đưa cho người khác thì họ được quyền rút max số tiền được ghi, nhưng ở TH này họ tin tưởng ng rút luôn nên cho họ tự ghi số tiền mình muốn)); 
+
+--> Cơ chế:
+Thuật toán ECDSA dùng hàm Fsig để tạo ra Sig=(R,S). Cơ chế hàm này là:
+Đầu tiên ECDSA generate ephemeral private public key pair. Temporary private key tạo ra bằng random number k. Từ k, ta generate temp pubkey P tương ứng.
+Vc dùng chung 1 giá trị k trong 2 transaction khác nhau sẽ làm lộ private key. Do đó người ta k tạo ra k bởi random-number generator seeded with entropy mà dùng deterministic-random process seeded with transaction data để đảm bảo mỗi trans tạo ra 1 k khác nhau, theo tiêu chuẩn RFC 6979. Nếu ta muốn tạo 1 app cho phép ký transaction trong bitcoin thì phải dùng tiêu chuẩn đó để tạo ra k khác nhau cho mỗi transaction để tạo signature.
+
+Generate temp pubkey từ k: P = k*G là phương trình ECC lấy tangent line bth
+Giá trị R là tọa độ x của public key P
+Giá trị S thì tính = k^(-1)(Hash(m) + dA*R) mod p với m là transaction data, R là giá trị nói bên trên, dA là signing pivkey, p là prime order của đường cong elip(prime order là PT khá phức tạp)
+=> Ra Sig=(R,S)
+
+-> Để verify thực chất là làm ngược lại hàm signing:
+P = S^(-1)*Hash(m)*G + S^(-1)*R*Qa 
+với R, S là giá trị signing ok
+m là transaction data được signed rồi
+G là generator point của đường cong elip trong ECC
+Qa là public key 
+=> Nếu giá trị trục x của P tính ra = R thì signature valid
+=> Chú ý là trong quá trình verify signature thì pivkey kbh bị lộ, ở đây là ta tính ra temp pubkey P rồi lấy giá trị trục x ss với R thôi
+
+=> ECDSA quá phức tạp. Khó hiểu tường tận làm sao nó suy ra công thức toán học, url: https://www.instructables.com/Understanding-how-ECDSA-protects-your-data/
+
+
+
+# Multisignature transaction
+-> Multisignature cũng chỉ là transaction dùng multisignature script chứ kp P2PKH script nx. Nó đặt điều kiện dùng N key trong script và cần ít nhất M key trong số đó để unlock(M-of-N scheme). Locking script có dạng: M <key1> <key2> ... <keyN> N CHECKMULTISIG
+
+VD: 2-of-3 scheme với locking script là: 2 <Public Key A> <Public Key B> <Public Key C> 3 CHECKMULTISIG. Thì unlocking script có thể là <Signature B> <Signature C> or bất cứ 1 tổ hợp 2 pivkey nào của A, B, C. 
+=> VD: Kết hợp unlocking và locking script lại sẽ có 0 <Signature B> <Signature C> 2 <Public Key A> <Public Key B> <Public Key C> 3 CHECKMULTISIG => đúng thì gửi TRUE vào stack
+Người ta thêm số 0 vào đầu cho đủ N tham số để đầu vào = N tránh bug
+
+-> P2SH
+VD: người ta tạo ra 1 multisig script 5 người yêu cầu ít nhất 2 trong số đó để ký transaction -> mỗi customer phải dùng phần mềm có khả năng tạo ra custom scripts và mỗi người phải biết cách tạo ra custom script, transaction tạo ra sẽ lớn hơn 5 lần 1 transaction bth vì chứa 1 lượng pubkey rất dài. Mỗi transaction lớn đó sẽ mang theo UTXO set trong RAM ở mỗi full node cho đến khi nó được spent. Điều này làm cho locking script trở nên khó khăn.
+P2SH xử lý bằng cách thay thế locking script với cryptographic hash. Khi transaction spend UTXO, nó phải chứa script match cái hash, hay pay to a script matching the hash, the script that will be presented later khi output đc spent.
+
+Bth: 
+Locking Script: 2 PubKey1 PubKey2 PubKey3 PubKey4 PubKey5 5 CHECKMULTISIG
+Unlocking Script: Sig1 Sig2
+P2SH:
+Redeem Script: 2 PubKey1 PubKey2 PubKey3 PubKey4 PubKey5 5 CHECKMULTISIG
+Locking Script: HASH160 <20-byte hash of redeem script> EQUAL
+Unlocking Script: Sig1 Sig2 <redeem script>
+=> P2SH khiến locking script k còn chứa điều kiện 2of5 người nx. Thay vào đó chỉ có mã hash của nó ở trong locking script. Nhờ v mà script trở nên ngắn gọn hơn. Mã hash đó dùng SHA256 rồi đến RIPEMD160. Nhờ v mà locking script lock output với cái hash này, pay to a script with this hash chứ kp pay to this 5-key multisignature script.
+
+VD: 1 team có 1 tk chung để khách hàng gửi tiền vào, muốn dùng tài khoản đó cần ít nhất 2 ng trong nhóm. customer make a payment rất dễ bằng cách thêm locking script rất ngắn như v(chuyển tiền vào đó). team tiêu tiền thì cần 2 chữ ký và thêm redeem script trong unlocking script:
+<Sig1> <Sig2> <2 PK1 PK2 PK3 PK4 PK5 5 CHECKMULTISIG>
+Khi gửi đi: 
+<2 PK1 PK2 PK3 PK4 PK5 5 CHECKMULTISIG> HASH160 <redeem scriptHash> EQUAL
+=> Đầu tiên redeem script sẽ check locking script để đảm bảo hash matched.
+Khi hash matches, unlocking script sẽ được thực thi trên chính nó luôn:
+<Sig1> <Sig2> 2 PK1 PK2 PK3 PK4 PK5 5 CHECKMULTISIG
+=> Quá hay, locking script k cần chứa cục đó nx mà unlocking script tự có để tự thực thi là xong mà k cần locking script nx, chỉ cần check unlocking script đúng là xử lý cái locking script đó. Nó tạo sự phức tạp cho người nhận chứ kp người gửi nên khách hàng sẽ thấy thân thiện hơn. Khoản phí lớn vì giao dịch lớn sẽ kp do mỗi khách hàng gửi đến gánh nx. Nó chuyển gánh nặng về lưu trữ dữ liệu từ output sang input, từ hiện tại sang tương lai, chỉ khi nào team tiêu tiền thì mới tốn tg và tiền bạc (vì kích thước của script lớn thì kích thước trans lớn) (nhưng thg chỉ tiêu có 1 lần nên chả sao).
+
+--> Kiểu P2SH cũng tạo ra địa chỉ chứa tiền và cần người cung unlocking script để vào tiêu tiền, nó encode script hash thành 1 address với BIP-13. Vì địa chỉ bitcoin hiển thị ra màn hình là Base58Check encoding of 20-byte hash of pubkey, còn địa chỉ P2SH là Base58Check encoding of 20-byte hash of a script tương tự => nó lấy luôn cái đó làm địa chỉ cho nơi nhận sử dụng P2SH. P2SH dùng version prefix 5, ở Base58Check là 3. Nên khi thấy địa chỉ bắt đầu bằng số 3 là báo hiệu đây là địa chỉ ứng với 1 script chứ kp 1 pubkey như bth nhưng nó vẫn hoạt động y như v. P2SH ẩn đi complexity nên người dùng tạo payment sẽ k thấy script.
+
+--> Redeem script:
+Chú ý redeem script là any valid script. Nó là cái mà đáng lẽ ta gửi vào nó thì bh lại gửi vào hash của nó là locking script. Mà bh redeem script có thể là bất cứ thứ gì, đồng nghĩa ta có thể tạo ra đủ mọi loại giao dịch phức tạp với locking script rất ngắn với cơ chế tương tự. Chỉ cần thay đổi redeem script theo bất cứ loai giao dịch nào ta muốn. Chú ý redeem script k đc chứa P2SH vì nó k cho phép recursion. Về mặt kỹ thuật nó k cấm dùng return trong redeem script nhưng nếu thực tế ta dùng thì transaction sẽ invalid vì k đc phép exec RETURN khi đang validate
+
+Redeem script k hiển thị trong network cho đến khi ta sử dụng P2SH output. Nếu ta sử dụng P2SH và lock output với hash của invalid redeem script, transaction vẫn sẽ consider là valid và accepted nhưng k thể spent đc nx. 
+VD: ABC là team tạo tk và DEF là khách hàng gửi tiền vào. Nhưng nếu ABC tạo ra locking script và redeem script invalid thì khi BCD gửi tiền vào nó vẫn nhận là valid và UTXO successfully locked. Nhưng ABC sẽ k thể dùng khoản tiền đó đc vì redeem script là invalid(gây ra bitcoin bị mất vĩnh viễn). Bởi vì network vẫn chấp nhận locking script P2SH kể cả redeem script invalid, NN là vì ta đã hash nó nên network nó chỉ biết là nó nhận cái hash đó(redeem đc hash) chứ bản thân nó k có liên hệ gì với redeem script gốc nên nó k check gì hết. 
+
+
+
+# Ứng dụng lưu non-payment data
+-> Có thể dùng transaction scripting language để lấy lợi thế về tính bảo mật ứng dụng cho các lĩnh vực khác. Trước đây họ dùng kiểu transaction output là recorded data. VD: record lại 1 file dữ liệu mà anyone có thể thiết lập proof-of-existence của file đó(chứng minh file đó tồn tại) và 1 ngày nào đó refer tới cái transaction đó để lấy dữ liệu. 
+Vấn đề liệu có dùng blockchain của bitcoin để lưu dữ liệu klq đến payment có đc k? Nếu dùng lưu dữ liệu như là nonpayment data thì có thể gây ra blockchain bloat, các full node sẽ phải lưu dữ liệu mà nó k có ý định lưu. VD: transaction như v tạo ra UTXO mà k thể spent vì trong đó kp là tiền mà là data. Mỗi 1 address có freeform 20-byte data, nó klq j đến pivkey và UTXO sẽ kbh spent -> nếu kbh spent thì luôn lưu trong RAM và kbh bị remove khỏi UTXO set khiến cho UTXO database phình to và nặng gọi là bloat.
+
+-> Version 9.0 của Bitcoin Core client, RETURN ra đời cho phép dev add 80 bytes of nonpayment data vào output, nó là provably unspendable output k cần phải lưu trong UTXO set. RETURN outputs lưu trong blockchain và chiếm disk storage và contribute to blockchain size nhưng k lưu trong UTXO set và k gây bloat UTXO memory pool và k cost more RAM of full node. Vì RAM of fullnode còn lưu UTXO mem pool riêng cho các UTXO set chưa spent
+RETURN script: RETURN <data>
+
+Data bị limit 80 bytes và thg lưu dạng hash. Nhiều app thêm prefix vào trước data để identify app. VD: Proof of Existence dùng 8 byte prefix DOCPROOF là ASCII encoded as hexadecimal. RETURN k có unlocking script, nó thg là 1 output với 0 bitcoin. Nếu RETURN refer như 1 input thì sẽ bị halt và invalid, sẽ trả ra FALSE vào stack. 
+1 standard transaction chỉ có 1 RETURN output. A single RETURN output có thể được kết hợp trong 1 transaction có nh output có nhiều type khác nhau.
+
+
+
+# Dùng timelock
+-> nLocktime
+Timelocks cho phép spending sau 1 khoảng thời gian or thao tác giao dịch với thời gian phức tạp. nLocktime(hay locktime) xác định tg sớm nhất transaction đc valid. Nó thg set là 0 tức các trans đc truyền đi ngay. Nếu nLocktime dưới 500 triệu, nó như 1 mốc blockheight, sẽ k valid và relay trong blokchain nếu trans được gửi trước 1 blockheight xđ; trên 500 triệu, nó sẽ k valid trước 1 khoảng thời gian xác định. Nếu transaction xác định transmitted to network trước nLocktime thì invalid, reject ngay từ node đầu tiên và k truyền sang các node tiếp theo.
+
+-> CLTV
+VD: Alice gửi Bob 1 coin sau 3 months. Bob k thể transmit transaction và sử dụng tiền cho đến thời hạn 3 tháng sau. Nhưng Alice có thể spend tiền trước 3 tháng xảy ra, nếu Alice tiêu khiến số dư tk còn dưới 1 coin thì sẽ k thể gửi đc cho bob nx và giao dịch invalid. 
+=> Bob k thể kiểm soát đc giao dịch và có thể bị Alice lừa theo cách đó. Để đảm bảo rằng Alice sẽ còn đủ 1 coin sau 3 tháng để tiến hành giao dịch, timelock restriction phải placed on UTXO và là 1 phần của locking script chứ kp nằm trong 1 transaction vì transaction đó chưa bt valid hay k vì 3 tháng sau Alice bỏ chạy thi transaction kbh được tạo ra. Do đó họ dùng Check Lock Time Verify(CLTV). 
+
+A new script operator CLTV dựa trên BIP-65 được thêm vào scripting language. Nó k thay thế nLocktime mà dùng mở rộng nLocktime. Nó sẽ halt exec nếu outcome là FALSE, TRUE thì continues. 
+Để dùng đơn giản thêm opcode của nó vào redeem script. VD Alice trả vào Bob addr:
+DUP HASH160 <Bob's Public Key Hash> EQUALVERIFY CHECKSIG
+=> lock trong 3 tháng: <now + 3 months> CHECKLOCKTIMEVERIFY DROP DUP HASH160 <Bob's Public Key Hash> EQUALVERIFY CHECKSIG
+<now + 3 months> là block height(current block height + 12960 blocks) or time value(current Unix epock time + 7760000 secs).  
+Khi Bob dùng UTXO được lock bằng time, Bob phải tạo transaction refer tới UTXO như 1 input. Bob phải dùng sig + pubkey trong unlocking script của transaction input đó và tg đã trôi qua phải >= timelock(hay nLocktime) trong CHECKTIMEVERIFY Alice set(Ở đây là now + 3 months). Bob then broadcast trans vào network. CHECKLOCKTIMEVERIFY <= nLocktime thì sẽ invalid.
+DROP trong trong opcode là nếu CLTV thỏa mãn, time parameter phía trc nó remain top item on stack sẽ phải bị drop.
+=> Lúc này Alice locked the UTXO itself, cả Bob và Alice đều k thể tiêu khoản tiền đó trong 3 tháng. Tức thay vì tạo ra 1 giao dịch bảo là 3 tháng sau gửi cho ai bao nhiêu tiền. Ta vẫn giao dịch như bth nhưng thêm opcode vào redeem script của output để khiến output đó chỉ dùng đc sau 1 khoảng thời gian xác định là 3 tháng. Tức là thực chất là giao dịch đã xảy ra r và ta thao tác trực tiếp lên output đặt là khi nào mới được dùng. Bob và Alice k thể can thiệp đc nx khác với cách trước là giao dịch chưa xảy ra.
+The standard is defined in BIP-65 (CHECKLOCKTIMEVERIFY).
+
+=> Tức là nLocktime là tạo ra 1 giao dịch và 3 tháng sau mới xác thực valid hay không tùy vào nLocktime lớn hay nhỏ thì là blockheight or mốc tg xđ. Còn CLTV là tạo ra 1 giao dịch và xác thực ngay, bên trong có ghi thêm đk sau bao lâu mới được dùng.
+
+-> Relative timelock là 1 giao dịch đươc thực hiện sau 1 giao dịch khác trước đó hoàn thành. 2 loại transaction-level relative timelock(cơ chế đồng thuận với giá trị của nSequence-BIP-68) và script-level relative timelock(CHECKSEQUENCEVERIFY(CSV)) opcode-BIP-112
+
+--> Relative Timelocks with nSequence: set nSequence field trong mỗi input của transaction. 1 transaction sẽ chứa input với nSequence là giá trị nhỏ hơn 2^32. Transaction đó sẽ diễn ra trong mempool cho đến khi nó được thay thế bởi 1 transaction khác sử dụng same input với giá trị nSequence cao hơn, gọi là finalized and mined. Sau đó chờ 1 lượng block >= nSequence là được dùng.
+Với transaction có nLocktime or CHECKLOCKTIMEVERIFY cũng có nSequence và giá trị nSequence đó phải nhỏ hơn 2^32 mới có hiệu ứng. Mặc định trong các trans bth nó là 2^32-1
+
+---> Vai trò của trường nSequence
+Transaction có input refer tới các UTXO dùng tới, nhưng bh mỗi input ta có thể chủ động truyền thêm 1 trường nSequence. Với nLocktime bth thì trường nSequence phải lớn hơn 2^32(chả để làm gì cả), với relative timelock thì nSequence chỉ số lượng block cần trôi qua, thế thôi.
+VD: 1 trans có input với nSequence relative timelock of 30 block chỉ valid khi ít nhất 30 blocks trôi qua kể từ khi UTXO đc refer tới.
+
+BIP-68 define 1 nSequence encoding 32 bit từ 0 đến 31. >=0-15 là bit giá trị, bit 22 là type-flag, bit 31 là disable flag. Disable flag k set thì là relative locktime, set thì nSequence sẽ reserved để dùng các tiếp các thứ khác. Type flag is set thì nSequence là bội số của 512s, type-flag k set, nSequence là số lượng block.
+
+--> Relative timelocks với CSV: nó dùng opcode CHECKSEQUENCEVERIFY(CSV). CSV opcode cho phép spend UTXO nếu transaction đó có nSequence >= CSV parameter. Hay nói cách khác nó giới hạn spend UTXO sau 1 số lượng block or giây là tối thiểu.
+As with CLTV, the value in CSV must match the format in the corresponding nSequence value. If CSV is specified in terms of blocks, then so must nSequence. If CSV is specified in terms of seconds, then so must nSequence.
+
+Relative timelocks thg dùng kiểu có nhiều transactions được tạo ra và ký nhưng vẫn đc giữ offchain. Các transaction con sẽ k đc dùng nếu parent trans chưa propagated, mined, aged by the time specific. Kiểu transaction này phải đc thực thi r mới đến cái kia, r lại đến cái kia khác nx và cứ thế. 
+
+=> KL: Tức là bitcoin blockchain cho phép thao tác với time rằng giao dịch được thực hiện sau 1 khoảng tg -> nó dùng relative or absolute. Absolute là thực hiện vào cụ thể lúc nào, relative là sau khi bao nhiêu block đc thêm vào thì transaction nào đc xử lý.
+Absolute là transaction-level dùng nSequence, nSequence là kiểu transaction cứ đổi đến khi nào same input + nSequence lớn thì finalized and mined(là được thực hiện);
+nSequence là dãy 32 bits biểu diễn với 2 biến cờ đã biết -> relative là script-level sử dụng opcode CSV có parameter, nó evaluate redeem script cho phép spend chỉ khi nSequence lớn hơn or bằng CSV parameter, đó là cơ chế bên trong của vc cho phép spending UTXO sau 1 lượng block or seconds nhất định.
+
+-> Timestamp set trong header là set bởi miner. Do sự chênh lệch về vĩ độ, độ trễ mạng mà miner có thể lie about time trong block để nhận thêm fees. Người ta dùng BIP-113 để tăng bảo mật cho timelocks. Nó là 1 cách đo thời gian đồng thuận mới Median-Time-Past. Nó lấy timestamps 11 block trước đó và tìm trung bình. Median time đó là consensus time dùng cho all timelock calculations => ảnh hưởng của 1 block bất kỳ bị suy giảm, k có miner nào có thể influence timestamp để nhận thêm fee nx(tức k đi theo múi giờ gì nữa mà đi theo thời gian đúng của 11 block trước đó trong blockchain). Nó thay đổi vc tính toán thời gian của nLocktime, CLTV, CSV, nSequence. Consensus time được tính toán bởi Median-Time-Past luôn tầm trước wall-clock time(thời gian thực đã qua) 1h.
+
+--> Fee sniping: miner rewrite past block higher fee transactions from future block để nhận nhiều lợi nhuận hơn. VD: block #100000 là block highest, thay vì đào #100001 để thêm vào chain thì miner lại đào lại #100000. Họ include bất cứ valid trans vào block #100000 của họ. Họ k cần phải remine block với same trans. Họ tùy ý chọn các trans nhiều profit nhất vào block của họ. Họ có thể kéo transaction từ hiện tại vào quá khứ khi họ tạo #100000. 
+Để tránh fee sniping, họ dùng nLocktime set on new transaction to #current block+1 sẽ khiến miner reminer đi chăng nx cx chỉ remine đc các transaction valid vào lúc đó và k nhận đc thêm fee. Cơ chế là gắn trường nLocktime của transaction vào trong block
+=> Tức là miner họ chọn các transaction nhiều kB trong 1 block đã đc mine để remine lại nó. Với kB nh hơn họ sẽ nhận được nh fee hơn. Và nLocktime sẽ gắn transaction mới nhất vào block + 1 để đảm bảo miner chỉ remine lại các trans trong block đã là valid đúng chứ k đc tùy ý như trc. 
+VD: miner A đang mine 1 trans thì thằng khác mine thành công trước nên sát nhập vào chuỗi của A, khi chuỗi của thằng A đã được update rồi mà A muốn mine lại cái block này, nó k thể chọn new higher fee trans được vì trans này ở main chain hiện tại k gắn với cái block cũ đào lại này mà gắn với block mới nhất theo main chain cơ, miner A chỉ có cách đào tiếp block mới nhất theo main chain thôi
+

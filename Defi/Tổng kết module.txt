@@ -1,0 +1,274 @@
+Defi
+
+
+
+# Basic
+-> Phân biệt Cefi và Defi:
+Finance: mọi hoạt động liên quan đến tiền
+
+--> Cefi: custodial(ủy thác mọi thứ cho ngân hàng), permission(xác minh danh tính, ngân hàng cho phép tham gia và cũng có quyền từ chối), trust(tin tưởng và tuân thủ nguyên tắc của bên thứ 3), centralized => tiền fiat, pháp luật bảo vệ, điều tra danh tính, trả phí cho ngân hàng hàng tháng
+
+---> Cefi trong crypto:
+Centralized exchange(sàn giao dịch tập trung): sàn coinbase, binance, okex, huobi,.. -> gửi tiền vào sàn giữ hoàn toàn, sàn scam hay hack là mất
+Các dịch vụ lending, borrowing: nexo, blockFi, constant, salt,.. nó cefi ở chỗ các chỉ số rate, interest đều được quyết định bởi chính dự án đó, tức bên thứ 3 quyết định lãi suất chứ kp người dùng tự quyết định
+Stable coins bản cũ: các đơn vị sở hữu 1 lượng tài sản nhất định bằng số lượng coin họ phát hành. VD đồng tether, họ phát hành ra 1 lượng bằng 5 tỷ USDT nhưng thực tế họ có sở hữu số tiền đó hay k thì ai mà biết, chúng ta phải tự tin rằng họ sở hữu 1 lượng tài sản như v khi dùng đồng coin của họ. Nếu 1 ngày họ giao dịch thua lỗ và số tiền của họ k đạt được như v khiến cho lòng tin sụp đổ -> giá các đồng coin đó sẽ tụt k phanh
+
+--> Defi: Non-Custodial(k ủy thác), permissionless(k cần giấy phép), trustless(éo cần tin ai), decentralized
+Các đồng crypto phát hành mang những yếu tố của thị trường defi. VD: DAI stable coin phát hành bởi tổ chức Maker, ai muốn có thì gửi tiền vào và nhận lượng DAI tương ứng theo tỉ lệ, ETH,..
+Tùy ngân hàng, dịch vụ cho phép dùng các đồng coin defi để giao dịch hay k thì các ngân hàng, dịch vụ đó cx nằm trong defi finance. Cx có các sàn giao dịch(balancer, airswap,..), công ty bảo hiểm(VouchForMe,..), sàn chứng khoán(broker)(Matcha,..), ví(coinbase, coin98, metamask), dịch vụ lending và borrowing dùng các đồng coin defi,..
+Sàn phi tập trung: uniswap, idex, binance dex, serum dex, kyber network,.. Người dùng vào sàn này éo cần xác minh danh tính, tạo private key mới và chơi thôi. K ai cản được kể cả pháp luật. Kể cả giao dịch bất hợp pháp cx k ai shut down tài khoản của ta được. Tham gia mọi lúc mọi nơi. Kp trả phí cho bên trung gian khi chuyển tiền
+=> Nhược điểm: k có pháp luật bảo vệ, k kiện đc, có phí giao dịch, ít người biết, chủ yếu tập trung trên ethereum, quên mật khẩu là ăn cứt.
+VD: swap coin từ ETH sang USDT mà có nhiều người có nhu cầu như v thì phí sẽ rất cao, vì tỉ giá đã chênh lệch, nhưng giá cao càng nhiều người muốn làm dựa án ở blockchain đó, sẽ càng được mở rộng, phát triển.
+Khi ethereum bị nghẽn thì phí sẽ cao gấp nhiều lần và thời gian sẽ lâu hơn
+
+=> Defi hiện chưa tiến vào được thị trường tài chính truyền thống mà mới chỉ ở thị trường tiền ảo crypto. Mọi thứ của Cefi đều có thể được thực hiện bằng Defi, thậm chí tốt hơn.
+Cefi: Alice -> ngân hàng -> Bob; Defi: Alice -> smartcontract -> Bob;
+
+-> Hệ sinh thái Defi gồm: Decentralized Coins(ETH, DAI,..); Decentralized Lending and Borrowing(Compound, Oasis,..); Decentralized Insurance(Opyn, VouchForMe,..); Decentralized Exchanges(Uniswap, Bancor,..); Liquidity Mining; Decentralized Oracles; Decentralized Derivatives(Idle, Hegic, Synthetix..); Synthetic Assets(Tokenlon, Synthetix,..)
+
+-> Các blockchain: Ethereum > Binance Smart Chain > Tron > Neo > TomoChain >.. về số lượng dự án ở thời điểm hiện tại. Còn có Solona đang phát triển hệ sinh thái riêng.
+Open Finance = Defi
+
+-> Smart contract < dự án - tổ chức < blockchain < hệ sinh thái defi
+Trong 1 blockchain có thể có nhiều tổ chức, dự án phát triển các sản phẩm của họ trên đó. Họ sẽ tạo ra các token riêng cho mỗi 1 dự án của họ để dùng nó trong riêng dự án cho chức năng gì đó. Tuy nhiên đến 1 lúc nào đủ lớn, họ có thể tạo ra 1 blockchain riêng cho họ với đồng coin riêng chạy độc lập. Nếu họ muốn phát triển hơn thì có thể phát triển thành hẳn 1 hệ sinh thái defi riêng có đầy đủ 8 thành phần ta đã biết bên trên như: stable coin, bảo hiểm, liquidity mining,..
+
+
+
+# Binance Smart Chain > Binance Chain:
+BNB là coin sàn giao dịch Binance Exchange. BNB được phát hành thông qua ICO. Ban đầu nó phát hành trên nền tảng blockchain của Ethereum dưới dạng token ERC-20. Sau đó, nó được chuyển sang tiêu chuẩn BEP-2 theo tỉ lệ 1:1 thành coin gốc của Binance Chain.
+Sau đó Binance ra mắt Binance Smart Chain chạy song song với Binance Chain. Tức là bh ta có thể tìm thấy đồng BNB ở 3 dạng: BNB ERC20 trên mạng ethereum, BNB BEP-2 trên Binance Chain, BNB BEP-20 trên Binance Smart Chain vì BSC dùng chung native token với BC luôn.
+=> BSC là blockchain độc lập chạy song song với Binance Chain nhưng thêm tính năng là smart contract như ethereum. BSC là phiên bản tương đồng Ethereum tương thích được với EVM của ethereum, do đó mọi ứng dụng DApp của Ethereum đều có thể chạy trên BSC. BSC dùng Proof of Staked Authority(PoSA) là kết hợp của cả PoS và Proof of Authority. BSC dựa trên Ethereum nên tiêu chuẩn BEP-20 cũng dựa trên ERC-20 mà thôi. Vc này cx tạo sự dễ dàng cho lập trình viên, tương thích nhiều ứng dụng mà đã tương thích từ trước với ethereum như Metamask,..
+2 chuỗi BSC và BC hoạt động cùng lúc nhờ khả năng tương tích cross chain trên nền tảng -> có thể chuyển đổi tài sản trên BC sang BSC nhanh chóng.
+Trong BSC: Peggy Coin là chỉ coin khác với BNB trên chuỗi Binance. 
+Nguồn cung Binance bị giảm sau mỗi quý vì họ burn coin hàng quý. BNB là tiền điện tử chống lạm phát vì v các khối BNB mới sinh ra k có phần thưởng khối cho thợ đào.
+Các dự án trên BSC phổ biến: về swap có Bounce, AnySwap, PancakeSwap. Về dịch vụ có: Bitquery, Gitcoin, DefiStaion,.. và còn rất nhiều. Các dự án đều là defi
+
+
+
+# yEarn
+YEarn finance(YFI)-ecosystem: có 4 sp chính vaults, earn, zap, cover. Nó maximize yields và minimize risk cho user. 
+
+-> Zap chỉ là nơi swap token k có gì hot.
+
+-> Earn là giao thức kiếm tiền của YEarn v1. Cơ chế đơn giản là người dùng gửi stable assets vào Yearn và nhận lại yTokens chứng thực phần trăm assest sở hữu -> Yearn đem assets đó cho vào các protocol cho vay như AAVE, dydx, compound,... và nhận được interest. Nó luôn chọn protocol có hightest yields để maximize interest cho người dùng. Khi người dùng cần rút thì tương ứng theo tỉ lệ yToken sở hữu mà lấy ra thì sẽ ăn được interest, 0.5% fee của phần withdraw sẽ đưa vào yGov.
+Tuy nhiên sau này, compound ra liquidity mining thì Yearn đã phân chia hình thức earn thành các vault khác nhau là v2: User gửi assets vào yVaults nhận lại yTokens chứng thực. Ở đây có nhiều vaults cho user lựa chọn -> mỗi yVaults sẽ có các chiến lược dùng số assets đó để kiếm lợi nhuận cao nhất -> nếu về sau có lãi thì 5% phần lãi sẽ gửi cho yGov -> 95% còn lại nó mua đúng assets của cái vaults đó gửi vào tăng yVaults. Khi người dùng rút thì 0.5% lãi fee của người đó lại được đưa vào yGov. 
+Hiện tại yVaults có 3 loại là stablecoint vault(DAI,..), curve LP vaults(y pool, sBTC,..), non-stable asset vaults(ETH,..).
+VD với yETH Vault: User gửi ETH vào yETH Vault và nhận yETH -> yETH Vault sẽ nhét ETH đó vào MakerDAO để mint ra đồng DAI với tỉ lệ thế chấp 200% chẳng hạn(tức deposit 2 ETH sẽ nhận 1 DAI)-> lại lấy DAI đó supply vào yDAI Vault-> yDAI Vault lại có chiến lược(có lãi) là supply DAI vào Curve Y Pool(1 vault khác) và nhận lại yCRV -> lại stake vào Curve Gauge -> nó bán tiếp CRV để lấy ETH và giả sử chiến lược có lãi ở đây r-> chia 95% deposit ngược lại về yETH Vault -> 5% lại chia ra 90% gửi yGov và 10% cho strategy creator. 
+
+-> Cover của YEarn là yInsure: Người dùng k cần lên nexus mutual mua KYC mà sẽ dùng thông qua yInsure. VD người dùng farm trên curve mà sợ nó bị hack hay gì sẽ mất hết tiền thì họ mua bảo hiểm bằng cách mua Cover ở trên yInsure và nhận lại yNFT tượng trưng cho số lượng và thời gian bảo hiểm. VD ta mua bảo hiểm 30 ngày nhưng sau khi farm 15 ngày ta k muốn farm nx mà rút hết -> thì số tiền bỏ vào bảo hiểm sẽ phí. Khi đó đồng yNFT ta có thể tận dụng bằng cách bán yNFT đó trên NFT Marketplace với giá rẻ hơn thì sẽ có người mua vì ai đó sẽ cần bảo hiểm trong 15 ngày tới với giá rẻ hơn như v chứ. Tức yInsure giúp người dùng tối ưu hơn k bị phí tiền bảo hiểm. Bản chất thì yInsure cũng lấy tiền người dùng mua Cover bên KYC mà thôi.
+
+-> Ngoài ra còn có các sản phẩm như: yBorrow là cho vay k thế chấp dựa trên AAVE,...
+
+Cơ chế yGov: các tính năng của Yearn đều thu phí và phần phí đó sẽ chuyển vào Yearn Treasury Vault. Thực tế khoản phí này rất lớn vì YEarn quá hot. Khi khoản tiền trong Vault đạt được 500k đô thì sẽ được chuyển vào yGov và những ai holder đồng YFI sẽ có quyền stake đồng đó để có quyền biểu quyết tương lai của yGov. Sau 1 khoảng thời gian, số tiền trong yGov sẽ chia cho các YFI holder. Chính vì chỉ cần hold thôi cũng có tiền mà giá của đồng YFI tăng cực mạnh trong thời gian ngắn. Cả holder và dev đều có tiền. Càng nhiều sản phẩm trên YEarn ra đời thì càng nhiều tiền trong yGov. VD các dev hold YFI k được sử dụng vì người trong công ty mà bán tháo các sản phẩm sẽ gây ra sự sụt giảm giá trị của tiền. Do đó mà dev chỉ hold sẽ k có lợi nhuận nhưng YEarn đã giải quyết vấn đề đó bằng cái yGov và vault này. Đồng thời kéo người dùng mua đồng YFI luôn.
+=> Cái hay là giải quyết vấn đề hold cũng có lãi chứ giá trị k bị giảm
+
+
+
+## Các mô hình dự án defi
+
+
+
+# Fair Launch: kp là 1 dự án mà chỉ là 1 cách khởi chạy dự án thôi
+Fair Launch là việc phân phối token dự án mà: No pre-mint, No founder allocation, No VC(venture capital) money tức k có private sell từ trước.
+Venture Capital funds là quỹ đầu tư mạo hiểm có rủi ro cao, lợi nhuận cao mà các nhà đầu tư tìm kiếm các công tư khởi nghiệp vừa và nhỏ có tiềm năng tăng trưởng mạnh.
+1 dự án bình thường khi bắt đầu nó sẽ tạo MVP(minimum viable product) là sp khả dụng tối thiểu là phiên bản đầu tiên của sản phẩm để startup gọi vốn chứng minh là họ thực hiện được ý tưởng, sau đó họ gọi vốn ở venture capital or bán private sell, resell,.. và việc này mất rất nhiều thời gian. Chưa kể list trên sàn binance giá có thể lên 1 triệu đô thì gọi vốn rất khó được khoản lớn v.
+Fair Launch giúp founder bỏ qua các bước đó và lên thẳng market luôn, đồng thời giúp bootstrap liquidity mà k cần list trên sàn CEX như Binance với fee rất cao nx. Còn user và stakeholder của dự án có cơ hội ngang nhau mua các token và quản trị protocol chứ k bị giá chênh lệch khi dùng như bth nx. VD: Bitcoin(King of crypto) k có founder allocation, kể cả founder và user muốn có token thì đều phải mine đóng góp cho dự án mới có. Sau này có YEarn(Bitcoin of Defi) cũng k có founder allocation mà cả founder và user để sở hữu token phải thông qua farming.
+4 ảnh hưởng tới defi:
+1) Thay đổi cách dự án phân bổ token: những năm 2017-18 thì đa phần phải trải qua private sell r public sell và chia phần cho dev,.. còn từ 2020 đổ đi thì các dự án toàn distribute token cho community và những người đóng góp cho dự án, 1 phần nhỏ cho dev mà thôi. Sau YEarn ra đời có rất nhiều dự án fair launch theo sau, nhiều cái được fork từ YEarn.
+2) Các dự án ra đời dễ dàng rất nhanh và tiếp cận đến người dùng k cần list trên các sàn nổi nx. 
+3) Trải nghiệm của người dùng về quản trị: Những năm trước muốn vote thì phải là miner/node xác minh giao dịch cơ còn bh thì stakeholder là bất cứ ai sử dụng giao thức đều có thể vote và dự án đi lên hay xuống tùy vào cộng đồng của dự án có đủ thông minh hay k
+4) Thúc đẩy sự phát triển layer 2: vì DApp dễ tạo ra nên số lượng quá cao, mạng ethereum bị nghẽn nên fee rất cao. Từ đó thúc đẩy các app phát triển layer 2 tăng lên để giải quyết vấn đề.
+Vấn đề: Do không cần gọi vốn như trước nên k có tiền để audit nên thường các dự án trích ra 1 lượng để audit thì user mới tin tưởng và nạp tiền vào protocol để sử dụng. Nếu k được audit thì nguy cơ có lỗ hổng bảo mật cao; Các dự án fair launch tạo quá dễ và người ta toàn fork để tạo token mới tràn lan, k có sự phát triển ứng dụng gì; Gặp vấn đề là người dùng thực hiện transaction, miner thấy trans này tốt và delay lại và tạo ra 1 trans mới giống hệt của họ để thực hiện cho mình và mine cái của mình, người bị delay kia sẽ được mine sau ông miner này và mất đi cơ hội. 
+Fair launch không áp dụng cho mọi dự án vì nhiều cái cần audit kỹ.
+
+Cơ chế là dự án được marketing và quảng bá để chạy luôn, bất cứ ai muốn sở hữu token của dự án chỉ có các duy nhất là tham gia vào giao thức.
+
+Fair Launch được mọi người ủng hộ là vì: vào những ngày trước ở mô hình cũ có sự phân chia không công bằng giữa VC, community ủng hộ dự án, foundation. Vì dev và community là những người ủng hộ dự án long-term nhưng VC là những người mua từ sớm với giá rẻ lại chỉ trực chờ token release để xả ra khiến chỉ mới ngày đầu mà token đã bị chia đi. Vc token bị xả làm uy tín của foundation giảm, những trader không có cơ hội mua với giá rẻ mà phải chờ coin lên sàn mới mua với giá cao vì họ ủng hộ dự án nhưng vào sau, trong khi VC cứ xả kiếm lời gây ra sự bất công dù họ không đóng góp trong quá trình xây dựng dự án. Vc fair launch(công bằng) khiến cho (community)những người sở hữu token có quyền quản trị như những chủ sở hữu thực sự thấy công bằng hơn. VD YEarn ra đời được đón nhận rất nhiều và các dự án sau cũng v dù các dự án sau giá giảm âm do không có tính ứng dụng.
+Fair Launch là mô hình chỉ fair cho community chứ không thực sự fair cho dev khi mà họ không có lợi gì cho mình mà phải tự bỏ tiền để audit, VC cũng không có lợi khi mất đi vai trò. Sau này có thể sẽ có mô hình fair hơn nx như vẫn cho VC nhưng bị giới hạn khoản tiền nhỏ hơn và dev cũng có tiền để audit chẳng hạn.
+
+
+
+# Stable Coins: các dồng stablecoin phát hành bởi các tổ chức tập trung như USDT, USDC,.. khác với các đồng được phát hành theo cách thức phi tập trung. VD đồng DAI có 1 DAI = 1 USD. Ta có 1 lượng ethereum, ta cần giao dịch với đồng DAI, ta vào trong smart contract của tổ chức Maker đã deploy lên đó -> gửi vào đó số ether -> smart contract sẽ sinh đồng DAI mới tương ứng với giá trị ether hiện tại gửi cho ta -> ta giao dịch -> xong muốn lấy lại ether -> gửi lại lượng DAI đó kèm 1 khoản phí -> smart contract sẽ đốt số DAI đó đi-> mở khóa lượng ether ta đã gửi để trả lại => Đó là cách thức phát hành và thu hồi stable coin làm cho nó luôn giữ ở 1 mức giá.
+
+
+
+# Lending and Borrowing: éo cần phải chứng minh thu nhập, xác minh danh tính như ngân hàng. VD: ta có 1 lượng crypto mà ta k có nhu cầu sử dụng-> ta có thể cho người khác vay bằng cách ký quỹ vào nền tảng cho vay để hưởng lãi suất or đi vay đồng coin khác bằng cách thế chấp tài sản đó và đương nhiên phải trả lãi suất cho vay. Khi sử dụng các nền tảng lending/borrowing, người dùng phải duy trì tỉ lệ tài sản họ thế chấp/khoản họ vay đảm bảo trên 1 ngưỡng nhất định để tài sản k bị tịch thu và thanh lý. Tỉ lệ này đối với nền tảng maker là 200%. Các nền tảng phổ biến: Maker, Compound, AAVE,.. 
+  VD: ta dùng 20$ BTC đổi max là 10$ ETH trong Maker. Ta phải duy trì >= tỉ lệ này. Nếu ETH tăng lên 11$ và BTC ta gửi vào vẫn là 20$ thì tỉ lệ bị giảm và Maker thanh lý 20$ BTC luôn. Đã đi vay thì phải chú ý tự căn tỉ lệ.
+
+Lender <-> Smart Contract <-> Borrowers
+Platform phổ biến nhất: MakerDAO, Compound, AAVE
+Cơ chế vay: borrowers thế chấp tài sản để vay 1 đồng coin nào đó; Nếu biến động thị trường làm ts thế chấp giảm giá thì contract sẽ thanh lý. Do đó các nền tảng này chịu sự ảnh hưởng mạnh của thị trường như vụ bitcoin sụt giá mạnh làm Total Value Locked in Lending giảm mạnh do nhiều pool phải thanh lý hàng loạt.
+Cơ chế cho vay: lender nạp tiền vào platform, hưởng lãi suất. MakerDAO sẽ chuyển thẳng vào tài khoản người cho vay, còn compound và AAVE tạo ra token riêng tượng trưng cho khoản lãi ấy. Lender k cho vay nx và rút ra thì sẽ nhận tiền vốn + lãi
+
+=> Chính vì có quá nhiều cách để chuyển tiền, farm tiền dẫn đến người dùng có thể tùy biến trong defi để kinh doanh. VD: 1 người cần 1 lượng coin KNC để tham gia vào mining pool kiếm lời. Nhưng họ chỉ có 10ETH, 1 người có kiến thức về defi thì sẽ bán ETH để mua KNC. 1 người có kinh nghiệm sẽ vay KNC từ AAVE bằng cách thế chấp 10 ETH của mình r tham gia vào mining pool kiếm lời. Tiền lãi là 1 đồng coin khác vd YFV thì ta sẽ swap lại KNC để mua lại ETH đã thế chấp. Dôi thêm tiền lãi từ pool
+
+
+
+# Oracle: Là ứng dụng cung cấp dữ liệu thời gian thực bên ngoài blockchain vào smart contract giúp thực thi chính xác và tức thì. Các oracle phi tập trung sẽ tham khảo dữ liệu đầu vào từ nhiều nguồn để tránh làm giả thông tin. VD: tỉ số bóng đá hay dự báo thời tiết thì các DApp phải lấy thông tin từ Oracle phi tập trung chứ. Các oracle phổ biến: ChainLink, Band, Tello, Dia,.. 
+
+Có 3 kiểu dữ liệu: thông tin thực tế như nhiệt độ, tin tức báo chí, thời tiết,..; thông tin về thị trường như giá cả biến động hàng ngày; các thông tin về dịch vụ doanh nghiệp mà họ cần đưa lên blockchain. 
+
+Offchain <-> oracle <-> onchain
+
+Có 2 loại dự án oracle: oracle services providers là những nhà cung cấp oracle cho dự án như chainlink, tellor, band protocol, nest, zap.org, DIA,..; internal oracle là những dự án có giải pháp oracle riêng của họ và họ dùng nó phục vụ mục đích riêng họ như: augur, uma(protocol xd synthetic assets), maker(protocol dùng cho thị trường dự đoán),..
+Oracle giải quyết rất nhiều VĐ. VD trong cá cược, 1 người cược lên, 1 người cược xuống vào ngày X. Nhưng đến ngày X smart contract éo biết thông tin thật là lên hay xuống cơ -> nó phải dùng oracle. Đương nhiên là để thông tin đúng và minh bạch thì nó phải lấy data từ nhiều nguồn được mn tin tưởng
+
+2 ứng dụng: data feed và price feed
+Data feed: Band Protocol cung cấp dịch vụ về thời tiết, giá cả, blockhash, gas price,..
+Price feed: Chainlink, nest, tallor cung cấp giá cả quy đổi giữa các cặp token với nhau. Các smart contract sẽ lấy thông tin từ chúng để thực hiện các giao dịch mà cần quy đổi. 
+
+Chainlink: Data provider -> chainlink -> output for customer mà smart contract hiểu đc. Bên trong chain link có các node operator vận hành. Link token là thứ mà customer phải mua để dùng chain link làm chi phí trả cho các node operator. Customer có thể là các blockchain nền tảng or bất cứ ai cần lấy dữ liệu.
+Band Protocol(BAND) là 1 dự án cung oracle cơ chế tương tự dùng đồng BAND nhưng nó nằm trong 1 blockchain riêng là BandChain nên đồng BAND có nhiều ứng dụng hơn các dự án khác VD dùng BAND để trở thành validator cho BandChain or tham gia vào bandchain governance để vote cho các proposal trong chain.
+=> Chainlink là đi đầu của mảng oracle hỗ trợ hầu hết các blockchain, band protocol ra sau và hỗ trợ ít blockchain.
+Trong hệ sinh thái COSMOS(token ATOM) có rất nhiều dự án. VD binance chain hay terra, kava đều là các dự án xây trên nền cosmos và band protocol là dự án đi đầu về oracle trong cosmos nên nó chiếm thế độc quyền về mảng oracle trên cosmos cung data cho toàn bộ các dự án còn lại trong cosmos. Do đó tiềm năng phát triển là rất lớn. Mỗi nền tảng nên có ít nhất 1 dự án oracle trong nó như v.
+
+Tellor(TRB): data provider dùng các thiết bị phần cứng để cung cấp thông tin cho smart contract của tellor, gọi là các miner của Tellor. Những người khác dùng đồng TRB để thanh toán cho data provider và truy cập dữ liệu oracle(tăng nhu cầu mua vào TRB). Để tham gia làm miner thì user cũng phải stake đồng TRB.
+
+Bridge là 1 dự án oracle trên blockchain nền tảng TRON. 
+
+
+
+# Bảo hiểm cho smart contract
+Decentralized insurance: Các dự án bảo hiểm tiêu biểu cho mảng này là nexus mutual, Opyn, 3F Mutual. Rủi ro của mình do smart contract bảo hiểm gánh chịu, định kỳ gửi 1 lượng token vào dự án. VD đóng bảo hiểm cho 1 contract và sau này contract bị lỗi, bị hack thì bên bảo hiểm sẽ đền bù 1 lượng token cho ta. Nếu quá thời hạn mà k bị gì thì ta chỉ mất số tiền bảo hiểm. Thực tế nhiều smart contract được audit nhiều lần nhưng vẫn bị hack nên mảng này là cần thiết trong defi.
+
+-> VD Nexus Mutual. Ta vào đó và mua bảo hiểm sẽ có hiệu lực trong 1 khoảng thời gian do ta tùy ý set và đương nhiên phải trả 1 khoản phí tương xứng. Nếu sau đó ta tham gia vào các smart contract của các nền tảng defi mà nó có bug hay bị hack mất tiền -> ta có thể yêu cầu khoản đền bù tương xứng từ hợp đồng bảo hiểm này => có thể thấy nó vẫn giới hạn ở crypto, chưa áp dụng cho bảo hiểm thực tế được.
+
+-> VD cơ chế hoạt động của 3F Mutual: buyer mua bảo hiểm thì tất cả nhét vào 1 cái pool. Nó chỉ bảo hiểm cho MakerDAO, nếu MakerDAO sập thì pool sẽ chuyển tiền cho các buyer tùy vào số lượng đơn vị bảo hiểm họ nắm giữ cho những người chưa hết hạn bảo hiểm.
+Cụ thể: 3F Mutual có 3 đối tượng buyer, underwriter và agent. Buyer là người trả fee và được bảo hiểm; agent là người môi giới hút được người khác mua bảo hiểm sẽ nhận về 1 phần nhỏ ETH; underwriter là người bảo lãnh sẽ cung vào pool nhận về 1 lượng dividends. 3 đối tượng cùng thao tác với 3F Mutual smart contract. 3F có cơ chế là mọi người tự bảo hiểm cho nhau vì underwriter và buyer thực ra là 1, chả buyer nào bỏ lỡ cơ hội trở thành underwriter cả.
+
+Đầu tiên buyer mua bảo hiểm sẽ nhận về X đơn vị bảo hiểm trong Y ngày. Khoản tiền đó 55% đưa vào pool of capital và pool này cứ phình to ra khi càng nhiều người mua bảo hiểm và nó được phân phát khi markerDAO bị sập; 10% chia cho insurance improvement proposal là khoản tiền đóng vào dự án để nó nâng cấp sau này; 15% cho shareholder. shareholder là những người đã đóng insurance từ trước. Vì khi đóng bảo hiểm, họ nhận được X Unit có thời hạn và 1 lượng Dividends là không có thời hạn. Lượng dividends này là khoản giúp họ ăn 15% số tiền mà những người sau đóng vào. Đó là cơ chế hút khách của bảo hiểm. Nhiều người họ đóng để nhận được dividends và Unit có thời hạn chỉ 0 ngày chỉ để ăn 15% số tiền người sau đóng vào, họ có càng nhiều dividends thì càng sở hữu nhiều tiền trong 15% đó; 20% được chia cho agent và vault, trong đó agent sẽ nhận được max chỉ là 16% tức ít nhất 4% còn lại được đóng vào vault và vault này được dành cho những người sở hữu HAKKA token. HAKKA token là token của hệ sinh thái lớn của HAKKA Finance mà 3F Mutual chỉ là 1 phần nhỏ trong hệ sinh thái này. Những người sở hữu HAKKA token(1 token có tính ứng dụng rất cao) có thể kiếm lợi nhuận từ khoản này dù họ chả làm gì. 
+Nhược điểm là 3F mới chỉ hỗ trợ cho MakerDAO, nếu bảo hiểm chỗ khác thì k dùng được 3F mà phải dùng ứng dụng khác. 
+
+=> Có rất nhiều đối tượng trong dự án và ai cũng có lợi, gần như tham gia là k có ai bị lỗ: người môi giới, người mua bảo hiểm, người cung bảo hiểm, người sở hữu HAKKA token. Nhu cầu cơ bản là người mua bảo hiểm, nhưng nếu mua xong k lỗi thì họ lỗ số tiền bảo hiểm, thế nên chỉ cần sinh ra 1 cơ chế cơ bản làm thay đổi tất cả là những người mua bảo hiểm về sau vẫn sẽ được tiền nhờ dividends chứ k mất hết, nhờ đó tạo ra 1 thế cờ mà k có ai có nguy cơ bị thiệt vì chả cần biết bảo hiểm hay không, cứ cung là có lãi. Hút người dùng vào nhờ 2 cơ chế: ăn tiền người sau, nhưng tại sao người sau cung tiền vào thì là do họ cần bảo hiểm. Lại còn user agent lại càng hút người vào dự án nữa. Chưa kể 1 phần nâng giá token HAKKA. Mô hình tất cả cùng lãi này quá hay phát triển chỉ nhờ 1 nguồn cầu duy nhất là mua bảo hiểm. Người tạo ra nền tảng lại chả cung vào đồng nào vì mn tự bh cho nhau. 
+Ta có thể tạo ra 1 nền tảng tương tự chỉ cần 1 nguồn cầu. Vd lending borrowing, nguồn cầu là 1 người cung vào để cho vay kiếm lãi, 1 nguồn cầu nữa là vào vay trả nợ. Người cho vay chắc chắn có lãi rồi nhưng người vay thì không. Ta có thể cho kiểu người vay sẽ nhận 1 lượng dividends, khi người sau vay sẽ trả nợ trích 15% lãi ra chia cho những người sở hữu dividends. Thế là người ta cứ vào vay dù chả cần tiền sau đó trả lãi luôn để ăn dividends của người về sau ok. Trả càng lâu thì lãi càng cao
+=> Kiểu này như 1 cách chơi bẩn, căn chỉnh làm sao để những người có nguy cơ lỗ sẽ k còn lỗ nữa, mn đều phải lãi nếu cung vào dự án càng sớm càng tốt. Cơ chế hủy lãi nhưng kéo người vào càng sớm càng tốt bằng cách người vào trước sẽ được ăn của người vào sau 1 phần, nhưng khác với đa cấp ở chỗ là người vào sau kbh hết nguồn vì họ có nhu cầu sử dụng(nguồn cầu) chứ kp đa cấp người sau vào chả làm gì cả. Tuy nhiên mô hình này k chắc chắn vì những người sở hữu dividends cứ thế tăng khiến cho phần tiền của 1 người giảm dần đi và tịnh tiến về 0 khi dự án càng nhiều người. Do đó ta nghĩ cần 1 cơ chế kiểu reset lại tất cả dividends sau mỗi năm. Khi đó những người gần cuối năm sẽ chả có ai đóng vào pool nữa. Nhưng có thể làm kiểu mỗi khi vay sẽ trả lãi trích thêm 1 phần vào pool, pool to dần và khi hết năm sẽ trả hết cho những người sở hữu dividends nhưng tính theo kiểu thời gian càng gần cuối năm và càng nhiều dividends sẽ càng được nhiều, ưu tiên hơn về mặt thời gian. Khi đó có thể hút người vào dịp cuối năm và đầu năm, còn giữa năm ít ai mua nhưng khoảng thời gian lớn như v khó có thể biết được ai mới là cuối năm. Đặc biệt để tránh sát mốc giờ cuối năm mn ồ ạt vào vay kiếm lãi thì chỉ cần định mức vay phải là 1 khoản lớn mới cho và tiền lãi trả nhiều hơn là xong. Nch nhìn mô hình nó cứ k ổn vì play với tiền nó cứ ra ra vào vào, rút cục tiền k thể tự sinh ra được, người lãi nhiều thì cũng mất nhiều để ăn lại tiền mình bỏ ra nên đó là bản chất của mô hình mn cùng lãi. Chỉ có cái bảo hiểm mới là chuẩn vì người mua bảo hiểm họ đã xác định là chịu lỗ rồi. Ta cũng có thể làm kiểu dividends là khoản tồn tại vĩnh viễn nhưng khi 1 người ăn được băng tiền họ bỏ ra thì dividends tự giảm theo thời gian, trong thời gian giảm họ sẽ ăn khoản lãi, điều này là 1 cách phá vỡ quy tắc trên khiến cho mn cùng lãi 1 cách thực thụ nhưng nếu ai cũng lãi thì phải có người lỗ, ta loại trừ điều đó bằng cách giới hạn khoản lãi của họ là xong, khi dividends giảm dần ta đảm bảo được những người sau k bị thiệt và chả cần quy tắc 1 năm bên trên or vẫn dùng 1 năm nhưng chỉ tính theo dividends.
+=> Phân tích 3F khá hay
+
+
+
+# AMM cung cấp thanh khoản cho Defi: (đã biết trong bài solidity) 
+-> Cung cấp giao thức chuyển đổi token theo hình thức phi tập trung. Vận hành các Market Maker(phần lớn là Auto Market Maker-AMM) cung thanh khoản cho thị trường Defi. Hiển nhiên sẽ thay đổi tỉ giá của 2 đồng khi swap r. VD: ta có 1 lượng coin mà muốn cung thanh khoản -> ta tách làm 2 nửa vd 5 ether và 5 USDT -> tạo 1 AMM cung vào 2 coin này như v. 1 DApp, bot or ai đó lấy 1 coin trong AMM của ta -> nó gửi vào coin còn lại và gửi fee cho ta lãi,...
+  Đó là Th nó chọn lấy thanh khoản của ta nhưng trong thực tế thì xử lý phức tạp hơn để tạo sự cân bằng giữa các pool. VD: Ta dùng ví metamask của ta để đổi từ 1 ETH sang đồng BAT thông qua sàn phi tập trung KyberSwap(sàn của Kyber network(KNC) trên ethereum blockchain) -> ta ấn nút swap -> KyberSwap sẽ chuyển 1 ETH đó vào kyber smart contract thực hiện hàm swap -> smart contract sẽ truy xuất tỉ giá giữa 2 đồng tiền ETH và BAT qua các MM khác nhau(gọi là Reserve) -> smart contract tìm smart contract nào có tỉ giá đổi được nhiều đồng BAT nhất -> gửi 1ETH vào liquidity đó và lấy ra lượng BAT tương ứng gửi lại vào ví của ta. Nó thực hiện hoàn toàn trên blockchain của ethereum.
+  => Vc nó chọn MM có nhiều BAT nhất là để cân bằng lượng BAT - ETH ở mỗi MM. Vì các MM khác đã từng đc đổi BAT lấy ETH trước r nên giá của BAT ở MM đó bị giảm đi, ta phải tìm MM nào mà có nhiều BAT nhất vì nó đang thừa BAT thiếu ETH để cân bằng lại.
+
+-> Curve Finance: là AMM chỉ dành cho stable assets là những thứ giá fix. Nó có 1 chức năng khác là single side supply.
+Curve Finance(CRV) là 1 sàn DEX phi tập trung hoạt động tương tự uniswap nhưng chỉ với stable coins.
+Bth ta cung Liquidity thì cung 1 cặp nhưng với curve finance thì chỉ cần cung vào 1 assets VD DAI thì hệ thống sẽ tự động bán đi lấy đồng pair còn lại và cung vào pool theo tỉ lệ ở thời điểm đấy. Bởi vì vc bán đi cung vào nó mất cực ít phí.
+VD: cung DAI vào YPool(nền tảng riêng) nó sẽ tự động convert DAI của ta sang các token kia và cung vào pool-> ta nhận lại Y Curve chứng thực quyền sở hữu. Ta hiểu là mỗi nền tảng có stable assets của riêng nó VD Synthetic có sBTC, Y có YUSDT,..
+Khi các nền tảng mới ra đời, họ phát hành ra stable assets của riêng nền tảng đó nhưng k có liquidity, họ đã dùng curve(CRV) để khuyến khích nhà đầu tư cung thanh khoản cho stable coin của họ.
+Cứ dự án nào có stable assets là họ lại contact với curve để tạo ra những pool riêng, thu hút thêm trader, kiếm thêm lợi nhuận
+
+Nhu cầu swap stable coin hiện tại rất lớn. Thông qua curve, ta không cần phải trao đổi thông qua ETH trung gian sẽ mất phí 2 lần giao dịch mà có thể chuyển 1 phát từ stable coins này sang stable coins khác trực tiếp. Nhưng do chỉ chơi với stable coins nên nhà đầu tư liquidity provider thích hơn do giá trị k bị biến động như token nên họ coi curve là phiên bản tốt hơn của uniswap với stable coin
+
+VD: Supplier cung liquidity cho curve và nhận lại đồng quản trị (CRV), curve có liquidity tăng cao. Khi các DApps, retail trader có nhu cầu hoán đổi stable coin, nó sẽ lái user tới curve để họ dùng trong curve. Stable coin trong curve có liquidity rất cao nên slippage nhỏ, càng nhỏ thì trader càng thích -> cứ thế giao dịch nhiều thì fee trong curve trả cho supplier càng nhiều. Tức là curve dùng liquidity mining, người dùng cung thanh khoản vào curve, sau này rút ra sẽ được thưởng CRV token + 50% fee. Lúc đó họ có thể bán CRV kiếm lời or dùng để quản trị bằng cách lock CRV lấy ra veCRV. Token veCRV sẽ có chức năng vote trên nền tảng, bao gồm cả việc quyết định 50% fee còn lại sẽ đi đâu hay chia lại cho họ.
+
+=> Họ đã tìm ra 1 nhu cầu sử dụng đồng CRV chứ kp liquidity mining ra CRV nhưng r nó chả dùng làm gì cả. Họ xử lý bằng cách thay vì nhận được 100% fee thì họ chỉ nhận được 50% fee thôi và muốn ăn 50% fee còn lại thì phải lock CRV vào làm tăng nhu cầu CRV. Dù v chưa đủ vì liquidity mining cung quá nhiều mỗi tháng nhanh hơn doanh thu đầu vào nên giá vẫn dump.
+
+
+
+# Giao dịch chứng khoán phái sinh - Tài sản tổng hợp
+Underlying assets(tài sản cơ bản): vàng, nhà, xe, cổ phiếu, tiền tệ,..
+
+Derivatives: tài sản phái sinh của tài sản cơ bản bên trên. Đây là các hợp đồng giữa các bên mà giá trị dựa trên tài sản cơ bản. Nó có thể là hợp đồng tương lai, hợp đồng tùy chọn, hợp đồng trao đổi. VD ta sở hữu tài sản phái sinh là 1 Option contract của vàng là ta được quyền mua 1gam vàng với mức giá 1 triệu trong 30 ngày tới thì dù 30 ngày tới giá vàng lên xuống như nào, ta vẫn có thể mua được với mức giá đó
+
+Synthetic assets là sự kết hợp của nhiều loại phái sinh khác nhau VD là sự kết hợp của 1 hợp đồng quyền chọn mua và 1 hợp đồng quyền chọn bán. Nó là sự kết hợp của nhiều sản phẩm phái sinh như future contract, forward contract,... để mô phỏng giá của 1 tài sản cơ bản như hàng hóa, cổ phiếu, chỉ số chứng khoán,.. Synthetic assets sinh ra nhằm mô phỏng, bắt chươc giá của 1 tài sản căn bản or 1 khoản đầu tư. 
+Vai trò: đa dạng hóa đầu tư thay vì chỉ tập trung vào 1 tài sản; giảm rủi ro khi mà người mua không cần mua đứt tài sản đó mà vẫn có thể kiếm lời dựa trên sự biến đổi giá của tài sản đó; lợi nhuận cao hơn; mở rộng khả năng tiếp cận của 1 loại ts với nhà đầu tư
+=> Đó là synthetic assets trong tài chính truyền thống
+
+-> Trong crypto cx có synthetic assets để bắt chước giá trị của tài sản khác, phát triển thêm 1 mặt của cefi vào thị trường crypto => nhà đầu tư có thể dùng crypto assets để tiếp xúc với nhiều loại tài sản mà không cần thiết phải nắm giữ chúng. VD synthetic assets như DAI của MakerDAO hay sUSD của Synthetic,..
+Crypto synthetic assets dễ dàng trao đổi và không phân quyền với pool toàn cầu. 
+Dự án Synthetic cung giao thức cho phép phát hành và giao dịch các synthetic assets trên ethereum. Người dùng có thể tiếp xúc với các loại tài sản như tiền fiat, hàng hóa, cổ phiếu,.. thông qua việc thế chấp token gốc của nền tảng là SNX. 
+
+Trong hệ sinh thái Synthetic có: synthetic exchange giúp trao đổi synthetic assets và đồng SNX; Mint của Synthetic là 1 DApp nơi chủ sở hữu SNX phát hành synthetic assets; Dashboard cung cấp cho người dùng tổng quan về ecosystem của synthetix. VD ta có 1 lượng SNX trị giá 7500 đô ta đem lên synthetix thế chấp và nhận về 1000 sUSD thì 1000 sUSD chính là synth mô phỏng cho tài sản USD tiền ngoài đời thực. Sau đó ta có thể đem số sUSD này trade trên nền tảng DEX của synthetic. Ta cũng có thể đốt sUSD để nhận lại SNX ban đầu. SNX cung vào là thanh khoản cho sUSD
+VD: Mai và Tuấn là 2 người duy nhất ở hoạt động trên synthetic. Mỗi người có 750 đô SNX. Mai thế chấp 750$ SNX để nhận được 10$ synthetic assets của vàng. Giả sử 1 Gold = 10$ thì Mai nhận được 1 Gold. Chú ý trên synthetix tài sản quy đổi có tỉ lệ rất cao 750% thì 750$ chỉ đổi được có mỗi 10$ mà thôi. Tuấn thì 750$SNX đổi sang 10$ bạc và nhận 2 Silver(tức 1 Silver=5$). Khi 2 người tham gia vào hệ thống tức là đã vay tiền của synthetix, họ sẽ tham gia vào 1 total Global debt tổng là 20$. Về sau giá bạc tăng lên 1 Silver = 10$. tức Tuấn có 2Silver = 20$ thì pool nợ toàn cầu thành 30$ mà Tuấn và Mai ban đầu cùng nợ 10$ cho pool tức 10$ thì bh Mai vẫn nợ 50% tức 15$ và Tuấn cx 15$. Có thể thấy Tuấn có 20$ mà nợ 15$ thì lãi 5$ trong khi Mai lỗ 5$. 
+Điều đặc biệt là Mai không hề động gì đến Silver nhưng silver tăng thì Mai vẫn lỗ. Trong thực tế có nhiều người tham gia vào pool chứ k chỉ có 2 người như v. Qtr là khi kiếm tiền kiểu này của synthetic thì phải thế chấp để nhận lại tài sản mà giá nó phải tăng mới có lãi. Khi có synth thì người ta thg dùng nó để trade tiếp các thứ khác trên synthetic.
+Các dự án Synthetic assets: Synthetix, UMA, Market Protocol,..
+
+Nói rõ hơn thì synthetix assets là 1 dạng của derivatives. Derivative có nhiều loại hợp đồng như đã nói ở trên, tựu chung lại thì nó cho người dùng mua bán 1 loại tài sản cơ sở với mức giá thỏa thuận trước, trước 1 khoảng tg trong TL. Synthetix cho phép người dùng mua tài sản đại diện cho tài sản cơ sở và người đó có thể trade theo ý mình để kiếm lời tùy theo dự đoán giá của tài sản đó tăng hay giảm trong tương lai. Do đó nó là 1 dạng của derivative thôi, tương tự nhau.
+
+
+
+# Liquidity mining & Vault: 
+-> Như kiểu mine coin ấy nhưng kp là xác thực giao dịch mà là lending/borrow. VD nền tảng compound, nó tạo 1 token quản trị là đồng COMP và tặng nó cho người đi vay và cho vay mỗi ngày. Nếu họ vay or cho vay các đồng khác nhau thì sẽ nhận được 1 lượng comp khác nhau. Điều này nhằm khuyến khích user cung cấp thanh khoản của mình or sử dụng nền tảng để nền tảng ngày càng phát triển. User có thể dùng token COMP để quyết định các thông số quan trọng của compound or k dùng thì bán nó đi để coi nó là lãi suất nhận được => thu nhập bị động.
+
+Liquidity Mining khuyến khích người dùng cung thanh khoản cho các loại tài sản có trong dịch vụ của protocol trong khoảng thời gian xác định.
+Giả sử dự án có 1 protocol mới mà muốn phát triển hơn về mặt user, nó phải có 1 chính sách thu hút người dùng đó chính là liquidity mining. Supplier cung cấp liquidity vào chương trình liquidity mining này sẽ nhận được goverance token và fee của giao dịch dùng protocol đó. Khi mà thanh khoản cung càng cao thì user trải nghiệm protocol càng tốt do lượng thanh khoản dồi dào, vay bán tốc độ cao luôn => 1 cách bootstrapping network
+Lợi ích: supplier <-> protocol <-> user => đem lại lợi ích cho cả 3
+Compound là 1 vd áp dụng liquidity mining: Nó là 1 nền tảng cho vay và người vay sẽ trả lãi định kỳ, compound sẽ gửi interest đó cho lender. Nó tự cân chỉnh borrower nhiều thì phí càng cao, càng hút nh lender còn lender nhiều thì phí càng rẻ cho borrower đến khi nó cân bằng. 
+Khi áp dụng Liquidity Mining, nó đã tác động đến Flywheel của compound: nó cho người vay và cho vay đều được nhận token COMP => như v, vừa thêm token, vừa có lãi -> càng thu hút lender -> lender càng nhiều phí càng giảm lại càng hút borrower -> cứ như thế tăng trưởng của compound đã vượt bậc khi áp dụng liquidity mining
+Mặt trái: do các nền tảng lending quá lạm dụng liquidity mining nên đã cung quá nhiều token của nền tảng đó, nhiều hơn những gì protocol đem lại. Những người tham gia chỉ quan tâm nhận token r xả ra ngoài thị trường kiếm lời chả biết protocol hoạt động tốt hay k làm cho mức giá của token nền tảng đó bị giảm mạnh do phân phát quá nhiều, kiểu in tiền nhiều bị lạm phát mà mục đích thì ít đó.
+=> Do đó liquidity mining cần được dùng đúng, sinh ra token thì phải có nhu cầu sử dụng cân bằng với tốc độ sinh ra, nếu sinh quá nhiều mà các nền tảng lại chả dùng nó vì nhu cầu gì cả thì sẽ lạm phát mạnh. Do đó khi build bất cứ dự án nào thì phải cân bằng token tạo ra mà mạnh thì vai trò sử dụng cũng phải mạnh nếu ta thực sự muốn token của ta tăng trưởng và phát triển. Ngược lại token k có giá trị thì giá sẽ giảm mãi và dần dần chả ai quan tâm đến dự án của ta nx, thưởng token đem lại sự thu hút ngắn hạn nhưng dài hạn sẽ toang => Kbh hold 1 token trong 1 dự án chỉ có in ra mà k sử dụng.
+Nhờ có liquidity mining mà 3 nền tảng lớn áp dụng có giá token tăng vọt: Compound tăng 25.3 lần, UMA tăng 7.1 lần và Balancer tăng 3.6 lần
+
+-> Cách khác kiếm tiền bị động: tạo ra các vault. Các nền tảng này sẽ khuyển khích người dùng gửi tiền vào vault rồi chính nền tảng là người cầm tiền của họ đi đầu tư bằng liquidity mining hay các dịch vụ kiếm tiền khác rồi họ trả 1 phần cho ta trừ 1 khoản phí. Ta gửi vào đồng coin nào thì khi lấy sẽ nhận lại đồng coin đó kèm lãi suất thậm chi chả phải làm gì khác, lãi suất tất nhiên rất cao so với gửi ngân hàng.
+
+
+
+# Uncollateralized Lending(cho vay k thế chấp trong defi) 
+VD nền tảng AAVE cho phép bao gồm: Flash Loans và Credit Delegation.
+
+-> Flash Loans: borrower vay và trả trong cùng 1 transaction. Họ vay và dùng làm gì đó ngay lập tức và trả lại tiền + lãi trong cùng 1 transaction. VD: 1 borrower vay 100DAI của AAVE với Flash Loans -> đi qua uniswap mua 100 token A -> đi qua Mooniswap để bán 100 token A được 110 DAI -> cuối transaction đó, họ trả 100 DAI cho AAVE và 1 DAI là fee -> borrower lãi 9 DAI => đó là 1 use case họ mua bán dựa trên sự chênh lệch giá của 2 platform khác nhau mà k bỏ ra đồng vốn nào hết. Phí đương nhiên thấp hơn là lending borrowing bth.
+
+-> Credit Delegation: là dạng cho vay với người tin tưởng nhưng có ràng buộc về lãi suất và thời gian trả. Cách này nó sẽ làm thành 1 văn bản luật có giá trị pháp lý. 2 bên cùng ký chữ ký điện tử vào hợp đồng, trả k đúng kỳ hạn có thể kiện. Nó dùng kèm platform OpenLaw. 
+AAVE là nền tảng cho vay nổi nhất bởi nó hỗ trợ nhiều tính năng như này
+
+=> Nền tảng này là quá cần thiết vì thông thường khi mua bán ta thg phải sử dụng 1 đồng coin nào đó chứ kbh giữ cố định 1 đồng. Vc người ta chỉ muốn rút coin r trade chớp nhoáng r trả lại là 1 vc thg xuyên xảy ra, hay họ muốn mua 1 cái gì đó thì họ đổi, mua, trả liên tục thì rất phổ biến nên cái Lending and Borrowing này rất phát triển. Trong thực tế ở thị trường cefi, vc lending và borrowing nó đã rất phổ biến r. Nên trong defi nó cũng làm được như v nhưng lại còn được ẩn danh và an toàn hơn nx càng khiến mảng này phát triển mạnh mẽ. Ta chỉ cần ấn nút là smart contract thực hiện vài s là xong, trong khi vay tiền ở ngoài ký kết các kiểu xong còn lừa đảo và chờ mòn mông
+
+
+
+# Margin Trading
+Margin Trading giao dịch ký quỹ khi trader vay tài sản bên thứ 3 để có vốn lớn hơn và kết quả giao dịch sẽ được phóng đại. VD họ đoán giá cả lên hay xuống và đem vốn đi trade. Nếu trade lãi thì tiền lãi ăn nhiều hơn, nếu trade lỗ thì tiền lỗ cũng nặng hơn. 
+-> Có 2 dạng:
+Leverage(đòn bẩy): vay tài sản, tài sản này gọi là khoản vay ký quỹ. Họ phải chấp nhập 1 tỉ lệ khoản thế chấp với khoản vay(collateral-to-loan ratio). Nếu ratio giảm xuống dưới 1 ngưỡng nào đó thì sẽ thanh lý và người cho vay sẽ được hoàn tiền. Nếu vay càng nhiều thì mức lãi or lỗ của lệnh sẽ càng cao. VD dùng đòn bẩy x2 thì khoản lỗ/lãi sẽ x2, đặt số tiền ký quỹ là 5000$ thì ta sẽ được vay và có 10000$ để trade
+
+Chiều hướng giao dịch Long-Short: Khi short thì trader sẽ bán lượng tài sản mình đi vay với hy vọng về sau nó giảm giá để mua lại với giá thấp hơn và trả lại người cho vay và có lợi nhuận. Khi long thì trader sẽ mua tài sản vào với hy vọng nó tăng giá rồi bán nó đi, 1 phần trả lại người cho vay và phần giá tăng lấy làm lợi nhuận. Long và short là hình của cây nến ta muốn trong tương lai tăng hay giảm.
+
+-> Margin trading trong centralized sẽ phải trả phí nhiều còn decentralized thì không.
+
+dYdX là DEX Ethereum hỗ trợ lending, borrowing, spot trading(giao dịch giao ngay), perpetual trading(giao dịch tương lai vĩnh cửu) và đặc biệt dẫn đầu về margin trading. Nó hỗ trợ 3 cặp ETH-DAI, ETH-USDC, DAI-USDC với max mức leverage là x5, tỉ lệ thế chấp/cho vay là 125% và khi tỉ lệ <115% sẽ thanh lý. Đó là tỉ lệ xác định số tiền có thể vay(account balance/debt) và xác định khi nào bị thanh lý tức khoản nợ tăng mà số dư tài khoản giảm đến ngưỡng 115%
+
+dYdX có 2 option là isolated và cross. isolated sẽ cô lập 1 số tiền nhất định để thế chấp và chỉ mất max số tiền bị cô lập. Còn cross là toàn bộ số dư dYdX dùng làm thế chấp
+VD Short ETH trên dYdX thì cặp ETH-DAI có leverage 5x và ratio 125%, giả sử giá hiện tại là 1ETH=400DAI hiện tại: ta phải có sẵn 1ETH=400DAI trong túi-> ta sẽ margin trading là borrow 4ETH cộng với 1ETH có ban đầu là sở hữu 5ETH bán ra lấy 2000DAI(mọi thứ sàn làm hộ hết và ta chỉ cần đặt lệnh là có luôn 2000DAI). Lúc này tỉ lệ thế chấp có 2000DAI và nợ 4ETH là 1600DAI thì 2000/1600=125%: 
+ -> Nếu 1ETH = 300DAI giảm giá thì 1200DAI mua lại 4ETH trả lại thì lãi 400DAI
+ -> Nếu 1ETH = 420DAI tăng giá thì 1680DAI mua lại 4ETH trả lại thì lỗ 80DAI
+ -> Nếu 1ETH = 435DAI tăng giá thì tỉ lệ thế chấp: 2000/(4*435) = 114%<115% -> thanh lý
+Khi thanh lý sẽ phải trả phí thanh lý và gas fee trong suốt quá trình đó => khi đó ta trả nợ 435*4 = 1740DAI + phí thanh lý + phí trả lãi cho người cho vay + gas fee giả sử tầm 100$ thì phần thừa đưa về cho ta còn 160$ mà ban đầu bỏ ra 400DAI => lỗ 320$
+VD Long ETH thì phải có sẵn ETH trong ví: có 1ETH borrow 1600DAI và mua lại được 5ETH trong ví-> tỉ lệ 2000/1600=125%
+ -> Nếu 1ETH tăng giá bằng 500DAI thì 3.2ETH bán được 1600DAI trả lại thì lãi 0.8ETH 
+ -> Nếu 1ETH giảm còn 380DAI ngược hướng mình dự đoán thì 4.2ETH bán được 1600DAI trả lại thì lỗ 0.2ETH
+ -> 1ETH = 365DAI thì tỉ lệ 5*365/1600 = 114%<115% thì thanh lý
+=> cứ đoán đúng là có tiền, đoán sai là lỗ.
+Margin Trading gắn liền với lending, borrowing giúp cung thanh khoản cho các nền tảng này. Phải trade trên nền tảng này.
+
+
+
+# Auction - Lending/Borrowing - Emmergency shutdown - 
+-> MakerDAO là nền tảng cho phép vay từ ts thế chấp, nhét token khác vào và nhận về DAI stable coin. Có MKR là token quản trị của MakerDAO
+Nhét token vào -> tạo Vault với tỉ lệ max là 200% -> MakerDAO sẽ mint ra DAI gửi cho ta đi mua bán r trả lại để đóng Vault và nhận lại ts thế chấp ban đầu.
+Mỗi khi tạo vault có 3 thông số: stability fee(luôn có khi tạo vault), liquidation fee(fee mất thêm khi bị thanh lý), liquidation ratio(150%). Nếu dưới ratio đó sẽ thanh lý.
+VD: có 5ETH, mỗi đồng 200$ là tổng 1000$ -> giả sử vay min với tỉ lệ 200% là được 500 DAI xong ta đem 500DAI đi trade. Về sau ETH giảm giá chỉ còn 1ETH=140$ tức 5ETH ta cung vào bh chỉ còn giá 700$ mà ta đã vay được 500DAI là 500 đô tức ratio bị giảm còn 7/5=140% nhỏ hơn 150% thì bị thanh lý(liquidated). Thì trong MakerDAO có cơ chế OSM Delay tức khi giá giảm thì phải 1h sau mới có hiệu lực. Nó tạo thêm thời gian cho user có thể lấy DAI ở đâu đó để trả lại 500DAI ban đầu để nhận lại 5ETH bỏ ra chứ k bị thanh lý ngay lập tức.
+
+-> MakerDAO thanh lý qua việc đấu giá tài sản ra lượng DAI ban đầu cộng với 10-15% liquidation fee bị thu, khoản tiền dư còn lại được gửi lại cho user bị thanh lý ban đầu. Trong MakerDAO có 3 loại đấu giá và loại này gọi là collateral auction.
+
+MakerDAO còn đấu giá surplus auction. Mỗi khi ta mint ra DAI thì đóng stability fee r cái fee này sẽ gom vào maker buffer và khi maker buffer đầy lên đủ 1 lượng nhất định sẽ được đem đi đấu giá để nhận đồng MKR. Surplus Auction xảy ra khá thg xuyên.
+
+Debt Auction là khi tài sản thế chấp bị thanh lý nhưng k có ai mua cả => ít xảy ra vì auction giá rẻ nên thg có người mua. Khi đó lượng DAI ở trên thị trường lại là nợ sẽ mất tỉ lệ 1 đô nên MakerDAO sẽ phải in thêm đồng MKR để đấu giá và thu lại DAI và burn lượng DAI đó đi, đồng DAI luôn phải được cân bằng giá mới là stablecoin => 1 cơ chế cân bằng stable coin bằng token quản trị của nền tảng.
+
+-> Đồng MKR có thể trigger an emergency shutdown, can thiệp vào type trong vault,.. vote các thứ như thời gian đấu giá, liquidation penalty, stability fee,...
+Cho đến h, MakerDAO chưa từng có sự kiện emergency shutdown nào. Những người nắm giữ MKR có thể trigger sự kiện này. Khi đó, mọi auction sẽ bị hủy và giá của colleteral assets bị đóng băng, makerdao sẽ cho phép những người từng tạo vault rút phần tài sản thế chấp còn dư ra. VD có 1000$ ETH mà chỉ đổi ra 300DAI thì sẽ rút được 400$ dư ra(trừ 200% mà). Đồng thời DAI holder có thể swap DAI nhận lại colleteral assets ban đầu. Sự kiện này sẽ bảo vệ MakerDAO khỏi tác động xấu, VD protocol gặp lỗi gì đó có thể mất hết tài sản thì mn kích hoạt và được rút lại tài sản ban đầu or khi có ai đó giữ quá nhiều MKR và protocol bị centralized do hắn thay đổi các thứ như fee làm protocol bị hư đi thì sự kiện này sẽ là cách bảo vệ cuối cùng của MakerDAO.
+
+Sự kiện ngày thứ 5 đen tối - MakerDAO bị collapsed: giá thị trường down rất mạnh và quá nhiều người thực hiện trans trên ethereum làm cho gas fee cực cao và thời gian thực hiện lâu. Và các vault có price update bị delay, VD giá đã phục hồi chưa quá tỉ lệ 150% nhưng OSM delay 1h update quá lâu vẫn chưa cập nhập lại giá ban đầu. Mà gas fee cao dẫn đến mn k kịp chuyển thêm DAI vào để lấy lại ts thế chấp nên MakerDAO thanh lý trên collateral auction. Collateral auction và debt auction được thực hiện bởi các keeper là các con bot. Khi đó gwei fee quá cao nên các con bot cx bị delay. Người khác vào và đặt 0 DAI đổi lấy 1 lượng ETH rất lớn trong collateral auction làm cho MakerDAO lỗ 5-8 triệu đô trong vài tiếng. Sau đó họ phải dùng debt auction bán ra 1 lượng lớn MKR lấy lại lượng DAI đã mất trong ngày hôm đó. 
+Sau sự kiện đó, MakerDAO đã cho phép nhiều token hơn được phép cung vào vault đổi ra DAI để tăng mức độ sử dụng lên và lượng DAI cx tăng lên. Nhiều loại tài sản thế thì MakerDAO cũng chấp nhận nhiều rủi hơn. Khi grow mạnh như v thì nó cũng dùng surplus auction để mua lại MKR r hủy đi làm giá MKR tăng lên
+MakerDAO là smart contract trên ethereum.
+
+
+
+# Other
+-> Các token được niêm yết trên sàn và có tính thanh khoản r, nhưng về sau dự án dùng token đó bị sập server thì liệu có mất k? K như NFT khi game sập vĩnh viễn thì vật phẩm trong game NFT trở nên vô giá trị, dù sở hữu và lưu trên blockchain tồn tại vĩnh cửu thì vẫn trở nên vô giá trị vì k có tính sử dụng trừ khi ai đó làm lại game dùng token đó. Nhưng token 1 khi đã được niêm yết và có tính thanh khoản cao, nhiều người có nhu cầu sử dụng nhưng sau bị sụp thì token đó vẫn có 1 chức năng là trao đổi hàng hóa nên nó k bị bỏ đi như NFT, vc server dùng token đó sập chỉ khiến giá token đó bị giảm mà thôi. Nếu thực sự token k còn dùng làm gì được nx và thanh khoản quá thấp thì nó mới thực sự được coi là biến mất khỏi thị trường
+
+-> Market share là thị phần, là tỉ lệ thâm nhập của sản phẩm so với toàn bộ thị trường. 1 trong những tiêu chí đánh giá tình hình làm ăn. Nếu thị phần cao thì ta có thể khẳng định sản phẩm đó được nhiều người dùng trong toàn bộ thị trường so với các sản phẩm cạnh tranh
+Total Value Locked(TLV) là tổng giá trị tài sản khóa trong smart contract của defi. Nó đo tổng giá trị token đổ vào các DApp, được giữ trong 1 giao thức Defi cụ thể, k bao gồm số dư nợ. Tài sản đổ vào giao thức càng nhiều thì token giao thức đó càng có giá trị, DApp càng tốt. Chính vì nhiều dự án được đổ vào rất nhiều tiền mà mới đi kèm rủi ro và cần tới bảo hiểm defi đó.
+
+-> CoinGecko hay coin98 là các trang web nổi tiếng tổng hợp data, tin tức về blockchain
+
+

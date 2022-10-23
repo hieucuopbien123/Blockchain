@@ -1,0 +1,187 @@
+Web3:
+Web dùng cho cả frontend và backend, mặc định xét backend.
+
+
+
+# Frontend web3
+=> refer tới "React"
+
+
+
+# Basic
+Lib web3 ta cần hiểu cách: tạo instance web3 từ provider, gọi các hàm lấy thông tin chung, dùng các hàm util giúp thao tác với dữ liệu, ký message, gọi getter function, thực hiện trans, tương tác với event
+
+-> eth: lấy thông tin về blockchain, tài khoản
+--> eth.net: lấy thông tin về network, khởi tạo contract
+
+-> Dùng utils: dùng BN, mã hóa, thao tác với address, bytes32 và string
+
+-> Setup:
+NodeJS, React ez rồi
+Với HTML thuần:
+script unpkg.com/web3@1.2.4/dist/web3.min.js trong file html luôn
+
+
+
+# Dùng JSON-RPC thuần
+Smart contract <-> Ethereum API <-> UI
+Chỉ tiết: Web3 <-- json rpc --> Web3 Provider -> Ethereum Blockchain
+Trong web bình thường ta dùng REST API nhưng blockchain sử dụng json-rpc protocol phức tạp hơn. 
+
+VD: trong web app VD ta cần làm 1 action get hay edit 1 blog thì ta dùng route kiểu blogs/get/id1 or blogs/edit/id1/username gửi request đó tới server 1 là 1 endpoint để phản hồi
+Nhưng nếu thế thì trong blockchain sẽ có vô số endpoints vì số lượng smart contract là vô kể mà mỗi smart contract lại có 1 endpoint khác nhau vì mỗi smart contract lại có get và edit khác nhau. Tốc độ tạo ra smart contract rất nhanh thì chẳng lẽ mỗi lần SM tạo ra, ta lại phải bảo blockchain Ethereum thêm 1 route mới -> điều này là bất khả thi nên dev của ethereum dùng RPC protocol cho phép dev tạo ra bao nhiêu dynamically endpoint đều được. Nhưng dùng json protocol thuần sẽ rất phức tạp nên các thư viện như web3, ethers ra đời làm đơn giản hóa việc này.
+=> Smart contract <-> Web3 <-> UI
+
+Vc dùng web3 có đủ hết chức năng để tương tác với smart contract. Tuy nhiên Ethereum có json-rpc là Ethereum API giúp tương tác với blockchain. Dù nó phức tạp hơn web3 nhưng tốc độ nhanh hơn.
+
+-> RPC (remote procedure call) cũng chỉ là gọi procedure từ 1 máy khác không cùng tiến trình với máy thực thi procedure mà thôi. 
+VD A yêu cầu remote B thực thi 1 function -> B thực thì vì function implement trên B -> trả kết quả lại cho A dưới dạng message
+
+-> VD tạo 1 blockchain: ganache-cli --host 127.0.0.1
+Có thể dùng remix tương tác với mạng trên bằng cách chuyển sang web3 provider và gõ vào rpc url http://127.0.0.1:8545
+
+Lời gọi RPC sẽ có dạng: curl -X POST --data '{"jsonrpc":"2.0","method":"","params":[],"id":64}' http://127.0.0.1:8545
+=> Method là tên procedure muốn gọi VD: web3_clientVersion, web3_sha3,..; params là tham số trong request thực hiện các filter; id là giá trị hữu dụng khi dùng websocket nhận 1 luồng response có tác dụng mapping giữa các request và response, TH này dùng POST đơn giản thì k có tác dụng gì
+Các giá trị pass vào json thì phải convert sang HEX trước khi tạo request và prefix phải 0x
+=> Các method đều là các hàm ethereum api k liên quan đến web3, chú ý vài hàm web3 có cấu trúc giống làm ta tưởng ta đang code web3 nhưng không phải, thao tác với terminal gọi request kiểu này là ta đang thao tác trực tiếp với json-rpc
+
+VD: 
+=> Mở git bash lên nhập lệnh rpc vì 1 vài terminal có thể k hỗ trợ curl, dùng Powershell phải thử xem alias nó là gì:
+curl -X POST --data '{"jsonrpc":"2.0","method":"eth_blockNumber","params":[],"id":1}' http://127.0.0.1:8545  => lấy số block
+
+curl -X POST --data '{"jsonrpc":"2.0", "method": "eth_getStorageAt", "params": ["0xe396578C54988df0682b6DB65d1FD0Bfd0a498E2", "0x0", "latest"], "id": 1}' http://127.0.0.1:8545 => lấy giá trị lưu trong storage của contract, 1 là địa chỉ contract, 2 là vị trí slot muốn lấy
+
+curl -X POST --data '{"jsonrpc":"2.0","method":"eth_getLogs","params":[{"address": "0x1Afc3fdC7884c6a2064c2f39c60d62a7a042703A","fromBlock": "0x0","topics":[]}],"id":74}' http://127.0.0.1:8545 => lấy log event
+
+(paste trên gitbash dùng rightclick + paste)
+
+
+
+# Tạo instance web3 từ provider
+Web3 <-> Provider <-> Ethereum Node -> SmartContracts
+Nguyên nhân nó không dùng Web3 liên kết thẳng với Ethereum Node luôn là bởi vì nó muốn dùng Provider để tương thích với nhiều loại Wallet khác nhau
+Wallet --expose--> Provider <--used by-- DApp Web3
+=> Mỗi 1 thứ dùng trong DApp sẽ có 1 cách cung Provider khác nhau với vai trò khác nhau, chỉ cần nhét nó vào web3 của DApp để dùng thôi
+
+Có 3 loại provider là HttpProvider, Websocketprovider và IpcProvider. Trong object Web3.providers có cả 3 loại providers này.
+HttpProvider đã deprecated và k dùng được cho subscription, WebsocketProvider là bản standard trong legacy browser, IpcProvider thường dùng trong nodejs dapp khi chạy local node và nó sẽ có connection bảo mật tốt nhất.
+=> Mặc định dùng http provider với hầu hết các nhu cầu thông thường.
+
+Bản chất của provider:
+Nó cũng chỉ là 1 object có tối thiểu 1 hàm sendAsync, hàm này được gọi bất cứ khi nào web3 cần gọi đến 1 hàm tương tác với blockchain. Bên trong hàm này sẽ nhận payload của request và dùng payload đó gọi đến blockchain lấy dữ liệu rồi trả về qua hàm callback. Nó cũng chỉ tái tạo payload và gọi api y hệt như json-rpc thuần bên trên mà thôi.
+
+Provider phân biệt 2 loại: 
+Nếu provider gắn với 1 node cố định của 1 network, node này là node dùng chung không gắn với địa chỉ của ta, k gắn với ví của ta thì chỉ có thể gọi được các hàm getter như provider của infura hay các rpc url có sẵn. 
+Nếu provider gắn với tài khoản của ta VD được tạo ra từ metamask hay cung thẳng vào private key để tạo thì instance web3 đi kèm có thể dùng để thực hiện transaction or ký message.
+=> Kiểu gì thì provider cũng chỉ là 1 cách giúp instance web3 của ứng dụng liên kết với 1 ethereum node.
+
+Phân biệt: 
+Infura node có tác dụng gửi request lên blockchain pubnet. Khi dùng hdwallet-provider với pivkey truyền vào thì ký trans là web3 xử lý, vẫn phải dùng provider kiểu này để gửi lên mạng.
+Ví metamask có tác dụng giúp pop up cho người dùng ký trans, đồng thời gửi lên pubnet.
+Khi dùng url ganache làm provider, nó coi là thực hiện luôn chứ éo phải ký r gửi như v.
+
+-> Tạo instance gắn với 1 tk bằng private key
+--> Dùng package @truffle/hdwallet-provider: giúp tạo ra 1 provider dễ hơn tương tác trên public net với đầu vào là tài khoản(pub/pib key) trên các cái public net đó. hdwallet-provider chỉ để tạo provider tiện hơn, ta có thể dùng nó cho ganache thoải mái. Chính vì vậy cái này thường dùng ở backend, còn front end họ dùng provider của wallet software trên browser cơ
+
+---> Kết hợp ganache: bởi vì ganache là mạng test for development nên nó cấu hình đơn giản đi để dev có thể dùng nhanh nhất nên khi ta tạo provider chỉ bằng 1 url thì nó cũng tự unlock 10 accounts và mặc định dùng accounts đầu tiên để deployed contract và làm các thứ mà ta k cần phải thêm pivkey như trên. Nhưng trên public net k có 10 accounts sẵn như thế nên ta phải dùng tk của ta, cung cả piv/pubkey vào để nhận được provider mà tương tác:
+web3 -> sign transaction by wallet(or by piv/pub key là 1 tk trên mạng public) -> send signed transaction to public net => tự động thực hiện bởi web3 khi provider nhận được có private key
+=> Ta có thể truyền hdwallet-provider pivkey của 1 trong 10 tk có sẵn của ganache. Khi đó tk có sẵn ethers nên tốt hơn
+
+--> Dùng web3 thuần 
+Với web3.eth.accounts.wallet.add, khi dùng hdwallet provider, nó tự set cho ta gas và gasPrice mặc định đầy đủ trong biến web3 nên thực hiện trans rất mượt. Khi dùng web3 thuần, mỗi khi thực hiện trans, ta phải set gas và gasPrice đủ lượng để thực hiện transaction đó
+
+
+
+# Tương tác với contract
+Web3 instance --address+ABI--> contract instance --interact-> smart contract
+ABI là các function của contract mà web3 có thể gọi, ta có thể có 1 object ABI k đầy đủ mà chỉ cần có các function cần gọi thôi
+Để test được thì phải có 1 dự án thực tế có abi và address riêng của smart contract deploy lên 1 blockchain chỉ định
+
+-> Liên kết contract
+Khi có instance web3 gắn vói mạng, để tương tác với contract cần abi và address của contract trong mạng đó
+
+Trường address của instance truyền vào là optional params vì nhiều lúc người ta tạo contract instance chung chỉ cần abi mà k cần trỏ đến 1 contract ở 1 address cụ thể nào cả, sau đó mới deploy contract instance lên bằng web3 dù kiểu này ít dùng
+
+-> Call function
+
+-> Send transaction
+--> Dùng hàm send:
+Ở frontend k cần truyền gasPrice và gas vì kiểu gì user cũng override lên với setup trong ví của họ
+
+Có 4 cách xử lý trans async: 
+async await, .then().catch(), callback để thực hiện trans
+Dùng event emitter để xử lý trạng thái trans vì hàm send trả về 1 event emitter  => thg dùng phía frontend
+=> refer tới "## React / React lập trình web3 # Pattern xử lý trạng thái transaction"
+
+---> Tương tác với payable smart contract
+
+--> Deploy contract
+
+-> Gửi ether
+--> Dùng sendTransaction: chỉ gọi vào fallback của transaction để gửi ethers or gửi trực tiếp vào tk nào cũng được
+
+
+
+# Tương tác với event
+-> Lấy event cụ thể
+
+-> Subscribe to event
+Để subscribe to event, ta buộc dùng WebsocketProvider.
+
+
+
+# Sign message web3(Cơ chế hiểu sâu)
+Ta luôn hiểu rằng, hacker có thể gán các giá trị cho redux và localStorage thoải mái, nó cũng có thể gửi được mọi API và code frontend coi như là luôn công khai. Nhưng hacker k thể biết được code bên server cũng như k có private key của người khác để tiến hành ký, k biết signature. Nhưng có 1 xác suất nhỏ là có thể hack được localStorage của người khác bằng kỹ thuật phishing.
+
+-> Ta có thể sign message xác nhận 1 người được quyền xem data của người đó. Thực tế ta luôn yêu cầu 1 người connect ví của họ với trang web để thao tác với trang web nhưng trong web có vài data riêng tư chỉ mình họ được xem thôi, ta k muốn cứ connect là được xem data đó mà họ phải ký thêm 1 bước nữa xác nhận mới được quyền. Là vì connect vào website cũng chỉ là biết địa chỉ, hacker có thể đổi redux thành địa chỉ của người khác để lấy data của họ, nhưng hacker k có signature nên làm 1 bước ký là bảo mật ok.
+Nếu data được lấy từ 1 API server thì vc ký là bắt buộc vì ta k muốn bất cứ ai biết được API từ code front end đều fetch được data từ server mà phải là chủ tk, có signature đúng truyền tới server mới được xem data của tk đó từ server.
+
+Đơn giản ta dùng personal sign là được, tức người dùng pop up ký 1 string kiểu "Cho phép xem data" và nhận về 1 signature, sau đó ta xác thực đúng là address này ký cái message "Cho phép xem data" thành cái signature này thì hiện ra data của address đó.
+
+=> refer tới "Projects / Leaderboard trava / Leaderboard HighChart"
+
+Với cách tiếp cận naive, ta cứ cho ký 1 message và gọi verify luôn nếu result trùng với address của họ đã connect với website hiện tại thì đúng là họ vừa ký rồi, k chối được nên hiện data cho họ. Nếu ta muốn họ kp ký lại nhiều lần thì chỉ cần nhét vào localStorage là được, mỗi lần vào thì check localStorage trước và disconnect phải xóa localStorage đi.
+
+Trong dự án thực tế, ta phải xử lý thêm:
+K thể check if else từ server được vì frontend code lộ và hacker có thể làm bất cứ điều gì bỏ qua điều kiện if đó. Do đó cần 1 server riêng xác thực có cho phép fetch API hay không mới chuẩn.
+Một cái signature duy nhất mà lưu trong localStorage quá nguy hiểm. Bằng cách nào đó, signature này bị lộ thì hacker sẽ luôn xem được data bất cứ lúc nào vì chỉ có duy nhất 1 cái đó gắn với 1 tk thôi. Ta mặc định coi như có thể lấy được signature từ localStorage chứ hacker k thể ký được vì ký thì tk của nó cmnl rồi
+Do đó mỗi lần ký cần ra 1 signature khác nhau thì signature cũ k còn khả dụng nữa, thì sẽ tránh được, đồng thời 1 signature dù lưu vào trong localStorage cũng chỉ cho phép trong 1 khoảng thời gian, nếu quá sẽ phải ký lại. Tức ta cần làm hẳn 1 cái server riêng xử lý 2 thứ đó. Do signature đổi liên tục nên có thể lưu trong localStorage or chả cần lưu vì ta chỉ cần jwttoken thôi.
+
+Đầu tiên vào app, mỗi khi connect tài khoản sẽ gửi request tới server lấy 1 số nonce ngẫu nhiên k trùng nhau gắn với tk đó lưu vào redux -> user ký lấy signature -> dùng signature đó gửi luôn cho server lấy 2 cái token là jwtToken(để xác thực) và refresh token. Refresh token chỉ có 1 nhiệm vụ duy nhất là để lấy token mới nếu token jwt cấp phát cho user hết hạn vì thời gian nó khác nhau. VD jwttoken hết hạn sau 1h thì refreshtoken có thể hết hạn sau 10 ngày cơ -> sau đó lưu cả 2 vào localStorage -> khi disconnect thì xóa tất cả khỏi localStorage -> xử lý thêm khi connect thì check nếu localStorage có jwttoken rồi thì thôi, nếu chỉ có refreshtoken thì gửi tới server để lấy jwt token -> Từ đó mọi request tới server đều gửi thêm jwttoken để check -> Nếu có lỗi thì có thể tất cả token hết hạn nên xóa hết localStorage và bắt ký lại từ đầu
+
+Phía server làm gì: 
+Mỗi khi có 1 request nonce thì server vốn dĩ đã lưu 1 account gắn với 1 số nonce k trùng rồi, nó check xem số nonce đó dùng chưa, nếu chưa dùng thì gán nonce là nó, nếu dùng rồi thì lại sinh ra số nonce mới.
+Mỗi khi có {accountAddress, signature} gửi tới thì server sẽ lấy nonce của account đó đã dùng hiện tại và tái tạo message ban đầu và check xem signature này có đúng do accountAddress này ký hay không. Nếu đúng, nó dùng jsonwebtoken mã hóa từ signature đó tạo thành 2 loại token là jwttoken và refreshtoken gửi cho client và 2 token cũ mãn hạn luôn.
+Mỗi khi có refresh token gửi tới thì jwttoken cũ mãn hạn và gửi lại jwtoken mới sinh ra từ refreshtoken
+Mỗi khi có request trong pages đó gửi tới thì luôn kèm jwttoken, server phải check jwtoken đó hợp lệ thì mới gửi lại data cho client. Nếu bị lỗi sẽ xóa đi và bắt sign lại
+
+-> Kịch bản bảo mật:
+Hacker có được jwtoken thì cũng chỉ vào được trong 1h
+Hacker có được refreshToken thì cũng chỉ vào được trong 10 ngày, trong lúc đó, bất cứ khi nào chủ account vào sign message thì refreshToken cũ cũng k dùng được vì sinh cái mới thì cái cũ mãn hạn
+Hacker có được signature thì có thể dùng được vô hạn vì cứ mãi mãi tạo ra refresh token mới để xem thôi, trong lúc đó nếu chủ acccount vào sign message tạo ra signature mới thì hacker sẽ k dùng được nx vì signature cũ k đúng số nonce mới. Đó là ta đoán vậy chứ phía server có thể xử lý kiểu 1 số nonce chỉ được dùng max trong 10 ngày thôi và sau đó ép dùng nonce mới thì hacker có biết signature cũng chỉ ăn được max 10 ngày => thg thì server sẽ có như v
+Thực tế ta nhét hết vào localStorage thì ở đây refreshtoken nó k có vai trò gì nhiều vì nếu hack được localStorage là biết cả 2 loại token luôn.
+
+Kịch bản bảo mật nếu k có số nonce ở signature:
+Nên nhớ ai cũng ký như nhau nên hacker nếu có được signature của 1 message thì có thể dùng cho 1 trang web. Nhưng làm sao để có được signature, ta dùng kỹ thuật phishing. Ta tạo ra 1 trang web game khác nhưng lại ký message y hệt, khi đó game của ta thực chất lại đóng vai trò thu thập signature của người dùng, sau đó ta có thể dùng signature đó của họ để dùng cho các ứng dụng khác mà ký message tương tự nhưng k xài nonce sẽ ký được hết. Vì người dùng tham gia nhiều ứng dụng mỗi ngày ký thì đâu có để ý message là gì đâu.
+Thực tế bên trên vẫn chưa ổn vì số nonce ai cũng có thể fetch được và lại chơi kiểu nonce nếu chưa dùng thì k thay đổi, như v ta có thể tìm được số nonce tiếp theo mà 1 người sử dụng. Điều này thực sự k tốt vì nếu họ canh đến khi 1 người dùng số nonce tiếp theo đó rồi mới hack được signature thì khổ. Ta có thể fix bằng cách cứ tiếp tục cho nonce đổi liên tục mỗi lần fetch trong 1 phạm vi lớn hơn.
+
+Sign message nó cũng tương tự như việc đăng nhập vào tài khoản gg chỉ với 1 lần click vậy. Vc connect website với ví chỉ là cho phép tương tác thôi vì hacker có thể đổi data của frontend nên k thể chứng minh đúng là chủ account đang dùng web cả(chỉ là hiển thị data chứ fake frontend cũng k thể ký trans), chứ để thực sự login và làm các tính năng private thì phải signmessage.
+Connect vào ví -> xem được các thông tin cơ bản
+Connect và sign message -> xem được các thông tin private quan trọng. Bởi vì ta fetch data về thực chất là theo accountAddress trong redux chứ k phải xác thực gì cả. Nếu 1 cách nào đó hacker fake redux biến account thành 1 giá trị bất kỳ thì sẽ lấy được thông tin private của 1 người. Nhưng hacker k thể lấy được chữ ký nên dùng chữ ký cho an toàn
+Connect và sign transaction -> thực hiện được transaction với mọi thứ
+=> Thực tế không phải thông tin nào cũng cần là private vì có những cái lộ ra xong hacker cũng chả làm được gì thì chả đáng cho nó phải hack phức tạp chỉ để xem data, như các con NFT của 1 người sở hữu ấy thì connect là thấy chứ có cần ký gì đâu.
+
+-> Sign message web3 trong battlehand y hệt
+=> refer tới "Projects / Battle Hand"
+
+Tức là có 2 người chơi kéo búa bao. Người 1 tạo room, chọn các ô, gõ password, chọn khoản cược. Người 2 xem list phòng đang mở mà chưa có ai chơi thì vào đấu, thắng được tiền, thua mất tiền cược.
+
+Người 1 vào create room chọn các ô, gõ password, chọn khoản cược rồi ấn create sẽ phải sign message để chứng minh đó là họ và dùng jwtoken lưu vào localStorage để lần sau không phải sign message nữa nếu chưa mãn hạn. Cơ chế hơi khác nonce phần trên 1 tí là số nonce lấy thông qua fetch API mỗi khi dùng chứ k lưu vào redux, cũng gọi là bảo mật hơn 1 tí vì bth người dùng có thể log ra nonce từ redux khá nguy hiểm. Và nó cũng k dùng refresh token như ta đã nói thừa thãi khi lưu chung với jwtoken, chỉ cần cho jwtoken đủ ngắn là được -> sau đó họ thực hiện transaction tạo room trên SM.
+Khi đã ký rồi thì có thể xem được kéo búa bao đã dùng. Cái password không liên quan đến vc ký, ký chỉ là có tác dụng như v thôi. Password là từ phía contract và server sinh ra để tăng bảo mật thôi, thực tế vc ký cũng đủ để chứng minh 1 người sở hữu rồi. Thông tin về những gì họ chọn được ghi trong blockchain mà kể cả đội dev cũng không thể xem được họ chọn gì, trừ khi ta chủ động thu thập signature của họ và dùng nó khi họ chưa ký cái mới đồng thời fake accountAddress của họ vì mọi data trên blockchain đều công khai và có thể lấy được bởi bất cứ ai. Còn về SM thì:
+Người 1 createRoom phải ký sign message và ký 1 trans
+Hủy hay update room đều ký 1 trans
+Người 2 tham gia room phải ký 1 trans
+Người 1 xác thực để chơi phải ký 1 trans
+Claim gom lại để claim 1 thể phải ký 1 trans
+
+

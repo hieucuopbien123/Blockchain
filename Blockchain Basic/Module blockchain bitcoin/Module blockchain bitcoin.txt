@@ -1,0 +1,168 @@
+Blockchain Bitcoin
+
+
+
+# Basic
+Có nhiều trang web blockchain explorer để theo dõi address, transaction, block,.. của blockchain ví dụ: https://www.blockchain.com/btc
+
+Càng nhiều block đè lên nhau thì các block trc sẽ càng khó bị đảo ngược(vì để đảo thì tính toán rất nhiều) và càng đáng tin
+
+Double-entry là ghi sổ kép là hình thức ghi chép số tiền của nghiệp vụ kinh tế vào ít nhất 2 tài khoản có liên quan(ghi vào 2 tk riêng biệt sẽ đảm bảo độ an toàn hơn).
+
+
+
+# Đồng bitcoin
+Khi digital currency ra đời, nó gặp 3 vấn đề lớn: liệu tiền có thể bị làm giả, liệu có bị double-spend, liệu 1 người nào đó có thể hack được tiền về cho họ => tiền giấy thì tránh đc vì nó dùng họa tiết phức tạp + vật liệu polyme. Tiền giấy cũng có thể trao đổi qua digital thông qua ngân hàng và họ tránh tình trạng làm giả với double spent là do ngân hàng sẽ điều khiển mọi thứ. Tức là người dùng phải tin tưởng ngân hàng và ngân hàng phải giải quyết vấn đề 3 là chống hacker. Còn cryptography currency(tiền mã hóa) giải quyết vấn đề bằng cách dùng chữ ký số để đảm bảo phần tài sản số đó là do duy nhất user đó sở hữu, và chống hacker bằng cơ chế phi tập trung.
+
+
+
+# Mining
+-> Khoản tiền được thưởng cho xác thực 1 block bị giảm theo thời gian.
+
+-> Các transaction có fee cao hơn sẽ được xử lý trc. Giả sử ta muôn đào 1 block, ta rình cho block mới được tạo ra, xong đào luôn block tiếp theo bằng cách tạo 1 block và fill nó với transaction và hash của block trước đó r tính toán POW. Miner cx phải add nó với 1 transaction đặc biệt là cái phần thưởng trả vào địa chỉ của anh ta nếu thành công + transaction fee.
+
+
+
+# Ví bitcoin
+Ví bitcoin là ví điện tử để chứa tiền điện tử nói chung và ở đây là bitcoin. Nó cũng chỉ là 1 ứng dụng phía client có giao diện người dùng để tương tác với hệ thống bitcoin. VD: Web Browser cx là 1 ứng dụng có giao diện người dùng
+Có nhiều loại ví bitcoin cũng như có nhiều loại web browser(Chrome, Safari,..). Có các giao thức xử lý tương tác với blockchain bitcoin bitcoin cũng như browser có HTTP -> thích ví nào thì dùng.
+
+Ví dụ: sử dụng ví bitcoin Mycelium. Tạo 1 tài khoản, nó sẽ tự tạo ra 1 ví lưu bitcoin có address cụ thể(address luôn bắt đầu bằng 1 or 3) or dùng QR code. Nó đồng thời tạo ra 1 private-key. Private key như mật khẩu giúp ta truy cập đc vào ví này. Bản chất: khi tạo như v thì address ví bitcoin này k hề đc biết tới or liên quan gì tới bitcoin network global. Chỉ khi nào chiếc ví này thực hiện 1 giao dịch bất kỳ với bitcoin, nó mới thực sự là 1 phần trong sổ cái bitcoin global và là valid address in bitcoin network. Tức giao dịch ít nhất 1 lần là đk kích hoạt ví
+
+Giá của bitcoin hiển thị trong ví được tổng hợp trung bình từ nh market khác nhau
+
+-> Có nhiều loại ví: Desktop wallet(máy tính nhiễm virus là ăn cứt), Mobile wallet(an toàn, dễ dùng hơn), web wallet(third party-> tin tưởng bên thứ 3 giữ ví), hardware wallet(lưu trên thiết bị ngoại vi như USB, các thiết bị sử dụng NFC(near-field-communication là công nghệ kết nối không dây tầm ngắn nhanh hơn blutooth ví dụ loa, tai nghe, smartphone,..)), paper wallet(1 hình thức lưu offline gọi là cold storage),..
+
+Người ta còn phân loại dựa vào mức độ tương tác với bitcoin network, có 3 loại: full-node client là 1 client lưu toàn bộ transaction của bitcoin-> thg rất nặng vì lịch sử giao dịch cho đến h là quá nhiều nhưng ta sẽ có nh quyền hơn; lightweight client(or simple-payment-verification - SPV) connect to bitcoin full nodes trực tiếp(k qua trung gian), store ví locally với các thao tác độc lập; third-party API client là tương tác với bitcoin qua bên trung gian với API, mọi giao dịch sẽ qua bên thứ 3.
+=> 3 loại ví phổ biến nhất là desktop full client, mobile lightweight, web third party. 
+
+-> App wallet có các tính năng cơ bản(tùy vào app hiện đại đến đâu mà cung các tính năng đến mức nào): tự động generate key, qr code và address khi tạo; nhận coin(có qr code, transaction label, transaction description, số lượng coin xác định, share cho người khác). Số lượng coin xác định khi nhận kiểu thanh toán cho 1 cái gì giá bao nhiêu tiền thì sẽ fix giá đó và khi người nào muốn gửi sẽ mặc định là có giá đó trong giao dịch(giúp kiểu thanh toán 1 món đồ thì phải gửi đúng giá đó chứ), còn label giúp xác nhận có gửi đúng nơi có label đó k, tùy loại ví có hỗ trợ các tính năng này hay là không; gửi coin cho ai(address or qr code, số coin gửi đi, số tiền trả cho miner(càng cao thì tốc độ càng nhanh)); chuyển đổi bitcoin sang usd tùy vào market khác nhau 
+=> Khi nhận or gửi bitcoin thì ví sẽ gửi transaction lên blockchain network
+=> Đó là các chức năng 1 ví nên có
+
+App ví còn có thể thao tác offline và đến khi online nó tự động thực hiện
+
+-> Cơ chế: Với các loại ví chạy full-node thì nó sẽ chứa bản copy của các output trc có tất cả các giao dịch trong blockchain. Nếu ví chạy lightweight thì nó sẽ chỉ lưu các giao dịch mà chứa cái user hiện tại => nó sẽ lấy trực tiếp các ouput ra để tính ra lượng tiền còn lại có đủ để thực hiện giao dịch tiếp theo hay k. Còn loại ví tương tác với APIs để lấy info full-node luôn nên bản thân nó chả cần chứa block nào hết mà chỉ cần call API. 
+VD: https://blockchain.info/unspent?active=1Cdid9KFAaatwczBwBttQcwXYCpvK8h7FK
+
+-> Như ta đã biết là có ví lưu bitcoin và bicoin có các protocol riêng để thao tác với bitcoin. Nhưng cũng có các protocol bao gồm cả ví trong nó ví dụ như Satoshi Client hay Bitcoin Core.
+--> Bitcoin core là 1 software open source cung khả năng thao tác với bitcoin network full-client và có cả ví. Mở Geth của ethereum cũng coi là có ví vì xem số dư và chuyển tiền đc
+
+Bitcoin Core là reference implementation of bitcoin system. Nó là một ứng dụng client đầy đủ được sử dụng bởi các node hoạt động trên mạng Bitcoin. Ô Satoshi tạo ra vì muốn đảm bảo bitcoin hoạt động tốt nên tạo ra ứng dụng tương tác trực tiếp với hệ thống bitcoin. Dù nó có ví bên trong nhưng ng ta bảo k nên dùng Bitcoin Core như 1 ví điện tử. Application Dev được khuyên là nên tạo ra ứng dụng ví sử dụng các tiêu chuẩn hiện đại như BIP-39, BIP-32 (Bitcoin Improvement-Proposal)
+
+
+
+# Các cơ chế khác
+-> Bitcoin Relay networks là mạng giảm độ trễ trong transmission of blocks between miner, tăng tốc độ sync. Hiện nay có nhiều loại network như v hoạt động như 1 overlay lên bitcoin network vì các thợ đào cạnh tranh nhau luôn muốn độ trễ giữa lần kết thúc này và lần bắt đầu sau là ngắn nhất. 
+
+-> Bitcoin bị deflation ngược với tiền giấy bị inflation. 
+Tiền giấy cứ in thêm vô hạn nên có thể bị lạm phát, bitcoin bị giới hạn và giá trị cứ tăng cao dần nên bị giảm phát. Điều này dẫn tới xu hướng tích trữ tiền thay vì tiêu tiền. 
+
+Sự giảm phát liên quan tới sự thụt giảm của nhu cầu or cung bị giảm mạnh thì bitcoin rơi vào TH cung bị giảm dần. Giảm phát và lạm phát đều nên tránh nhưng giảm phát của bitcoin đỡ hơn lạm phát nhiều. Lạm phát chậm nhưng sự mất giá trị của đồng tiền là k thể tránh khỏi gây ra trốn thuế, trừng phạt những người tích trữ tiền và tạo lợi ích cho những con nợ(bởi vì lam phát thì tích tiền sẽ mất giá trị còn nợ tiền vài năm thì sẽ chỉ phải trả ít hơn do giá trị đồng tiền giảm) mà con nợ lớn nhất ở đây là government. 
+
+-> libbitcoin là thư viện có thể dùng, nó chứa sẵn copy genesis block nên có thể lấy ra dùng luôn từ thư viện này.
+
+
+
+# Các loại pool
+-> Transaction pool(memory pool/ mempool) là temp list of unconfirmed transaction. 
+Các transaction tới đây đã nhận được từ mạng như chưa đc confirm, nhưng nó đã đc verified(xác thực dùng đc UTXO), sau khi đc xác thực bởi node khác, nó sẽ lan truyền trong mạng. 
+
+-> Orphan Pool: vài node có thể chứa 1 pool như v, chứa các giao dịch k có cha. Tức cha của nó k tồn tại ở bất cứ đâu. Chỉ khi cha xuất hiện thì nó mới bị loại khỏi orphan pool. Khi 1 transaction đc add vào transaction pool, orphan pool sẽ check bất cứ orphan nào dùng output của trans đó, nếu match sẽ validate và được loại khỏi orphan pool và thêm vào trans pool và tiếp tục như v. 
+
+=> 2 cái pool đó được lưu trong local memory, ko phải persistent storage.
+
+-> UTXO pool là nơi chứa unspent trans output với hàng ngàn entries cho đến genesis block. Nó khác với 2 cái trên vì chỉ chứa confirmed output và lưu trên persistent storage. 
+
+
+
+# Block
+-> 1 block chỉ có 1 parent nhưng 1 block có thể tạm thời có nhiều child during 1 blockchain fork or 1 block mới xuất hiện đồng thời bởi nhiều thợ đào khác nhau. Nhưng đến cuối sẽ chỉ có 1 child là 1 phần của blockchain là mainchain và fork sẽ đc resolved. 
+ 
+Blockchain càng dài thì càng an toàn và k thể thay đổi. Người ta bảo dưới 6 block kể từ block mới nhất là an toàn và k thể đổi, còn các block mới đc tạo ra gần đây có thể được recalculation due to a fork tức là có khả năng bị đổi dù rất thấp. Cơ chế đồng thuận sẽ khiến tất cả đều đồng ý cho sự thay đổi đó mới đc. Dưới 6 block thì số lượng tính toán sẽ trở nên rất lớn và trong lúc tính toán thì block mới vẫn ra đời làm cho sự thay đổi là impossible
+
+-> Block header:
+1 block header là 80 bytes, 1 average trans có tầm 250 bytes=> 1 block khoảng hơn 500 trans nên kích thước của nó lớn hơn 1000 lần header trung bình. 
+
+Các trường block: block size(4 bytes) chứa kích thước block; block header(80 bytes); transaction counter(1-9 bytes) chứa số lượng trans; các transactions bên trong (variable-size)
+Block header: prevhash(32 bytes), version(4 bytes), metadata(difficulty(4 bytes), timestamp(4 bytes) là thời gian block được tạo ra kể từ Unix Epoch, nonce(4 bytes)), merkle tree root(cấu trúc dữ liệu tổng hợp mọi transaction trong block)(32 bytes)
+
+Hash cái block header là ra block hash. Nó lưu trên 1 database table riêng biệt như 1 phần của block's metadata. Nó or block height chính là identifer of block. Dùng height để lấy 1 block cx đc vì các block được xếp lên nhau chồng lên trong vertical stack. Tuy nhiên 1 block height có thể k specific 1 block vì blockchain fork, chúng sẽ compete để giành lấy vị trí đó trong blockchain.
+
+--> Merkle tree
+Merkle tree là binary hash tree chứa cryptographic hash sẽ summarize all transaction in block, tạo ra 1 fingerprint cho tập hợp toàn bộ transaction.
+Tức là xét 1 block có rất nhiều trans, để tạo ra merkle tree cho block đó, ta dùng double-SHA256(gọi SHA256 2 lần). 
+Ha=SHA256(SHA256(Transaction A))
+Hab=SHA256(SHA256(HA+HB)) =>concat 2 H vào r lại double-SHA256
+Tương tự ta sẽ gom hết các transaction vào VD chỉ có 4 trans thì Habcd là merkle root. Merkle tree là binary tree nên luôn có 2 node con từ 1 node cha nên nếu số trans là lẻ thì sẽ tự nhân đôi để đủ. VD A B C thì Habcc là merkle root. Kết quả là 32 bit nhé dù cộng nhiều hash vào nhưng mỗi khi gọi SHA256 sẽ trả ra 32 bits.
+VD: Có N element đc hashed và summarized trong merkle tree, ta có thể kiểm tra 1 transaction có trong merkle tree đó k với nhiều nhất 2*log2N calculation. 
+VD: có 16 element và root là Habcdefghjklmnop thì kiểm tra xem K có thuộc block có merkle đó k bằng cách tạo ra 1 merkle path có 4 32 bytes hashes: Hl, Hij, Hmnop, Habcdefgh. Từ 4 paths bất cứ ai cũng có thể lấy path của K với Hkl, Hijkl, Hijklmnop, root. Path size là 4*32 = 128 bytes.
+=> Nhờ merkle tree mà 1 node có thể biết được 1 block có chứa transaction ta cần tìm hay k nhanh chóng chỉ với header mà k cần tải tất cả transaction về nên luôn có trong SPV để xác thực với merkle path.
+=> Khi peer gửi lại merkleblock message, nó chứa block header và merkle path link cái transaction SPV cần với merkle root của block. SPV node dùng merkle path này để connect tới trans cần lấy ở trong block nhận được theo đường path. SPV dùng block header to link block đó vào blockchain của mình(block mà chỉ có header với merkle mà k có transaction ấy) => như v SPV nhận lại rất ít. 
+
+
+
+# Các loại network
+-> Mainnet là mạng blockchain do Satoshi tạo ra, còn có testnet, segnet, regtest. 
+
+-> Testnet là test blockchain có các chức năng như mainnet. Coin của testnet là worthless và difficulty cực nhỏ. Tuy nhiên do nhiều người dùng các thiết bị mạnh để đào coin trong testnet làm cho coin trở nên có giá trị và k thể đào đc theo kiểu bth nx. Every now and then, testnet bị scrapped và restarted from new genesis block để reset difficulty. VD: testnet3 là lần reset thứ 3 của nó r. Dù v nhưng do nhiều người test nên nó vẫn là 1 large blockchain nên fullnode dù nhẹ hơn mainnet nhưng vẫn rất nặng, có thể chạy bằng máy ảo.
+Có thể dùng Bitcoin Core để chạy các operation của testnet thoải mái, nó hỗ trợ cả 2, chạy fullnode, đào coin thoải mái. 
+
+-> Segnet(Segregated Witness Testnet) như testnet nhưng nó dùng cho 1 special purpose kiểu test 1 feature nào đó.
+
+-> Regtest(regression testing)-Local blockchain: khác với testnet là pub blockchain thì regtest yêu cầu ta phải tạo từ scratch, tự tạo genesis block và chạy có mình ta -> dùng để test vd Bitcoin Core software cho mình ta thấy mà thôi, như mạng ganache ấy
+=> quy trình thg test trên regtest trước-> testnet-> mainnet
+
+
+
+# Mining pool
+Bể đào xuất hiện khiến solo miner k còn cửa tìm ra block mới nx. Vì 1 miner k thể so với những hệ thống công nghiệp gắn 10 ngàn chip 1 lúc đặt gần những máy chuyên phát điện được. Họ tập hợp lại thành 1 pool và chia đều phần thưởng, tập hợp năng lực đào. Pool sẽ dùng các pool-mining protocols riêng và các miner sẽ configure thiết bị của họ tạo 1 tài khoản trong pool. Khi 1 người trong pool đào thành công, phần thưởng sẽ gửi vào pool bitcoin address chứ kp từng miner. Pool server sẽ gửi số tiền đó cho các miners. Miner tham gia pool sẽ phân chia công việc. Mining pool set higher target cho những người trong bể đào nhận thưởng hơn là họ tự đào 1 mình với target thấp hơn vì độ khó được chia cho mn trong bể đào mà. Bể đào trả tiền cho miner tùy theo tỷ lệ số lượng work họ đóng góp cho bể.
+
+-> Cơ chế pool
+Pool mở cho mọi miner dù nhỏ hay to. Pool sử dụng POW algs để đo contribution của từng miner nhưng set difficulty thấp hơn để cho smallest miner cũng đóng góp đc. Nó đo lượng work mỗi miner thực hiện. Pool miner cần tìm đc 1 block header hash nhỏ hơn pool target. 
+Vd: block mới chứa bài toán tung 2 súc sắc nhỏ hơn 4 => pool tập hợp các miner và đặt ra bài toán cho các miner là nhỏ hơn 8. Các miner tung súc sắc nhỏ hơn 8 dù k đào đc block nhưng họ vẫn win the share. Họ tiếp tục tung súc sắc bth đến khi 1 người nào đó nhỏ hơn 4 luôn-> tổng tiền nhận đc sẽ chia cho những người nhận được share do đào nhỏ hơn 8 bên trên. Đào càng nhiều thì nhận được càng nhiều nhưng vẫn đúng theo tỉ lệ và là chia ra từ phần thưởng của của block đó. 
+=> Điều này là fair vì người may mắn sẽ k đc nhận mà người đóng góp nhiều mới đc nhận. Đồng thời đảm bảo người nào cung work thì sẽ nhận được share thường xuyên luôn. Nếu người nào tìm đc đáp án thì pool đó win, còn k thì pool đó éo đc gì, share coi như k có.
+
+-> Managed pool:
+Pool đc quản lý bởi 1 công ty or 1 cá nhân chạy pool server đó. Owner of pool server là pool operator, là người trả tiền cho miner theo tỉ lệ. Pool server chạy phần mềm dùng pool-mining protocol. Nó cx connect với vài full node để access trực tiếp với blockchain database. Điều này cho phép nó validate blocks và trans dưới danh nghĩa là miner đào đc block đó mà các miner k cần full node mà chỉ cần kết nối với pool thôi. Đó là điểm lợi của miner khi tham gia pool thì vẫn có full access to copy of blockchain dù k là full node nhưng pool phải bảo trì và nâng cấp thường xuyên vì là full node. 
+Các node có thể connect với pool thông qua mining protocol như Stratum(STM) or GetBlockTemplate(GBT). Quy trình: STM or GBT sẽ tạo ra 1 block template chứa candidate block header của pool(pool chỉ như node v dù có nh miner). Pool tập hợp trans, thêm vào coinbase trans(with extra nonce space), tính merkle root, liên kết với hash trước đó -> header of candidate block của pool đó gửi cho pool miner và họ dùng block template đó để đào với target cao hơn bitcoin network target và gửi any successful result back to pool server to earn shares.
+
+Với managed pool thì pool operator có thể control sự hình thành của candidate block và trans trong nó nên có thể tùy ý loại bỏ trans or thêm các trans double spend vào mà k bị phát hiện. Các miner k là full node nên kb.
+
+-> P2P mining pool: 
+Do managed pool có thể bị pool operator cheat và tấn công DOS và server. Do đó p2p pool ra đời là pool mà k có central operator. Pool này thực hiện song song 1 blockchain-like system là sharechain. Sharechain cho run với difficulty thấp hơn bitcoin blockchain. Sharechain cho phép mỗi miner tham gia vào decentralized pool và đào share với rate là 1 share block mỗi 30s. Share block chính là 1 block trong share chain, mỗi block chứa tỉ lệ share reward của pool miner. Khi 1 share block thảo mãn bitcoin network target, tương tự sẽ truyền vào bitcoin blockchain và gửi phần thưởng cho pool miner đóng góp share trong blocks trước winning share block. Thay vì pool server quản lý thì 1 blockchain riêng là sharechain sẽ quản lý thì là phi tập trung với cơ chế y hệt cơ chế đồng thuận của bitcoin. P2P mining phức tạp hơn cái trước vì mỗi node phải đủ dung lượng hỗ trợ fullnode. Miner sẽ kết nối hardware của mình với local P2Pool node thực hiện vai trò gửi block template cho hardware đó đào. 
+Ở pool này, miner sẽ tự aggregate trans và tạo candidate block cho riêng mình như solo miner r cùng đào trong share chain, phần thưởng được chia tùy theo tỉ lệ đóng góp được lưu trong từng share block. Dù P2P pool giảm năng lượng cần thiết nhưng có thể bị 51% attack trong chính share chain vì cái chain này quá nhỏ bé so với bitcoin blockchain
+
+
+
+# Blockchain attack
+Consensus attack chỉ tác động được các block gần đây chứ các block ở xa thì kể cả hack cả hệ thống cx éo đổi đc vì dù trên lý thuyết fork có thể thực hiện mọi depth như thực tế để thay đổi các block cũ thì năng lượng cần là rất lơn. Consensus attack k thể steal bitcoin, k thể tác động vào pivkey mà chỉ ảnh hưởng những block ở gần và gây ra DDOS cho vc tạo ra block trong tương lai: 51% attack và DDoS address.
+
+Nói là k thể steal coin của người khác vì k biết pivkey của họ để tạo signature gửi tiền cho ta nhưng VD case A gửi B nhưng để lừa B thì ta lật ngược lại cho A gửi C gây fork thì cũng coi là steal coin của B mà(A và C đồng lõa)
+
+-> 51% attack
+51% attack có thể kiểm soát block nào là valid và invalid nên có thể gây fork trong block chain, valid các double-spend trans và gây DDoS attack vào 1 địa chỉ nào đó. Nó có thể khiến 1 block đã valid thành invalid bằng cách fork below them và cho cái fork đó là valid, nếu năng lượng đủ lớn thì nó có thể cùng lắm là fork tầm 6 block về trước. Double spend chỉ có thể thực hiện khi acttacker own trans và valid các transaction dùng lại cái đã spent. 
+VD: A bán bức tranh giá 1 bitcoin, B gửi 1 bitcoin cho A để mua tranh. B thực hiện giao dịch, A thấy giao dịch có 1 confirmation liền đồng ý và đưa tranh cho B. B lại là chủ của 1 mining pool đồng lõa với C và D. C có lượng năng lượng đủ để thực hiện 51% attack. C liền đào lại cái block đó với trans của B được gửi cho D chứ kp A với đk trans đó là double spent khoản B gửi A. Đào xong C đào tiếp 1 block nx để cái chain đó dài hơn chain ban đầu. Khi chain B gửi D dài hơn chain B gửi A thì B gửi D sẽ nằm trong main chain và giao dịch B gửi A k thực hiện. A bị lừa.
+=> Để tránh khỏi tình trạng này thì cần chờ cho tầm 6 confirmation hãng gửi tranh chứ mới có 1 thì nó có thể lật lại trans đc. Càng nhiều confirmation thì càng an toàn. Với 1 vật phẩm giá trị, người ta có thể chờ 24h để có 144 confirmation mới thực hiện giao hàng để đảm bảo an toàn, dù v cx đáng cho cái tiện lợi của bitcoin đem lại.
+
+51% attack kp là đk cần mà là điều kiện để chắc chắn attack thành công. Người ta có thể dùng less hash power để thực hiện. Càng nhiều power thì hacker có thể dổi nhiều block hơn trong qk và can thiệp vào nhiều block hơn trong tương lại, tỉ lệ thành công khi nh NL cx cao hơn. 
+
+-> 1 kiểu khác của consensus attack là từ chối dịch vụ gửi vào 1 address or 1 tập hợp cụ thể. Khi chúng có majority of power, có thể ignore các trans gửi vào addresses nào
+
+=> Có thể có các cuộc tấn công kiểu phối hợp với nhau dùng 1 lượng lơn mining hardware và thỏa hiệp với pool operator để tấn công 1 pool khác với DOS, để làm đc điều này cần rất nhiều năng lượng để chiếm majority. Dù có nhiều kiểu tấn công nhưng đa phần đều k thực tế vì năng lượng bitcoin tiêu tốn hiện đang tăng theo cấp số mũ. Consensus attack có thể làm giảm lòng tin và khiến giá bitcoin giảm nhưng cộng đồng bitcoin rất lơn và luôn sẵn sàng fix bất cứ lỗi nào xuất hiện.
+
+
+
+# Module transaction
+# Module cơ chế key address
+# Module node trong blockchain
+# Module consensus
+
+
+
+# Other:
+-> Dùng mã nguồn của bitcoin:
+git tag -> hiển thị ra các release version
+=> Trong bitcoin, các phiên bản để test là release candidate có đuôi rc.
+git checkout <phiên bản> => Chọn phiên bản nào để build
+

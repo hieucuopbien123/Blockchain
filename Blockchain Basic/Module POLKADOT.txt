@@ -1,0 +1,35 @@
+POLKADOT(DOT token):
+
+
+
+# Basic
+Các dự án như Polkadot hay Cosmos có thể coi là blockchain cho mọi blockchain. Nó là mạng lưới phi tập trung cung giao thức kết nối các blockchain với nhau, bản thân nó cũng coi là 1 blockchain(multichain) có thể trao đổi với các blockchain khác, dễ mở rộng.
+Nó cũng giải quyết vấn đề tốc độ giao dịch chậm của ethereum nhanh hơn gấp 10 lần. Người dùng cũng có thể xây dựng 1 blockchain riêng trên POLKADOT dễ dàng.
+
+POLKADOT dù ra đời sau Ethereum nhưng vẫn có thể nói là lâu đời, còn thiếu nhiều mảnh ghép so với các nền tảng đi trước
+Ethereum 2.0 giống Polkadot. Người sáng lập solidity cũng là người sáng lập ethereum
+
+-> Polkadot viết bằng Rust. Dùng PoS.
+Rust là ngôn ngữ viết ra polkadot và cũng được dùng để viết smart contract. Rust là ngôn ngữ có nhiều ưu thế tốt hơn solidity dù k nổi bằng solidity. Đây là ngôn ngữ đáng học khi dùng về blockchain. Nên học cả Rust và subtrate.
+
+Token DOT: quản trị mạng lưới; stake vào pool để nhận lãi suất thường xuyên; DOT được dùng để kết nối các parachain, khi chúng kết nối sẽ trả fee
+
+-> POLKADOT có framework substrate giúp người dùng tạo ra chuỗi blockchain mới tùy chỉnh chỉ trong vài phút; liên kết đa chuỗi; khi muốn tích hợp các tính năng mới or fix lỗi thì k cần tiến hành hardfork.
+
+Tại sao lại có nhiều parachain? Các dự án lớn được tạo ra nhưng họ muốn có 1 blockchain riêng cơ, nhưng mỗi blockchain được tối ưu cho các nhiệm vụ khác nhau như defi, smartcontract, bảo mật,.. do đó họ tạo ra parachain cho từng dự án nhằm tối ưu cho từng nhiệm vụ.
+
+Tuy nhiên để trở thành 1 parachain trên POLKADOT k hề đơn giản. Kể cả là 1 blockchain mới(thg là k được) hay 1 blockchain đã có sẵn, họ phải đấu giá và trả phí đồng DOT để trở thành parachain, ưu điểm họ nhận lại là tương tác với mọi blockchain khác đã có trong POLKADOT. VD: MoonBeam(GLMR) là 1 blockchain riêng đấu giá để là parachain trong POLKADOT, là 1 nền tảng giúp built DApp dễ hơn trên Polkadot
+
+
+
+# Cơ chế POLKADOT 
+-> Cho phép gửi bất kỳ loại dữ liệu nào giữa bất kỳ blockchain nào. Bên trong Polkadot có các mạng lưới blockchain k đồng nhất gọi là parachains và parahead. Parachains là các blockchain độc quyền được tối ưu hóa cho các TH cụ thể, parahead tương tự như parachains nhưng là các blockchain có mô hình trả tiền khi sử dụng để tiết kiệm cho các blockchain k cần kết nối liên tục với mạng. Bên trong Polkadot có relaychain là chuỗi chuyển tiếp, nó là trung tâm của Polkadot chịu trách nhiệm bảo mật, đồng thuận và khả năng tương tác crosschain. Bên trong nó còn có Bridge(Wrapped Token) cho phép các parachains và paraheads kết nối và giao tiếp với các mạng bên ngoài như Bitcoin, Ethereum.
+
+A A A ----Bridge----> <ethereum blockchain>
+A X A 
+A A A
+=> Trong Polkadot, X là relay chain lo cơ chế đồng thuận. A là các parachains kết nối với X, nhiều dự án có thể xây dựng parachain kết nối với relaychain để tận dụng mạng lưới có sẵn của Polkadot giúp tăng tốc độ phát triển ứng dụng lên nhiều lần. A cũng có thể là parehead nhưng là các chain mà lúc kết nối lúc lại không kết nối(vì phải trả tiền khi sử dụng), nó chỉ là 1 giải pháp tiết kiệm chi phí cho các dự án k có nhu cầu kết nối thường trực. Bridge là cầu nối kết nối với mạng lưới khác bên ngoài. blockchain bên ngoài chỉ cần cắm Bridge vào 1 parachain là nó tương tác cross chain được với mọi chuỗi khác trong Polkadot
+
+-> Về bảo mật: các mạng lưới do người dùng tạo ra sẽ độc lập về quản trị nhưng tính bảo mật thì luôn toàn diện. Nhược điểm của PoW và PoSs là phải có 1 cộng đồng đủ lớn để đảm bảo bảo mật nhưng các dự án nhỏ và mới thì kiếm đâu ra cộng đồng lớn. Polkadot sẽ đứng ra như điểm liên kết để các chuỗi nhỏ vận hành an toàn ngay từ đầu. Mọi cá nhân tham gia vào Polkadot đều có thể tham gia đóng góp vào hệ thống, họ kết nối nguồn lực từ nhiều chuỗi bằng relay chain nên các dự án chuỗi nhỏ vẫn luôn có nhiều người từ tham gia vào hệ thống trước đó hỗ trợ. Các parachain mơi tạo ra hưởng lợi ở việc tương tác được với các chain khác sẽ nhanh chóng mở rộng cộng đồng
+Note là các blockchain bên ngoài liên kết với POLKADOT thì nó vẫn độc lập với cơ chế đồng thuận riêng và cộng đồng riêng, chỉ là tương tác được với nhau thôi
+

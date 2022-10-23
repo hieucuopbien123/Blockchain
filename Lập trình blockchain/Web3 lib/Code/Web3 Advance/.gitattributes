@@ -1,0 +1,2 @@
+# Các loại file git khác / Dùng .gitattribute
+*.sol linguist-language=Solidity

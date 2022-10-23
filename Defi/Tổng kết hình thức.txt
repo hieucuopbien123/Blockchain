@@ -1,0 +1,177 @@
+Tổng kết hình thức Defi
+
+
+
+# Sàn CEX
+-> Sàn CEX orderbook(Binance): Mọi người gửi tiền vào sàn giữ hết và có thể dùng để trade trên sàn dễ dàng. Orderbook là bên mua đặt lệnh mua và bên bán đặt lệnh bán, nếu 2 lệnh khớp nhau sẽ thực hiện trao đổi. Lệnh mua gọi là bid là mức giá mong muốn giao dịch. Khi lệnh mua xuất hiện ở 1 mức giá, nó sẽ k thể được giao dịch lúc đó nếu các lệnh mua giá cao hơn chưa bị lấp đầy. Từ đó hình thanh tường mua(buy wall). Buy wall ảnh hưởng đến giá trị của tài sản mà các lệnh mua với giá thấp hơn buy wall hiện tại sẽ k thể thực hiện vì các lệnh mua cao hơn còn k được thực hiện cơ. Ngược lại với sell-wall lệnh là ask thì các lệnh bán cao hơn sẽ k được thực hiện khi lệnh bán giá rẻ còn chưa được thực hiện.
+
+
+
+# Stable coin
+-> Stable coins cũ(USDT hay Tether coin): các đơn vị phát hành coin bằng số lượng tài sản họ sở hữu nhưng do cefi nên k rõ họ có sở hữu lượng coin đó hay không
+
+-> Stable coin defi(DAI của MakerDAO): Người dùng khóa lượng coin của họ vào smart contract và lock vào coin yêu cầu để nhận lại stablecoin giá trị tương ứng có vai trò gì đó như trade trên nền tảng. Khi trả lại lượng stablecoin kèm phí thì contract sẽ burn và mở khóa để gửi trả lại ta; Nhiều nền tảng họ tạo riêng stablecoin cho hệ sinh thái của họ để người dùng tham gia hệ sinh thái có 1 loại coin mà k bị ảnh hưởng biến động giá và đặt ra nhu cầu sử dụng đồng coin đó, phải có nó thì mới làm được gì khiến cho nhu cầu sử dụng đồng coin đó tăng cao và mọi người muốn vay đồng coin đó để trade các chức năng của nền tảng. Thg thì nền tảng đó sẽ có lending borrowing luôn để người ta sẽ lend và borrow đồng stablecoin đó; Các stable coin luôn cố gắng mở rộng hỗ trợ trên càng nhiều nền tảng, càng nhiều blockchain khác nhau càng tốt
+
+=> refer tới "Lending Borrowing"
+
+-> Smart stablecoin(oUSD): dùng stable coin mine ra smart stable coin, để stable coin này trong ví thì tài khoản tự tăng tiền. Đồng coin này tự động có cơ chế cung vào vault để kiếm lời, khi cần tiêu thì rút lại.
+
+
+
+# Ví
+-> Ví Defi(Metamask): Người dùng toàn quyền dùng và bảo mật, có thể dùng mnemonic, kết nối với các blockchain khác nhau, chuyển gửi tiền, ký message or transaction, thêm token ở địa chỉ nào, cung provider để connect web3, có cả phiên bản mobile và web, có thể tương tác với pivkey; ví lạnh(Trezor) dùng hardware, cung 12 passphrase, k tương tác TT với pivkey
+
+-> Ví Cefi(Binance): Sàn kiểm soát rút hay chuyển, quản lý bởi sàn tập trung
+
+
+
+# AMM
+-> AMM Dex(Uniswap): Người dùng vào lấy 1 coin thì trả lại coin còn lại kèm 1 khoản phí, khoản phí 1 phần cho Dev, 1 phần cho Provider(giao dịch với coin thanh khoản yếu nhưng slippage nhỏ). Người cung thanh khoản vào sẽ nhận được LP token mà khi đốt nó sẽ nhận lại vốn và lãi. Nhu cầu càng nhiều, giá càng cao; Cơ chế tự động swap qua nhiều đồng coin khác nhau chứ k chỉ trong 1 pool; Có protocol khi swap sẽ tự tìm các AMM có tỉ giá đổi được nhiều nhất coin đích cho user để cân bằng cặp coin ở mọi AMM; Có nền tảng yêu cầu đặt cọc mới cho làm Provider; Có thể tăng số lượng token cho vào 1 pool và tỉ trọng bất kỳ chứ kp lúc nào cũng 1:1, tỉ lệ thay đổi tức là pool có nhiều token hơn tăng thanh khoản thôi; LP token có thể tận dụng để làm các thứ khác như yield farming trong dự án; có thể cung oracle về giá cả hiện tại từ dự án; fee swap có thể tùy ý cho người dùng set chứ kp lúc nào cx fix 0.3%; Nhận LP token có thể tặng thưởng thêm token quản trị tức là kết hợp liquidity mining. Làm kiểu provider set fee càng thấp thì càng nhận nhiều token quản trị hơn, điều này khuyến khích provider set fee thấp để kéo user về chuyển hướng lãi suất sang token quản trị; Có thể chia nhiều loại pool như: shared pool là bất cứ ai cũng thêm được liquidity và thông số của pool là cố định; private pool: chỉ người tạo mới chỉnh sửa các thông số và thêm liquidity được; smart pool: chủ pool là SM và mn có thể thêm thanh khoản vào pool khi thỏa mãn điều kiện đặt ra; AMM bản mới còn cho phép người dùng cung thanh khoản sẽ nhận về token quản trị của dự án. Đồ thị x.y=k
+
+-> AMM DEX for stablecoin(Curve): AMM này có đồ thị giống AMM bth nhưng phần giữa gần như tuyến tính do phương trình bị thay đổi nên nếu trade trên vùng đó, người dùng được lợi là chỉ phải trả khoản phí cực thấp; Có thể hỗ trợ nhiều token trong 1 pool; Có thể hỗ trợ single side supply tức cung vào 1 loại coin thì hệ thống tự bán đi lấy các đồng còn lại cung vào pool theo đúng tỉ lệ hiện tại vì fee khi làm như v cực kỳ thấp; Có thể kết hợp liquidity mining khi người dùng cung liquidity sẽ ăn token quản trị đó và kêt hợp nhằm tạo ra nhu cầu sử dụng bằng cách chỉ cho ăn 50% còn 50% còn lại phải lock token quản trị và thêm quyền vote 
+
+-> AMM with Impermanent Loss Protection(Bancor DEX): Tương tự như AMM thông thường nhưng nó gom tất cả impermanent loss của tất cả các pool thành 1 mối rồi chia đều. Tức lợi nhuận của mọi người được chia đều hay 1 người bị impermanent loss và người kia được lãi thì sẽ chia đều ra. Điều này dẫn tới người lãi kia có thể thành lỗ nhưng thực tế, do có nhiều người tin tưởng dự án nên số lượng swap nhiều vô kể dẫn tới phí thu được từ swap cao hơn rất nhiều so với impermanent loss trên tất cả các pool. Đồng nghĩa Bancor có thể bồi thường hết cho tất cả mọi người mà vẫn tạo ra lợi nhuận lớn cho giao thức. Phải có cơ chế cản trở mn tạo pool tràn lan với các token thanh khoản quá yếu.
+
+
+
+# Sàn DEX
+DEX Order-book: tiền ví mình tự giữ và vẫn đặt tường buy, sell để mua bán với nhưng người khác như CEX
+
+
+
+# Lending Borrowing
+-> Lending/Borrowing(MakerDAO): Lending bằng cách ký quỹ vào pool cho vay và hưởng lãi suất. Borrowing thì phải thế chấp và duy trì tỉ lệ thế chấp trên ngưỡng nhất định để tránh bị thanh lý và phải trả phí cho người cho vay nx. Có nền tảng gửi thẳng khoản lãi vào tài khoản, có nền tảng tạo ra token tượng trưng mà người cho vay cung lượng token tượng trưng nhận được vào để rút lại khoản cho vay và lãi suất; Có thể tạo ra OSM delay k thanh lý ngay khi tỉ lệ thế chấp dưới ngưỡng để tạo thêm thời gian cho user kiếm lại tiền trả lại cho nền tảng tránh bị thanh lý; K thanh lý tất cả mà thanh lý tài sản thế chấp của người vay cho đến khi trả đủ vốn cho người cho vay đồng thời kèm 1 khoản phí phạt thanh lý và phần tiền thừa vẫn trả lại cho người vay.
+
+-> Lending/Borrowing + Auction + Stablcoin(MakerDAO) - Cơ chế gắn chặt với toàn bộ nền tảng: Người cho vay cung token vào nền tảng để mint ra stablecoin(cơ chế như phần stablecoin) và phải đóng 1 khoản stability fee. Họ thế chấp token A để lấy stable coin thì nếu thanh lý, nền tảng có thể đấu giá token A(collateral auction) để lấy lại lượng DAI ban đầu trả lại người cho vay(Ở đây k có người cho vay như trên mà nền tảng sẽ tự đào ra stablecoin). Tức là người cho vay token A cũng là người vay stable coin của nền tảng, nền tảng đấu giá và nhận lại stable coin sẽ đốt đi để duy trì đúng giá stablecoin. Khi stability fee được trả mỗi lần gom vào maker buffer đủ 1 lượng thì sẽ đấu giá stablecoin nhận về token nền tảng(surplus auction). Nếu ts thế chấp bị thanh lý nhưng k ai mua cả thì nền tảng buộc phải in thêm token nền tảng rồi đem đấu giá lấy lại stablecoin và burn nó đi. Vì khi thanh lý thì số DAI trên thị trường là dư nợ do thế chấp quay về 0 nhưng lại mint ra nhiều hơn trong khi muốn là stablecoin thì lượng stablecoin mint ra phải có giá trị bằng ts thế chấp cho lượng stablecoin đó. Nên phải thu về để đốt đi. 
+=> Mấu chốt của những cái này toàn là dùng token nền tảng để lấp liếm mọi thứ. Vc dùng surplus auction để cân bằng vì k thể cho token nền tảng cứ sinh ra mãi được.
+Để duy trì giá của stablecoin, mỗi khi người dùng gửi vào pool để nhận lại stable coin thì sẽ trả 1 khoản stablility fee và lượng stablecoin in ra đúng bằng số đô la của lượng token mà người dùng cung vào pool vào thời điểm đó để 1 stablecoin = 1 đô la(k tính khoản dư để tăng ngưỡng thanh ly). Sau đó debt auction sẽ giúp cân bằng giá.
+
+Có thể mở rộng cross-chain(Kava) bằng cách tạo blockchain riêng với Cosmos SDK và dùng làm reward trả miner, sau đó ra thêm 1 nền tảng nhận stablecoin đó để kiếm lời để tăng nhu cầu dùng đồng stablecoin, khuyến khích người dùng đào ra stablecoin đó.
+
+
+
+#  Flash loans
+Flash loans(AAVE): borrower vay để làm gì đó rồi trả lại trong cùng 1 transaction, trả cả vốn và lãi.
+
+
+
+# Credit Delegation
+Credit Delegation(AAVE): cho vay với người tin tưởng có ràng buộc về lãi suất và thời gian trả, làm thành 1 văn bản có giá trị pháp lý có 2 bên cùng ký chữ ký điện tử. Thg dùng kèm platform như OpenLaw
+
+
+
+# Liquidity mining and Vault
+Liquidity mining and Vault(Compound/YEarn): Khi người vay và cho vay trong nền tảng sẽ được thưởng token quản trị của nền tảng tùy lượng vay/cho vay. Tăng vai trò quản trị và gây lạm phát token; Các nền tảng có thể tự căn chỉnh nhiều borrower thì tăng fee còn nhiều lender thì phí càng rẻ để hút users
+
+Vault là người dùng được khuyến khích gửi tiền vào r chính nền tảng đó cầm tiền họ đi đầu tư bằng liquidity mining r trả lại người dùng trừ khoản phí. Gửi vào coin nào sẽ nhận lại coin đó kèm lãi suất; Có thể chia vault thành nhiều loại vault khác nhau có các đồng khác nhau và các strategy creator của từng vault sẽ tìm cách trade kiếm lãi cao nhất để user gửi tiền vào sẽ đem đi trade theo strategy đó. Phần lãi 95% cung lại vào vault để tăng vốn cho user, 5% lại chia ra 10% gửi lại strategy creator, 90% gửi vào Gov để dùng làm gì chẳng hạn
+
+
+
+# Yield Farming
+Yield Farming(Compound): Người dùng gửi tiền vào dự án để cho người khác vay có thế chấp và trả lãi cho nền tảng và người cho vay. Liquidity Mining y hệt Yield Farming chỉ có điều native token của nền tảng sẽ tặng cho những người lend/borrow trong nền tảng dự án.
+=> Tức yield farming ta đang nói ở đây là kiểu cho vay đơn giản nhất
+
+
+
+# Staking Coin
+Staking Coin(Cardano): Validator stake coin vào nền tảng để có xác suất trở thành validator cho các blockchain PoS xác thực giao dịch và nhận thưởng. Càng đổ nhiều tiền vào thì xác suất càng cao. Thời gian lock coin sẽ cụ thể 1 mốc.
+
+
+
+# Farming
+-> Farming nói chung(Uniswap): người dùng cung thanh khoản cho giao thưc defi như AMM là 1 cặp pair để nhận fee khi người dùng khác vào swap coin. Thg chơi cặp stable coin để kbh lỗ. Thì nó cũng giống kiểu vay 1 đồng coin, thế chấp 1 đồng coin khác ấy.
+
+-> Farming AMM stable coin + liquidity mining(rose.fi) + staking: Các nền tảng nó kết hợp khiến các thuật ngữ trên được dùng bừa bãi nhưng ta chỉ cần hiểu cơ chế nó là được. Các nền tảng có thể kết hợp với nhiều nền tảng khác để sử dụng được các đồng coin của nhau sẽ hút người dùng nhiều hơn vào các nền tảng mới ra đời. Người dùng cung cặp token vào 1 pool stable coin để nhận về LP token -> pool này cho phép farm stable coin k có fee nên hút người dùng vì họ swap gần như miễn phí cmnl. Thế nhưng k có fee thì tại sao user lại cung thanh khoản vào pool, NN là vì nó đẩy khoản lời cho LP token -> user dùng LP token đó đem đi Farm bằng cách cung vào lending/borrowing của nền tảng để nhận về token quản trị là phần thưởng và phí. Người dùng cũng có thể staking vào để nhận về token 1 loại token khác của dự án để làm gì trong dự án 
+
+
+
+# Bảo hiểm defi
+-> Bảo hiểm Defi dạng mutual(3F Mutual): 1 người gửi tiền vào sẽ nhận lại X đơn vị bảo hiểm trong Y ngày, đặt Y ngày càng lớn thì lượng tiền gửi vào càng phải nhiều. Nếu sau này contract có sự cố thì khoản tiền mọi người gom vào vault sẽ được chia cho những người đã góp mà Y ngày chưa trôi qua theo tỉ lệ X. Khoản tiền gửi vào 1 phần chia cho agent, 1 phần đóng góp vào team dự án để phát triển sau này; Có thể làm chỉ bảo hiểm trong phạm vi hệ sinh thái của dự án mà thôi; Có thể tạo 1 sự kiện kiểu emergency shutdown cho hệ thống để tạm dừng mọi thứ khi có sự cố được kích hoạt bởi những người sở hữu token quản trị và bảo hiểm được thực hiện khi sự cố này xảy ra; Có thể làm kiểu khi đóng bảo hiểm sẽ nhận 1 lượng X đơn vị BH gắn Y ngày, 1 lượng Dividends thời lượng vô hạn. 1 phần tiền người mua bảo hiểm sau gửi vào sẽ thưởng cho những người sở hữu Dividends theo tỉ lệ; Có thể làm kiểu trích thêm 1 phần tiền của người mua bảo hiểm vào vault và vault này sẽ share cho những người sở hữu token của hệ sinh thái để tăng phần demand cho token của hệ sinh thái
+=> Bản chất cũng là nó chia cái phần người dùng gửi vào thành nhiều phần nhỏ và dùng nó cho nhiều mục đích khác nhau.
+
+--> Emergency shutdown(MakerDAO): thường có trên các nền tảng lending/borrowing. Những người sở hữu token quản trị của dự án có thể trigger điều này nếu đủ 1 tỉ lệ nhất định trigger. Mọi auction khi đó bị hủy và giá của tài sản thế chấp sẽ đóng băng và những người tạo từng tạo vault có thể rút tài sản thế chấp còn dư ra, bảo vệ protocol.
+
+-> Bảo hiểm defi NFT trung gian(YEarn): Người dùng mua Cover và nhận lại đồng NFT tượng trưng cho số lượng và thời gian bảo hiểm. Người dùng có thể trade NFT trên marketplace với giá rẻ hơn khi k cần dùng bảo hiểm nx đỡ phí. Bản chất sàn lấy tiền người dùng mua bảo hiểm ở 1 nền tảng khác và xử lý trả lại cho họ NFT là được
+
+-> Bảo hiểm Defi bình thường(Opyn): Người cung bảo hiểm cho lượng token vào platform và nhận lại ocStableToken, có thể dùng ocStableToken để trade. Nếu tỉ lệ thế chấp/cho vay nhỏ hơn ratio sẽ liquidate. Rút lại token bằng cách cung lại lượng ocStableToken. Còn người mua bảo hiểm sẽ cung tiền vào và nhận về đơn vị bảo hiểm trong ktg, đặc biệt là họ cung vào 1 số tiền ít hơn nhưng có thể bảo hiểm 1 lượng rất nhiều nên cắt lỗ tốt. Nếu nền tảng được bảo hiểm bị hack thì người cung bảo hiểm mất trắng, nếu k bị hack thì người cung bảo hiểm được lãi từ người mua bảo hiểm. Bảo hiểm cả kỹ thuật cả kinh tế tức là người mua bảo hiểm cho 1 nền tảng, trên nền tảng đó họ thế chấp vào A nhận ra B nhưng B giảm giá nên bị lỗ k còn giữ được lượng A ban đầu thì cung B + đơn vị bảo hiểm vào nền tảng sẽ nhận lại hết lượng A gốc lấy từ Insurance Provider bù lượng lỗ. Thương thì dự án bảo hiểm và dự án nó bảo hiểm cho phải cùng nền tảng thì mới quản lý được đến như v. Để đảm bảo đủ tiền trả cho người mua bảo hiểm, thì 1 người sẽ bảo hiểm cho 1 người nên lỗ lãi 1 người được mua bảo hiểm sẽ gánh hết.
+
+-> Bảo hiểm Defi bình thường kiểu khác(Nexus Mutual): Giống như trên nhưng người cung bảo hiểm sẽ thế chấp tài sản của họ để lấy token dự án rồi cung token nền tảng của dự án vào pool bảo hiểm. Người mua bảo hiểm xong nếu có sự cố thật thì sẽ thông báo cho mọi người trong hệ thống và họ xác nhận claim là đúng thì sẽ thực hiện bảo hiểm chia ra cho những người trong hệ thống cùng bị trừ bằng cách nền tảng sẽ đốt token nền tảng của họ để lấy đủ lượng tài sản họ thế chấp đủ giá trị bảo hiểm và trả lại cho người mua bảo hiểm.
+
+
+
+# Fair Launch
+Fair Launch(YEarn): là hình thức k có private sell, k có pre-mint, k có founder location, k VC. Quảng bá và phát hành dự án phát là xong(éo lq gì đến vc tạo thanh khoản trên các sàn swap). Team dev phải tự bỏ tiền audit, k cần đóng tiền để list sàn. Những người sáng lập muốn có token cũng phải mint or farm or làm gì đóng góp cho dự án để kiếm token. Những ai sở hữu token sẽ có quyền quản trị và vc sở hữu token của dự án là công bằng như nhau
+
+
+
+# Gov
+Gov(YEarn): mọi sản phẩm của dự án đều 1 phần thu phí nhỏ và chuyển vào 1 vault chung. Khi vault đạt được 1 khoản tiền đủ lớn thì cho những người hold token nền tảng của dự án vote làm gì với cái Gov đó, có thể chia đều tỉ lệ cho những người hold token dự án. Đây là 1 cách kéo người dùng hold token của dự án, tăng demand cho token dự án, càng nhiều sản phẩm thì Gov càng lớn.
+=> Thông thường để hút người dùng hold token của dự án có 2 vai trò: 1 là họ có quyền quyết định các công việc quản trị của dự án; 2 là họ phải được tiền. Như cách này thì họ vote xong có thể chia đều tiền trong vault cho họ, nếu chỉ hold mà tự được tiền thì chắc chắn mn sẽ muốn hold. Dù là token quản trị lạm phát vãi lol nhưng hold được 1 loại token khác, có vai trò ở các nền tảng khác thì hiển nhiên họ vẫn muốn hold. Tức ta đẩy nhu cầu đầu vào hút người dùng hold token cho nền tảng khác. Trong bảo hiểm 3F Mutual cũng trích 1 phần cho nhưng người hold token dự án tương tự.
+
+
+
+# Synthetic assets
+Synthetic assets(Synthetix): người dùng thế chấp token gốc của nền tảng với tỉ lệ thanh lý khá cao và nhận lại synthetic assets đại diện cho các loại như tiền fiat, vàng, cổ phiếu, đồng coin khác. Họ sẽ cùng tham gia vào pool nợ toàn cầu và giá của 1 synthetic asset trong pool thay đổi sẽ ảnh hưởng đến những người sở hữu synthetic assets khác lỗ hay lãi. Nếu vàng tăng, thì người sở hữu silver sẽ lỗ và người vẫn hold synthetic của vàng sẽ lãi dù silver giá k đổi, giá của nó đồng bộ với giá của tài sản thực. Người dùng có thể trade synthetic assets và coin nền tảng trên exchange. Người dùng đốt synthetic assets để nhận về lượng tài sản thế chấp ban đầu. Tức người dùng k sở hữu vàng và dự án cũng éo có vàng nhưng vẫn có thể trade theo sự chênh lệch giá của vàng trong thời gian thực, miễn là họ còn 1 lượng tk backup giá trị cho synthetic assets đó. 
+
+
+
+# Oracle
+Oracle(ChainLink): Oracle Service Provider thế chấp token dự án để trở thành node cung cấp thông tin cho smart contract của dự án bằng phần cứng của họ. Output phải là data mà smart contract hiểu được. Mọi người vào lấy thông tin phải trả phí bằng token nền tảng của dự án cho các node operator; Người dùng có thể là các dự án or blockchain riêng muốn thông tin; Có thể cho người dùng trả phí bằng những token khác miễn data provider chấp nhận; Có các internal oracle dùng giải pháp oracle của riêng họ để chỉ phục vụ cho dự án của họ
+
+
+
+# Margin Trading
+-> Margin Trading(dYdX) có 2 loại:
+
+--> Leverage: Nền tảng sẽ cung các cặp hỗ trợ đánh margin. Người cho vay cung vào nền tảng. Người vay có 1 loại tiền trong cặp tiền sẽ vay được tiền trong cặp theo tỉ lệ tùy nền tảng để chỉ đánh margin trên nền tảng đó. Khoản tiền có ban đầu và tiền vay đều coi như lượng thế chấp trong nền tảng này. Nếu tỉ lệ lượng thế chấp/cho vay dưới ngưỡng sẽ bị thanh lý. Người vay có thể x nhiều lần tài khoản của mình để đánh margin trên nền tảng nếu thắng thì thắng nhiều hơn và nếu thua thì thua nhiều hơn. Người vay phải trả phí cho người cho vay và gas fee suốt quá trình; Có thể isolated là cô lập 1 khoản tiền để thế chấp và mất max là lượng tiền đó or cross là toàn bộ số dư của token nền tảng đó dùng làm thế chấp hết.
+
+--> Long-Short: Nền tảng cung các cặp hỗ trợ đánh long-short thường thì cặp là 1 coin biến động và 1 stablecoin. Người cho vay cung tiền vào cặp. Người vay phải có 1 lượng coin trùng với loại coin trong cặp và vay 1 lượng 1:5 chẳng hạn. Nếu short người vay sẽ vay coin biến động rồi bán ra lấy stablecoin và mua lại coin biến động để tra lại sàn nếu tương lai giá giảm, nếu long người vay sẽ vay stablecoin r bán ra mua coin biến động hy vọng tăng giá sẽ mua lại stablecoin để trả lại sàn. Vc trả lại sàn số coin đã vay kèm tỉ lệ phần lãi cho người cho vay thì sàn sẽ trả lại phần coin đặt vào ban đầu. Tỉ lệ thế chấp/cho vay dưới ngưỡng sẽ thanh lý.
+
+
+
+# Liquidity Bootstraping Pool(Balancer): Smart pool thay đổi tỉ trọng 2 token theo thời gian có đồ thị 2 token hình chữ X bằng cách rút dần tiền ra để tỉ lệ được thỏa mãn; Tăng tính thanh khoản cho đồng coin vì tỉ lệ ta có thể set tùy ý; fair distribution tránh được bot front-run vì giá càng giảm về sau; 
+
+
+
+# Prediction Market
+Prediction Market(Augur): 1 người tạo thị trường và trả phí, mô tả sự kiện, đặt các thông tin phí taker, maker, phí phải đủ thấp để nhiều người tham gia được vào giao dịch và đủ cao để bù phí tạo lập thị trường -> trader kết nối ví và mua share -> trước khi sự kiện diễn ra, họ có thể bán lại các share để cắt lỗ nếu nghĩ mình có thể lỗ -> Sau khi sự kiện xảy ra -> Người tạo thị trường có thể chỉ định ai là reporter tiếp theo, nếu k sẽ được chọn tự động -> các reporter hold token nền tảng sẽ stake để dự đoán -> nếu kết quả reporter 2 vòng liên tiếp đúng thì xác nhận, nếu khác thì token stake chọn nó phải >= 2.5% tổng cung, nếu k sẽ diễn ra tiếp vòng tranh chấp cho đến khi được thì thôi. Lượng tiền ở mỗi vòng tranh chấp là độc lập nhau và k được rút. 1 vòng tranh chấp có thể diễn ra rất lâu -> reporter sai sẽ mất hết token, reporter đúng sẽ nhận theo phần trăm lượng stake vào; Prediction Market có thể dùng để Hedge Risk; Có thể tạo nhiều kiểu thị trường: Yes No, multiple choice, scalar 1 khoảng; Có thể dùng Prediction Market để tận dụng trí thông minh đám đông.
+
+
+
+# Future/Perpetual Trading
+Future/Perpetual Trading(dYdX): user mua quyền để mua hay bán 1 thứ gì đó trong tương lai với mức giá định trước thường có đòn bẩy. Đơn giản là mua bán bình thường nhưng vay thêm của 1 người khác để tăng số tiền mình có và sau đó trả lãi cho họ, chỉ được phép trade trong phạm vi nền tảng và toàn bộ tiền lock trong nền tảng. Future Trading có thời gian kết thúc hợp đồng còn Perpetual Trading có thời gian vô hạn
+
+
+
+# Leveraged AMMs và vAMM
+Leveraged AMMs và vAMM(Perpetual Protocol): 1 người tạo ra vAMM chứa 1 stable coin A và 1 coin bình thường B, người khác có thể vào long và short cho đồng coin B bằng cách gửi stable coin A của họ vào vault để yêu cầu nhận lại vA(short) or vB(long) với đòn bẩy x bao nhiêu tùy họ. Nếu rút, họ trả phí cho người tạo và cung lại lượng vToken nhận được ban đầu. Tùy vào tỉ giá thế nào mà họ sẽ lỗ hay lãi, phần lãi và lỗ sẽ tính theo giá trị đã được tính thêm đòn bẩy, khoản lãi và lỗ lại thành tính theo giá trị A B thực tế theo đòn bẩy, VD họ lỗ 10vB thì mất hẳn 10B luôn(đã dùng đòn bẩy x10, nếu k họ sẽ chỉ lỗ 1B)
+
+
+
+# Decentralized Option
+Decentralized Option(Hegic): mua option buy/sell với mức giá cố định tại 1 thời điểm trong tương lai. Max lỗ là phần premium, max lãi đến vô cực. Quản lý bằng smart contract. Có thể cho người dùng quy định chi tiết Option, strike price, expiry date, tokenized option hay do chính protocol tùy chỉnh. Vc tokenize option tức người dùng có thể mua bán quyền option đó cho người khác dưới dạng token; hỗ trợ liquidity pool hay order book hay cả 2.
+
+
+
+# Spot Trading
+Spot Trading(Binance): sàn mua bán tài sản theo giá thị trường hiện tại và thực hiện ngay tức thì khi có người bán và người mua. Phải trả phí cho nền tảng 1 khoản khi 1 trong 2 bên ăn lãi do giao dịch với giá chênh market price
+
+
+
+# Auction
+Auction bình thường(trava): auction trong defi cũng như trong cefi. Ở đây nó thường nói đến NFT nhiều hơn khi 1 người có thể tạo ra auction bán NFT của họ. Họ có thể đặt giá khởi điểm và thời gian đấu giá. Phần lãi có thể chia 1 phần cho nền tảng.
+
+
+
+# Internet of blockchain
+-> Internet of blockchain(Polkadot) - đọc thêm trong txt: cho phép gửi bất kỳ loại dữ liệu nào giữa bất kỳ blockchain nào. Bên trong Polkadot có các mạng lưới blockchain k đồng nhất gọi là parachains và parahead. Parachains là các blockchain độc quyền được tối ưu hóa cho các TH cụ thể, parahead tương tự như parachains nhưng là các blockchain có mô hình trả tiền khi sử dụng để tiết kiệm cho các blockchain k cần kết nối liên tục với mạng. Bên trong Polkadot có relaychain là chuỗi chuyển tiếp, nó là trung tâm của Polkadot chịu trách nhiệm bảo mật, đồng thuận và khả năng tương tác crosschain. Bên trong nó còn có Bridge cho phép các parachains và paraheads kết nối và giao tiếp với các mạng bên ngoài như Bitcoin, ethereum.
+
+-> Internet of blockchain khác(Cosmos) - đọc thêm trong txt: các blockchain xây dựng trên cosmos có thể tương tác với nhau và tương tác với các blockchain khác. Ethereum hiện tại quá chậm và Cosmos giải quyết bằng cách tạo ra các zone(blockchain nhỏ khác) dựa trên cosmos SDK; cosmos SDK là gói công cụ giúp tạo chuỗi riêng cho ứng dụng nhanh chóng; Cosmos tạo 1 cầu nối IBC kết nối tất cả chứ kp tạo nh bridge; Tendermint giúp dev dễ dàng xây dựng blockchain, BFT(Tendermint byzantine Fault Tolerance) là thuật toán dùng bởi các máy tính chạy phần mềm cosmos để xác thực block. Trong đó Tendermint Core cung PoS và người dùng đặt cọc đồng ATOM để nhận quyền biểu quyết; IBC(Inter-Blockchain Communication) là công cụ giúp cải thiện khả năng tương tác crosschain. Mọi người có thể giao dịch tự do trong hệ sinh thái tiền điện tử trên các chuỗi tương thích với IBC. Nó cho phép các blockchain k đồng nhất gửi mã thông báo và dư liệu cho nhau. 
+
+
+
+# Other
+-> Web tổng hợp tin tức(CoinGecko): cung thông tin về giá token, volumne các nền tảng, so sánh các nền tảng, viết các blog đánh giá các nền tảng defi, xếp hạng,...
+
+-> Swipe: ví tập trung nhiều đồng crypto uy tín cho mua bán và có bảo hiểm; Card hỗ trợ mua bán qua tài khoản ngân hàng, hỗ trợ đổi tiền crypto <-> fiat, thanh toán qua Visa, Google Pay. Thẻ có nhiều cấp độ để được ưu đãi cashback; Có token quản trị và stable coin. Người dùng thế chấp token nhận vToken, có thể dùng vToken để mint ra stablecoin của nền tảng
+

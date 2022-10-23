@@ -1,0 +1,25 @@
+# Tương tác crosschain
+Cross chain là giải pháp giúp các blockchain tương tác với nhau do cấu trúc đồng nhất của chúng. Chúng có thể trao đổi thông tin và giá trị, tạo hệ sinh thái đan xen.
+Cx như các quốc gia trên thế giới ta k thể dùng 1 đồng đô la để tiêu ở VN được mà bắt buộc phải đổi sang tiền VNĐ. Nhưng Triều Tiên lại đóng cửa với thế giới nên không thể làm điều tương tự => bitcoin k thể tiêu trong ethereum, và cũng không thể đổi sang ether để tiêu được. Cross chain sẽ giúp các chain làm được điều này.
+
+-> 2 loại: 
+Chuỗi chéo phân lập là các blockchain nhất quán về thuật toán đồng thuận, cơ chế bảo mật,.. nên tương tác đơn giản. 
+EVM: đặt mẹ cái EVM ở trong Blockchain khác để dùng. VD Near và Solana là các blockchain ra đời sau. Mà Ethereum dùng EVM có số lượng dev đông đảo, để mở rộng nhanh nó dùng luôn EVM nên có thể nhân bản các DApp của Ethereum trên các nền tảng mới nhanh chóng, nhờ đây mà tạo ra các chuỗi chéo phân lập nhất quán nhau nên tương tác ez.
+
+Chuỗi chéo không đồng nhất có tương tác chuỗi rất phức tạp vì các chain khác nhau về các cơ chế nên thg sẽ yêu cầu dịch vụ bên thứ 3. 
+Cơ chế đơn giản: muốn tiêu bitcoin trong ethereum, đổi sang tiền tk ngân hàng r lại mua tiếp ethers trong ethereum.
+
+Chuỗi chéo giúp cho các doanh nghiệp giao dịch với khách hàng của công ty khác sử dụng các blockchain tương thích khác mà k thu phí giao dịch đắt đỏ. Nhưng thực hiện và bảo mật rất khó
+
+-> Các dạng giao tiếp giữa các blockchain đã có:
+Sàn CEX: các sàn CEX thực chất chính là giao tiếp xuyên chuỗi vì nó tập hợp rất nh coin và token của các blockchain khác nhau như Bitcoin, Ethereum, Solana, Near, Binance Smart Chain,.. Cơ chế như bên trên và vc giao tiếp giữa các chain chỉ dừng lại ở vc mua bán các đồng coin.
+Bridge: Các dự án Bridge VD có thể đem BTC lên nên tảng Ethereum với WBTC hay Wrapped Bitcoin chuẩn hóa Bitcoin thành token ERC20 tỉ lệ 1:1 như cái WETH trong Uniswap.
+
+-> Các dự an Crosschain nổi bật: 
+POLKADOT: cho phép gửi bất kỳ loại dữ liệu nào giữa bất kỳ blockchain nào. Bên trong Polkadot có các mạng lưới blockchain k đồng nhất gọi là parachains và parahead. Parachains là các blockchain độc quyền được tối ưu hóa cho các TH cụ thể, parahead tương tự như parachains nhưng là các blockchain có mô hình trả tiền khi sử dụng để tiết kiệm cho các blockchain k cần kết nối liên tục với mạng. Bên trong Polkadot có relaychain là chuỗi chuyển tiếp, nó là trung tâm của Polkadot chịu trách nhiệm bảo mật, đồng thuận và khả năng tương tác crosschain. Bên trong nó còn có Bridge cho phép các parachains và paraheads kết nối và giao tiếp với các mạng bên ngoài như Bitcoin, ethereum.
+Tức parachain và parahead là các chain trong polkadot. Relaychain giúp đồng thuận các chain đó và giúp các chain đó tương tác với nhau. Các bridge bên trong giúp các chain đó lại tương tác được với các chain bên ngoài
+
+COSMOS(đồng ATOM): các blockchain xây dựng trên cosmos có thể tương tác với nhau và tương tác với các blockchain khác. Cosmos là 1 blockchain Layer 1 phát triển với mô hình "Internet of Blockchain". Ethereum hiện tại quá chậm và Cosmos giải quyết bằng cách tạo ra các zone(blockchain nhỏ khác) dựa trên cosmos SDK. Cosmos SDK là gói công cụ giúp tạo chuỗi riêng cho ứng dụng nhanh chóng; Cosmos tạo 1 cầu nối IBC(Inter-Blockchain Communication) kết nối tất cả giúp tương tác crosschain chứ kp tạo nh bridge; Tendermint giúp dev dễ dàng xây dựng blockchain, BFT(Tendermint byzantine Fault Tolerance) là thuật toán dùng bởi các máy tính chạy phần mềm cosmos để xác thực block. Trong đó Tendermint Core cung PoS và người dùng đặt cọc đồng ATOM để nhận quyền biểu quyết. Mọi người có thể giao dịch tự do trong hệ sinh thái tiền điện tử trên các chuỗi tương thích với IBC. Nó cho phép các blockchain k đồng nhất gửi mã thông báo và dư liệu cho nhau.
+
+CHAINLINK: chainlink có giao thức tương tác cross-chain(CCIP) thiết lập kết nối toàn cầu giữa hàng trăm mạng blockchain cả riêng tư và công khai, trao quyền cho cross-chain application. CCIP cũng có các dịch vụ crosschain như Programmable Token Bridge cho phép người dùng di chuyển mã token trên bất kỳ mạng blockchain nào. Chưa cần biết nhiều về cái giao thức CCIP này
+

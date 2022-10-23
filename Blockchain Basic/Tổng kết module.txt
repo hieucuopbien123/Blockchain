@@ -1,0 +1,392 @@
+Blockchain Basic:
+-> Blockchain hiểu 1 cách nontech là 1 cuốn sổ cái(ledger - thực chất cũng chỉ là 1 file kỹ thuật số) công khai với tất cả mọi người, trong cuốn số cái đó là 1 chuỗi các block. Sổ cái là thứ lưu lại thông tin giao dịch, ví dụ hôm nay ai gửi ai bao nhiêu tiền vào mấy giờ thì sẽ được lưu vào trong 1 block (tuy nhiên từ ngữ thông tin giao dịch có thể k chính xác vì blockchain có thể được ứng dụng rộng rãi ở mọi nghành nên từ đó có thể gọi là thông tin của bất cứ cái gì).
+Blockchain sử dụng 1 network p2p phân tán giống mạng lưới internet là mọi người đều ngang hàng nhau.
+
+Block chain cũng như 1 bên thứ 3 trung lập nhưng ta có thể tin tưởng vì nó là code và nó kbh sai
+
+
+
+# Tính chất
+-> Tính bất biến: Dữ liệu trong blockchain 1 khi được ghi lại thì sẽ không thể thay đổi, trừ khi tất cả cùng đồng lòng, thứ mà k thể đạt được trong thực tế
+
+Blockchain chống lại sự thay đổi dữ liệu không có nghĩa là vd ta lưu dữ liệu của khách hàng vào các khối block thì nó k thể đổi. Trong các mạng private, họ có thể đổi bằng cách cho tất cả mọi người trong tổ chức đồng lòng. Nếu là smart contract, họ chỉ cần thêm hàm đổi state của contract đó sang giá trị mới là được, vc phân chia quyền ai được quyền đổi thì dùng thêm các modifier VD như onlyOwner là được.
+
+-> Tính minh bạch: Trong blockchain thì mọi thứ đều công khai ai cũng thấy, kể các các biến được cho là private trong smart contract, tuy nhiên khi làm các ứng dụng, ta có nhiều cơ chế để đảm bảo chỉ người dùng mới được nhìn thấy thông tin của họ VD cơ chế sign message của The Graph. Nch là ta kiểm soát được.
+
+-> Tính phi tập trung hay tính phân tán: cái file gọi là sổ cái ấy k lưu giữ trên 1 máy chủ mà phân tán trên toàn thế giới thông qua mạng máy tính vừa chia sẻ và tính toán liên tục. Các nút(node) sẽ giữ 1 bản sao, do k có máy chủ nên hacker k biết tấn công vào đâu.
+Khi một máy tính mới tham gia vào mạng blockchain, nó sẽ tự động tải sổ cái chứa mọi thứ. Do nó lưu trữ bởi hàng triệu máy tính cùng lúc(khi blockchain đủ lớn) nên hacker k có cái tập trung để hack
+
+-> Tính bền vững: chẳng qua là ai cx là máy chủ lưu giữ toàn bộ thông tin của mạng blockchain nên k bị kiểm soát bởi 1 thực thể nào (kiểu truyền thống thì ngân hàng là nơi kiểm soát) và k thể bị sập.
+
+-> Nhược điểm: Do quá an toàn nên nếu như chủ nhân die or mất khóa private thì bitcoin trong hệ thống blockchain đó sẽ biến mất vĩnh viễn; Tốn điện do xử lí hàng nghìn giao dịch mỗi phút(bitcoin); Tốn k gian lưu trữ, các giao dịch xa lơ xa lắc nó vẫn lưu làm tốn k gian; Bitcoin để đào đc thì bản chất là giải mã hàm toán học hay đào(mine); Chỉ tồn tại 21 triệu bitcoin trên thế giới(1/4 đã mất vĩnh viễn do owner mất private key)
+
+
+
+# Block
+-> Mỗi block chia làm 2 phần header và body
+--> Phần body chứa data là tất cả các transaction.
+Data là dữ liệu cần lưu trong 1 block, nó bao gồm rất nhiều thứ tùy vào loại block, ví dụ bitcoin blockchain lưu dữ liệu về người gửi, người nhận, số lượng coin chuyển đi (trong các nghành khác như thuế, ngân hàng thì thông tin có thể là khác ví dụ người nộp thuế, bên thu thuế, khoản tiền chuyển,...). Ở phần data này ta mới chỉ xét đến lưu thông tin cơ bản về giao dịch như v, vẫn chưa tính gì đến smart contract.
+
+--> Header chứa: hash of previous block; Các thông số khác như difficulty, timestamp, nonce(số dùng 1 lần), merkle có thể coi là 1 bản tóm tắt các giao dịch trong block đó, target hash, message,...
+=> Mã hash của block này k ghi như 1 trường của block này đâu, nó được coi như 1 định danh duy nhất của block được xác định sau khi băm toàn bộ phần header bằng 1 thuật toán SHA256(or thuật hash có độ mạnh tương tự)(Chú ý là chỉ băm tiêu đề thôi) để chọn ra nonce đúng. Sau khi chọn ra nonce, block sau sẽ dùng để hash nó mà lấy ra trường prevHash.
+---> Hash là 1 dãy số cố định và unique của 1 block tính từ nội dung bên trong nó. Ta đã biết có nhiều thuật toán tạo hash từ 1 đầu vào cho đầu ra cố định nhưng đầu vào chỉ cần thay đổi 1 ký tự thì hash bị biến đổi khác hoàn toàn luôn. 
+Khi thực hiện 1 giao dịch thì sổ cái sẽ lưu 1 block mới chứa thông tin giao dịch đó và lưu thêm hash của block phía trước, từ thông tin đó sẽ tạo hash và lưu lại (tức là blockchain viết dạng dây xích nối các block với nhau thực ra cơ chế giống như linkedlist singly thôi). Hash chính là unique và fix của block đó, tức là nếu thông tin phần data bị thay đổi, hash sẽ tự đổi và sẽ k còn là block ban đầu.
+Block đầu tiên gọi là genesis block và previous hash trỏ tới null chẳng hạn giống root của linkedlist
+
+-> Còn có smart contract là 1 tiny program mà mỗi block chứa. Như v tổng kết nó chứa: data, hash, hash of previous block, smart contract program, các thông tin cần có để dùng proof-of-work trong block
+
+
+
+# Node
+Là 1 nút mạng chạy trên 1 máy tính tham gia vào mạng lưới. Nó ngang hàng nhau và có trách nhiệm xác minh giao dịch. Giống kiểu ngày xưa ta tạo 1 app TCPSocket mà có 1 server gửi cho mọi người ấy, thì cái này k dùng server gửi cho mọi người mà ai cũng giao dịch với nhau ngang.
+
+
+
+# Cơ chế bảo mật
+-> Basic: giả sử có 3 block và hacker hack vào block số 2 bằng cách thay đổi lượng tiền chẳng hạn -> hash block tự động đổi -> các block sau có previous hash sai -> việc thay đổi 1 block như v sẽ làm toàn bộ các block phía sau bị sai -> báo giao dịch invalid -> giao dịch k được thực hiện (VD lập trình viên có thể xử lý khi invalid thì hoàn tác giao dịch như v). Như v, hacker muốn hack chỉ cần chỉnh sửa mà giao dịch vẫn valid là xong -> thay đổi toàn bộ hash các block phía sau cho khớp khiến cho k còn lỗi invalid nx. Thật ra điều này thực hiện rất dễ, nó chỉ cần tạo lại các chuỗi hash từ các giao dịch từ vị trí block đó trở đi và lưu liên tục vào các block phía sau cho đến hết block mới nhất là được 1 chuỗi valid. 
+Tuy nhiên để bảo mật, blockchain còn dùng proof-of-work, nó kp là 1 cơ chế bảo mật mà chỉ là 1 cơ chế làm chậm quá trình tạo ra 1 block mới được dùng để bảo mật mà thôi. Trong bitcoin nó mất trung bình 10p để tạo ra 1 block mới và add vào chuỗi. Nó dùng 1 thuật toán tính toán phức tạp để thực hiện proof-of-work nên mới mất lâu như v (Đương nhiên proof-of-work là 1 thuật toán phức tạp và mất thời gian, chứ kp ta cho hàm sleep 10p vào đấy vì như v thì hacker chỉ đơn giản là bỏ qua hàm sleep đó thì vỡ mồm r). Tức là hacker thay đổi data 1 block sẽ phải tính toán lại proof-of-work của block đó và tất cả các block phía sau sẽ mất rất nhiều thời gian. Nhưng nếu thg hacker đó kiên nhẫn và làm được điều đó thì blockchain còn 1 cơ chế nx khiến cho sự bảo mật của nó là tuyệt đối an toàn. 
+Đó là blockchain có tính phân tán, phi tập trung. TH trên ta mới chỉ xét có 1 cuốn sổ cái và thg hacker tấn công vào nó. Nhưng thực tế blockchain dùng P2P network và tất cả mọi người đều tham gia được. Khi 1 người mới tham gia, người đó sẽ có 1 bản full copy của blockchain. Tức là mỗi người có 1 cuốn sổ cái giống y hệt nhau và họ tạo ra consensus. 1 block chỉ thay đổi được khi > 50% số người trong mạng đồng ý đồng nghĩa với hacker phải hack được > 50% số người trong mạng và điều đó là vô lý.
+VD: trong hệ thống có 50 người và mới chỉ có 10 giao dịch tức mỗi người có 1 cuốn sổ chứa 10 blocks. Bh 1 thằng hacker hack vào 1 người nào đó trong 50 người kia. Nó thấy giao dịch thứ 8 là chuyển hẳn 1 bitcoin cho ai đó, hắn sửa tên người nhận là hắn để hưởng lợi -> mã hash của block số 8 lập tức bị đổi, hắn sẽ phải thực hiện proof-of-work của block số 8, lưu thông tin vào sổ cái bị hack đó-> ngay lập tức thông tin đó được gửi cho toàn bộ mọi người trong mạng. Hệ thống trong mạng của các người khác sẽ tự động tính toán thấy block số 8 của hắn khác với họ lập tức k xác nhận và invalid giao dịch được hoàn tác. Giả sử tình huống vô lý hắn hack được 26 người trong mạng để hơn 50% thì sẽ phải thực hiện proof of work của block số 9 và 10 nx và trong 26 tài khoản còn lại hắn cho phép giao dịch là đúng thì ok.
+Tương tự khi 1 người trong mạng có giao dịch -> tạo ra 1 trans mới thêm vào 1 block mới, block đó sẽ được gửi tới tất cả mọi người trong mạng và mọi người sẽ verify rằng block đó là hợp lệ (k đưa ra yêu cầu vô lý như tự ý chuyển tiền của người khác sang cho mình) và đúng đắn (phải đúng là người đó thực hiện và được chứng minh bằng cơ chế cặp khóa key) thì sẽ thêm vào chuỗi của mình
+
+-> Blockchain bảo mật thì nó cũng chỉ giống như cơ chế tài khoản mật khẩu bth nhưng hạn chế được các kiểu hack về technique cũng như có các tính chất riêng của  blockchain. Do đó ta k xét TH đem dâng mật khẩu cho hacker. Giả sử ta có 1 tài khoản trong mạng blockchain, hacker sẽ chỉ hack được số coin trong tài khoản đó bằng cách gửi số coin đó cho mình, chứ hệ thống blockchain thì k thể bị hack. Tât cả mọi người vẫn an toàn, còn ai dâng mật khẩu cho hacker thì chịu rồi. Cái mật khẩu thì nó là 1 dạng bảo mật khác không liên quan gì đến blockchain, ví dụ dùng google authenticator để đổi mật khẩu liên tục sau 20s chẳng hạn, còn nếu đem dâng cả google authenticator cho hacker thì người đó sẽ mất tài khoản, đó là điều hiển nhiên. Blockchain chỉ đảm bảo ví dụ anh nhận tiền về thì tiền đó vĩnh viễn là của anh, được lưu trong sổ cái k ai làm gì đc mà thôi chứ anh giao tài khoản của mình cho người khác thì mất là phải r.
+
+Blockchain k ngăn đc các vụ hack kiểu rò rỉ khóa riêng của khách hàng. Đó là điều hiển nhiên của mọi công nghệ. Và cả lỗ hổng bảo mật về mặt kỹ thuật, smart contract nếu lập trình gây lỗi thì vẫn có thể bị hack
+Vụ tấn công vào poly network là 1 ví dụ về tấn công vào lỗ hổng bảo mật.
+
+=> Để hack: sửa đổi thông tin 1 block -> sửa đổi thông tin của tất cả các block còn lại cho đúng hash -> thực hiện proof-of-work của tất cả các block đó -> hack được hơn 50% số người trong mạng P2P
+
+-> Chi tiêu kép là vấn đề của tiền kỹ thuật số khi người ta xài 1 đồng tiền 2 lần bằng cách copy bởi vì tiền kỹ thuật số cx chỉ là file có thể copy dễ dàng, tiền vật lý k có hiện tượng này. Cơ chế đông thuận POW sẽ ngăn chặn điều này vì nếu chi tiêu kép xảy ra, các node khác sẽ biết ngay lập tức và coi là invalid k thêm giao dịch vào sổ
+
+-> Cơ chế bảo mật bằng cặp key
+Cơ chế này gần giống với các phương pháp bảo mật thông thường: khóa public công khai ai cùng thấy, khóa private chỉ người đó giữ bí mật; mọi thông điệp mã hóa bằng 1 khóa thì chỉ có thể giải mã bằng khóa còn lại, tức là A ký 1 transaction bằng private key thì mọi người đều có thể xác thực(giải mã) bằng public key của A hay ngược lại, B mã hóa bằng public key của A thì chỉ có A dùng private key của mình mới xem được thông tin mà B muốn gửi; cặp khóa này dùng cơ chế hash kiểu k thể mò ra, k thể đảo ngược khi đã mã hóa trừ khi sở hữu private key
+=> Cơ chế này giống với các phương pháp mã hóa khác như trong OpenSSL hay các thuật toán mã hóa nổi tiếng MD5, AES,... Tất cả đều là các hàm toán học và code nên k có ai để kiện cũng như k có trung tâm hỗ trợ người dùng
+=> Cơ chế trong blockchain cũng tương tự nhưng có 1 vài cải tiến như dùng thêm passphrase, address, mỗi address là 1 người dùng, địa chỉ contract hay địa chỉ người dùng,... rất phức tạp => refer tới "Blockchain bitcoin"
+
+
+
+# Chữ ký số
+Digital signature(chữ ký số) < chữ ký điện tử. Nó gồm cặp khóa private và public cơ chế giống như OpenSSL Qt đã biết khi truyền nhận dữ liệu. Mỗi người trong hệ thống sẽ có 1 chữ ký số gồm khóa private và public có đặc điểm là chữ ký k thể bị giả mạo, khóa riêng phải bí mật, mất khóa riêng là mất luôn mấy dữ liệu khối đó. Dữ liệu các khối của ta chỉ mình ta được phân quyền truy cập, người khác có thể nhìn thấy block nhưng đọc dữ liệu thì chỉ mình ta thôi. Ví dụ 1 block trong chuỗi thuộc về 1 người nào đó xđ bằng khóa riêng, đồng nghĩa với vc người có khóa riêng đó sẽ k thể thoái thác việc đã tạo ra cái block đó, chữ ký là thứ giúp đánh dấu tài sản dữ liệu nào là của người đó, mất chữ ký là mất tài sản, các block trong chain có pivate key đó coi như mất. Và người sở hữu data đó nắm toàn quyền kiểm soát với data của họ
+
+Khi A truyền đi thông điệp thì thông điệp đó đc mã hóa thành chữ kí số từ private key của A + thông điệp "truyền 5 bitcoin". Đặc điểm là chỉ cần 1 kí tự bị thay đổi thì chữ kí số sẽ bị thay đổi, do đó k thể gửi hay nhận đc gì nx, tất cả sẽ bị hủy như chưa từng có. Hơn nx, khi A gửi 5 bitcoin cho B, hệ thống sẽ cộng trừ các giao dịch của A và tính xem nó có nhiều hơn hoặc bằng 5 bitcoin hay k, nếu có thì ms phát đi thông điệp, đó hoàn toàn là cơ chế xác thực giao dịch cơ bản. Tất cả để là mã nguồn mở và bất cứ ai cx có thể truy cập để thực hiện giao dịch. Nếu như có 1 lỗi trong code khi truyền thông điệp thì bitcoin liên quan sẽ mất vĩnh viễn.
+
+
+
+# Các cơ chế khác
+-> Vốn dĩ hệ thống blockchain k cho phép theo dõi số dư tài khoản, nó lợi dụng tính bất biến để hiển thị số dư bằng cách tính toán lại các giao dịch từ đầu vì các giao dịch đều được lưu lại, thêm bớt bnh mà tính ra. Chỉ có các output unspent mói dùng đc chứ kp mọi output, tức là các output xa lắc đã dùng dù vẫn lưu nhưng chả động tới.
+Vc tính toán sẽ tính số tiền thông qua giao dịch như vậy cũng giúp cản trở chi tiêu kép
+
+
+
+# Fork
+-> Fork là kỹ thuật dựa vào mã nguồn của phần mềm trước đó để thay đổi tạo ra 1 chức năng khác. 1 blockchain fork có thể phát sinh tương tự ví dụ khắc phục các lỗi bảo mật cũ, thêm các chức năng mới or đưa dự án đi theo 1 hướng khác.
+Hardfork là hành động làm cho các giao dịch k hợp lệ trước đó biến thành hợp lệ(thêm tính năng mới), xung đột với phiên bản cũ còn softfork là làm cho các block hợp lệ trước đây thành k hợp lệ(nâng cấp cái cũ k còn dùng được), k gây sự xung đột với phiên cũ => hiểu thể này thì lằng nhằng, k đúng bản chất.
+
+-> Fork của Ethereum
+ETC(Ethereum Classic) được hardfork từ Ethereum(ETH): Năm 2016, quỹ The DAO bị hacker đánh cắp 168 triệu USD, cộng đồng ETH đã bỏ phiếu thực hiện 1 hard fork để đảo ngược giao dịch; 1 nhóm người k đồng ý điều đó vì cho răng bản chất của blockchain là k thể đổi và vẫn dùng phiên bản cũ -> sinh ra ETC là bản cũ
+
+-> Fork của Bitcoin
+Bitcoin cũng nhiều lần bị hard fork phổ biến nhất là Bitcoin cash(BCH) và Bitcoin Gold(BTG). BCH giá tăng vọt còn BTG giá giảm mạnh.
+=> hard fork xảy ra khi người ta muốn có 1 sự thay đổi nào đó chứ kp vô nghĩa. TH của bitcoin kp vì bị hack mà vì nhiều lý do khác.
+
+
+
+# Smart contract
+Blockchain đời đầu chỉ là 1 cuốn sổ cái lưu thông tin bất biến không thể bị hack và vẫn chưa có ứng dụng nhiều -> để ứng dụng nhiều hơn ta cần đến 1 thứ gọi là smart contract. Nếu k có smart contract thì chỉ với 1 mạng p2p lưu thông tin bất biến cũng có thể gửi tiền đi an toàn rồi, nhưng để thực hiện giao dịch an toàn đảm bảo rằng khi ta làm gì cho người kia thì họ sẽ chuyển tiền cho ta chẳng hạn thì chưa. VD giao hẹn tôi gửi ông 5 bitcoin, ông cũng gửi tôi 5 bitcoin nhé, gửi xong là ông kia chạy luôn chẳng hạn thì chưa mặc dù quá trình gửi thì an toàn nhưng người lừa người thì phải dùng đến smart contract mới tránh đc
+
+Chú ý là data phải được lưu trong blockchain chứ kp data để ở ngoài. VD ta làm 1 bên đặt cọc tiền thì rõ ràng smart contract trong blockchain sẽ k giữ tiền mặt hay tài khoản ngân hàng của người dùng để thỏa mãn thì chuyển tiền mà sẽ giữ 1 vật gì đó có giá trị như tiền được lưu trong hệ thống của blockchain như coin của nó. VD giao dịch bitcoin bằng smart contract thì nó chỉ quản lý được bitcoin. VD smart contract giữ 1 coin của ta, khi hắn gửi tiền cho ta, smart contract sẽ gửi coin cho hắn chẳng hạn. 
+
+Blockchain có thể implement bằng C++, JS,.. các ngôn ngữ phổ biến nhưng lập trình tạo contract thì đặc biệt hơn vd solidity.
+
+-> Smart contract cũng chỉ là 1 contract bình thường nhưng là digital và distributed. Contract bình thường thì dùng văn bản có chữ ký 2 bên xác nhận và pháp luật làm chứng. Ai làm gì sai hợp đồng sẽ chịu trách nhiệm trước pháp luật. Smart contract dù không có pháp luật đảm bảo nhưng vẫn giúp mọi thứ chuẩn như v vì 2 bên đã ký xác nhận thì k thể làm sai điều kiện đó được, 2 bên không thể ôm tiền bỏ chạy hay bùng tiền vì bản chất nó chỉ là những dòng code logic k thể đổi.
+VD: có một phần mềm phổ biến là Kickstarter, nơi mà 1 nhóm người nêu ra ý tưởng thực hiện 1 dự án và mục tiêu cần bao nhiêu tiền, kêu gọi mọi người vào quyên góp tiền để thực hiện, nếu số tiền sau 1 khoảng thời gian chỉ định đủ mục tiêu thì team sẽ yêu cầu Kickstarter chuyển tiền cho họ thực hiện dự án, nếu k đủ mục tiêu thì supporter có thể yêu cầu hoàn lại tiền cho mình chẳng hạn => KickStarter là bên thứ 3 trung gian mà 2 bên phải tin tưởng. Với smart contract thì có thể tạo ra 1 hệ thống tương tự mà k cần bên thứ 3 như KickStarter và mọi thứ tự động. Đủ goal -> chuyển cho product team, k đủ goal -> chuyển lại cho supporter tự động, 2 bên đặt lệnh như v và trong suốt quá trình đó sẽ k thể thay đổi được nữa
+Kết hợp nó trong blockchain, thì smart contract sẽ được lưu trong một khối block và như tính chất của blockchain, ai cũng thấy được smart contract đó và nó bất biến. K như Kickstarter có thể ôm tiền bỏ chạy or thay đổi hợp đồng thì ở đây ai cũng thấy nó và nó cố định nên k ai sở hữu lượng tiền đó cả, chỉ cần biết đạt goal hay k là smart contract sẽ tự động mà thôi. Thực chất ở đây hiểu là smartcontract đó là 1 lượng code tạo ra 1 program là contract và được lưu trong blockchain nên lượng code đó là bất biến và k ai đổi được. Cơ chế bảo mật hợp đồng này giống cơ chế bảo mật dữ liệu blockchain bên trên, k hacker nào hack vào đc vì mọi người sẽ bảo invalid.
+
+Smart contract tạo ra thỏa thuận k có bên thứ 3, giao dịch xảy ra khi thỏa thuận được đáp ứng(ĐK trong code)
+
+
+
+# Ứng dụng blockchain
+Vc dùng blockchain sẽ giúp cản được hacker bên ngoài đồng thời dùng smart contract sẽ tránh được TH các người trong hệ thông lừa nhau.
+=> Tổng kết: Blockchain cũng chỉ là 1 cuốn sổ cái lưu thông tin bất biến và cho phép giao dịch an toàn. Như v, ứng dụng của nó là vô kể, thử hỏi trong đời sống chúng ta có bao nhiêu thứ cần phải lưu trữ bất biến(k thể thay đổi, k thể bị hack), minh bạch(chia sẻ công khai) và trao đổi (giao dịch) an toàn. 
+
+-> VD: giải quyết vấn đề của mọi giao dịch trên thế giới với chi phí thấp, chẳng hạn 1 thương vụ cá cược cần phải đặt cọc để thực hiện, blockchain chỉ cần viết vài dòng code xong cho cả 2 bên cùng gửi 100 đô vào thì chương trình này sẽ giữ 200 đô an toàn. Khi goal đạt được trên nhiều nguồn dữ liệu, công nghệ này sẽ chuyển toàn bộ tiền cho người chiến thắng, k cần trả tiền boa cho bên trung gian luôn.
+CrowdFunding với Kickstarter là 1 ví dụ các smart contract sẽ được lưu trữ bất biến và các giao dịch bên trong smart contract là an toàn và công khai cho mọi người => Blockchain giải quyết vấn đề bên trung gian thứ 3 cho mọi TH
+
+-> VD: giải quyết vđ odormeter fraud của car. Ngày xưa khi bán xe cũ, người ta làm giả mạo cái đồng hồ đo mùi của ô tô để làm cho ô tô trở nên mới hơn, khi người ta nhìn vào nó định giá cao hơn. Đây là 1 hình thức lừa đảo và có thể ngăn chặn khi ứng dụng blockchain vào phát triển car. Người ta có thể tạo ra 1 hệ thống blockchain tự động lưu các dữ liệu về số km xe đó đi được vào hệ thống blockchain và hiển nhiên là công khai cho mọi người trong hệ thống, hiển nhiên dữ liệu này là bất biến và k thể làm giả. Hệ thống ở đây có thể là blockchain cho những người sử dụng xe hãng đó chẳng hạn (Ở đây ta giả sử là đã có 1 thuật toán đồng thuận nơi mà số km đi được của xe sẽ được tất cả mọi người trong hệ thống đồng thuận rồi chứ kp mọi hệ thống đều sử dụng pow hay pos như trên, hệ thống khác sẽ dùng khác nhau) -> thay thế thành 1 cái odormeter thông minh tự ghi dữ liệu vào blockchain là xong.
+Với cơ chế trên thì nó sẽ ứng dụng được trong mọi thứ mà thường xảy ra việc làm giả, ví dụ giấy tờ tùy thân. Đi đến đâu cần giấy tờ gì thì mở hệ thống ra xem thông tin người đó là xong, k cần cồng kềnh qua nhiều khâu trung gian, đi photo, thiếu giấy r ký kết, bỏ thêm tiền này nọ nx. Vì dữ liệu lưu trên hệ thống là đúng đắn 100%. Khi mà có 1 cơ sở dữ liệu(coi blockchain là 1 chuỗi lưu dữ liệu) chung luôn đúng thì khi làm bất cứ việc gì cứ lấy nó ra dùng sẽ k sợ bị lừa đảo -> ngăn chặn mọi vụ lừa đảo kiểu làm giả và cx hữu dụng khi ta track theo dấu 1 cái gì đó
+
+-> VD: blockchain dùng trong bỏ phiếu. Bh bầu cử họ vẫn dùng giấy bởi vì họ lo sợ bị hacker tấn công khi dùng phần mềm. Ta có thể dùng chuỗi khối blockchain để lưu số phiếu. Ví dụ phần data lưu là A vote cho B rất đơn giản và tương tự bitcoin, số lượng vote k được lưu mà mỗi lần hiển thị sẽ tính toán giá trị trong chuỗi blockchain đó và đưa ra số lượng vote. Tính minh bạch thể hiện ở chỗ bất cứ ai xem được có bao nhiêu người đã vote cho họ và những người vote chẳng hạn cx biết được trạng thái vote của mình. Làm được v thì hacker can thiệp bằng mắt. Tuy nhiên phải phân quyền hợp lý cho ai truy cập được vào cái gì. Ta phải xác định được ai là người đã bỏ phiếu mà k vi phạm quyền riêng tư của họ. Nếu ta cho phép mọi người vote bằng điện thoại or máy tính của họ, ta sẽ k thể can thiệp được nếu máy tính của họ bị nhiễm virus khiến kết quả của họ bị sai lệch -> điều này cx k ảnh hưởng mấy vì chỉ 1 phiếu bị sai vì hacker khó có thể hack được nhiều máy để sửa kết quả. Phải chống được tấn công DDOS vì hacker có thể dùng máy của hắn vote vô hạn làm hỏng hệ thống của ta
+
+-> VD: Dùng blockchain track thực phẩm, lưu mọi thông tin từ quá trình trồng đến khi thu hoạch mỗi phần thực phẩm vào blockchain và công khai cho mọi người. Nếu có thực phẩm nhiễm độc, ta sẽ ngay lập tức track được nguồn gốc của nó và thông báo cho mọi người cùng mua phần thực phẩm đó trong hệ thống
+Tương tự có thể track hàng hóa được vận chuyển từ nơi sản xuất k hay là hàng lậu với blockchain. Công ty sẽ dùng phần mềm blockchain để track chính sản phẩm của họ trong 1 phần mềm quét mã QR, bọn làm hàng lậu fake cả mã QR cũng k can thiệp vào hệ thống blockchain đc
+=> Đó là các ví dụ blockchain track sp và verify thật giả, nếu dùng thêm smart contract thì nó còn mạnh mẽ hơn nhiều. Smart contract là tiny program bất biến được lưu trong mỗi chuỗi blockchain và sẽ thực hiện hành động gì với dữ liệu trong nó khi thỏa mãn 1 điều kiện cụ thể.
+
+-> SmartContract cũng chỉ là đưa thêm câu điều kiện vào blockchain mà thôi. VD: công ty bảo hiểm xe có thể đặt điều kiện, khi car chạy thì tính số km for insurance. 
+
+-> VD: lưu dữ liệu hồ sơ y tế bệnh nhân trong blockchain, chỉ bác sĩ nào có private key đúng mới truy cập đc vào block đó. Bệnh nhân có thể duy trì quyền riêng tư của họ trong khi đó có thể chia sẻ thông tin nào cho ai khi cần thiết bằng chữ ký số.
+VD: hệ thống blockchain lưu identity card của 1 người, người đó có thể tùy chỉnh phân quyền muốn lộ thông tin nào chẳng hạn như tuổi tác để xác nhận độ tuổi để làm gì đó.
+
+-> VD: tiền mã hóa của blockchain là 1 trong các phương tiện chuyển tiền quốc tế chuẩn và rẻ nhất chứ qua mấy ông ngân hàng thì trả phí xong r delay đến năm sau -> là ứng dụng cơ chế POW đào coin của blockchain.
+
+-> VD: Từ thiện ứng dụng tính minh bạch của blockchain khi mà mọi khoản thu chi đều được theo dõi và từ thiện bằng tiền điện tử sẽ giúp mọi thứ nhanh và dễ dàng-> đương nhiên là khi tiền điện tử được chấp nhận là tiền theo pháp luật
+
+-> VD: khi phân phối nhạc trên nền tảng nghe nhạc trả phí. Ta có thể dùng hệ thống blockchain thiết lập 2 smart contract. Cụ thể: hệ thống gồm artist và người nghe. Người nghe sẽ trả phí hàng tháng để nghe nhạc, smart contract sẽ lưu lại. Mỗi khi người nghe nghe 1 lần bài hát, smart contract thứ 2 sẽ lưu lại-> cuối tháng, 2 smart contract sẽ xử lý gửi tiền cho artist tùy theo số lần bài hát của họ dược nghe. VD ta có thể tạo 1 smart contract app như sportify
+=> chú ý dữ liệu lấy ra được tổng hợp từ tất cả các khối block chứ k lưu sẵn nhé.
+
+-> VD: trò chơi điện tử, các game thủ hoàn toàn chịu sự kiểm soát của công ty quản lý máy chủ. Người dùng cuối thực sự k sở hữu các tài sản trong trò chơi nhưng nếu dùng blockchain, người dùng sẽ thực sự sở hữu tài sản của họ(qua chữ ký số cho thấy giá trị nào là của họ) và họ có thể trao đổi chúng qua trò chơi hoặc thị trường. Nhà phát triển không thể xóa tài sản của 1 ai đó họ muốn như centralized.
+
+
+
+# Coin
+Blockchain lưu trữ thông tin-> 1 người gửi lên thông tin tạo block-> mọi người xác minh và add block đó vào chain => đó là quy trình chung của mọi blockchain còn tùy vào các lĩnh vực khác nhau mà data lưu khác nhau và cơ chế đồng thuận dùng khác nhau => chỉ nhờ 3 bước đó mà blockchain ứng dụng được trong mọi lĩnh vực. Điều này đồng nghĩa blockchain có thể chả cần dùng coin or thuật toán quá phức tạp làm gì.
+Họ tạo ra coin trong blockchain có thể là vì: chi phí cho thành viên tham gia, phần thưởng cho người sáng lập(người tạo ra hệ thống có thể kiếm được 1 lượng coin lớn từ đầu chẳng hạn và nếu sau này thế giới công nhận là tiền mặt thì họ đổi ra), phần thưởng cho thợ đào(buộc có khi dùng pow vì k có thì chả ai rảnh mà đào cả),..
+
+Tiền trong ví luôn chỉ đến từ 2 nguồn là tự đào ra or được gửi từ tk khác sang
+
+-> Phân biệt coin và token
+Coin là tiền điện tử hoạt động trên 1 chuỗi khối độc lập của riêng chúng. VD: bitcoin, ETH,..
+Token là tiền điện tử không có blockchain của riêng nó, nó hoạt động trên 1 blockchain có 1 đồng coin khác. Các nền tảng blockchain vd ethereum cho phép các dự án khác xd các ứng dụng trên giao thức của họ, người dùng có thể tạo, phát hành và quản lý token. Hầu hết các token hiện nay của Ethereum là Token ERC20. Coin có ví riêng còn token sử dụng chung ví với coin.
+VD: ta tạo ra 1 dự án làm việc với Ethereum Blockchain, ta có thể tạo ra 1 token như 1 khoản thanh toán trong hệ sinh thái dự án. VD khi người dùng làm cái gì được thưởng token, xong làm cái gì thì cần trả bằng token. Nó như là coin v đó nhưng coin thì chỉ xác thực giao dịch với bị hạn chế còn rõ ràng token dùng trong mọi dự án nên ứng dụng của nó sẽ rộng hơn và chia nh loại hơn, mang đặc trưng cho hệ sinh thái dự án. Hệ sinh thái trong dự án đó chứ kp hệ sinh thái defi
+Tức là ta tự tạo ra token bằng Etherium blockchain cx đc. 
+ICO(Initial Coin Offering) là đợt phát hành coin đầu tiên, nó là phương thức huy động vốn. VD có 1 dự án chưa phát triển đầy đủ nền tảng blockchain, ta có thể phát hành ra tiền điện tử của riêng ta(token). Ta tạo ra 1 số lượng token nhất định và bán ra cho các nhà đầu tư ở các đợt khác nhau là ICO với giá rẻ. Đó gọi là huy động vốn, nhà đầu tư có thể mua bằng bitcoin, ethe, tiền fiat tùy dự án. Các nhà đầu tư tham gia ICO nhiều sẽ làm cho token tăng giá trị, họ hy vọng sẽ nhận được lợi tức đầu tư về sau khi là những nhà đầu tư đầu tiên cho dự án tiền điện tử đó.
+=> Tức là ta có thể mua token từ các dự án ICO khi nó mở bán token => mua được giá rẻ nhưng phải biết chọn dự án tốt và tiềm năng. Sau này khi nó lên sàn sẽ có giá khác nhau tùy tăng hay giảm mà ta có thể lỗ or lãi.
+Khi giao dịch token sẽ mất 1 khoản phí giao dịch trả bằng coin tùy nền tảng
+
+
+
+# Ứng dụng trong bitcoin cơ bản(mức basic)
+Blockchain là công nghệ tạo nên bitcoin, hay bitcoin là 1 ứng dụng đầu tiên phổ biến nhất của blockchain
+
+-> Cụ thể: Khi người dùng thực hiện 1 giao dịch trên sàn bitcoin -> người đó sẽ tạo ra 1 transaction mới add vào 1 block cho vào chuỗi blockchain. Mỗi người tạo transaction sẽ lan truyền nó trong mạng blockchain. 1 lượng các thông tin giao dịch khác nhau đó sẽ được gom lại thành 1 block trong chuỗi blockchain. Bitcoin sử dụng POW(proof of work) để xác thực block, tức là nó lấy đầu vào như vậy + 1 số nonce(number only used once) ngẫu nhiên(từ 1 đến 4 tỷ) và thực hiện hash các thông tin đó ra 1 target hash. Cái block có target hash này k được tạo ra ngay mà sẽ chờ được xác thực bởi các thành viên trong mạng P2P r mới đc add vào blockchain. Các thành viên đó xác thực khối block này bằng cách tìm ra số nonce nó sinh ra ngẫu nhiên. Khi 1 người tìm được số nonce hay tìm được block để thêm vào chuỗi -> người đó sẽ gửi block tim được đó cho mọi người trong mạng -> mọi người trong mạng sẽ thực hiện hash cái nonce và data giao dịch ban đầu, nếu thực sự ra thỏa mãn target hash cần tìm thì tiên hành cập nhập lưu nó vào chuỗi blockchain của mình, nếu kp thì là invalid đó. POW là 1 thuật toán ngốn điện năng và ngốn thời gian, trong bitcoin mất khoảng 10 phút để tìm ra nonce, điều này càng làm cho blockchain bảo mật, tuy nhiên 1 ông nào đó thực hiện giao dịch thì vì sao 1 ông nào đó khác lại lao đầu vào tìm cho ra block mới để add vào chuỗi cho ông kia thực hiện giao dịch. Đương nhiên là không làm miễn phí nên họ đã đặt ra 1 khái niệm coin trong mạng đó. Người nào tạo ra được khối block sẽ là chủ của block đó ở trong blockchain, khi là chủ block đó thì họ sẽ được cộng 1 lượng coin sở hữu bên cạnh tiền hoa hồng cho việc xác minh giao dịch từ người thực hiện giao dịch. Tức là người lập trình đã lập trình rằng mỗi block được tạo ra sẽ được cộng 1 lượng coin làm phần thưởng cho người đào và đặt giới hạn 21 triệu coin. Nhiều năm sau bitcoin được công nhận là tiền điện tử có giá trị thực tế và càng cao khi giới hạn của nó hữu hạn như bh.
+Tức là: 1 người thực hiện giao dịch -> 1 lượng giao dịch tạo ra 1 khối có target hash -> các thành viên vào xác thực nó tìm ra nonce -> tìm được tự động gửi cho mọi người -> mọi người tự động check block đó hợp lệ thì add vào chuỗi của mình-> giao dịch bên trong block đó được thực hiện và bất biến, tính cả 1 giao dịch khác là cộng thêm vào ví của chủ sở hữu block đó 1 lượng bitcoin là phần thưởng.
+
+Việc giao dịch bitcoin tối thiểu là 10 phút vì mỗi lần thực hiện giao dịch thì thông tin sẽ gửi lên hệ thống của bitcoin để những người khác vào xác nhận(bằng cách mining) ra target hash.
+Nếu k có POW thì hệ thống bitcoin sẽ sụp đổ vì các thợ đào sẽ k đào để kiếm coin nx, lợi nhuận hoa hồng do người giao dịch trả cho thợ đào k đủ cao. Khi mà k còn thợ đào, có người sẽ sở hữu cả nghìn coin nhưng mãi mãi kbh dùng đc vì thực hiện giao dịch mà k có ai xác nhận.
+Tuy nhiên điều này sẽ dẫn đến trường hợp người ta muốn đào bitcoin với tốc độ nhanh hơn, họ sẽ tập hợp lại trong 1 bể đào mining pool -> nơi mà mọi người sẽ cùng nhau tìm số nonce. Khi 1 lượng giao dịch gửi lên thành 1 khối block, team đào sẽ thực hiện tìm nonce cho block đó, họ dùng thuật toán chia ra từ 1 đến 4 tỷ các khoảng khác nhau cho từng người tìm nonce k bị trùng, người nào tìm ra được thì tất cả mọi người sẽ dừng đào block đó và chia phần thưởng đó cho mọi người trong bể và tiếp tục như v. Nhưng điều này xảy ra 1 vấn đề là họ hợp lại để tạo thành nhóm, điều này có thể dẫn đến nhóm họ nhiều người quá có thể dẫn đến cuộc tấn công 51%. Tức là bể đào có thể làm mất tính phi tập trung của blockchain (mặc dù thực tế điều này sẽ k xảy ra).
+Ta hiểu là bitcoin nó k có số dư mà giá trị tiền sở hữu được tính bằng cách tính toán trong sổ cái. Cho nên khi thực hiện 1 giao dịch nhận tiền chẳng hạn -> người ta giải ra block chứa giao dịch đó -> hệ thống thêm block đó vào chain của ta -> hệ thống sẽ tính toán lại cả cái block chain và hiển thị số tiền ta đang sở hữu tăng lên do block kia được thêm vào.
+
+=> Đó là ứng dụng của blockchain trong thị trường crypto, có nhiều loại coin khác khắc phục nhược điểm của bitcoin, nó cho số lượng coin là vô hạn và k sợ bị đào hết or dùng thuật toán đồng thuận ít hao tổn năng lượng hơn
+
+Như v, vấn đề mấu chốt chính là thuật toán đồng thuận, nơi mà khi 1 block được thêm vào thì mọi người phải xác nhận đó là đúng và thêm vào chain của mình. POW là 1 thuật toán ngốn time và bộ nhớ và phần thưởng của nó là coin. Nếu ứng dụng trong các lĩnh vực khác thì có thể k dùng coin, k dùng POW mà chỉ cần 1 thuật toán nào đó cho phép tất cả mọi người trong hệ thống xác nhận được thông tin là đc.
+
+-> Cơ chế đào block mới: 
+Đào bitcoin là vc tìm ra chỉ số hash của block nào đó. Chỉ số hash là 1 mã kí tự dài ngoằng đc tạo từ private key + message. Do ai cx có thể xem đc nên bất cứ ai cx có thể đào bitcoin. Để đào đc bitcoin phải tìm đc cái chỉ số hash kia để thêm 1 block vào hệ thống blockchain chứa transaction là "A nhận đc 1 bitcoin" do đào đc, thì họ sẽ phải thực hiện thuật toán SHA256, đó là thuật toán nhận đầu vào là 1 chuỗi string bất kì trả ra 1 chuỗi string độ dài cố định(hash function).
+Hàm băm là hàm có đặc điểm 1 chiều, đầu vào chỉ cho ra 1 đầu duy nhất, k đc trùng, nhưng do đầu vào là vô hạn mà đầu ra là hữu hạn nên luôn luôn có TH trùng của hàm băm, chỉ là xác xuất trùng càng thấp khi đầu ra có phạm vi càng lớn. Ở đây dùng 256 bit thì có thể coi là đầu ra gần như k thể trùng vì quá lớn. Blockchain sử dụng SHA256 để mã hóa thông tin và miner cx phải dùng SHA256 để mã hóa tìm hash. Họ sẽ truyền vào 3 thứ: thời gian thực, chỉ số nonce, data(là thông điệp của 1 block). Sau đó ghép nó thành 1 chuỗi và cho trải qua hàm băm r so sánh liên tục, mỗi lần kiểm tra k thỏa mãn là tăng nonce lên 1 đơn vị. Số nonce là số cần tìm để giải bài toán, chạy từ 0 đến 4 tỷ(256 bit)nên phải may mắn lắm ms tìm đc bitcoin = pp thử-sai(brute force). Hash thỏa mãn khi nhỏ hơn hoặc bằng target hash. Target hash là GT băm đích mà nếu như GT băm ta tìm đc từ thông điệp của block gần nhất, nonce và time là nhỏ hơn hoặc bằng nó thì thỏa mãn. Ta có thể tìm GT băm đích này trong cái tiêu đề khối của block gần nhất, từ đó xác định difficulty là số các số 0 ở đầu hàm băm. Đương nhiên là ta k thể chém bừa 1 GT bất kì nhỏ hơn target hash đc vì nó k xuất phát từ bất kì 1 time hay message nào cả. Ta phải tìm bằng SHA256. Càng nhiều só 0 ở đầu thì càng khó vì xs tìm đc 1 GT băm mà nhiều số đầu = 0 rất khó. Trung bình cứ 10p là 1 bitcoin đc đào lên, khi tổng đào được là 21 triệu thì sẽ k đào đc nx. Số bitcoin dần giảm đi nên phần thưởng ms giảm dần. 
+
+Công thức tính difficulty của 1 block là = original_target/target với original_target là target gốc cố định của block0(block 0 có độ khó là 1 là thấp nhất) của bitcoin còn target là GT hash của block đó, nó càng nhỏ thì difficulty càng lớn, càng khó. Trong thực tế difficulty là 1 GT lớn vô cùng và hash cx dài vô cùng. Nó thay đổi trung bình 14 ngày 1 lần, trung bình là sau 2016 block ms đc tạo ra trên sổ cái và tăng dần liên tục. Trung bình 1 block ms đc tạo ra do đào cách nhau 10p, nếu như trong 14 ngày mà tìm đc hơn 2016 block thì diff sẽ giảm, ngc lại sẽ tăng. Vì v nó còn thay đổi phụ thuộc vào độ may mắn.
+Do đó kể cả dùng siêu máy tính thì vẫn là 10p vì nó luôn tự tăng difficulity lên để thời gian bị fix ở 10p.
+
+Trong thực tế để tăng tỉ lệ đào lên 1 tí, mn thg tham gia vào mining pool là bể đào, trong đó khi 1 ai đó có giao dịch sẽ lập tức thông báo và những ng trong bể kiểm tra sổ cái của mình lấy block header của giao dịch đó và bắt đầu đào từ message, time, nonce(chạy từ 0), target hash để lấy dificulty. Khi 1 ng trong nhóm đào đc thì cả nhóm sẽ dừng, và ng may mắn đó sẽ lại lấy thông điệp giao dịch khác
+của mình làm blockheader để bảo mn đào tiếp, cứ thế mãi. 
+
+-> Cơ chế ký message tương tự, nó đc tạo thành từ SHA256("thông điệp cần xác thực", "khóa bí mật") và đó là 1 hash. Khi truyền thì hash sẽ công khai, chữ kí công khai, thông điệp cx công khai. Nhưng khóa bí mật lại k thể bị lộ. Nếu muốn hack thì hacker phải truy ngược lại hàm SHA256 - 1 điều k thể thực hiện, theo tính toán phải có dàn máy tính tuổi thọ gấp vài lần vũ trụ. Do SHA256 xs là như nhau nên ta k thể tìm đc quy luật j từ hàm băm đb này. 
+
+
+
+# Blockchain bitcoin(mức chuyên sâu)
+
+
+
+# Blockchain Ethereum
+
+
+
+# Ứng dụng trong BSC
+Binance Smart Chain tồn tại song song với BC sử dụng đồng BNB. BSC dùng giải thuật đồng thuận POS, POA(proof of authority). BSC mất 5s tạo 1 block và có đk khắt khe hơn khi trở thanh validator, validator offline mà k validator cx bị phạt tiền.
+
+
+
+# 2 cơ chế đồng thuận phổ biến
+-> POW là thuật toán phức tạp để hacker hack 1 chuỗi sẽ phải thực hiện 1 hành động ngốn thời gian. Càng phức tạp càng bảo mật, nhưng rõ ràng với cơ chế bảo mật của blockchain thì pow là k cần thiết và quá hao tổn. 
+Từ lâu, để tránh spam thư rác hay tấn công thì ng ta yêu cầu ng gửi phải giải 1 bài toán nho nhỏ, vì máy k có sự thông minh nên nó k giải đc và k spam thư đc. POW đc ứng dụng mạnh trong blockchain, là thuật toán nhưng yêu cầu ng dùng giải bài toán phức tạp hơn rất nhiều để thêm 1 block, hay tạo đc 1 bitcoin. 
+
+-> Tuy nhiên POW để cho mọi người cạnh tranh nhau đào coin là việc làm hao tốn năng lượng, phí tài nguyên. Nên có hình thức khác tốt hơn là POS(proof of stake): POS sẽ chọn random 1 validators(thay thế cho miners) sẽ forge 1 block mới. Tuy nhiên kp random mà nó sẽ dùng deposit, 1 node sẽ đặt cọc 1 khoản tiền(stake), ai có nhiều tiền cọc hơn sẽ có tỉ lệ trở thành validator cao hơn. Khi validator check rằng mọi giao dịch bên trong 1 block là đúng thì nó sẽ sign up thành 1 block và thêm vào block chain, 1 khoản reward coin sẽ được gửi cho validator. Nếu validator xác nhận sai cho 1 giao dịch fraud qua thì sẽ mất số tiền đặt cọc nhiều hơn phần thưởng nhận đc. Sau 1 khoảng thời gian, validator sẽ nhận lại stake và khoản tiền thưởng và hệ thống lại chọn 1 validator mới. Nếu hệ thống chọn 1 validator nhưng người đó lại offline k xác minh thì sẽ tự chọn backup validator thay thế
+VD: Đồng Cardano là đồng sử dụng cơ chế POS
+POW thì ai cung nhiều năng lượng hơn thì sẽ có khả năng tạo block cao hơn do giải được nonce nhanh hơn và cứ như thế. Nếu họ cung 51% năng lượng thì có thể hack được hệ thống bitcoin, đó là khi các mỏ đào hợp tác với nhau để chuộc lợi, làm mất tính decentralize của bitcoin. POW như v nhưng POS cũng có lợi và hại riêng: Ta tưởng răng người càng giàu càng được chọn làm validator là bất công -> sai vì với POW, họ đầu tư càng nhiều máy để đào bitcoin thì lợi nhuận họ càng tăng, nhưng nó kp linear mà là tăng lên nhiều hơn nhiều. Nên cứ thế người nào càng giàu thì chắc chắn sẽ create block mới. Thực tế cho thấy POS công bằng hơn POW và decentralized hơn nhiều. Nếu 1 người nào nắm giữ 51% stake sẽ có thể hack được hệ thống nhưng sẽ là rất nhiều tiền -> tỷ lệ bị hack thấp hơn 51% năng lượng của POW. Hơn nx tiêu thụ điện năng cx ít và giao dịch hiển nhiên nhanh hơn.
+
+
+
+# Tổng quan lập trình blockchain
+Core blockchain developers: developer chịu trách nhiệm cho việc build back-end of DApps hay xây dựng blockchain riêng. VD ta phải xây nên các blockchain tương tự như Etherium, Bicoin, Cardano. Ngôn ngữ chỉ yếu là C++, Go, Haskell
+Blockchain software developers: design và xây front-end của Dapps. Front end là web, mobile interface,.. Backend là Solidity,...
+VD: web developer xây 1 web app cho 1 trang web chạy trên web browser, nhưng họ k có xây web browser, ví dụ lovehands ta xây 1 webapp nhưng ta đâu có xây nên google chrome đâu, công ty khác họ xây nên gg chrome cho chúng ta. Như v core blockchain dev sẽ xây hẳn 1 blockchain network còn software developer sẽ xây 1 apps dựa vào cái blockchain network đó. Tuy nhiên ở trình độ chưa cao, ta có thể dùng các blockchain platform có sẵn là Ethereum chứ chưa tạo ra hẳn 1 mạng lưới blockchain riêng.
+Các thư viện và framework phổ biến cho blockchain development: Web3.js(tương tác Ethereum node), React.js, Ethers.js(tương tác Ether blockchain), Metamask(cho phép token mua bán với bất cứ blockchain nào), Node.js(thường dùng tương tác với smart contract và public nodes lấy data về 1 server riêng truy vấn cho nhanh), Ganache(deploy và test mà k tương tác với real Ether blockchain),..
+Ngôn ngữ: solidity(tạo Ethe smart contract), JS(giao diện), C++ and Go(build back-end blockchain system), Haskell(dùng build Cardano blockchain)
+
+-> Ta chỉ tập trung vào việc tạo DApp ở mức cơ bản:
+Infura là một đơn vị cung cấp cơ sở hạ tầng Internet cho mạng lưới Ethereum, đóng vai trò là cầu nối giữa các thiết bị di động, máy tính, server đến Ethereum thông qua các WebSocket và giao thức HTTPS. Nó là Ethereum API đó.
+Backend: solidity(tạo smart contract), server(nên có vì rất expensive để lưu data trong 1 smart contract nên cần có 1 server sẽ tốt hơn)
+Frontend: HTML/CSS, JS, Web3(thư viện dùng js để tương tác với smart contract)
+Tools: Node.js, React & create-ethe-app, truffle, ganache, metamask..
+Service: Infura, Testnets(ví dụ run test sẽ phải trả ETH, người ta tạo ra testnets để test mà k dùng main blockchain)
+
+
+# DApp
+DApps là Decentralized Applications là ứng dụng phi tập trung. 1 ứng dụng là 1 DApp nếu mã nguồn mở 100%(bất kỳ ai cũng có thể đóng góp cho source code, phát triển sản phẩm), điều hành tự động k có tổ chức kiểm soát phần lớn các token của nó, các thay đổi phải được quyết định bởi sự đồng thuận của người dùng ứng dụng; có 1 token mã hóa(bitcoin là 1 ví dụ), hiểu rộng hơn bitcoin, token của ứng dụng cần thiết cho vc truy cập ứng dụng và bất kỳ đóng góp nào giá trị cũng nên được thưởng bằng token đó trong DApp; Dữ liệu và hồ sơ hoạt động được lưu trữ trong 1 blockchain công cộng phi tập trung; Phải có cơ chế đông thuận tạo token theo thuật toán mật mã chuẩn. 
+=> VD Bitcoin là 1 Blockchain k có DApp. Còn trên nền tảng Etherium có mấy nghìn dapp rồi, trò chơi(đa phần là game cờ bạc k có nhà cái), cá cược, ví điện tử, mạng xã hội,.. 
+Khi lập trình ứng dụng trên blockchain, ta phải tạo ra các DApp, ta sẽ phải chọn 1 nền tảng blockchain có sẵn(k xây lại nền tảng mới) có thể được sử dụng bởi các doanh nghiệp. Có nhiều nền tảng blockchain dùng để tạo app blockchain và Etherium là nền tảng phổ biến nhất nên dùng để tạo app vì là nền tảng lâu đời với cộng đồng rất lớn.
+
+
+
+# Public và private blockchain và database
+Public/Permissioned blockchain và Private/Permissionless blockchain là 2 loại blockchain ngược nhau
+
+VD: tiền điện tử luôn dùng permissionless blockchain vì k ai có thể kiểm soát nó như blockchain bitcoin. Mọi giao dịch công khai ai cũng thấy và mọi người có thể đến rồi đi miễn là họ còn giữ private key thì họ có thể tái tham gia mạng bất cứ lúc nào, bất kỳ ai cũng có thể tham gia mà k cần cấp phép. Còn các công ty chẳng hạn sử dụng blockchain để theo dõi dịch vụ vận chuyển của mình chẳng hạn, họ sẽ k muốn đưa dữ liệu bí mật của mình lên 1 permissionless blockchain. Private blockchain là 1 mạng do 1 nhóm tổ chức cùng nhau dựng lên phục vụ cho những nghiệp vụ kinh doanh trong nhóm đó mà thôi. Bên trong private blockchain còn có cơ chế phân quyền
+VD 1 nhóm tổ chức dựng lên 1 mạng lưới phân phối xe hơi giữa các nhà sản xuất, nhà phân phối, nhà bán lẻ,.. Mỗi người tham gia vào sẽ nhận 1 cặp public key và private key giúp xác minh danh tính của họ(họ thuộc về tổ chức nào, quyền của họ với hệ thống, điều này khác với public blockchain khi mà danh tính của mọi người là ẩn danh). Khi đó private blockchain sẽ có cơ chế phân quyền, ai là khách hàng, ai là nhà tài trợ và họ sẽ phân chia được truy cập vào những dữ liệu nào. Chi phí và thời gian giao dịch sẽ nhanh hơn và rẻ hơn.
+
+Cả 2 đều bất biến, có consensus rule, decentralized(với private thì decentralized bên trong tổ chức đó thôi)
+
+--> Permissionless blockchain k bị hạn chế quyền truy cập, người dùng vẫn ẩn danh vì k cần phải công khai thông tin cá nhận để có 1 address. Kiểu này có thể chậm, quá công khai và khó kiểm soát truy cập
+
+--> Permissioned blockchain chỉ dành cho những người được phép truy cập. Bất cứ ai muốn xác thực giao dịch or xem dữ liệu phải được central author chấp nhận. Có chế độ phân cấp quyền khác nhau.
+VD: 1 công ty bán dưa hấu theo dõi chuỗi cung ứng của họ: họ xd 1 blockchain theo dõi trái cây từ trang trại đến cửa hàng, họ sẽ biết ai là người tham gia mỗi bước -> Họ xd 1 melonchain và cung cấp cho mỗi điểm trên chuỗi cung ứng để mn truy cập và thêm dữ liệu, dữ liệu về mọi quả dưa hấu đều đc ghi lại và có thể tra cứu sau đó -> 1 số dữ liệu về mỗi quả như thời gian địa điểm thu hoạch được công khai cho người tiêu dùng, còn các dữ liệu khác sẽ giữ bí mật để công ty duy trì lợi thế, kiểm soát qua vc phân quyền private blockchain.
+=> Khả năng tùy biến cao hơn, kiểm soát tốt hơn, mở rộng tốt hơn. Tập trung hơn, ít minh bạch, dễ bị tấn công hơn. Nhưng ít nhất là nó minh bạch bên trong tổ chức sử dụng blockchain đó và đó cũng là mục đích của các doanh nghiệp khi dùng.
+
+-> Phân biệt private blockchain và database
+Cả database và private đều không công khai
+
+--> Private blockchain chỉ được dùng trong 1 tổ chức, họ có quyền quyết định ai có quyền tham gia blockchain => nó vừa decentralized, vừa centralized; Ledger k public, k ai có thể access mà chưa được cấp quyền tham gia, còn đâu nó vẫn là decentralized trong tổ chức đó. Pivchain cung bảo mật tốt các thông tin nhạy cảm, nhờ cơ chế phân quyền k thể hack. Ta có thể diều chỉnh loại concensus để đảm bảo về tốc độ và energy. Ta có thể đặt ra các regulation mà mọi người tham gia phải tuân theo, khác với pubchain thì ai cx tự do. Database thì data có thể không đồng nhất nhưng blockchain thì luôn đồng nhất ở mọi node. 
+
+Nếu ai muốn đổi data thì tất cả phải đồng thuận, tránh gian lận trong chi tiêu; peer to peer; tốc độ cao hơn public blockchain; rẻ; chỉ nội bộ trong tổ chức; data đồng nhất, khó hack
+
+--> Database: nhanh hơn, rẻ hơn private, ta vẫn có thể phân quyền, chia sẻ thông tin nhưng tất cả là centralized; client-server model; dễ bị tấn công; 4 giao thức CRUD còn mặc định blockchain chỉ có read và write
+
+=> Tức là ta phải biết khi nào mới cần dùng private blockchain vì trong đa số các TH dùng database là hữu ích hơn. Lạm dụng blockchain trong các TH k cần thiết sẽ hoang phí nh hơn.
+
+-> Phân tích khi nào nên sử dụng:
+Ta chỉ nên dùng blockchain ít nhất là khi dự án của ta: cần giám sát sự thay đổi dữ liệu so với dữ liệu gốc được thực hiện bởi thành viên tham gia; không muốn 1 cơ quan trung ương nào giám sát các hoạt động mà muốn trao quyền kiếm soát cho toàn bộ thành viên trong mạng, không tin tưởng vào các bên liên quan; muốn dữ liệu hiển thị công khai và không thể sửa đổi trong tổ chức => ít TH dùng
+
+Lưu dữ liệu gì? Dữ liệu lưu trên blockchain nên là các dữ liệu trạng thái. Trạng thái này nó có giá trị này, TT khác có giá trị khác VD: tình trạng thay đổi tài khoản, sự thay đổi nhân sự, sự thay đổi về báo cáo tài chính,... là các thứ lưu rất ok (K lưu file vì file rất lớn và k có sự thay đổi TT cần xác nhận). 
+Các dữ liệu lưu thg là mô hình giao dịch. VD lưu dữ liệu A gửi B 1 đô la thì lưu rất dễ, các dạng dữ liệu khác để lưu ta phải biến đổi và đóng gói thành các giao dịch để lưu được dữ liệu đó. Tuy nhiên có nhiều mô hình blockchain cho phép ghi bổ sung dữ liệu vào giao dịch(k cần dạng giao dịch). Or TH khác ta có thể lưu trữ 1 lượng nhỏ dữ liệu trên bằng cách sử dụng ánh xạ địa chỉ. VD cần lưu: "hieucuopbien" vào blockchain ta sẽ mã hóa nó thành address và ta gửi giao dịch đến address đó. Bằng cách đó ta vẫn lưu data dưới dạng giao dịch nhưng chỉ là 1 cục địa chỉ. Nghe thì hay nhưng cách này chỉ lưu được data trong phạm vi kích thước địa chỉ rất nhỏ.
+
+Với pivchain, chi phí giao dịch lớn và kích thước bị giới hạn vì data của ta sẽ được lưu ở mọi node toàn mạng. Tính private cũng không có vì mọi node đều xem được, khi dùng private blockchain thì mọi node trong piv chain cx đều xem được, chỉ khác là có quyền kiểm soát ai là ng tham gia. Dữ liệu trên chain cx k có method delete, nhưng k sao vì đổi state được là update thôi. Để khắc phục tính riêng tư, người ta lưu hash của dữ liệu thay vì raw. Lưu raw cũng dẫn đến thiếu bộ nhớ do kích thước quá lớn. Khi lưu băm, ta sẽ lấy data thực lưu ở 1 cơ sở dữ liệu trung tâm bên ngoài, bất cứ khi nào nghi ngờ về tính thật giả của dữ liệu có thể so sánh với cơ sở dữ liệu của blockchain để nhận biết. Vc chỉ lưu băm khiến cho tính minh bạch dần mất đi khi chả ai xem được nx => người ta lưu 1 phần là raw, 1 phần là băm để vừa minh bạch, vừa tiết kiệm bộ nhớ.
+VD: Dữ liệu lưu trữ trên blockchain khác với dữ liệu lưu trữ của ứng dụng. Chẳng hạn, với một ứng dụng thương mại điện tử có chức năng bán và phân phối các bản nhạc .mp3 dựa trên smart contract thì dữ liệu lưu trên blockchain của chúng ta có thể là các giao dịch mua bán bao gồm: số tiền trả, tên bài hát, tên tác giả... nói chung là những thông tin đủ để thực hiện giao dịch mua bán bài hát. Nhưng file nhạc .mp3 chúng ta có thể lưu trên một máy chủ hoặc dịch vụ lưu trữ nào đó. Bởi điều chúng ta muốn ở đây là đảm bảo được tính an toàn cho giao dịch chứ không phải cho bản thân nội dung bài hát. Nhưng trong trường hợp chúng ta muốn bảo vệ cả bản thân bài hát thì chúng ta có thể lưu một phần hoặc một đại diện dấu hiệu cho bài hát để xác thực sự vi phạm bản quyền trên blockchain... => càng lưu offchain thì bộ nhớ càng tiết kiệm, chỉ những thông tin cần bảo mật mới dùng đến blockchain
+Khi dùng database mà số lượng client lớn cùng query làm tốc độ mạng rất chậm, người ta mở rộng bằng cách tạo thêm nhiều server. Trong blockchain nó query đến fullnode toàn mạng thì k xảy ra nghẽn cổ chai nhưng có thể bị chậm và chi phí giao dịch sẽ cao nếu đông người, còn chỉ đọc dữ liệu thì vô cùng nhanh.
+
+--> Nên dùng song song 2 cái
+Blockchain khác database ở chỗ blockchain công khai và lưu bất biến k thể hack. Khi xây dựng ứng dụng web, dữ liệu của ta cho là lưu trên blockchain, mỗi lần thao tác là ta lấy API từ blockchain về. Tuy nhiên có thể nó bị nghẽn mạng or API có vấn đề thì tốc độ lấy sẽ rất lâu, để trải nghiệm người dùng tốt, người ta vẫn dùng database để lưu dữ liệu với mục đích chỉ là lấy data nhanh hơn. Kể cả hacker có hack database sửa dữ liệu cx chả sao vì chỉ cần lấy lại từ blockchain là được do blockchain mới là dữ liệu gốc bất biến. 
+VD: cần lưu rất nhiều loại hồ sơ tài liệu cho công ty tuy nhiên vc quản lý gặp khó khăn, chồng chéo, thất lạc => ta có thể dùng piv chain để bảo vệ thông tin văn bản, dữ liệu cụ thể được lưu offchain trên database đảm bảo tính sẵn sàng liên tục, nhưng dữ liệu trên database rối và khó đọc mà phải có thông tin trên pivchain để lấy => ít gặp
+
+
+
+# IPFS
+IPFS là hệ thống lưu file ngang hàng dựa trên giao thức BitTorrent và bảng phân phối hash. Ưu điểm là chia sẻ nhanh, dữ liệu chỉ cần tải xuống khi ai đó cần nó, dữ liệu k thể giả mạo vì được đánh địa chỉ và được xác thực, các tệp có mức độ phổ biến cao được tải nhanh hơn nhờ BitTorrent. Nhưng IPFS có nhược điểm là máy khách chứa dữ liệu phải online thg xuyên or file cần tải nh thì phải online 100%. Ta cũng không thể tìm kiếm các tệp theo nội dung, cách duy nhất là lưu qua tên và đường dẫn.
+=> IPFS và giao thức tải BitTorrent khá hay. Trong khi blockchain làm dữ liệu bị phình to và chậm khi query và bảo mật, mà IPFS vẫn có bảo mật nhưng lại tốc độ cao hơn, dữ liệu cần lưu kp ai cũng lưu mọi node nên tiết kiệm bộ nhớ. Do đó khi dùng blockchain người ta có thể lưu hash trỏ đến data trong IPFS thực để giảm kích thước trên blockchain
+
+Nhưng rõ ràng kp ai tham gia IPFS cx online được vì dữ liệu lưu trên máy của họ, giải pháp cho vc này là lưu trên đám mây phi tập trung. Cái mã hash lưu trên blockchain sẽ trỏ đến dữ liệu được lưu ở 1 blockchain khác là 1 đám mây phi tập trung nhỏ hơn, vẫn dùng bittorrent để tăng tốc với những file thg hay dùng -> vừa bảo mật, vừa nhanh, vừa công khai => chém thôi chứ chưa có
+
+
+
+# NFT
+-> Non-fungible token(NFT) là loại token mã hóa trên blockchain đại diện cho 1 loại tài sản duy nhất, nó tạo ra 1 chuỗi mã độc nhất đại diện cho 1 vật phẩm nào đó và không thể thay thế. Nó sẽ định danh phiên bản số của bất cứ thứ gì trong thực tế. Tức là bth thì ta có đồng token có vai trò thanh toán cho việc gì đó. Bh thì bất cứ thứ gì người ta cx có thể biến thành tài sản số trên blockchain, người ta sở hữu nó và bán nó đi cho người khác. Thế thì tại sao người ta lại mua tài sản số, bởi vì nó có giá trị, giá trị của tài sản số nằm ở tính duy nhất của nó. NFT có thể đại diện cho bất cứ thứ gì, 1 video, 1 bức tranh hay 1 dòng trạng thái trên facebook.
+NFT mở rộng hơn có thể là vật phẩm bán trong game, tên miền internet, vé sự kiện,.. Khả năng sử dụng của NFT là bởi quyền sở hữu độc quyền của chúng, chỉ người mua NFT mới sở hữu vật phẩm gốc dù có vô số bản sao trôi nổi miễn phí trên internet. VD: 1 bức tranh mona lisa có nhiều bản sao trên thế giới nhưng bản gốc chỉ có 1 và người ta chỉ đấu giá bán bản gốc chứ chả ai quan tâm đến bản sao. Vc phân biệt bản gốc hay bản sao là do cơ quan có uy tín kiểm chứng và bản gốc rất nổi tiếng, được nh người biết tới. NFT lưu trên blockchain nên là duy nhất và bất biến. Các tài sản số trên blockchain luôn được ghi lại ngày giờ tạo ra và ai là chủ, người mua nó sẽ là người duy nhất trên thế giới sở hữu nó nên nó mới có giá trị, k cần 1 bên pháp lý kiểm chứng thật giả vì mọi thứ công khai r. Người ta có thể gắn NFT với 1 mảnh đất để mua bán đất online, album âm nhạc,.. Để tránh vc bị lừa, chỉ nên mua những NFT từ những người bán đã được xác minh
+
+NFT có thể ứng dụng trong DApp để phát hành các vật phẩm kỹ thuật số, món đồ sưu tầm dạng mã hóa,.. Họ thường dùng NFT để token hóa tài sản trong game. Vc sử dụng NFT sẽ tăng thanh khoản cho các thị trường kém như mỹ thuật, bất động sản,..
+
+Trong game, để sở hữu vật phẩm, ta nạp tiền vào để mua nhưng thực tế nhà phát hành là người sở hữu. Hơn nx 2 người mua 2 nhân vật như nhau thì là 2 cái như nhau. Server sập thì mất tất cả. Với NFT, vật phẩm sẽ gắn với mã dữ liệu có thể dễ dàng trao đổi cho bất cứ ai sở hữu đồng tiền blockchain. Nó là duy nhất và k ai tác động được. Tuy nhiên nếu người phát hành game NFTs hủy server game k hoạt động nx, dù ng dùng vẫn sở hữu NFT vì bất biến nhưng NFT đó trở nên vô dụng, cần 1 ai đó tạo lại 1 server game như v để dùng.
+
+Những người mua NFT là những người mua những thứ đó, sau mong rằng nó sẽ tăng giá và bán kiếm lời or mua để sưu tập or để dùng như tính năng trong các ứng dụng
+
+-> Vấn đề: những đoạn mã của NFT liệu có còn giá trị sau vài chục năm khi mà công nghệ thay đổi mỗi ngày. Nếu người sở hữu đánh mất khóa riêng thì cx sẽ mất NFT vì nó cx như tiền ảo thôi. 
+
+-> Tính chất: NFT có tính độc nhất, tính khan hiếm, tính k thể tách rời
+Không phải ta gắn 1 cái gì duy nhất lên là người ta cũng mua đâu, vd ta token hóa 1 cái bút chì và bán sẽ trả có ai mua, nhưng token hóa bức tranh của họa sĩ mona lisa bản gốc thì sẽ rất đắt nhưng còn tùy vào ai là người tạo NFT có uy tín thẩm quyền không.
+NFT k thể tách rời, ví dụ 2 tờ tiền 50 đổi sang dược 1 tờ 100 nhưng NFT thì không vì ta k thể chia nhỏ 1 bức tranh được.
+
+NFT tồn tại trên 1 địa chỉ k thể copy or transfer mà k có sự cho phép của chủ sở hữu, ngay cả bên phát hành NFT. Giá NFT cx thay đổi theo quy luật cung cầu của thị trường. 
+
+-> ERC721 là tiêu chuẩn phát triển NFT trên Ethereum, or tiêu chuẩn ERC1155 khi có số lượng lớn cùng loại
+
+
+
+# Giao dịch offchain và onchain
+Giao dịch off chain là giao dịch thực hiện bên ngoài blockchain. Còn thông thường khi trans được gửi đi và được xác nhận trên mạng blockchain thì đó là giao dịch on chain.
+
+-> Giao dịch onchain có nhược điểm là tốn kém và chậm. Ngày càng nh người tham gia làm cho mạng bitcoin blockchain dễ bị nghẽn, chậm hơn nhiều với giải pháp truyền thống là gửi qua ngân hàng. Người ta chọn giải pháp là thêm 1 layer thứ 2 để cải tiến, dùng giao dịch offchain xảy ra tức thời
+VD: Lightning network là hệ thống giao dịch off-chain xd trên blockchain của bitcoin. Nó tạo ra kênh thanh toán 2 chiều(do 2 bên đồng thuận điều đó) để 2 bên thực hiện các giao dịch liền mạch. Mặc dù vc thiết lập kênh thanh toán liên quan đến các giao dịch onchain nhưng mọi giao dịch được thực hiện trong kênh đó đều là offchain mà k cần tới sự đồng thuận của toàn bộ hệ thống => các giao dịch được thực hiện tức thời với smart contract + chi phí thấp. Tức là họ k cần sự đồng thuận của toàn bộ mạng nx mà 2 người giao dịch cho nhau thì chỉ cần 2 người đó đồng thuận với nhau là được r.
+=> 2 bên sẽ khởi tạo 1 ví đa chữ ký có sẵn 1 số tiền nhất định, số tiền này chỉ truy cập khi 2 bên cùng cung mã cá nhân(đa chữ ký là 2 chữ ký của họ). VD: Alice giao dịch với Bob qua Lightning Network, cả 2 cùng tạo 1 kênh thanh toán dùng ví đa chữ ký, kênh đó sẽ mang 1 hợp đồng thông minh còn ví đa chữ ký là két giữ tiền, tiền trong ví chỉ sử dụng khi cả 2 đồng ý. Trong suốt quá trình này, Alice muốn tạo bao nhiêu giao dịch off chain tùy thích. Sau khi giao dịch, cả 2 phải cập nhập bảng cân đối của riêng họ, khi giao dịch hoàn tất thì kênh thanh toán sẽ đóng lại và bảng cân đối cuối cùng mới được gửi lên mạng blockchain, thực hiện số giao dịch ngắn nhất để đạt kết quả trong bảng cân đối. Smart contract của Lightning network sẽ đảm bảo mỗi bên nhận được đúng số coin theo bảng cân đối cuối cùng. Tiếp theo chỉ cần chờ tiền về do bitcoin network xác nhận thôi. Bảng cân đối hay nói cách khác là LN sẽ theo dõi số dư 2 bên theo thời gian.
+=> 2 bên tham gia chỉ tương tác với mạng blockchain của bitcoin 2 lần, 1 lần mở kênh và 1 lần đóng lại. 
+
+--> Cải tiến: K nhất thiết mọi giao dịch phải tạo kênh thanh toán trực tiếp. A và B có kênh thanh toán với nhau, B và C cũng v -> A có thể chuyển tiền cho C thông qua B(B k được offline). Miễn giữa 2 người tồn tại 1 tuyến mạng đủ số lượng thanh toán. Vc điều hướng như v cần có sự tham gia của nhiều node trong LN tuy nhiên các smart contract sẽ khai thác các tuyền tối ưu nhất.
+Nhược điểm LN: chỉ thanh toán khi online(on-chain có thể thực hiện offline); Người tham gia phải giám sát kênh thanh toán thường xuyên để bảo vệ tài khoản(có các dịch vụ giám sát bên ngoài hỗ trợ điều này);
+
+
+
+# Các giải pháp mở rộng blockchain cơ bản nhất
+-> SegWit(segregated witness)-chỉ dùng cho bitcoin: scriptSig là thứ cần thiết tại thời điểm xác thực giao dịch. SegWit là giải pháp tách chữ ký khỏi phần input và chỉ chuyển đến vào cuối giao dịch khi cần dùng mà thôi. Chữ ký thg là chiếm 60% giao dịch nên bỏ nó khỏi input sẽ giảm nhẹ hơn.
+
+-> Tăng kích thước của 1 block lên 2MB bằng 1 đợt hardfork để 1 block lưu được nhiều transaction hơn, điều này từng được tranh cãi quyết liệt ở bitcoin dùng segwit hay hardfork
+
+-> State offchain như lightning network của bitcoin(đã mở rộng ra nh chain) hay Raiden network của ethereum. Tạo kênh để giao dịch đổi state thoải mái, giao dịch free, đóng kênh là gửi lên mạng. Xác nhận vc gửi lên mạng bằng cơ chế đa chữ ký or smart contract.
+
+--> Payment Channel: tương tự như sidechain nhưng k yêu cầu 1 blockchain riêng để hoạt động mà chỉ là 1 smart contract. Dùng địa chỉ đa chữ ký 2 người cùng gửi tiền vào và tiền muốn dùng phải có sự đồng ý của cả 2. VD mỗi người gửi vào 10BTC và giữ 1 bảng cân đối: Alice có 10BTC, Bob có 10BTC. Thông tin này k xuất bản lên blockchain ngay cả khi họ tiếp tục cập nhập số dư trên bảng cân đối. Tương tự họ có thể tạo ra bao nhiêu giao dịch tùy ý tức thời và chốt lại cuối cùng họ muốn gửi lượng coin kia đến địa chỉ của 2 bên thì mới ký xác nhận đóng kênh để gửi lên blockchain thực. Khi đó họ chỉ thực hiện 2 transaction vào và ra. Tuy nhiên PP này chỉ ok khi cả 2 bên hợp tác or là người quen. Nếu 1 người muốn phá thì cuối cùng giao dịch chả đi đến đâu và hoàn tác như cũ. Có thể detect trừng phạt người nào gian lận or cho phép tiền tự quay về mốc ban đầu nếu sau 1 khoảng thời gian cố định or 1 trong 2 người trigger. 
+
+Định tuyến thanh toán là PP các kênh thanh toán liên kết với nhau để gửi qua các kênh nơi mọi người kết nối ngang hàng và người dùng phải chọn ra tuyến đường hiệu quả nhất. 1 nhóm quen biết nhau muốn chuyển tiền mà nhiều giao dịch thì có thể kết hợp như này để chuyển tiền nhiều lần với tốc độ cao và phí gas ít nhất có thể.
+=> refer tới "Giao dịch offchain và onchain"
+
+-> Sharding: cơ chế là chia trạng thái chung của blockchain thành các phân đoạn và được lưu bởi các nút khác nhau trong mạng. Các giao dịch sẽ chuyển hướng đến các nút khác nhau tùy phân đoạn lưu trữ. Mỗi phân đoạn chỉ xử lý 1 phần nhỏ trạng thái và xử lý song song. Để các phân đoạn giao tiếp, ta dùng cơ chế truyền thông điệp.
+VD trong ethereum có cơ chế receipt paradigm. Trans thực thi -> đổi local shard state(từng phần trans thực hiện ở các shard khác nhau tương ứng), đồng thời tạo các biên lai để lưu trữ vào 1 bộ nhớ chia sẻ phân tán nào đó và là chỉ đọc đối với các phân đoạn khác, các phân đoạn dùng state của nhau gộp lại hoàn thành transaction. Tuy nhiên vấn đề vẫn là 1 nút k xác thực tất cả các giao dịch mà các nút k tin tưởng lẫn nhau thì làm sao 1 nút phân đoạn A có thể chứng minh giao dịch trên phân đoạn B là hợp lệ trong khi nó k xác thực phân đoạn B? Vẫn đang xử lý. VD có 2 shard A và B với 10% và 90%. Nếu ai đó tấn công vào A chỉ cần 5.1% thì năng lực tính toán và B cx tin theo.
+=> Thật ra với các mạng blockchain đủ lớn thì 1 lượng shard 10% cũng là 1 lượng rất lớn các node và khó hack. Cách này giúp thực hiện transaction song song ở nhiều shard sẽ giảm tải cho nhau
+
+-> Plasma là chuỗi con của blockchain gốc phân cấp dạng cây. Chuỗi plasma k tiết lộ nội dung trên chuỗi chính mà chỉ có giá trị băm của blockheader trên chuỗi gốc. Nó dùng proof of fraud để kiểm chứng gian lân trên chuỗi chính. Nếu có gian lận thì block được khôi phục và người tạo block bị phạt. Tức là plasma chuỗi con xử lý giảm lượng công vc cho chuỗi chính ở công đoạn xác thực block. Giải pháp này hữu hiệu và rất phức tạp. Chuỗi con gắn liên với chuỗi chính duy trì để cập nhập trạng thái. Nó tương tự như vc triển khai các kênh trạng thái như giải pháp trên nhưng khác là kp tất cả người trong kênh đều phải tham gia để cập nhập trạng thái(như 1 blockchain con kp ai cũng xác thực).. => khó hiểu
+
+-> Offchain computation VD TrueBit là layer bên ngoài blockchain để thực hiện các tác vụ nặng. Những người tham gia là Solvers trực tiếp thực hiện tính toán trên các smart contract và trả về kết quả cùng khoản tiền cọc. Nếu Solver đúng thì nhận thưởng cùng tiền cọc trả lại, nếu cố gắng gian lận thì mất tiền cọc.
+=> Nch giải pháp hữu hiệu nhât là thực hiện bên ngoài blockchain để giảm tải
+
+-> Dùng Proof of Stake nhanh hơn và tốn ít năng lượng điện hơn PoW
+
+-> Sử dụng dịch vụ lưu trữ phi tập trung như Swarm - nền tảng chia sẻ tệp ngang hàng của ethereum, nó lưu dữ liệu vào các nút swam và có thể trao đổi với blockchain => kiểu như lưu trữ đám mây bên ngoài là xong. Có tác dụng giảm kích thước giao dịch thì 1 block chứa được nhiều giao dịch hơn.
+
+-> Dùng sidechain:
+Mỗi sidechain là 1 blockchain riêng biệt nhưng liên kết với chuỗi chính nên có thể tương tác với chuỗi chính, lưu chuyển tự do giữa 2 blockchain. 2 blockchain đều có block, node, cơ chế đồng thuận riêng.
+VD dùng sidechain: A có 5 bitcoin, A có thể đổi 5 đơn vị tương đương trên sidechain của bitcoin là sidecoin bằng cách gửi 5 bitcoin đó vào 1 địa chỉ đặc biệt. sidechain sẽ xử lý gửi lại alice 5 sidecoin. Có thể xử lý phần mềm tự cộng sidecoin vào khi Alice xác nhận thanh toán. Giả sử sau đó Alice gửi Bob 1 bitcoin thì thay vì v sẽ gửi cho Bob 1 sidecoin trên sidechain. Do cơ chế đồng thuận ở sidechain nhanh hơn Bitcoin và sidechain ít giao dịch hơn nên tốc độ rất nhanh và tiền được chuyển tức thì. Sau đó nếu alice hay Bob muốn đổi lại bitcoin để dùng thì lại gửi lượng sidecoin đó đến 1 địa chỉ đặc biệt và lượng bitcoin sẽ được chuyển lại tài sản của họ trên chuỗi chính. Chốt lại Alice chỉ thực hiện đúng 2 giao dịch trên chuỗi chính là vào và ra và 2 lần đó phải chờ 10p. Còn các transaction trên sidechain thì tốc độ cực nhanh. 
+Sidechain k bị ràng buộc và dùng cơ chế đồng thuận nào cũng được. Có thể thêm các bản nâng cấp và làm mọi thứ k ảnh hưởng đến chuỗi chính. Kể cả sidechain có lỗi thì vẫn k ảnh hưởng đến chuỗi chính mà chỉ những người dùng sidechain mới ảnh hưởng thoi. 
+=> Side chain nó kiểu kết hợp giữa payment channel và plasma v
+
+=> refer tới module layer2
+
+
+
+# DAO
+-> DAO(Decentralized Autonomous Organization) là tổ chức tự trị phi tập trung giúp các thành viên dễ tham gia vào các quyết định của tổ chức, k ai nắm giữ quyền hạn. Có thể trong defi blockchain thì nó là các model onchain or các nhóm có cơ chế đề xuất và biểu quyết onchain nhưng kiểu gì thì kiểu vẫn phải là phi tập trung.
+
+Nó giống như 1 mô hình công bằng hơn và thường dẫn đến quyết định đúng đắn có lợi cho đa số đi tới sự phát triển của dự án. Vc tạo ra DAO với sự tham gia của nhiều bên sẽ giúp crypto hút càng nhiều giá trị. K cần lo về vấn đề quen biết tin tưởng lẫn nhau vì mọi hành động đều ghi lại onchain và theo số đông đồng thuận.
+
+-> Nhược điểm
+Các dự án áp dụng mô hình DAO vẫn có thể bị hack như vụ DAO hack vì vấn đề vẫn chỉ xoay quanh security của smart contract, nó k liên quan đến mô hình DAO. DAO k có tính pháp lý. Các vấn đề đòi hỏi chuyên môn cao có thể dẫn đến quyết định tệ hại nếu số đông thiếu kiến thức. Chậm trễ do đợi vote VD vụ Maker bị sập phải đợi mọi người vote xong mới triển khai được các biện pháp, do mn vote xong chờ quá lâu nên thiệt hại càng nặng nề. Do DAO luôn có mọi thứ onchain tức là đối thủ cạnh tranh có thể xem được các quyết định về nền tảng của ta và điều đó là k tốt. 1 thực thể nào đó có thể có sức mạnh voting nếu nền tảng k thực sự decentralized VD case của Uniswap khi có 1 đề xuất là bán 1 lượng token UNI giá 20 triệu đô cho quỹ DeFi Education Fund với mục đích tạo hành lang pháp lý với các nhà làm luật nhưng cộng đồng Uniswap k biết về đề xuât này mãi cho đến ngày cuối và có người đã phản ứng nhưng quá muộn khi số vote "Yes" quá lớn chứng tỏ mức độ centralized trong quản trị của Uni.
+
+-> Có 2 loại mô hình DAO:
+Token - Based DAO khi token hiện diện ở mọi nơi trong crypto: Các protocol như MakerDAO, Uniswap thì holder của token dự án có quyền biểu quyết. Do ai cũng có thể sở hữu token nên gặp khó khăn để đi đến thống nhất chung
+Shared-based DAO là 1 tổ chức đại diện cho 1 nhóm có chung mục đích. Người góp vốn sẽ nhận tỉ lệ share và có quyền voting hoặc prososal dự án để cac thành viên khác biểu quyết các proposal đó. Do yêu cầu người tham gia phải đáp ứng điều kiện nào đó nên model này có nguồn lực tập trung hơn và dễ đi đến thống nhất nhưng khó scale.
+VD: The LAP dùng Shared-based DAO, Compound dùng Token - Based DAO
+
+-> Ventures DAO là một cộng đồng nhà đầu tư, họ cùng nhau góp vốn để thực hiện hoạt động đầu tư trên thị trường. Hiện tại đã có khá nhiều Ventures DAO trên thị trường, một số DAO nổi tiếng có thể kể đến như BitDAO, The LAO, MetaCartel Ventures, Moloch DAO, FLAMINGO, Yield Guid Games,..
+
+
+
+# Các thuật ngữ blockchain
+# Tương tác crosschain
+# POLKADOT
+# Layer2
+
+
+
+# Other
+-> Cách tội phạm rửa tiền bằng bitcoin:
+--> Phân chia: ví dụ phân chia ra 100 ví khác nhau, trong đó có cả địa chỉ ví của những người nổi tiếng như Vitalik hay các tổ chức lớn dù điều này nằm ngoài chủ đích của họ, có thể bao cả những địa chỉ ví không tồn tại dù mọi người có thể theo dõi quá trình chuyển tiền nhưng cũng k thể kiểm kê hết tất cả được. Đồng thời việc chia ra nhiều ví thì khi chuyển ra tài khoản ngân hàng sẽ tránh được các giao dịch biến động số dư lớn, tránh được nghi ngờ từ phía ngân hàng, đặc biệt hơn là rút từ ngân hàng các quốc gia mà chưa có các điều luật pháp luật về tiền mã hóa.
+
+--> Sử dụng máy trộn bitcoin: Bitcoin mixer là bộ trộn hoạt động bằng cách trộn token bẩn và sạch lại từ nhiều địa chỉ trước khi chuyển đến địa chỉ đích. Quá trình này làm tăng tính ẩn danh của tiền và tội phạm dùng nó để che đậy dấu vết trước khi chuyển cho doanh nghiệp hợp pháp or sàn giao dịch điện tử. Nó như kiểu gửi tiền qua lại trong 1 cục rất nhiều địa chỉ do cái máy tạo ra, do giao dịch quá nhiều nên rất khó mò ngược lại nên tăng tính ẩn danh mà thôi
+
+--> Trao đổi trên chợ đen: vì bên cạnh các sàn lớn có các biện pháp chống rửa tiền thì có nhiều loại sàn không được kiểm soát, k xác minh danh tính. Họ trao đổi tiền qua lại nhiều lần với các loại tiền khác, từ từ hợp pháp hóa tiền bất hợp pháp mà k cần dùng các bộ trộn.
+
+--> Vào các web game và cờ bạc: nhiều trang web cho phép mua bán online bằng bitcoin, có thể rửa tiền bằng cách mua các vật phẩm trong trò chơi rồi rút tiền qua 1 vài giao dịch trên web. Trang web thanh toán cho ta sẽ có tư cách pháp nhân
+
+--> Dùng các dịch vụ lồng ghép: VD dùng OTC. OTC(Over the counter) là mua bán bên ngoài các sàn giao dịch truyền thống. OTC có thể là nhà môi giới cá nhân hay công ty thương mại hoạt động dựa trên cơ chế chào giá cạnh tranh. VD A muốn mua Bitcoin với 1 mức giá rẻ hơn bth và nhờ công ty OTC tìm giúp thì B có bitcoin lượng lớn muốn rửa tiền thì 2 bên liên lạc qua 1 địa chỉ OTC của doanh nghiệp đó, địa chỉ này hoàn toàn hợp lệ và hợp pháp. 2 bên gửi tiền vào địa chỉ OTC, OTC sẽ gửi trả lại A và B tương ứng như cam kết muốn mua bán bao nhiêu và OTC ăn 1 phần hoa hồng. Lúc này OTC gửi trả lại A và B vào 2 địa chỉ khác là được. 
+Nó kiểu A muốn rửa tiền thì A tham gia vào 1 dịch vụ, dịch vụ này yêu cầu A gửi tiền vào địa chỉ B thì B sẽ gửi tiền vào địa chỉ C nào đó do A quyết định. Địa chỉ B là 1 địa chỉ uy tín của 1 bên thứ 3 làm dịch vụ này ăn 1 phần hoa hồng. Người ta dù biết ai gửi cho ai cũng k thể biết C là 1 tài khoản khác của người A được và cũng k truy xét B được vì rất nhiều người gửi tiền vào địa chỉ B để dùng dịch vụ này và yêu câu B gửi vào 1 tài khoản nào đó khác. B lại là 1 doanh nghiệp hợp lệ với địa chỉ nổi tiếng chả ai làm gì được
+=> Đây là cách rửa tiền số lượng lớn nhanh chóng và an toàn
+
+--> Dùng các dịch vụ ẩn danh mua từ tiền này sang tiền khác. Các dịch vụ ẩn danh có nhiều nơi hỗ trợ với mục đích bảo vệ quyền riêng tư nhưng bị lợi dụng để rửa tiền.
+
+--> Khi tiền rửa xong thì tội phạm phải giải thích được làm sao có được nó đề phòng nếu bị điều tra. Chúng sẽ tạo ra 1 công ty trực tuyến chấp nhận bitcoin là 1 khoản thanh toán để biện minh cho thu nhập của chúng. Cách khác là tuyên bố nó đến từ 1 hoạt động kinh doanh có lãi cao của 1 loại tài sản khác. Sau khi nhận bitcoin thì nó mới đổi ra tk ngân hàng như v chứ kp rủa tiền mà ra.
+

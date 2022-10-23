@@ -1,0 +1,45 @@
+Layer2:
+Ethereum từng rơi vào tình trạng tê liệt khi Defi bùng nổ dẫn đến phí giao dịch cao ngất ngưởng. Điều này làm ethereum phải đưa ra giải pháp tăng khả năng xử lý giao dịch, mở rộng chuỗi
+
+Cách 1: mở rộng trên chuỗi (On-chain Scaling) là mở rộng bằng cách tăng sức chứa của chuỗi gốc layer 1 -> VD Ethereum 2.0 phân chuỗi khối thành nhiều mảng shards và dùng PoS thay PoW
+Cách 2: giảm áp lực xử lý lên chuỗi gốc bằng cách xử lý trên 1 lớp thứ 2(layer 2). Một số giải pháp điển hình trên layer 2 là Channels, Sidechain, Plasma, Rollups.
+
+=> refer tới "Các giải pháp mở rộng  blockchain cơ bản nhất"
+
+
+# Basic
+Có thể coi layer 0 chính là phần cứng, internet, các thành phần đảm bảo cho layer1 hoạt động thuận lợi
+Giao thức layer-3 là tầng ứng dụng, bao gồm ứng dụng và thực thi. Ứng dụng là thành phần API, giao diện người dùng,.. Thực thi là thành phần xử lý các quy tắc và smart contract.
+Các DApps layer3 đang chạy trực tiếp trên giao thức layer1 bỏ qua layer2 sẽ k tốt, chưa đáp ứng được mong chờ của người sử dụng.
+
+Layer2 là hệ thống chạy trên layer1, kế thừa tính bảo mật từ layer1 là PoW hiện tại của ethereum. Cơ chế đa phần cũng chỉ là Layer 2 xử lý 1 phần r gửi đến layer 1 thay vì layer 1 xử lý hết mà thôi.
+
+
+
+# Các cơ chế
+-> Channels: Cho phép người tham gia thực hiện giao dịch offchain nhiều lần r chốt chỉ gửi 2 giao dịch đến chuỗi gốc Layer 1. VD: A và B chuyển tiền cho nhau -> khóa 1 lượng ETH với Multisig để mở Channel thông qua smart contract -> cả 2 giao dịch tùy ý bên trong channels -> xong thì submit state changes lên ethereum blockchain và đóng channels. Có 2 loại phổ biến là State Channel và Payment Channel là 1 nhánh nhỏ của State Channel. 
+VD: Celer Network, Context Network, Lightning Network..
+=> Tăng tốc độ. Người tham gia vào channel phải được biết trước, số tiền giao dịch phải bị khóa vào 1 ví multisig => Channel khó áp dụng vào các smart contract có tính chất chung chung
+
+-> Plasma: framework xd DApps có thể mở rộng trên ethereum. Plasma cho phép tạo ra vô số chuỗi con hoạt động độc lập và tương tác với chuỗi gốc Ethereum bằng cách kết hợp các hợp đồng thông minh và merkle tree.
+=> Nhanh và rẻ hơn vì giảm tải từ chuỗi layer 1 gốc sang chuỗi con nhưng thời gian rút tiền từ Layer về chuỗi gốc khá lâu. Vd: Matic Network, Loom Network, OMG Network
+
+-> Sidechains: là những blockchain độc lập có quy tắc đồng thuận riêng biệt và tương thích với ethereum thông qua việc sử dụng EVM như lưu token, triển khai smart contract,.. chuyển qua lại 2 chuỗi
+VD: xDAI, POA Network
+
+-> Rollups: là giải pháp đóng gói giao dịch trên sidechain thành 1 giao dịch duy nhất và tạo bằng chứng mật mã gọi là SNARK. Chỉ bằng chứng này được đến chuỗi chính. Tức là mọi trạng thái và lệnh thực thi như xác minh chữ ký, thực hiện contract đều xử lý ở sidechains và chuỗi layer 1 chỉ lưu dữ liệu giao dịch. Nó chia 2 loại:
+
+--> Optimistic Rollups: bằng chứng gian lận(fraud proofs) tức 1 trạng thái mới hợp lệ trừ khi có bằng chứng gian lận được gửi lên chuỗi khối trong 1 khoảng thời gian xác định, sử dụng máy ảo OVM(Optimistic Virtual Machine) cũng tương thích với ethereum. VD: Optimism
+=> Tức là cái Optimistic Rollups này đơn giản là dùng side chain làm 1 loạt các giao dịch, sau đó khi gửi lên chuỗi chính thì tất cả bị đóng gói thành 1 giao dịch duy nhất gọi là bằng chứng mật mã SNARK gửi lên chuỗi chính. Bên cạnh đó ở chuỗi phụ, update state mới chỉ hợp lệ nếu như k có bằng chứng gian lận nào được gửi lên trong 1 ktg xđ, điều này được làm sẵn trong máy ảo OVM, khác với EVM là PoW tức tất cả mn vào xác thực thì cái này thì tất cả mn vẫn xác thực trong 1 ktg và nếu k ai tìm ra lỗi gì (sau 1 ktg đủ lâu xđ thì trạng thái đó là đúng và mn đều update).
+
+Optimistic Rollup(OR) trong Uniswap v3 đã giảm chi phí gas 100 lần.
+
+--> ZK-Rollups: dùng bằng chứng hợp lệ(valid proofs) tức 1 trạng thái mới được hiển thị trong chuỗi khối vơi bằng chứng là nó hợp lệ. Tốc độ nhanh hơn loại trước nhưng chỉ cho giao dịch đơn giản. VD: Loopring, zk-Syncs
+
+=> Tức là sidechain chạy song song như layer 2 của ethereum network -> chạy smart contract, xác minh chữ ký ở sidechain -> bằng chứng hợp lệ xác thực là hợp lệ -> SNARKs tổng hợp lại thành 1 giao dịch duy nhất -> gửi đến chuỗi chính -> chuỗi chính k cần xử lý nx mà chỉ cần lưu dữ liệu giao dịch
+
+Khả năng mở rộng khi có hàng nghìn giao dịch 1s => tốt nhât là dùng State channels, plasma, validium, sidechains > zkrollups, optimistic rollups
+Giảm độ trễ, tăng tốc độ => layer 2 giúp thời gian xác thực gần như tức thời
+Giảm tác động ngoại cảnh => lúc cryptokitty mới nổi, các dự án khác của ether bị nghẽn kinh khủng, L2 có thể giảm bằng cách đưa rất ít dữ liệu lên layer1
+Giảm chi phí => L2 tốn ít gas hơn
+

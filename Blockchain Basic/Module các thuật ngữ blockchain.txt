@@ -1,0 +1,114 @@
+Các thuật ngữ blockchain
+
+
+
+# Basic
+-> Fiat: là 1 loại đơn vị tiền tệ quốc gia thông thường được chính phủ phát hành và công nhận hợp pháp như VNĐ chẳng hạn
+
+CeFi là hệ thống tài chính trong đó người dùng tin tưởng giao tiền cho bên thứ 3.
+De-Fi(Decentralized Finance) là nền tài chính phi tập trung(tài chính mở) dùng blockchain. 
+
+-> Poly Network là nền tảng DeFi cho phép người dùng trao đổi token giữa các blockchain. Poly Network hđ trên các Binance Smart Chain, Ethereum and Polygon blockchain.
+
+-> Cold Storage là hình thức lưu token offline, hacker sẽ k thể hack đc theo kiểu bth. Bth, khóa riêng lưu trong ví kết nối với internet có nguy cơ bị đánh cắp, gọi là hot wallet. Mọi thứ cần để thực hiện transaction sẽ thực hiện online. Ví sẽ lưu khóa riêng, ký transaction bằng private key, gửi transaction đã ký tới network. Vấn đề là lúc ký và gửi được thực hiện online thì hacker có thể tấn công vào network hack cái khóa riêng. cold storage(cold wallet) sẽ giải quyết bằng cách ký cái transaction với khóa riêng trong môi trường offline. Mọi giao dịch sẽ gửi vào offline wallet -> ký -> transmit to online network. Online hacker tấn công transaction k thể truy cập vào private key để dùng cho nó mà chỉ có trans đã được ký r
+
+-> Altcoin là tất cả các loại coin khác bitcoin. 
+Stablecoin: là token nhưng giá trị k bị biến động.
+
+ERC20(Ethereum request for Comment) là tên 1 bộ các tiêu chuẩn mà những token phát triển trên nền tảng blockchain của ethereum phải tuân thủ theo. Các token tuân theo khi được tạo gọi là token ERC20 và các ví có thể nhận diện được.
+Tiêu chuẩn ERC20 thực hiện trên các smart contract nên sẽ đảm bảo tính an toàn giao dịch. Nó vẫn có nhược điểm riêng như lừa đảo, mất phí, hacker,..
+Bên cạnh ERC20 còn có nhiều tiêu chuẩn khác mở rộng của nó như ERC223, ERC721,..
+
+-> V-Chain là Blockchain của bách khoa do mấy ông thầy tạo ra.
+
+-> Sàn binance là nền tảng giao dịch P2P tiền điện tử. Mọi giao dịch thực hiện giữa người dùng và người dùng trên sàn này. Đây là nơi mua bán coin, hỗ trợ nhiều loại coin và chuyển đổi tiền vào tk ngân hàng. Nó như là ngân hàng v thôi nên vẫn có thể bị hacker hack tuy nhiên nhiều năm đã chứng minh sàn này uy tín và k còn lỗi.
+
+Binance Chain là blockchain phát triển bởi sàn giao dịch Binance. Nó sẽ tập trung vào vc chuyển đổi và giao dịch của các tài sản blockchain khác.
+Tức ban đầu Binance dùng Blockchain của Etherium luôn nhưng h thì đã có public blockchain của riêng nó, và đương nhiên có đồng coin mới là BNB
+
+Còn Binance Smart Chain viết tắt là BSC được hiểu là một blockchain tiên tiến được cải tiến hơn nhiều so với phiên bản Binance Chain gốc. Nhưng BSC là một nền tảng song song không phải thay thế cho bản cũ. BSC sẽ cung cấp đến người dùng các hợp đồng thông minh và cùng khả năng tương thích với Ethereum thông qua EVM.
+
+
+
+# Các thuật ngữ khác 
+ASIC là từ viết tắt của Application Specific Intergrated Circuit (vi mạch tích hợp chuyên dụng) là thiết bị đã được tối ưu cho việc dò mã hash
+Airdrop tặng token free cho người dùng, có nhiều hình thức như retroactive(tặng cho những người từng sử dụng, ủng hộ, đóng góp phát triển dự án) or thực hiện các nhiệm vụ theo yêu cầu của dự án
+ATH(All Time High) điểm cao nhất, giá, vốn hóa, lịch sử, coin, cổ phiếu
+Aggregator nền tảng tổng hợp nhiều tính năng khác nhau. VD vừa cho swap, vừa lending
+Algorithmic Stablecoin(stablecoin thuật toán) là stablecoin kiểu mới với cơ chế giữ giá tại $1 dựa vào thuật toán chứ kp tài sản phía sau hỗ trợ. VD tăng giảm cung cầu của LUNA để giữ giá UST
+
+BAGHOLDER là những người giữ lương coin lớn chờ bán trong TL
+Bắt đáy(bottom fishing) x đu đỉnh
+Bull Market(Bullish-thị trường bò) thị trường đang trong xu hướng tăng trưởng, tăng nhanh về giá token/coin hơn mức bình quân trong lịch sử. Đặc biệt tăng trong thời gian dài với lượng mua bán lớn. Nhu cầu mua lớn hơn nhu cầu bán
+x Bear market(bearish-thị trường gấu): nhu cầu bán lớn hơn mua và đang down trend đột ngột liên tục kéo dài
+Binary Option(quyền chọn nhị phân) là việc người dùng dự đoán giá cây nến lên or xuống trong thời gian ngắn, đúng thì được tiền, sai thì mất tiền.
+Breakout(giá phá vỡ) giá vượt mức hỗ trợ, mức kháng cự. Dùng các mô hình vai đầu vai, đường trung bình trượt,.. để xác định điểm phá vỡ giá
+
+Circulating Supply: tổng lượng coin đang lưu thông trên thị trường
+CeDeFi là sự kết hợp giữa 2 loại finance với các ứng dụng cầu nối giữa CeFi và DeFi. Mn có thể tiếp cận thị trường crypto ez mà vẫn tuân thủ pháp luật
+
+Cliff xuất hiện trong mục token release schedule của dự án. Nó là 1 khoảng thời gian mà token bị khóa, k được trả vào những tháng này. Thông thường thì cliff được áp dụng cho team, cố vấn, investor dự án. Nó giúp người mua yên tâm là không bị xả sau khi token phát hành
+Vesting trong token release schedule là khoảng thời gian token được trả dần. Đến cuối cùng họ sẽ nhận được toàn bộ, thg áp dụng cho team, cố vấn, investor. VD: team allocation có cliff 12 tháng, vesting 12 tháng nghĩa là 12 tháng đầu k có token cho team còn từ tháng 13->24 sẽ trả dần token. Giai đoạn trả gọi là vesting period, VD linear vesting trong 12 tháng là mỗi tháng nhận 1/12 tổng token
+Full lock duration gồm cả giai đoạn cliff nếu có, nếu k thì nó thường là vesting period. 
+
+DYOR: Do Your Own Research để xem có nên đầu tư vào k
+DAO(Decentralized Autonomous Organization-Tổ chức tự trị phi tập trung): vận hành bởi các thành viên dựa trên bộ quy tắc được mã hóa bằng code đi đến 1 mục đích chung. Các thành viên có quyền biểu quyết các quyết định quan trọng của DAOs và có phần thưởng khi tham gia vận hành DAO, quyền lực phi tập trung.
+
+Đi pool: ở giai đoạn bán sớm của dự án, họ chia ra các gói token giá trị cao và chào bán cho đối tác or cộng đồng uy tín nhằm có quỹ phát triển thời kỳ đầu, các gói là các pool. Hay hiểu là nhiều người cùng hùn lại mua chung 1 pool cho đủ hết giá trị
+
+Ecosystem: Trong kinh doanh, VD Vingroup có nhiều hướng đi như điện thoại VSmart, trương học VinSchool, nhà VinHome,.. hay Apple làm smart watch, tivi, điện thoại, máy tính bảng,.. thì mỗi cái đó tạo ra 1 hệ sinh thái trong kinh doanh. Mỗi Blockchain luôn muốn tạo 1 hệ sinh thái của riêng mình VD Ethereum và BSC là các hệ sinh thái đi đầu có đầy đủ các mảnh ghép, còn Polkadot, Solana, Avalanche còn thiếu nhiều mảnh ghép. Các hệ sinh thái mới như Near, Cardano, Dfinity còn thiếu rất nhiều mảnh ghép để hoàn chỉnh ecosystem. VD trava chỉ là 1 ứng dụng nằm trong 1 mảnh ghép lending/borrowing trong hệ sinh thái BSC mà thôi
+EMA(Exponential Moving Average-đường trung bình động lũy thừa) là thuật ngữ trong phân tích kỹ thuật, có thể xem là điểm kháng cự, hỗ trợ của cây nến
+
+Fibonacii: các trader thường dùng để vẽ các đường kháng cự hỗ trợ, tìm điểm ra vào lệnh cũng như chốt lời, cắt lỗ.
+FOMO(Fear of Missing Out - Hội chứng sợ bỏ lỡ) cũng chỉ là tâm lý phổ biến của các nhà đầu tư, đó là sợ bỏ lỡ, sợ mất cơ hội. VD: Mặc dù mã cổ phiếu đang nắm giữ tăng giá mạnh, nhưng nhà đầu tư lại tiếp tục mua vào thật nhiều vì không muốn lỡ mất đợt tăng giá sau đó. Ngay cả khi lãi đạt mức kỳ vọng lúc đầu, họ vẫn không hề có ý định bán ra. Hậu quả là họ không kịp ứng phó khi cổ phiếu xuống đột ngột và đánh mất tất cả chỉ trong tích tắc.
+FUD(Fear, Uncertainty, Doubt) là trạng thái lo lắng hoài nghi của nhà đầu tư k chắc chắn về thị trường. Thg xuất hiện khi có tin xấu của thị trường khiến họ bán tháo
+FDV(Fully Diluted Cap) định giá pha loãng hoàn toàn là tổng giá trị vốn hóa khi mở khóa hết token. Nó = tổng số token tối đa của dự án*giá trị 1 token tại thời điểm đó. Các trang tổng hợp CoinGecko hay CoinMarketCap đều có ghi FDV trong từng token. Nó khác với Market Cap(giá trị vốn hóa) và thường dùng để dự đoán ra market cap tương lai vì market cap là tổng giá trị token có ở thời điểm hiện tại = giá đồng coin hiện tại*số lượng coin đang lưu thông
+
+Gas war: nhiều người cố tình tăng gwei để trans xác nhận sớm hơn. Điều này làm cho những người khác muốn giao dịch sẽ phải trả giá đăt hơn nhiều. Nó thg gây ra bởi bot
+
+Hackathon: cuộc thi phát triển phần mềm cho dev, tạo ra các dự án tiềm năng cho 1 hệ sinh thái nào đó, có thưởng. 
+Nhiều đồng coin như Litecoin cũng có sự kiện Halving, sự kiện làm giảm reward thợ đào đi 1 nửa
+Hard Cap: mức vốn tối đa mà dự án muốn huy động được qua ICO, IEO
+Hold Coin/Hodl(Hold on to dear life) hay Holder x Trader
+HYIP(High Yield Investment Programs-CT đầu tư siêu lợi nhuận). 100% các dự án kiểu này là scam
+
+Phân biệt: 
+IPO(Initial Public Offering) là hình thức gọi vốn công khai của các công ty thông qua phát hành cổ phiếu lần đầu niêm yết giá đưa lên sàn chứng khoán. Klq ở đây
+ICO(Initial Coin Offering): 1 hình thức gọi vốn. Các dự án sẽ kêu gọi thẳng trên website luôn, ta vào website để mua và nó chuyển thẳng vào ví ta luôn. Tự do và k có cam kết pháp lý, dựa trên niềm tin thôi. Nó là hình thức phát hành coin đời đầu của thị trường crypto. Nó khác với IPO ở chỗ dự án huy động vốn dù chưa phát hành sản phẩm, thậm chí chỉ là ý tưởng trong white paper.
+IDO(Initial Decentralized Exchange Offering): gọi vốn trên sàn phi tập trung như DAO Maker, Polkastarter, Balancer.. Liên kết ví với sàn phi tập trung và mua thôi. Nó vừa giúp dự án có tiền, vừa giúp nhà đầu tư mua và nắm token của dự án qua sàn, lại giúp sàn DEX được thêm danh tiếng và độ phổ biến
+Launchpad là nơi các dự án phát hành token và gọi vốn IDO như DAOMaker, Solstarter
+IEO(Initial Exchange Offering) phát hành coin lần đầu tiên trên các sàn tập trung -> được sàn đảm bảo uy tín. Sàn sẽ thu phí niêm yết và phần trăm lượng IEO bán được trên sàn. Lợi thế là sau IEO thì tỉ lệ token đó lên sàn tập trung đó rất cao và các dự án được kiểm định chặt chẽ nên người mua k sợ bị scam
+IFO(Initial Farm Offering) là loại huy động vốn mới sử dụng các sự kiện yield farming để gây quỹ cho các dự án tham gia trên sàn DEX. Người dùng cần cung thanh khoản vào 1 pool để nhận LP token(token nhận được khi cung thanh khoản) làm vé tham dự IFO. VD IFO của sàn DEX pancakeswap muốn tham gia phải cung thanh khoản cho BNB-CAKE để nhận LP token và dùng để tham gia pre-sale được tổ chức cho các token trong DEX
+
+KYC(Know your customer-xác minh danh tính) là quy định buộc các công ty crypto phải biết về khách hàng của họ để chính phủ chống rửa tiền phi pháp
+
+Leaf node: k có child node thôi
+
+MMO(Make money online) 
+
+Non-custodial chỉ sàn DEX và ví k lưu tiền mà nsx chỉ tạo sp và người dùng tự giữ tài sản của mình. Loại này người dùng sẽ giữ passphrase, pivkey x Custodial
+
+Order-book VD ta muốn mua bán gì thì tạo lệnh để nó list ra và đợi người khác vào mua/bán nếu khớp giá. Các sàn sử dụng order-book là CEX như Binance, Huobi, Kucoin,..
+
+Pump và Dump: thao túng với pump là thổi giá lên và dump là xả ra. Thực chất nó là bất hợp pháp nhưng crypto chưa có cơ chế pháp lý nên nó vẫn diễn ra
+PoA(Proof of Authority-Bằng chứng ủy quyền) là thuật toán đồng thuận dựa trên danh tiếng
+PoB(Proof of burn-Bằng chứng đốt cháy) là thuật toán đồng thuận cố gắng giải quyết vấn đề tiêu thụ năng lượng của PoW. Thay vì dùng máy đào thì Miner đốt token để viết khối mới theo tỷ lệ tương ứng các đồng đã đốt.
+PoD(Proof of Develop-Bằng chứng nhà phát triển) là phương tiện cho các dự án tiền điện tử và ICO để xác minh dự án được quản lý tích cực bởi các nhà phát triển
+Ponzi là mô hình lừa đảo đa cấp kim tự tháp. Trả lãi suất cao cho người tham gia đầu tư thực chất là lấy tiền người sau trả cho người trước. Khi không thể trả nx thì scam k cho nhà đầu tư rút vốn. VD các dự án Ponzi: Bitconnect, Ifan, Pincoin,..
+
+QR code(Quick response code)
+
+Root node: node cao nhất trong mạng blockchain
+Rekt: toang
+ROI(Return On Investment-Tỷ suất hoàn vốn) là lợi nhuận ròng(chưa trừ chi phí bỏ ra) trên tổng chi phí bỏ vào
+Shill: bơm thổi tin tức để nâng cao giá trị đồng coin nào đó
+
+TVL(Total value locked) tổng giá trị tài sản người dùng bỏ vào 1 dự án DeFI. Có thể check tại defipulse.com
+
+Volatility(độ biến động thị trường) chỉ số đo mức độ biến động giá của tài sản tài chính. Chỉ số càng cao, giá trị càng dễ bị tăng/giảm đột ngột trong tg ngắn
+Volume(khối lượng giao dịch) khối lượng tiền giao dịch trong 1 khung thời gian = tổng số lượng coin và token mua vào bán ra trong ktg nhất định
+Whitelist(danh sách trắng): khi đầu tư ICO thì có whitelist, nếu ở trong whitelist của 1 dự án thì ta có thể tham gia mua token ở trong đợt kêu gọi vốn của dự án đó và ta thường phải hoàn tất KYC để được vào danh sách này
+
+Yield Farming: vay or cho vay tài sản của mình để kiếm lợi nhuận trên giao thức DeFi
+YTD(Year to date) chỉ số chỉ khoảng thời gian bắt đầu từ ngày đầu tiên của năm hiện tài cho đến ngày hiện tại
+

@@ -1,0 +1,168 @@
+Module consensus
+-> Phân biệt concensus mechanism và concensus rules
+--> Concensus mechanism là cơ chế đồng thuận, VD POW trong Bitcoin
+--> Concensus rules là các quy tắc để xác thực giao dịch độc lập và phát hành ra lượng tiền tệ mới. Thực tế nó bao gồm nhiều quy tắc, vd điều chỉnh độ khó difficulty(để khiến 1 block mới ra đời xấp xỉ 10 phút), tổng lượng coin đầu ra không được lớn hơn lượng coin đầu vào(tránh lỗi khi tự sinh coin mới),... và rất nhiều quy tắc khác khi xác thực 1 block.
+
+
+
+# Basic
+Satoshi tạo ra emergent consensus. K có thời gian fixed khi sự đồng thuận xảy ra và k có election gì hết mà mọi node đều thực hiện bất đồng bộ vc xác thực giao dịch. 
+
+
+
+## Quá trình consensus
+Decentralized consensus emerge từ 4 process xảy ra độc lập: xác thực độc lập các giao dịch; aggregate độc lập các trans vào block mới; xác thực độc lập block mới bởi mọi node; selection độc lập bởi mọi node of the chain with the most cumulative computation mô tả với POW
+
+# 1) Xác thực độc lập các giao dịch
+Wallet software -> thu thập UTXO cần thiết -> cung unlocking script để dùng UTXO -> tạo transaction với output mới cho new owner -> transaction được gửi cho node neighbor trong bitcoin network -> lan truyền trong toàn bộ mạng.
+Trong quy trình đó, trước khi gửi trans đó cho neighbor, mọi bitcoin node sẽ nhận trans và xác thực trans đó trước. Điều này đảm bảo chỉ trans hợp lệ được propagate trong mạng còn invalid thì discard ngay từ node đầu tiên luôn. 
+
+Các node xác thực giao dịch theo các tiêu chuẩn: syntax và data structure phải correct; list input và output k đc empty; kích thước trans k đc vượt quá MAX_BLOCK_SIZE; output val phải nằm trong khoảng giá trị (ít hơn 21 millions coins); k có input nào có hash=0, N=-1; nLocktime = INT_MAX or nLocktime và nSequence thỏa mãn MedianTimePast; trans size >= 100; số lượng chữ ký bao gồm trong trans <= giới hạn chữ ký; unlocking script chỉ có thể push numbers vào stack và locking script thỏa mãn isStandard; matching trans trong pool phải tồn tại; nếu output của 1 input tồn tại ở 1 trans khác trong pool thì reject; output phải đúng là unspent; reject nếu sum of input < sum of output;..
+Để xác thực độc lập từng node khi nhận và trc khi propagating, mọi node phải build 1 pool of valid trans gọi là mempool.
+
+# 2) Aggregating Transactions into Blocks
+-> Sau khi đc node validate, node sẽ add trans vào mempool, nơi mà các trans chờ để đc mined vào 1 block. 
+VD: Alice transaction include trong block 277316. Giả sử Jing là 1 thợ đào chơi fullnode là người sẽ đào block có chứa Alice transaction.
+Jing giữ 1 bản copy local của blockchain -> Alice thực hiện thanh toán bằng bitcoin -> Jing node giả sử có chain dài tới 277314 block-> Jing lắng nghe transaction, đồng thời đào block mới và lắng nghe những block discovered bởi các node khác -> Khi Jing mine, giả sử nó nhận 277315 từ mạng do thg khác nhanh hơn mine ra trc -> block mới ra đời là kết thúc competition 277315 và bắt đầu luôn block 277316
+=> Trước đó 10p, Jing đang tìm kiếm sol cho block 277315, trong lúc đó đồng thời tập hợp các transaction chuẩn bị cho block tiếp theo khi block 277315 đào xong. Giả sử nó collect đc vài trăm transaction trong lúc đó vào trong mempool -> khi 277315 validate xong nhận bởi 1 miner khác, Jing sẽ so sánh mọi trans trong mempool xem có trans nào đc include trong 277315 k vì mỗi node tích transaction khác nhau nên có thể 1 vài trans trong pool đã bị chỗ khác lấy và nhét vao 277315 để đào mất r và cần tìm để loại ra -> Các trans còn thừa trong mempool chính là unconfirmed -> Jing lập tức tự tạo 1 block mới chưa có POW hợp lệ gọi là candidate block. Block đó valid chỉ khi Jing tìm đc sol cho POW algs hay tìm được nonce.
+
+-> Coinbase transaction
+Coinbase transaction là transaction đầu tiên của mọi block. Trans này là gửi cho miner block đó bao nhiêu coin.Miner sẽ nhận được outputs từ trans đó và trans fee
+Trans này k tiêu thụ UTXO ở input mà tạo coin từ nothing, chỉ có 1 output. 
+Để tạo coin base trans: node tính tổng fee bằng cách thêm 418 trans vào block mới và fee=sum inputs - sum outputs; tính tiếp reward của block mới, reward được tính là 50 coin và giảm 1 nửa dần dần theo block height hiện tại(mỗi 210000 block là giảm 1 nửa). Khi số lần giảm 1 nửa vượt quá 64 thì reward cực thấp coi là 0. Cuối cùng, coinbase reward thêm vào trans fee và tổng tiền return.
+
+--> Trans bth thì xác định previous UTXO để spend, coinbase trans thì có coinbase input. Normal trans có trans hash trỏ tới UTXO cần spent, output index là index number of UTXO to spent cái UTXO dùng đầu tiên có index là 0. Coinbase trans thì trans hash có mọi bit là 0, output index 4 bytes đều là 0xFF(255 decimal). Do k có UTXO nên unlocking script đc thay bằng coinbase data.
+
+---> Coinbase data 2-100 bytes. Trừ vài bytes đầu tiên, các byte sau miner có thể dùng theo bất cứ cách nào nếu muốn. 
+VD: ở block số 0, Satoshi đã thêm dòng text: The Times 03/Jan/2009 Chancellor on brink of second bailout for banks vào phần coinbase data -> nó có thể dùng để lưu chú thích ngày tháng và truyền thông điệp nào đó. 
+Miner thg dùng coinbase data để thêm số nonce và string xác định mining pool đã đào. Các byte đầu tiên của coinbase có version field=2 luôn chứa block height index theo BIP-34. 
+VD: Block số 277316 có coinbase chính là trường unlocking script là giá trị hexadecimal 03443b0403858402062f503253482f => 03 là số bảo script execution engine lấy 3 byte tiếp theo cho vào script stack. 3 bytes tiếp là 0x443b04 là chiều cao của block được encode theo endian format tức viết ngược lại, decode thành 0x043b44 là số 277316 ở thập phân. Vài số tiếp theo là 0385840206 là thêm số nonce or random value được dùng để tìm POW sol. phần cuối là 2f503253482f là ASCII encoded string /P2SH/ chỉ cái mining node đào block support P2SH defined trong BIP-16. P2SH yêu cầu miner phải chứng thực vc sử dụng BIP-16 or BIP-17 included /P2SH/ trong coinbase data. Nhiều miner thêm string này vào coinbase data để chỉ rằng họ có hỗ trợ tính năng này.
+
+-> Quy trình tạo block header:
+VD block 277316: version number là 2 encoded bằng format little-endian là 4 bytes 0x0200000000 -> thêm previous block hash là hash của 277315-> tổng hợp mọi trans với merkle tree để có merkle root trong header là 32bytes -> thêm các trans thực sự vào với trans đầu là coinbase, 418 trans sau được thêm vào sau nó, tức là 419 trans đc thêm vào nên sẽ dup thành 420 trans được dùng để tạo merkle root -> thêm 4 bytes timestamps encoded as Unix epoch time -> thêm trường target là trường có POW, target được lưu trong target bits có 1 bytes là exponent và 3 byte mantissa(coefficient), nó là 0x1903a30c trong block 277316 thì 0x19 là exponent hexadecimal và 0x03a30c là coefficient -> trường cuối là nonce khởi tạo mặc định là 0 -> khi các trường đc filled thì block sẵn sàng để đào r, cần tìm ra nonce mà hash tạo ra nhỏ hơn target.
+
+-> Đào block 
+Giả sử ông Jing ở trên đã tạo ra 1 block mới, bh ô ta sẽ đào nó. Dùng máy đào sử dụng SHA256. mining thật ra rất đơn giản, chỉ cần hash cái block header liên tục cho đến resulting hash match cái target chứa POW.
+
+-> Refer tới cơ chế POW
+
+
+
+# 3) Xác thực độc lập block mới bởi mọi node
+Khi 1 block đến như bên trên, mỗi node sẽ thực hiện 1 loạt bài test để validate nó trước khi propagate nó đi: cấu trúc dữ liệu block phải valid; block header hash < target; timestamp nhỏ hơn 2h trong tương lai(tránh lỗi thời gian); block size k quá limit; first trans phải là coinbase trans; Mọi trans trong block phải valid; Người tạo ra block phải tuân theo đúng các tiêu chuẩn đặt ra về số coin nhận đc nếu k các node khác xác thực là reject sẽ phí điện và công sức, vd họ k thể viết coinbase thưởng cho họ 1000 coins đc, như thế k đúng quy tắc là mất cả chì lẫn chài
+
+
+
+# 4) Assembling and Selecting Chain of Blocks
+Bước cuối là tập hợp block vào các chains và chọn chain có POW tốt nhất. Khi 1 node xác thực được 1 block, nó sẽ tập hợp lại trong 1 chain bằng cách kết nối block với blockchain đã tồn tại. Nodes sẽ duy trì 3 tập blocks: tập connect với main blockchain; tập tạo ra các nhánh ngoài main blockchain(secondary chain); blocks k có parent(orphans).
+Main chain là valid chain of blocks có the most cumulative POW kết hợp với nó. Đa phần nó là chain có nh blocks trong nó nhất trừ khi 2 chain cùng height thì main chain là cái có nhiều POW hơn. Main chain cũng sẽ có các nhánh là siblings of block trong main chain. Các block này valid nhưng k là 1 phần của main chain. Nó đc giữ cho future reference đề phòng TH nó có kích thước vượt quá main chain khi hđ.
+
+Khi nhận đc 1 block, 1 node sẽ cố tìm vị trí của nó trong blockchain tồn tại. Nó sẽ nhìn vào previous block hash và tìm parent đó. Thông thường parent sẽ nằm ở top của main chain. VD: block 277316 refer to hash của 277315 và các node nhận 2777316 đều đã có 277315 là top của main chain của họ r, họ sẽ thêm 277316 để mở rộng chain đó.
+=> Tức là có nhiều chain đó, 1 node k chỉ có 1 main chain đâu khi học về fork sẽ hiểu. Khi có nhiều chain, new block có thể sẽ extend vào chain kp là main chain, chẳng hạn vào secondary chain rồi ss secondary chain với main chain. Nếu secondary chain có nhiều cumulative work hơn mainchain thì nó sẽ chọn secondary chain thành main chain, và old main chain thành secondary chain. 
+Nếu 1 block nhận mà k tìm thấy parent ở existing chain, nó sẽ là orphan. Orphans block sẽ ở trong orphan block pool(kp là orphan trans đã biết đâu mà là orphan block) cho đến khi parent của nó đến(TH này có thể xảy ra khi thời gian truyền tải chênh lệch làm block con đến trước block cha). Khi parent được received và linked vào existing chain, orphan sẽ được remove khỏi pool và linked vào parent, trở thành 1 phần của chain đó. Orphan block thg xh khi 2 blocks được mined trong 1 tg ngắn của mỗi cái và nhận được theo reverse order, nhận được child trc parent. 
+
+=> Mỗi node nhận được blocks từ neighbors sẽ update its own copy of blockchain và chọn ra greatest cumulative work chain. Với cơ chế chọn valid chain có greatest-cumulative-work, mọi node sẽ đạt được cơ chế dồng thuận. Sự khác biệt tạm thời giữa các chain sẽ đc giải quyết khi more work đc thực hiện, mở rộng các chain có sẵn. 
+
+
+
+# Cơ chế POW
+-> Hash dùng data mọi kích thước biến thành fixed length result độc nhất. Hàm hash thật ra là có collision chứ perfect hash function gần như k có nhưng các hàm hash cực mạnh k quan tâm điều đó vì cho đầu ra k thể đoán đc đầu vào + số lượng đầu ra cực kỳ lơn thì vc xảy ra trùng hay bị hack đã là điều cực khó r, k cần qt có trùng hay k. Cách duy nhất để giải output của hash với bài toán tìm đầu vào là thử sai. 
+VD: ta cần tìm hash của HelloWorld -> rất dễ. Thêm 1 số bất kỳ vào cuối cụm đó ví dụ thêm số 56 là HelloWorld56 thì đoạn hash trở nên khác biệt hoàn toàn. Và số 56 ở đây chính là nonce cần tìm, header có 1 số nonce đó nhưng khoảng của nó vô cùng rộng nên cực khó tìm và máy tính phải thử sai để tìm hash r ss với target lt. 
+Target là gọi là threshold và mục đích là tìm đc hash nhỏ hơn target. Nếu ta giảm target xuống nhỏ dần thì bài toán trở nên khó hơn. Như kiểu tung 2 con súc sắc sao cho tổng nhỏ hơn target thì target là 2 thì tung vào 1 1 sẽ trở nên rất khó. 
+2 con súc sắc có thể tung ra 36 trường hợp trung bình thì tung 36 lần sẽ có 1 lần rơi vào là 2. Như v, the amount of work cần done để thỏa mãn là 36. Khi 1 người tung phát thỏa mãn target luôn hay 1 người tung nhiều lần mới thỏa mãn target, ta đều nói amount of work đều là 36. Hay vc họ tìm ra kết quả hay đầu vào là kết quả họ tìm đc là bằng chứng cho thấy họ đã thực hiện trung bình 1 lượng work là 36 nên được gọi proof of work, bằng chứng công việc của họ, they did that amount of work to find the nonce, bất chấp vc họ có thể may mắn tìm ra ngay từ lần đầu tiên. Từ target họ sẽ dùng toán thống kê để cho biết độ khó difficulty và từ đó biết đc lượng work cần thiết để tìm nonce. Cho nên khi set là 10p, thì kể cả máy tính lượng tử vào cũng sẽ là 10p vì nó đơn giản tăng difficulty lên(độ khó trung bình).
+
+-> Để tăng difficulty, người ta dùng thêm nh số 0 ở đầu để giảm target xuống. 
+VD: 0000000000000000029AB9000000000000000000000000000000000000000000
+Thêm 1 số 0 vào đầu thì giảm không gian tìm kiếm xuống 1 nửa. 
+
+Target được biểu diễn là target bits VD target của block 277316 là: 0x1903a30c. Cách này 4 bytes đã biết là 0x19 là exponent còn 0x03a30c là coefficient. 
+=> target = coefficient * 2^(8*(exponent - 3))
+= 0x0000000000000003A30C00000000000000000000000000000000000000000000 (hexadecimal)
+=> dưới dạng binary sẽ có hơn 60 bits đầu là 0 cơ.
+
+POW target là 1 parameter có thể thay đổi được để có thể chỉnh thời gian trung bình là constant 10p. Nó tự retarget 1 cách tự động và độc lập giữa các node. 
+Để retarget, nó tính thời gian để tìm thấy 2016 block cuối và compare với thời gian 20160p vì 2016 block có mỗi block là 10p mà. Tỉ lệ giữa thời gian thực tế và thời gian desired 20160p chính là tỉ lệ để điều chỉnh target. 
+=> New target=Old target*(actual time of last 2016 blocks/20160 minutes)
+
+Thực tế lỗi off-by-one của original Bitcoin Core client làm cho total time là 2015 blocks trước đó chứ kp 2016 nên độ khó thực tế bị tăng lên 0.05%
+
+Để tránh sự biến động quá lớn về độ khó, retargeting adjustment phải nhỏ hơn a factor of 4 per cycle. Nếu target lớn hơn a factor of 4 nó sẽ chỉ bị adjust bởi factor of 4 k hơn. Mọi chỉnh sửa tiếp theo sẽ thực hiện ở lần retargeting tiếp theo vì sự mất cân bằng sẽ kéo dài ở 2016 blocks tiếp theo. Vì thế, sự khác biệt giữa năng lượng hash và độ khó có thể cần nhiều lần 2016 block cycle để lấy lại cân bằng.
+=> Tức là nó tính độ khó bằng cách tính thời gian mine 2016 blocks trước đó. Và nếu độ khó bị chênh lệch quá nh với mặc định, quá 4 lần thì sẽ chỉ chỉnh max 4 lần r đợt sau nó sẽ tính tiếp bằng cách thực hiện thêm 1 cycle nx, mine 2016 blocks trước đó và chỉnh tiếp difficulty dựa và difficulty hiện tại và tương tự. 
+Target k phụ thuộc vào số lượng transaction và khoản tiền transaction. Mức năng lượng cần để tạo 1 node cx k đổi mãi mãi. Lợi nhuận phụ thuộc vào giá điện cần để đào bitcoin.
+
+Giả sử Jing đã tạo đc candidate block, anh ta dùng rig được integrated circuits có hàng trăm ngàn IC chạy SHA256 algs với tốc độ cực nhanh. Các thiết bị này kết nối với mining node của anh ta thông qua USB or mạng LAN. Mining node chạy trên Jing's desktop truyền block header tới mining hardware, hardware(cái rig đó) đó sẽ bắt đầu tìm nonce. Sau khoảng 11p đào block 277316 giả sử 1 trong các máy đào của anh ta tìm ra kết quả gửi lại cho mining node. Khi insert vào block header số nonce tìm đc là 924,591,752 tạo ra mã hash là 0000000000000001b6b9a13b095e96db41c4a928b97ef2d944a9b31b2cc7bdc4 nhỏ hơn target là 0000000000000003A30C00000000000000000000000000000000000000000000. Ngay lập tức mining node của Jing sẽ gửi block này tới peer, peers nhận đc, validate, r propagate new block to network. Mỗi node nhận đc sẽ xác thực r thêm bản copy của nó vào blockchain của mình và blockchain của họ có height mới là 277316. Họ(các miner khác) sẽ dừng đào block có same height mà lập tức tính luôn next block dùng Jing's block làm parent. 
+
+-> Năng lượng đào ngày càng tiêu tốn khi họ chuyển từ CPU sang GPU. Bh họ dùng ASIC đặt SHA256 trực tiếp lên silicon chip luôn để dùng chip chuyên để đào coin.
+
+Do con chip được cải tiến quá mạnh khiến độ khó tăng, miner có thể tìm cả 4 tỷ giá trị của nonce trong thời gian nhanh mà vẫn k tìm ra được block(độ khó tăng quá mức vì máy quá hiện đại làm tìm hết các nonce mà vẫn k ra kết quả và chưa đến 10p, các máy yếu thì quá 10p r). Điều này có thể giải quyết bằng vc update timestamp cho khoảng thời gian đã trôi qua vì timestamp là 1 phần của header và sự thay đổi của nó sẽ dẫn đến kết quả khác nhau khi thay đổi nonce lần nx. Tuy nhiên đổi timestamp quá mức đến tương lai có thể khiến block invalid. Điều này dẫn tới là cần 1 nguồn để thay đổi trong header => để đổi nonce thì sẽ ra các giá trị khác nx khi mà 4 tỷ nonce vẫn chưa ra kết quả. Solution là dùng coinbase trans để thêm giá trị nonce. Coinbase script có thể lưu 2-100 bytes, miner có thể dùng thêm nó để mở rộng phạm vi tìm valid blocks. Coinbase included trong merkle tree nên mọi thay đổi trong coinbase dẫn đến merkle root đổi. 8 bytes extra nonce + 4 byte standard nonce khiến miner phải tìm tất cả 2^96 giá trị per seconds mà k cần sửa timestamp nx. Nếu trong tương lai, tốc độ máy lại hiện đại hơn nx và duyệt qua hết thì có thể sẽ phải modify cả timestamp nx để tăng số lượng nonce.
+
+
+
+# Fork
+-> Vì blockchain là decentralized, các block lại đến các nodes với tg khác nhau -> xuất hiện các bản copy khác nhau -> mỗi node sẽ có 1 perspective khác nhau về blockchain. Để giải quyết vc này, mỗi node sẽ luôn chọn mở rộng chain dài nhất or có nhiều cumulative work nhất. Khi mọi node dều chọn 1 greatest cumulative work chain, global bitcoin network sẽ hội tụ về 1 tỉ lệ thích hợp. Fork xảy ra như 1 sự bất đồng tạm thời giữa các version của blockchain, sau đc giải quyết bằng cách hội tụ lại khi có nhiều block đc thêm vào 1 trong các forks đó => tức nhiều block thêm vào thì sự khác biệt về cumulative work của các chain sẽ dần trở nên rõ rệt và chọn ra được main chain cuối cùng.
+=> Như v forks xảy ra 1 phần là do transmission delays trong global network, đương nhiên còn nh NN khác
+
+Giả sử fork xảy ra, khi 2 candidate block của 2 node khác nhau tranh giành vị trí blockchain dài nhất. Giả sử 2 ông thần này đào xong chênh lệch nhau 1 khoảng tg rất ngắn(do trễ mạng nên coi cùng lúc vì kb ông nào trc ô nào), 2 ông sẽ truyền đi cho neighbor của mình. Mỗi node nhận đc valid block trước sẽ sát nhập nó vào blockchain của mình, mở rộng thêm 1 block. Nếu node đó về sau nhận được 1 candidate block khác có cùng parent với node trước mà mới thêm vào xong kb có nên bỏ cái kia ra thêm cái này vào hay k? Nó sẽ k bỏ ra đâu mà tiến hành fork, thêm cái block kia vào secondary chain(vì đến sau).
+VD: có 2 miner đào được 2 blocks A B đồng thời gửi vào mạng. Giả sử 2 block có cùng các transaction và chỉ khác nhau 1 tí về thứ tự trans mà thôi. Giả sử Node X nhận được A làm main chain và giữ B vào secondary chain. Do số lượng cumulative POW là như nhau nên k phân thắng bại và giữ đồng thời 2 chain đó. 
+Các nodes đào nhận được A đầu tiên sẽ dùng nó làm main chain và đào tiếp block tiếp theo extends cái main chain đó, bằng vc linking A với candidate do node đó tạo ra, họ đã vote cho chain chứa A chính là main chain thực sự. 
+Tương tự với các mining node nhận đc block B. 
+=> Giả sử mining node nào đó extend main chain với block A đã tìm ra block C trước để mở rộng chain. Hắn sẽ lan truyền block C ngay và mọi node nhận đc block C thấy AC dài hơn B sẽ cho AC thành main chain còn B trở thành secondary chain. Các miner đang working on B mà gặp đc C như trên sẽ dừng lại vì node họ tạo ra sẽ thành orphan và B k còn là longest chain. Các trans trong B sẽ re-inserted vào mempool để đi đến kết luận block tiếp theo(ta đã biết là khi tạo 1 block mới nó sẽ tìm các trans trong mempool và loại đi các trans đã có trong các block trước. NN của vc bị trùng và phải loại bỏ như thế chính là do cái ô fork này nài). Các trans trong mempool này tiếp tục được xử lý khi có block mới tương tự.
+Do tốc độ lan truyền nhanh nên nếu node nào có B mà k mine đc nhanh thì C lan truyền hết rồi cả mạng sẽ mang C và đương nhiên C có trước sẽ dẫn đến D tạo từ C có khả năng cao nhanh hơn các block tạo tiếp từ B dẫn đến block B về sau có khả năng bị loại bỏ cao hơn.
+
+Thời gian đào càng lâu thì số lượng fork  càng ít, thời gian xác nhận lâu. Thời gian đào càng nhanh thì clear transaction nhanh, xác nhận nhanh nhưng hiện tượng fork sẽ xảy ra nhiều hơn.
+
+-> Hard fork
+Consensus rule thay đổi theo thời gian vì phải bắt kịp với new feature, fix bug, improvement. Và vc update 1 consensus system rất khó và cần sự phối hợp của ng dùng.
+
+Ở trên ta thấy là 2 nhánh tách ra r hợp lại là fork. Nhưng có TH 2 nhánh tách ra nhưng kbh hợp lại mà phát triển độc lập gọi là hard fork. Hard fork xảy ra khi có bug or thay đổi đáng kể về consensus rule. Các phần tách ra sẽ hoạt động với cơ chế đồng thuận khác nhau. Hard fork muốn change rule thì cần sự đồng thuận của mọi người tham gia mạng. Các node k upgrade to new consensus rule sẽ unable to tham gia và sẽ ở nhánh cũ, k dùng đc các consensus rule mới. Các block có consensus rule khác nhau sẽ xem nhau là invalid ở nhánh bên kia và hoạt động độc lập.
+
+--> Với software fork diễn ra khi 1 group of dev đi theo 1 roadmap khác canh tranh về implementation of 1 dự án open source. Nếu software fork mà có sự thay đổi cố ý về consensus rule sẽ trở thành hard fork. Khi hard fork sinh ra kiểu này, a new software implementation of consensus rule phải đc developed, ứng dụng và launched.
+VD: Bitcoin Classic, Bitcoin Unlimited là các software fork nhưng chưa đủ để trở thành hardfork. Để hard fork xảy ra thì competing implementation phải được ứng dụng và new rules phải được hoạt động bởi miner, wallet, các node trung gian, tức được nhiều người ủng hộ và sử dụng.
+
+Consensus rule có thể thay đổi theo 1 cách rõ ràng, k thể đoán trước. Hard fork diễn ra qua 4 giai đoạn: software fork, network fork, mining fork, chain fork. Quá trình bắt đầu khi 1 alternative implementation of client có thay đổi consensus rule được tạo ra bởi dev. Khi this forked implementation được deployed trên network, 1 tỉ lệ nào đó các miner, wallet user và node trung gian phải chạy cái implementation này. Cái fork mới sẽ phụ thuộc vào vc cái new consensus rule có apply trong block, trans or các mặt khác của system hay k. Nếu 1 rule mà gắn với block thì hard fork thực sự xảy ra khi block này mined bằng rule mới. 
+
+--> Khi hard fork thì năng lượng đào sẽ bị chia theo tỉ lệ. 
+VD: miner bị chia ra 2 nhánh theo tỉ lệ 80-20. Chỉ có 80% miner đi theo nhánh mới làm cho năng lượng bị giảm 20% thành ra phải mất 12 phút trung bình mới đào đc 1 khối ở nhánh có rule mới này. Tỉ lệ này được tiếp tục cho đến khi 2016 blocks mined. Sau đó, retarget sẽ xảy ra(sau mỗi 2016 blocks) và retarget sẽ cân lại 10p bằng cách giảm difficulty 20% và chain này lại tạo block 10p như ban đầu. Nhánh 20% sẽ đào 1 block hết 50p lận. Nhưng nó sẽ k chờ hết 2016 blocks mới chỉnh difficulty. Nó sẽ giam capacity mỗi block khiến cho capacity giảm đi bội số của 5 và sẽ có ít blocks hơn đc tạo ra khi record trans nhưng tạo nhanh hơn.
+
+--> Hard fork risky vì nó buộc người dùng lựa chọn nên nâng cấp hay ở lại. Do đó, mọi hard fork mà k được sự hỗ trợ nhất trí của toàn bộ mạng sẽ k thg k được dùng vì mn k muốn risk chia system ra. 
+
+-> Soft fork
+Kp mọi consensus rule change đều gây hard fork. Nếu consensus rule đổi mà những block mới ra đời bởi consensus mới vẫn tương thích với client sử dụng consensus rule cũ -> change vẫn xảy ra mà k có fork. Đó là soft fork. 
+Soft fork là 1 block or trans tạo ra bởi new rule vẫn valid với old rule nhưng chiều ngược có thể k xảy ra. Hay soft fork là 1 cái co consensus rule lại, hard fork là mở rộng consensus rule ra. Soft fork k ép buộc mn phải upgrade rule mới vẫn có thể hđ bth. 
+
+--> 1 cách tạo soft fork là thay đổi NOP opcodes. Bitcoin Script có 10 opcodes vô dụng được dự phòng để dùng trong tương lai, từ NOP1 đến NOP10.
+VD: BIP-65 đã định nghĩa lại NOP2 thành OP_CHECKLOCKTIMEVERIFY và impose 1 locktime consensus rule với UTXO chứa opcode trong locking script. Sự thay đổi này là soft fork vì transaction valid với BIP-65 vẫn valid với các client k dùng BIP-65.
+
+Soft fork có thể xảy ra k dùng NOP opcodes. Segwit là 1 thay đổi kiến trúc của transaction, move unlocking script từ trong transaction ra ngoài cấu trúc dữ liệu. Segwit được dùng để hard fork upgrade nhưng bh có thể dùng cho soft fork. 
+
+Soft fork phức tạp hơn hard fork về mặt kỹ thuật. Soft fork upgrade được chỉ trích là k tốt vì những người k upgrade có thể kb đến các quy tắc mới là các quy tắc quan trọng, nếu soft fork bị lỗi có thể gây mất tiền và k thể đảo ngược. Soft fork dùng NOP sẽ đỡ hơn other method vì NOP opcodes sinh ra là để làm như v.
+
+--> Soft fork cho phép những node k upgrade hoạt động bth. Có các mechanism để activate soft fork thông qua sự sẵn sàng sử dụng của miners: đa số các miner phải đồng ý và enforce new consensus rule thì soft fork đó mới đc activate. Để điều phối hành động của họ, có signaling mechanism cho phép họ show their support for consensus rule change. Đó là BIP-34, BIP-9.
+
+---> BIP-34
+BIP-34 sử dụng block version field để cho phép miner báo hiệu có sẵn sàng cho specific consensus rule change. Trước BIP-34 thì block version luôn là 1 theo quy ước. BIP-34 định nghĩa 1 consensus rule change. Đó là trường coinbase of coinbase trans phải chứa block height. Trước BIP-34, coinbase chứa data bất kỳ do miner chọn. Sau khi BIP-34 activate, valid block phải chứa block height ở đầu của coinbase và xác định với 1 version number >= 2. 
+=> Người dùng báo hiệu dùng BIP-34 thì phải set block version là 2 thay vì 1 như trước(Đó là 1 cách báo hiệu dùng consensus rule mới đó). Khi soft fork BIP-34 được activated, các block version 1 sẽ là invalid kể từ đây, mọi block version 2 cần block height trong coinbase để valid. 
+Consensus rule được activate qua 2 bước: 
+1) 75% of the most 1000 blocks dùng version 2 thì phải contain block height trong coinbase trans nếu k sẽ invalid. Các block version là 1 vẫn accepted và k cần contain block height. Cả 2 consensus rule tồn tại song song
+2) 95% tức 950 trong tổng 1000 block gần nhất dùng version 2, các block kể từ đây nếu dùng version 1 sẽ là invalid. Mọi block phải tuân theo new consensus rule.
+
+BIP-66 activated by BIP-34 signaling bằng cách dùng block version 3, invalidate version 2 block
+BIP-65 activated by BIP-34 signaling with block version 4, invalidate version 3
+
+---> BIP-9
+(Theo trình tự thời gian): Sau BIP-65 dùng OP_CHECKLOCKTIMEVERIFY, activation of BIP-34 k còn cần nx mà chuyển qua BIP-9 là 1 signaling mechanism tiếp theo. Vì BIP-34 có hạn chế: chỉ 1 soft fork activate vào 1 thời gian. New change k thể hủy bỏ, k thể giảm version của block nếu muốn hủy 1 change và dùng 1 change khác thay thế.
+BIP-9 k dùng integer như BIP-34 mà dùng bits. Block version dùng số nguyên từ 1 đến 4 r nên chỉ còn 29 bits là dùng được. Tức là có thể dùng 29 bits để độc lập và đồng thời báo hiệu readiness cho 29 different proposal. BIP-9 set max time for signaling and activation. Nếu 1 proposal k đc activated trong TIMEOUT thì proposal sẽ bị reject. Proposal sẽ resubmitted for signaling với bit khác, làm mới TIMEOUT.
+
+Sau khi TIMEOUT qua, feature dù có active hay rejected thì cái bit báo hiệu(29 bits) có thể reuse cho feature khác. Tức là 29 thay đổi có thể được báo hiệu đông thời và sau TIMEOUT có thể tái sử dụng to propose new changes. Trong lúc đó mn có thể chọn dùng bất cứ thay đổi nào nếu muôn
+
+Proposed changes được xác định bởi cấu trúc dữ liệu chứa các trường sau: name(phân biệt các proposals, thg là bipN với N là BIP number), bit(0 đến 28) là block version là số miner dùng để báo hiệu dùng proposal nào, starttime(dựa trên Median Time Past(MTP)) thời gian báo hiệu bắt đầu sẵn sàng proposal, endtime là ngưỡng thời gian nếu chưa activated thì sau mốc này sẽ bị rejected.
+
+----> BIP-9 activation sau mỗi retarget period chứ kp 1000 block như BIP-34 nx. Nếu sum of block báo hiệu có sử dụng new change vượt 95% thì proposal sẽ activate sau lần retarget tiếp theo.
+Quy trình: proposal start DEFINED state khi các đối số trong bitcoin software được defined -> Nếu MTP >= starttime, proposal state sẽ thành STARTED -> Nếu vote sử dụng new change vượt quá threshold trong retarget period và timeout chưa exceeded, proposal state sẽ là LOCKED_IN-> retarget period later, become ACTIVE. proposal giữ nguyen TT ACTIVE vĩnh viễn khi đạt state đó.
+Nếu timeout trôi qua mà voting chưa vượt quá ngưỡng theshold thì là FAILED. REJECT proposals sẽ giữ lại trạng thái đó vĩnh viễn
+Ngưỡng threshold nói ở trên là các mốc retarget period tiếp theo.
+
+=> Power phân tán cho các tổ chức khác nhau như miner, core developer, wallet dev, exchange,.. VD: 1 nhóm miners có thể change rule với 51%, nhưng họ lại bị giới hạn. Nếu họ hoạt động đơn phương và tạo ra rule có lợi cho họ, các đối tượng khác k chấp nhận điều đó thì chỉ cần giữ nguyên như ban đầu trong minority chain khiến cho họ tự tách riêng ra 1 chain riêng mà chả có ai theo. K còn trans, wallet, exchanges,.. k có các hoạt động kinh tế khiến cái chain họ tách ra coin chả còn giá trị gì và hệ thống k hoạt động đc.
+=> Tức là nếu có sự thay đổi về rule thì phải đồng thuận của tất cả or no change be made. Ngưỡng 95% cũng chính là chỉ điều này, soft fork chỉ activate nếu hầu hết đều đồng ý. Có ng cho rằng soft fork tốt hơn, có người cho hard fork tốt hơn nhưng dù gì thì đều có 1 đặc tính là mọi người đều phải đồng ý thì mới dùng đc.
+
+

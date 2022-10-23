@@ -1,0 +1,114 @@
+Node trong blockchain:
+
+
+# Basic
+Node bitcoin là 1 điểm mà tại đó 1 tin nhắn được tạo ra r truyền đi trong mạng blockchain, có vai trò như 1 điểm giao tiếp.
+
+Node lk trong mạng với flat-topology(cấu trúc liên kết phẳng)
+
+
+
+# Roles of node
+-> 1 node có thể chứa nhiều function trong 4 function:
+
+--> Routing node-N-xác thực, lan truyền giao dịch, duy trì connection peer to peer
+
+--> Full node-B-uptodate copy of blockchain nên tự xác thực giao dịch mà k cần lấy dữ liệu gì từ bên ngoài. 1 số loại chỉ chứa 1 subset của blockchain và xác thực giao dịch bằng method simplified payment verification(SPV) -> gọi là SPV or lightweight node
+
+--> Mining node-M-cạnh tranh giải bài toán khó. Có mining node là full node, có mining node là lightweight phụ thuộc vào pool mining để duy trì fullnode
+
+--> wallet-W-có thể là 1 phần của fullnode, VD: desktop bitcoin client, ứng dụng ví trên điện thoại -> đó là 1 chức năng qtr khi cần giao dịch
+
+Cx có các function khác như: Pool server-P or Stratum server-S là gateway router kêt nối bitcoin P2P network với nodes chạy các protocol khác như pool mining nodes or Stratum nodes => tức là có các nodes chạy các giao thức khác, các node này kết nối với mạng p2p bitcoin thông qua các pool protocol server
+=> Refer tới "Protocol mà các node dùng"
+
+-> Tổng quan extended bitcoin network giả sử network đó có các node sử dụng pool mining protocol, Stratum protocol, bitcoin protocol: 
+
+--> Full node client: dựa trên Bitcoin Core Client chẳng hạn với full copy of blockchain, nó có thể k có chức năng đào hay ví => k có chức năng đào hay ví tức là nó chỉ có vai trò duy trì mạng lưới hoạt động, gọi là Edge Routers(full blockchain node)
+
+--> Solo miner: miner lẻ có MBN, k tham gia bể đào
+
+--> SPV wallet: chỉ có WN để duy trì mạng lưới và là ví thôi, là lightweight đó.
+
+--> Bitcoin Core client: chứa 4 chức năng luôn(reference client).
+
+--> Pool miners: có PM, các miner này đào chung trong 1 pool, họ dùng các giao thức khác với bth, và kết nối đc vào bitcoin network qua 1 gateway là:
+Mining Pool: là pool server đó
+
+--> Stratum network: là cổng vào connect với stratum protocol, là Stratum server.
+---> Stratum mining: MS, thợ đào sử dụng giao thức khác với bth, lk bitcoin network qua Stratum network
+---> Thin Client wallets: WS, tương tự nhưng chỉ là ví thôi(lightweight(SPV) Stratum wallet)
+
+
+
+# Fullnode
+-> Full-node: là các node run a bitcoin implementation và lưu bản sao của blockchain đầy đủ(tốn rất nhiều bộ nhớ). Các node này giúp duy trì mạng lưới blockchain, tham gia vào quá trình xác minh giao dịch, chuyển tiếp các giao dịch và khối mới đến blockchain.
+Một full node của bitcoin có thể được thiết lập thông qua các triển khai phần mềm client khác nhau nhưng sử dụng nhiều nhất là Bitcoin Core. Với phần mềm này ta có toàn quyền luôn chứ k bị giới hạn như các phần mềm khác, Vd ta có thể xem 1 block có hash là gì or xem private key của tk, tạo private key bằng command line,.. 
+
+--> Full node lại có node ẩn và node công khai. 
+Một node ẩn thường hoạt động sau tường lửa, thông qua các giao thức ẩn như Tor or đc cấu hình để k nhận kết nối. 
+Node công khai là các full node cho hiển thị và có thể truy cập vào đc(gọi là listening node or super node). Do super node lưu toàn bộ blockchain nên nó có thể coi là 1 điểm phân phối lại, 1 nguồn dữ liệu trong mạng blockchain.
+
+--> Node của thợ đào: thợ đào phải chọn làm việc 1 mình or theo nhóm và họ phải có 1 fullnode riêng. Nếu làm theo nhóm thì quản trị viên sẽ duy trì 1 full node còn mọi người chỉ đóng góp việc hashing và phần thưởng được chia ra
+=> Tức nếu 1 người run 1 full node mà k đào thì sẽ k có tiền gì cả vì bitcoin blockchain đâu có thiếu fullnode đâu.
+
+Việc run các full node sẽ giúp ta tạo và lấy giao dịch trực tiếp từ node, có thể tránh đc việc sử dụng các dịch vụ bên thứ 3, vd dùng block explorer có thể track history và IP address của ta. Dùng bitcoin node để tự tạo transaction sẽ k cần ứng dụng bên thứ 3 để làm điều đó, k cần cung private key cho bên thứ 3 lưu trữ nx và make transaction nx, giữ cho private key seperated from any external connections.
+
+-> UTXO set
+UTXO set là tập hợp unspent output. Nhưng mỗi node có 1 tập hợp UTXO riêng. Riêng các fullnode có UTXO mọi node trong mạng. Nó độc lập với chuỗi blockchain. Fullnode sẽ lưu chuỗi blockchain, đồng thời lưu thêm UTXO set tính toán từ chuỗi đó nx. Các lightweight cx có UTXO của cái mà nó cần, tức mỗi client dùng lightweight sẽ có khoản tiền mà client tự sở hữu, k có UTXO của client khác như fullnode. Khi tiêu tiền thì UTXO của người đó co lại dần.
+
+
+
+# Protocol mà các node dùng
+Bitcoin network là tập hợp các nodes chạy bitcoin p2p protocol. Bên cạnh đó có các protocol khác như Stratum, các protocol đó provided bởi gateway routing server access vào bitcoin network bằng bitcoin p2p protocol, sau đó extend network với các node running other protocols => Tức là các node trong bitcoin network k chỉ chạy bitcoin p2p protocol mà còn chạy nhiều protocol khác nx, các protocols lạ này do các server kết nối vào bitcoin network, làm cho protocol bitcoin thêm phong phú
+VD: Stratum server connect Stratum mining nodes thông qua Stratum protocol với main bitcoin network và là cầu nối Stratum protocol với bitcoin P2P protocol.
+
+
+
+# Các node connect
+-> 1 node mới tham gia sẽ discover ít nhất 1 bitcoin node có sẵn trong mạng và kết nối với nó. Nó chọn random, sau đó tạo TCP connection cổng 8333(trong bitcoin), cổng bận r thì chuyển cổng => thiết lập handshake bằng cách transmit version message chứa các thông tin cần thiết. 
+
+Version message luôn là message đầu tiên trao đổi giữa bất kỳ 2 peers nào với nhau. Nếu remote peer kia compatible thì local peer trả lại verack.
+Version message: nTime-tg ht; nVersion-bitcoin protocol version; subver-type of software running on this node, VD:/Satoshi:0.9.2.1/; BestHeight-block height
+
+--> Có nhiều other implementations of bitcoin P2P protocol: Bitcoin Classic, Bitcoin Unlimited, BitcoinJ,.. Nó là các phiên bản khác của Bitcoin Core. Trên mạng bitcoin hiện h có hơn 75% node trong bitcoin network chạy nhiều phiên bản khác nhau của Bitcoin Core và sub-version của nó có chữ Satoshi Vd: /Satoshi:0.8.6/
+
+--> Block height of 1 block là số lượng block nằm trước block đó, nó tỉ lệ thuận với số lượng transaction or kích thước nằm trước nó. 
+
+-> Cơ chế:
+Để 1 node tìm đc 1 node mới trong mạng: query DNS bằng DNS seeds - nó là DNS server cung 1 list các IP address của bitcoin node. Có loại DNS seeds cung 1 list tĩnh các IP address, có loại trả ra random subset của bitcoin node addr by crawler or long-running bitcoin node. 
+Bitcoin Core có 5 loại DNS seeds. Kết nối thiết lập, nó sẽ dùng node mới làm seed r disconnect và lại kết nối với các node mới khác. Nó gửi addr to neighbor và neighbor đã là 1 thành phần của mạng sẽ trả ra 1 list các IP addr of other peer. Nodes đó sẽ connect với peers để thông báo về sự tồn tại của nó là 1 node mới tham gia mạng. Nó sẽ connect với 1 vài peer khác nhau để thiết lập nhiều đường path vào bitcoin network. Vì các path k đáng tin cậy do 1 node thông thường có thể kết nối xong out ra nên các node mới vào phải tiếp tục discover new node. Sau khi kết nối, node sẽ ghi nhớ peer connect thành công gần nhất để lần sau có thể kết nối nhanh hơn vào peer đó, peer đó k có thì lại dùng seed node để kết nối lại như ban đầu.
+
+-> Fullnode connect
+Fullnode khi mới tham gia mạng lần đầu sẽ chỉ có block genesis #0. Nó sẽ phải download các block trước đó để đồng bộ. Từ version message, nó chứa BestHeight, 1 node nào đó kết nối sẽ tính xem node mới có bao nhiêu blocks r và nó gửi getblocks là message chứa hash của top block trong blockchain local của nó. 1 trong 2 peer sẽ check getblocks của ng còn lại, xác định block đó ở top hay là 1 block cũ, nếu cũ thì peer của nó có ít block hơn. Peer nh block sẽ tính toán cần bao nhiều block nx thì peer của nó sẽ catch up với nó. Nó xác định 500 block đầu tiên để share hash của the next 500 block đó bằng inv message. Node k có các block này sẽ retrieve dữ liệu bằng getdata với hash nhận đc trong inv message, peer nhận getdata sẽ trả lại các block để ông kia cập nhập.
+=> Dù v nó luôn đảm bảo là request block sẽ kbh bị overwhelm on the network. Vì 1 node request block from all of its connected peers. Nó luôn bị gh với MAX_BLOCKS_IN_TRANSIT_PER_PEER. Nó cho phép 1 request new block chỉ thực hiện khi request trc đc hoàn thành. 
+Vc inv message và getblock message diễn ra mọi lúc khi 1 full node bất kỳ rơi vào tình trạng offline dù ngắn hay dài và cơ chế vẫn như trên.
+
+
+
+# SPV node
+-> SPV node connect
+SPV nodes chỉ tải header của block, kp các transaction bên trong nên kích thước sẽ nhỏ hơn 1000 lần fullnode. SPV rely on peer để verify transaction, peer cung cho SPV 1 phần cần thiết của blockchain mà ta cần dùng thôi.
+VD: cần check trans ở block 300000, fullnode link từ #300000 tới genesis block và xây full database of UTXO và xác nhận the UTXO chưa unspent; 1 SPV k thể xác định UTXO là unspent hay k vì nó éo có giao dịch, chỉ có header thôi. Nó sẽ tạo kết nối tới trans và block chứa trans đó bằng merkle path. Khác với fullnode refer to height thì SPV refer to depth. Nó chờ cho đến khi thấy 6 block 300001 đến 300006 on top chứa transaction và xác thực nó theo depth từ 300006 đến 300001 thì mới đảm bảo block 300000 an toàn. Thực tế thì other node chấp nhận block 300000 và làm các thứ cần thiết để tạo ra thêm 6 block on top, chứng minh transaction k bị double-spend. Hay nó check độ sâu của block đó bị đè bởi các block khác trên nó, bị đè càng nhiều thì càng an toàn vì nếu node đó fake 1 block sẽ phải fake toàn bộ các block đằng sau. SPV node rất yếu nếu connect vào fake node or fake network, do đó nó cần connect randomly to several node để tăng xác suất ít nhất là connect với 1 node thật.
+=> Dùng getheaders chứ kp getblocks như fullnode và cơ chế tương tự fullnode.
+
+-> Bloom filter
+SPV cũng filter các blocks và trans đc gửi bởi peer. Các trans nào cần sẽ được lấy tương tự bởi getdata request.
+Rủi ro: SPV node retrieve trans cụ thể để verify chúng để tiêu tiền sẽ phải lộ địa chỉ ví của ta. Third party có thể theo dõi các giao dịch bởi cái ví đó và biết được địa chỉ bitcoin đó của ai có ví nào. Để tránh điều đó, người ta cho ra Bloom Filter cho phép lấy subset của trans mà k lộ địa chỉ.
+Thay vì lấy transaction có output tiền gửi đến địa chỉ như này thì lấy transaction thỏa mãn cái search pattern như này, k làm lộ địa chỉ. Nếu search pattern quá chuẩn thì sẽ trả ra đúng các trans cần tìm thì sẽ lộ nên họ cho 1 bộ quy tắc và lấy tất cả trans thỏa mãn quy tắc đó, xong lấy về sẽ tự lọc tiếp, ta chịu thêm vc lấy 1 vài trans k cần thiết nhưng lại đc bảo mật.
+
+--> Bloom filter là 1 dãy variable-size array N binary digits và M hash function. Hash function sẽ nhận đầu vào tạo đầu ra là số nằm giữa 1 và N. 1 node sẽ dùng 1 same hash function và luôn tạo same result cho 1 input. Bằng vc đổi N và M sẽ cho ra kết quả khác nhau có độ chuẩn xác và bảo mật khác nhau. Càng nhiều N và M sẽ càng chuẩn. Mỗi hash function sẽ set 1 bit trong dãy binary digits là 1. Mặc định lúc khởi tạo bloom filter sẽ toàn bit 0 và k hợp với bất cứ search pattern nào.
+VD: 1 bloom filter dùng M=3 và N=16. Thêm A vào bloom filter và qua 3 hàm hash sẽ cho ra K1(A)=3; K2(A)=1; K3(A)=14 thì trong 16 bit có 3 bit đó là 1, còn lại là 0. Khi check 1 ký tự có trong bloom filter k thì nếu cả 3 bit đều có thì sẽ là maybe, 1 trong 3 bit k có sẽ là definitely not. VD ở phía đích có {A,B,C} và ta cần lấy A nhưng C cũng thỏa mãn vì nó có giá trị 3 và 1 cùng có bit là 1 chẳng hạn còn B thì k thỏa mãn thì thứ ta lấy được là cả A và C, lấy về r lọc tiếp lấy mỗi A
+
+-> Cơ chế: SPV tạo 1 list các address, key, hash cần lấy và add vào bloom filter. Peer sẽ dùng bloom filter để check transaction. SPV gửi filterload message to peer chứa bloom filter, gửi getdata để lấy dữ liệu. Peer send merkleblock message chứa header thỏa mãn. Peer send tiếp tx message chứa transaction thỏa mãn. SPV có thể send filteradd message để thêm filter or filterclear để clear bloom filter vì node k thể xóa pattern trong bloom filter mà chỉ có cách xóa filter và gửi 1 filter khác nếu pattern cũ k còn dùng. SPV nhận được sẽ discard các transaction k cần và update UTXO của nó với transaction đúng, đồng thời modify bloom filter có các future trans.
+
+=> Kể cả có bloom filter thì người ta chỉ kb ta cần request các transaction gì chứ các node connect trực tiếp vào node đó vẫn có thể tìm đc address của ví (nhược điểm của SPV) khi thu thập đủ thông tin cần thiết.
+
+
+
+# Cơ chế bảo mật
+-> Bitcoin bh dùng 2 cơ chế mã hóa connection để tăng cường bảo mật(fullnode chả lo nhưng SPV thì cần đấy) và ngăn chặn 1 người khác can thiệp vào connection lấy data:
+
+--> Tor Transport: Bitcoin Core hỗ trợ run bitcoin node với traffic transported trên Tor network. Có tor, có bitcoin core thì connect đc thôi. 
+
+--> Peer-to-Peer Authentication and Encryption với BIP 150/151: BIP 151 cho phép 2 nodes hỗ trợ BIP 151 thiết lập encrypted connection for mọi communication giữa 2 nodes. BIP-150 cho phép 2 nodes xác thực nhân dạng của nhau bằng ECDSA và pivkey, để dùng BIP 150 thì 2 nodes phải thiết lập connection BIP-151 trước. Với cách này còn mạnh hơn và sẽ giữ được quyền riêng tư cho SPV client đặc biệt là các nơi mà Nhà nước độc tài kiểm soát internet truy cập của công dân. 

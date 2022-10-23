@@ -1,0 +1,18 @@
+Blockchain Solana
+
+
+
+# Basic
+Solana là blockchain hiệu năng cao chi phí rẻ, lúc ra đời nó được ví là blockchain nhanh nhất thế giới. Là blockchain đầu tiên sử dụng cơ chế proof of history bổ sung vào cơ chế proof of stake (Các dự án khác như BSC, Cardano, Polkadot cũng dùng PoS).
+
+-> Proof of history kp là 1 cơ chế đồng thuận. Trong các mạng khác thì các giao dịch chưa được xác nhận sẽ đặt hỗn loạn trnog mempool. Solana k có mempool mà giao dịch đến sẽ được xếp thành 1 chuỗi => proof of history chỉ là giúp các giao dịch được xếp ngăn nắp và giao dịch sau xếp sau giao dịch trước. Để biết giao dịch nào đến trước phải dùng 1 đồng hồ phi tập trung cho mạng lưới để bỏ qua sự chênh lệch về múi giờ các nước. Đồng hồ đó chính là 1 chuỗi giao dịch được nối vào nhau cho biết thời gian đã trôi qua. Chuỗi giao dịch đó được nối vào và băm ra nên k thể chỉnh sửa mà chỉ có thể thêm giao dịch mới vào mà thôi. Mỗi block ra đời trong 0,4s. Mỗi 1 trans mới tạo ra được thêm vào 1 chuỗi có thứ tự cố định như v được phân biệt là duy nhất.
+Mỗi validator được xác thực 4 block 1 lúc chứ k chỉ 1. Phí giao dịch trên solana cố định. Validator phải có phần cứng khá cao với ram tối thiểu 128gb. 
+
+-> Solana bị sập mạng hàng chục tiếng nhiều lần trong nhiều tháng: nhiều bot spam giao dịch làm tiêu thụ quá mức bộ nhớ. Vượt cả ngưỡng mà solana có thể giải quyết. 
+Khác với PoS của Cardano và Ethereum 2.0 thì với solana, mọi người có thể đoán trước được ai là validator tiếp theo từ đo tập trung tấn công các validator này thay vì tấn công mạng lưới. Thêm vào đó là phí rẻ nên hắn chịu chi tiền để phá. Vụ sập mạng này buộc các validator phải restart lại hệ thống và thất thoát nhiều tiền.
+
+Sách trắng của solana có đề cập việc tạm dừng mạng lưới khi tổng các validator sở hữu trên 33% cổ phần có thể tạm thời shutdown mạng. 
+Vc mạng lưới bị shutdown có thể dẫn đến thanh lý các khoản thế chấp trong các dự án cho vay trên mạng lưới. 
+
+Solana mở rộng ngay trên layer 1 mà k cần layer 2 khác với các dự án khác dùng layer 1 thiên về bảo mật và phi tập trung còn layer 2 thiên về tốc độ và khối lượng giao dịch.
+

@@ -1,0 +1,110 @@
+EthersJS
+Thư viện ra đời sau web3: Kích thước nhỏ hơn nê frontend load nhanh hơn, k có compiled dependencies tránh được vài lỗi cho window users, được viết bằng Typescript, better structured API.
+
+
+
+# Tạo instance ethers từ provider
+Để tạo được provider cần 1 url global
+Để tạo được provider gắn với 1 tk cần 1 url global + 1 tk
+Để tạo được contract instance cần global + 1 tk + 1 thông tin contract
+=> Bằng bất cứ cách nào đủ các thứ đó là tạo được
+
+1 số url như ganache bao cả url global + tk rồi
+1 tk có thể biểu diễn dưới dạng instance of ethers.Wallet
+Khi có 1 thứ có thể lấy được các thứ bên trong. VD có instance of ethers.Wallet thì sẽ lấy được thoải mái pivkey, mnemonic words. VD có provider gắn vs tk sẽ lấy được tk thông qua getSigner.
+
+-> Tạo provider
+--> Từ url liên kết với node
+--> Phía frontend, connect ví như metamask bth
+--> Từ default provider
+
+Có thể lấy kiểu ethers.getDefaultProvider(rpcURL); với rpcURL global để tạo ra websocket provider bằng ethers
+
+--> Provider kèm account từ mnemonic or private key
+---> Tương tác với mnemonic và pivkey
+
+
+
+# Tương tác với contract
+-> Tạo instance của contract
+
+-> Call getter function
+Trong web3 có sẵn thư viện BN.js xử lý số lớn. Trong ethers cũng có sẵn thư viện bignumberjs chức năng tương tự. Hàm nó khá giống nhau nhưng thư viện lại khác nhau. Thường thì các dữ liệu lấy về từ smart contract mà là số thì đều là 1 bignumber object.
+
+-> Send transactions: 
+--> Gửi tiền vào địa chỉ nào
+
+--> Thực hiện 1 transaction của SM
+Tạo 1 contract instance với provider chỉ gọi được getter. Tạo 1 contract instance gắn với 1 signer mới gọi được cả getter và setter
+
+--> Deploy rồi thực hiện trans luôn
+
+-> Dùng interface trong ethers
+=> refer tới "Projects / Connectweb3wallet / multicall"
+
+
+
+# Sign
+
+
+
+# Basic
+-> Dùng utils
+-> Các hàm basic
+-> Inspect block
+
+
+
+# Mẫu dùng ethers với frontend
+-> Connect wallet
+-> Request permission
+-> Send transaction
+-> Encrypt/Decrypt
+-> Sign/Verify:
+Sign ở frontend, verify ở backend
+-> Send form
+=> Kết hợp đầy đủ front end và backend. Chưa có backend làm hết
+=> Dùng kết hợp các thư viện eth-sig-util, ethereumjs-util, các thư viện của metamask
+
+=> refer tới "## React / Code ReactJS / React Other / React web3 / test-dapp"
+
+-> Phân biệt mọi thứ:
+--> Permission: Thừa thãi éo bh dùng. Ý nó là định tạo ra tương tự kiểu pop up "Bạn có tin tưởng website này không?".
+Request wallet_requestPermissions sẽ grant có cho phép truy cập vào account không, nó tương đương với hàm để connect vào ví vì connect vào ví cũng là cho phép truy cập account và tin tưởng trang web rồi.
+Request wallet_getPermissions sẽ lấy các thứ đã grant, thì cũng có mỗi eth_accounts thôi mà.
+=> Cái này nó y hệt vc connect vào ví bth có gì đâu. Tương đương với request_accounts.
+
+--> request_accounts vừa unlock ví, vừa connect ví với website
+
+--> Send ETH:
+---> Send legacy transaction: Là send coin nền tảng của blockchain từ account nào sang account nào. Dùng method eth_sendTransaction.
+---> Send EIP 1559 transaction: y hệt như trên nhưng cái chuẩn này cho phép truyền thêm các loại để customize gas rõ ràng hơn thôi
+
+--> Encrypt/Decrypt:
+Mỗi tài khoản có 1 key public duy nhất có thể lấy ra để encrypt 1 message bất kỳ thì chỉ tài khoản đó mới decrypt lại được message ban đầu.
+
+--> ETH Sign:
+Một tài khoản sign 1 message ra 1 result độc nhất. Message là string cần được keccak256 rồi mới sign
+
+--> Personal Sign:
+Một tài khoản sign 1 message string thành đoạn mã hex vô nghĩa. Bất cứ ai cũng có thể verify rằng message ban đầu + đoạn mã đó đúng là do tài khoản kia sign
+Có 2 cách dùng: 1 là dùng recoverPersonalSignature của thư viện eth-sig-util, 2 là request personal_ecRecover
+
+--> Sign Typed Data:
+Tương tự như Personal Sign nhưng nó sign 1 mảng các kiểu dữ liệu khác nhau được tách riêng, VD uint32 và string kết hợp
+=> Bản này là legacy rồi
+
+--> Sign Typed Data v3: 
+Tương tự Sign Typed Data nhưng data là 1 object phức tạp thoải mái và là bản mới nên dùng
+
+--> Sign Typed Data v4:
+Tương tự Sign Typed Data v3 nhưng data là 1 object phức tạp thoải mái và là bản mới nên dùng. Trông có vẻ các phiên bản về sau thì vc sign data nó càng support kiểu phức tạp hơn
+
+
+
+# Thao tác với event
+-> Tương tác với event cơ bản
+
+-> Subscribe to event: Phải tạo websocket provider từ getDefaultProvider
+=> refer tới "Projects / BattleHand / web3 / wallet"
+

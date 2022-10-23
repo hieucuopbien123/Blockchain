@@ -1,0 +1,128 @@
+### Blockchain Basic
+## Tính chất
+## Block
+## Node
+## Cơ chế bảo mật
+## Chữ ký số
+## Các cơ chế khác
+## Fork
+## Smart contract
+## Ứng dụng blockchain
+## Coin
+## Ứng dụng trong bitcoin cơ bản(mức basic)
+## Ứng dụng trong BSC
+## 2 cơ chế đồng thuận phổ biến
+## Tổng quan lập trình blockchain
+## DApp
+## Public và private blockcahin và database
+## IPFS
+## NFT
+## Giao dịch offchain và onchain
+## Các giải pháp mở rộng blockchain cơ bản nhất
+## DAO
+
+## Blockchain bitcoin(mức chuyên sâu)
+# Basic
+# Đồng bitcoin
+# Mining
+# Ví bitcoin
+# Các cơ chế khác
+# Các loại pool
+# Block
+# Các loại network
+# Mining pool
+# Blockchain attack
+
+# Module transaction
+-> Cơ chế xử lý về tiền
+-> Thực chất khi thực hiện 1 giao dịch, trong bitcoin k hề có địa chỉ, k hề có coin, sender, account
+-> Transaction input và output
+-> Script language
+-> Thuật toán tạo signature cho transaction
+-> Multisignature transaction
+-> Ứng dụng lưu non-payment data
+-> Dùng timelock
+
+# Module cơ chế key address
+-> Basic
+-> Tạo key
+-> Phân tích tạo address
+-> Hiển thị key và address
+-> Cold Storage
+-> Các loại hot wallet
+-> Cách tạo children key trong HD wallet
+
+# Module node trong blockchain
+-> Basic
+-> Roles of node
+-> Fullnode
+-> Protocol mà các node dùng
+-> Các node connect
+-> SPV node
+-> Cơ chế bảo mật
+
+# Module consensus
+-> Basic
+
+-> Quá trình concensus
+--> Xác thực độc lập các giao dịch
+--> Aggregatiing Transaction into Blocks
+--> Xác thực độc lập block mới bởi mọi node
+--> Assembling and Selecting Chain of Blocks
+
+-> Cơ chế POW
+
+-> Fork
+--> Hard fork
+--> Softfork
+
+## Blockchain Ethereum
+# Basic
+# Trạng thái của Ethereum
+# Hạn chế
+# Gas
+# Transaction
+# Block header
+# EVM
+
+## Các thuật ngữ blockchain
+# Basic
+# Các thuật ngữ khác
+
+## Other
+-> Cách tội phạm rửa tiền bằng bitcoin
+
+## Tương tác crosschain
+## Blockchain Solana
+## POLKADOT
+## Layer2
+
+
+
+### Defi
+
+
+
+### Lập trình blockchain
+## Web3 lib
+# Frontendweb3
+# Basic
+# Dùng JSON-RPC thuần
+# Tạo instance web3 từ provider
+# Tương tác với contract
+# Tương tác với event
+# Sign message web3
+
+
+
+## Ethers lib
+# Tạo instance ethers từ provider
+# Tương tác với contract
+# Sign
+# Basic
+# Mẫu dùng ethers với frontend
+# Thao tác với event
+
+
+
+

@@ -1,0 +1,92 @@
+Blockchain Ethereum: đã học về bitcoin r mới hiểu được Ethereum
+
+
+# Basic
+-> Ethereum thực chất là 1 dịch vụ blockchain cho phép giao dịch tiền điện tử an toàn thông qua smart contract, ethereum cũng cho phép các nhà phát triển triển khai các ứng dụng phi tập trung. 
+Đặc điểm: sử dụng PoW(bản 2.0 dùng PoS); bitcoin chỉ giao dịch bằng tiền điện tử còn Ethereum lại cung cấp 1 số phương thức trao đổi bao gồm đồng Ether, smart contract, máy ảo etherium cho phép. 
+Nhiều điểm lợi ích khác làm cho ETH được đánh giá là sớm vượt qua bitcoin như: số lượng đồng ETH là vô hạn chứ k hữu hạn như bitcoin, chứa smart contract vận hành DApp, tốc độ giao dịch nhanh hơn dù Ethereum và bitcoin đều dùng POW. Nhưng Ethereum bị thiếu phân tán hơn và phí giao dịch cao hơn nhiều.
+=> Tức là Etherium chỉ là 1 blockchain mà thôi, còn Ether là đồng coin của công nghệ này.
+
+-> Ethereum sử dụng ngôn ngữ hoàn chỉnh Turing(Turing-complete). Turing complete là ngôn ngữ có thể mô phỏng bất kỳ thuật toán máy tính nào. 
+
+
+
+# Trạng thái của Ethereum
+-> Trạng thái của block mới nhất sẽ đại diện cho trạng thái hiện tại của ethereum. 
+Để xác định mainchain, trong ethereum sử dụng giao thức GHOST(Greedy Heaviest Observed Subtree) cx như bitcoin là chọn chuỗi block có nhiều tính toán nhất làm mainchain(cùng PoW mà). Các tài khoản có thể truyền message cho nhau, định danh với địa chỉ là 160 bit. Ethereum có 2 loại tài khoản: tài khoản người dùng(externally owned accounts) được quản lý bởi private key k có mã nguồn; tài khoản hợp đồng (contract account)chứa mã nguồn và được quản lý bởi mã nguồn trong contract, chỉ có địa chỉ mà không có private key như tk người dùng(khi vào etherscan thấy có 2 loại địa chỉ là v đó). Đó chính là cơ chế smart contract. 2 tk người dùng chỉ đơn giản là giao dịch chuyển GT(như bitcoin đó) nhưng 1 tk người dùng gọi đến contract address sẽ kích hoạt mã nguồn của contract thực hiện nhiều hành động khác nhau(mà ta viết contract trong solidity đó) như tính toán, sinh contract, chuyển token,.. 
+Tk hợp đồng ko thể tự thực hiện các giao dịch mới. Nó chỉ có thể thực hiện giao dịch để đáp ứng các giao dịch nhận được từ tk người dùng hay tk hợp đồng khác vẫn luôn xp từ tk ng dùng vì người dùng pay fee để thực hiện mà
+
+Trạng thái 1 tk bao gồm 4 thành phần: nonce, balance(số dư), storageRoot, codeHash. Cả 2 loại tk đều có:
+nonce: nếu là tk ng dùng thì con số này thể hiện số lượng giao dịch đã đc gửi từ tk, nếu là tk hợp đồng thì nonce là số lượng hợp đồng được tạo bởi nó. Như v cho đến h có, nonce của transaction, nonce của tài khoản người dùng(và tài khoản hợp đồng), nonce của bài toán khó.
+storageRoot: giá trị băm phần gốc của cây merkle storage, cây merkle storage chứa giá trị băm của các biến có trong storage của tk(cái merkle storage này mới, tức là mỗi tk lại có thêm storage lưu các biến nx vì bh còn có loại tk hợp đồng mà lưu được cả code cơ mà), mặc định là trống.
+codeHash: giá trị băm của mã hợp đồng ở dạng bytecode trong EVM. Tk người dùng thì code hash là chuỗi trống.
+=> Chú ý đó là trong 1 tài khoản chứ kp trong 1 block. 1 tk hợp đồng chứa storage root lưu băm các biến, còn 1 block header thì như bên dưới là lưu 1 cái root hash mà chơi cả 3 loại tree cơ.
+
+-> Trạng thái toàn cục của Ethereum bao gồm ánh xạ giữa địa chỉ tk và trạng thái tk ấy, mỗi tk có 1 trạng thái làm nên trạng thái toàn cục của ether. Ánh xạ này(tk nào có trạng thái nào tức có các giá trị biến ntn) lưu vào 1 data structure là cây merkle(merkle state tree). Dữ liệu ở tầng thấp nhất của cây được tạo bằng cách chia dữ liệu muốn lưu thành các khối, nhóm lại và băm + nối dần đến root.
+Bên cạnh lưu ánh xạ trên, nó lưu cả transaction và biên lai. Cụ thể 1 block header lưu rootHash của cả 3 cây merkle state tree, transaction tree, receipts tree.
+Xác minh 1 phần nào của dữ liệu bằng merkle proof(đã biết) của các node light vì k lưu toàn bộ lịch sử như fullnode, nó có dữ liệu cần xác minh và hàm băm của nó, nó lấy tất cả các nút cần thiết để tính rootHash từ nút là cần xác minh, tạo lại rootHash và ss 2 rootHash. Bất cứ 1 node nào kể cả light or full đều xác thực được 1 phần nhỏ TT của ethereum(trạng thái tất cả tk mà ánh xạ ở trên -> state tree-> 1 phần tạo root hash)
+=> K như bitcoin chơi 1 merkle tree, Ethereum chơi hẳn 3 cây lưu cả state, transaction(như bitcoin) và biên lai nx. 3 cái gom thành 1 root hash. Ta k đi sâu receipt tree lưu cái gì.
+
+
+
+# Hạn chế
+-> Bitcoin bị giới hạn 1MB cho 1 block, làm cho 1 block k thể chứa quá dung lượng sẽ giới hạn số lượng transaction. Tương tự ethereum thì 1 block bị giới hạn bởi gasLimits. Khi có quá nh transaction và nhét đến giới hạn của 1 block r thì k nhét được nx và các trans sau đó buộc phải nhét vào block sau. Cứ như thế khi có quá nhiều trans thì các trans về sau phải nhét dần vào các block phía sau. 1 số người muốn mình được ưu tiên đào ngay nên add fee rất lớn vào trans của mình -> người khác cx làm v và dẫn đến giá fee tăng rất cao để trans được xác thực. Gây gas war thg thấy trên Ethereum.
+
+
+
+# Gas
+-> Chi phí giao dịch tính bằng gas, tỉ lệ thuận với số operation và data trong nó. Với mỗi giao dịch, người ta đặt gas limit và gas price(đã biết). Ví dụ: giả sử người gửi đặt Gas Limit là 50.000 và giá gas là 20 gwei. Điều này ngụ ý rằng người gửi sẵn sàng chi tối đa 50.000 x 20 gwei = 1.000.000.000.000.000 Wei = 0,001 Ether để thực hiện giao dịch đó. Nếu lượng gas cần thiết ít hơn, người dùng sẽ được hoàn trả vào cuối giao dịch(cái này chỉ để ngăn các transaction loop vô tận)
+Giao dịch k đủ gas sẽ tự revert, 1 bản ghi giao dịch k thành công được ghi lại cho thấy giao dịch đã được thử k thành công, máy ảo EVM đã dùng lượng gas kia để tính toán nên lượng gas đã mất k được hoàn trả.
+Có bảng thống kê dùng Stack, Memory, Storage với các opcode như nào thì tốn gas như nào nx cơ(EVM chạy opcode như bitcoin ấy).
+
+Thợ đào nhận gas fee kèm với phần thưởng khi đào được 1 block hợp lệ. Do đó khi đặt gas cao sẽ đào nhanh hơn vì thợ đào nhiều khả năng sẽ chọn nó do họ có thể lựa chọn giao dịch nào họ muốn xác thực hoặc bỏ qua.
+
+Vai trò khác của phí giao dịch: smart contract chỉ sử dụng các tác vụ đơn giản, nhưng nếu chạy các tác vụ phức tạp như lưu tệp, email, machine learning thì sẽ gây quá tải cho mạng, áp dụng phí vào sẽ ngăn người dùng cố tình sử dụng các tác vụ nặng đó, đồng thời ngăn vòng lặp vô hạn.
+
+-> Có nhiều giải pháp giải quyết vấn đề phí gas của Ethereum, VD: dùng gas token. Gas token là loại có thể đúc khi gas thấp và đổi lại khi giá gas cao. Ta sẽ nhận lại tiền dạng ETh để trang trải phí gas của mình => đó là 1 loại token mà giá gas cao thì giá trị nó càng cao. Ta có thể dùng nó để cân bù lại lượng gas cao khi ta giao dịch bằng ethereum, giải quyết vấn đề về mặt chi phí.
+
+
+
+# Transaction
+-> Có 2 loại giao dịch: message call và contract creator(xem trong etherscan)
+1 giao dịch sẽ chứa các thành phần: nonce của giao dịch(số lượng giao dịch hợp lệ đã được gửi bởi người gửi); gas price; gas limit; to(địa chỉ nhận); value(số wei giao dịch); v,r,s các thông số tạo từ thuật toán ECDSA giúp mọi nút có thể xác thực chữ ký số của người gửi; init(đoạn mã EVM được sử dụng để khởi tạo tk hợp đồng mới, nó chạy 1 lần r bị loại bỏ); data (data đầu vào của message calls=> ví dụ truyền tham số đầu vào 1 hàm của solidity đó)
+
+Phân biệt nó khác với: các giao dịch internal(contract này gọi contract khác) hay các message sẽ k chứa gas limit. Do gas limit được xác định bởi chủ của giao dịch ban đầu r. Người dùng phải dùng đủ gaslimit thì mới thực hiện được giao dịch, bao gồm cả các giao dịch internal phát sinh. 
+
+-> Cơ chế thực thi giao dịch: 
+Check giao dịch ở dạng chuẩn encode RLP(Recursive Length Prefix), chữ ký hợp lệ, số nonce của giao dịch phải bằng số nonce tài khoản gửi giao dịch thời điểm hiện tại, gasLimit lớn hơn instrinsic gas được dùng trong giao dịch.
+Với instrinsic gas là lượng gas giao dịch dùng trước khi chạy bất cứ đoạn mã nào, gồm: chi phí nhỏ nhất được xác định trước là 21000 gas để thực hiện giao dịch; 1 khoản gas cho dữ liệu gửi cùng với giao dịch(4 gas cho 1 zero byte or 68 gas cho mỗi non-zero byte); nếu giao dịch tạo hợp đồng, thêm 32000 gas.
+=> instrinsic gas = 21000 + 4X + 68Y + 32000 => số dư phải đủ ít nhất tưng đây + lượng gửi đi nếu thực hiện gửi
+-> giao dịch được gửi đi -> Suốt quá trình, ethereum theo dõi substate. Nó là 1 cách để ghi lại thông tin trong quá trình giao dịch sẽ cần ngay khi giao dịch hoàn tất. Substate chứa: self-destruct set: 1 tk(nếu có) sẽ bị loại ngay khi giao dịch hoàn tất; log series: nhật ký vc mã code được thực thi trong EVM; refund balance: số tiền hoàn lại người gửi sau giao dịch. Vc lưu trữ trong ethereum rất tốn kém nên ethereum hỗ trợ người dùng xóa dung lượng lưu trữ sẽ được hoàn lại tiền. Nó sử dụng bộ đếm hoàn trả(refund counter) bắt đầu từ số 0 và tăng dần mỗi khi contract xóa 1 thứ gì đó lưu trong storage -> xử lý tính toán trong yêu cầu giao dịch -> xử lý xong và check tất cả hợp lệ -> hoàn trả gas thừa và refund balance. Khi đó, Ether quy đổi từ gas sẽ được thợ đào tìm ra block chứa giao dịch thụ hưởng. Tổng gas được đưa vào block gas counter nhằm tính tổng lượng gas tiêu thụ của block chứa giao dịch. Các tài khoản self-destruct set bị xóa -> tạo được block
+
+-> Đó là cơ chế mọi giao dịch. Tuy nhiên 2 loại giao dịch message call và contract creator có những điểm khác nhau.
+
+--> contract creator: 1 giao dịch tạo hợp đồng. Khai báo địa chỉ của tài khoản hợp đồng mới bằng 1 công thức đặc biệt(trong solidity có cách tính ra địa chỉ đó, ở đây ta k đi sâu). Sau đó, tạo tk hợp đồng mới bằng cách: đặt nonce bằng 0; nếu người dùng gửi 1 lượng ether khi deploy thì balance của tài khoản contract sẽ bằng lượng ether đó và khấu trừ blance của người tạo hợp đồng 1 lượng đó. Storage trống, codeHash của tk contract trống.
+  -> k thành công: revert + k hoàn trả gas đã dùng, giá trị ether khi deploy vẫn trả lại
+  -> thành công: trả thêm chi phí lưu trữ tỉ lệ thuận với kích thước mã nguồn
+    -> k thành công lại revert
+    -> thành công hoàn lại gas thừa, Ethereum blockchain được đổi trạng thái
+
+--> message calls: k có mã init(vì k có tk mới nào được tạo ra). Ta có thể kiểm soát được vc lượng gas còn lại có tự dùng hết hay k trong contract bằng solidity. 
+
+
+
+# Block header
+-> Trong ethereum, 1 block có header, thông tin về transaction gom trong block đó(như bitcoin) và thêm 1 thứ là các ommers của block đó(uncle block)
+Ommers: Ethereum xây dựng thời gian khai thác 1 block ~15s thấp hơn nh so với các blockchain khác. Giao dịch nhanh nhưng sẽ tăng fork gây lãng phí vì chỉ block sớm nhất được đưa vào trong khi thời gian ngăn như v thì các block khác chỉ bị chậm 1-2s mà thôi. Chúng là orphaned block(or uncle block). 
+Mục đích của ommers là để thưởng cho những người khai thác những khối này. Các ommers phải hợp lệ, 1 block chỉ được có tối đa 2 ommer và 1 ommmer chỉ hợp lệ khi nó ở trong 6 thế hệ so với block mới nhất hiện tại và các ommer chỉ được giới hạn 6 ommer trong 6 thế hệ. Các block ommer nhận được phần thưởng nhỏ hơn block trong nhánh chính
+VD: 1 block mới tạo ra, 3 người khác tạo ra ommer -> chỉ lấy 2 vì max 2 ommer
+block hiện tại là 8, ngay lúc này 1 ng tạo ommer block số 1 sẽ k được chấp nhận vì ngoài 6 thế hệ. 6 block trước từ 2 đến 7 đều có 1 ommer, 1 người tạo bất cứ ommer của block nào trong 6 thế hệ trước đều k được chấp nhận vì chỉ giới hạn 6 ommer
+
+-> Block header: parentHash; ommersHash; beneficiary(địa chỉ thợ đào nhận thưởng); stateRoot; transactionRoot; receipts root; logsBloom(cấu trúc dữ liệu Bloom Filter của ethereum cần lấy các transaction nào nhưng lại lấy thừa ra để tránh theo dõi); difficulty(độ khó chỉnh ~15s); number: số thứ tự của block(tính từ số 0 là genesis block); gasLimit; gasUsed(tổng gas block tiêu thụ riêng block đó); timestamp; extraData(dữ liệu bổ sung liên quan đến khối); mixHash: hàm băm của block header trước khi tìm được nonce; nonce(nonce của block thuật toán POW)-> block khai thác thành công khi keccak256 của mixHash+nonce < targetHash
+
+
+
+# EVM
+Máy ảo dùng gas để thực hiện tính toán, dùng datastructure là stack. Mỗi ngăn stack có kích thước 256 bit và max là 1024. 
+EVM dùng ngôn ngữ riêng của nó "EVM bytecode". Ta thg viết bằng ngôn ngữ bậc cao như solidity, Vyper và biên dịch thành bytecode gửi đến cho EVM chạy.
+
+-> Memory và storage
+--> EVM có memory lưu dữ liệu dưới dạng các mảng byte. Memory k ổn định, k lưu dữ liệu lâu dài
+--> EVM có storage lưu dữ liệu non-volatile và được duy trì như 1 phần state của hệ thống. Nó lưu mã Ct trong ROM ảo chỉ có thể truy cập thông qua các lệnh đặc biệt, cũng là non-volatile mem.
+

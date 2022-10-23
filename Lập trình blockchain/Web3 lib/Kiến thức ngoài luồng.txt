@@ -1,0 +1,9 @@
+-> Lập trình web3 
+Web2: read/write data from web apps
+Web3: read/write data from decentralized apps
+VD khi web của ta có decentralized backend tức dữ liệu lưu trên blockchain như ethereum
+Web3 mở với everyone, không bị kiểm duyệt, k bị kiểm soát, k cần cấp quyền api access mà luôn mở với mọi người, ai cũng có thể tạo smart contract với nó
+
+1 ứng dụng đầu tiên của web3 là xd tiền mã hóa nhưng thực tế nó có vô vàn ứng dụng khac: các giao thức defi, nft, DAOs,... 
+=> Cũng chỉ là thêm 1 thư viện JS nhưng tương tác được với blockchain
+

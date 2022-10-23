@@ -1,0 +1,186 @@
+## Module cơ chế key address
+
+# Basic:
+Quyền sở hữu bitcoin được thể hiện qua key, địa chỉ, chữ ký số. Chú ý là key trong ví mà ta nói k lưu trong network mà được tạo và lưu bởi ví điện tử(nếu lần đầu vào, ta cũng có thể import key nếu có sẵn). Phần mềm ví lần đầu sử dụng sẽ tạo ra cặp key hoàn toàn độc lập với hệ thống bitcoin và chỉ active khi thực hiện transaction đầu tiên. Mỗi transaction muốn thực hiện luôn require 1 cái chữ ký số hợp lệ chỉ có thể generate đc bằng secret key và chữ ký này sẽ được include trong transaction. Vì thế, chỉ những ai có copy of cái key đó mới là chủ, là người tạo ra transaction đó(và k thể chối bỏ).
+Mỗi người có 1 cái address như kiểu số tài khoản để gửi vào ấy. Address thg được generate bởi public key or script.
+
+-> Cơ chế: private key có thể generate signature để ký cho 1 transaction và signature này có thể xác thực bằng public key rằng người này chốt là đã ký mà k cần lộ private key, tức ai cũng vào xác thực được => asymmetric cryptography 
+Address thực chất được tạo thành bằng cách hash pubkey. Mỗi address gắn với 1 số tiền. Ai có pivkey mà tạo ra signature đúng với cái pubkey(tức pubkey xác thực được signature này có đúng được tạo ra từ 1 pivkey là pair của cái pubkey này không), thì người đó sẽ thao tác được với số coin trong địa chỉ hash đó.
+=> Public key dùng để receive fund và private key dùng để ký transaction to spend fund. Khi tiêu bitcoin, chủ bitcoin sẽ trình public key và signature(signature đc tạo ra khác nhau mỗi thời điểm nhưng đc tạo từ cùng 1 private key) trong transaction. Những người khác sẽ lấy public key xác thực signature là đúng và confirm rằng: vào thời điểm đó, đúng là người đó sở hữu lượng coin đó để họ có thể gửi lượng coin đó đi. 
+
+
+
+# Tạo key
+Private key là 1 số random -> dùng ECC tạo ra public key duy nhất-> hashing function public key tạo ra bicoin address.
+
+-> Tạo pivkey là random number
+Private key do ta tùy ý lấy random, 256 chữ số 0 1 bất kỳ tạo ra 1 random private key mà ta có thể dùng trong bitcoin wallet chẳng hạn. Nó như kiểu hãy lấy 1 số bất kỳ từ 1 đến 2^256 v. Các bitcoin software dùng random number generator có sẵn trong hệ điều hành để tạo ra private key. 
+Ta k nên viết code riêng để tạo ra random number mà dùng CSPRNG(cryptographically secure pseudorandom number generator)(có documentation về nó). Dùng đúng thuật toán random cũng tốt cho việc bảo mật private key. Số lượng private key có thể có trong bitcoin nhiều như số nguyên tử trong vũ trụ v vì có đến 2^256 số lận. Private key 256 số thg biểu diễn dưới dạng 64 hexadecimal digits.
+VD: trong Bitcoin Core có các hàm tạo key và thao tác với key.
+
+-> Cụ thể thuật toán ECC tạo pubkey từ pivkey:
+Để tạo pubkey, bitcoin dùng thuật toán mã hóa 1 chiều là elliptic curve multiplication(ECC)(mã hóa đường cong elip-1 trong những thuật mã hóa 1 chiều mạnh nhất). Trong ví lưu cặp key nhưng public key là duy nhất được tạo ra từ private key bằng ECC nên ví chỉ cần lưu mỗi private key thôi cũng được.
+
+Public key tạo từ private key dùng ECC k thể đảo ngược. ECC có dạng đồ thị như hình và có phương trình trục tọa độ cụ thể như trong sách phức tạp:
+K=k*G với k là private key còn K là public key, G là điểm generator point là cố định. 
+point at infinity là point mà + với bất cứ point nào khác trong trên đồ thị curve sẽ ra chính nó
+k*G ở đây thực chất là cộng G liên tục k lần. Trong elliptic curve, cộng 1 số với chính nó chính là vẽ tangent line từ nó đến giao với 1 điểm khác của curve thì reflex. Do đó để tạo ra 4G đã rất phức tạp r. Nó k thể truy ngược đc với kiểu này ví dụ từ 4G k thể tìm ngược 2G được vì k biết tangent line đc kẻ từ đâu. Đó là lý do lộ public thì k truy ngc đc private key.
+
+Phân biệt: ECDSA (Elliptic Curve Digital Signature Algorithm) là thuật toán sử dụng ECC chứ ECC chỉ là phương trình toán học sử dụng cái tangent line liên tục như bên trên. Nó mới là thuật toán được pivkey sử dụng để tạo ra pubkey cũng như ký transaction vì ký transaction cũng tạo signature k thể đảo ngược lại từ pivkey và data.
+
+
+
+# Phân tích tạo address
+Bitcoin Address bắt đầu với số 1 hoặc 3. Bitcoin address thg represent public key, nó cx có thể represent payment script. 
+
+-> TH phổ biến là address tạo ra nhờ hash public key(biến chiều dài bất kỳ thành address có chiều dài cố định). Nó dùng SHA256(Secure Hash Algorithm 256 bit) và RIPEMD16(RACE Integrity Primitives Evaluation Message Digest 160 bit)
+=> A = RIPEMD160(SHA256(K))
+Tiếp theo, address được encode ở dạng Base58Check bằng cách sử dụng 58 character(nó là phiên bản cải tiến của base 64 bằng các bỏ đi các ký tự dễ trùng nhau khi hiển thị ở 1 số font chữ), bao gồm số, lower and capital letter without: + / 0 O I l(base 64 thì có hết các ký tự này). Thực chất các kiểu encode khác cx chỉ là thêm các ký tự vào ví dụ hệ 16 dùng thêm A-F chữ cái để biểu diễn. Nhờ đó mà biểu diễn ở decimal quá dài bị rút ngắn đi nhiều lần với các kiểu input dùng thêm chữ cái. Base58 còn dùng error checking nx, nó chèn checksum là 4 bytes thêm vào cuối encoded data. Khi decode sẽ tính toán và ss check sum, nếu k bằng nhau sẽ cho là invalid.
+
+Các bước: add prefix vào data(version type xác định loại data). VD address thì thêm số 0x00 ở đầu(base58 cho ra 1), payment script thì thêm 0x05 ở đầu(base58 cho ra 3), pivkey thì thêm 0x80(base58 cho ra 5 (or K or L tùy loại compressed hay không) sau khi tạo pubkey và tạo tiếp address từ đó tức pivkey cũng ảnh hưởng).. -> thực hiện 2 hàm hash trên -> thêm check sum(4 bytes) vào cuối -> encode Base58. Ở dạng encode Base58, address sẽ ngắn hơn và dễ đọc, dễ nhìn hơn, dễ kiểm lỗi.
+
+-> 2 loại address:
+--> Address bth bắt đầu bằng số 1. Bất cứ ai cũng có thể gửi bitcoin vào đó và bitcoin đó chỉ có thể spent bởi cung vào 1 signature và 1 pub key-> hash cái pub đó ra đúng địa chỉ và pub đó xác nhận signature sinh ra từ đúng pivkey thì số bitcoin kia thuộc về người đó. Kiểu address này là pay-to-public-key hash(P2PKH) tức người đó phải chứng mình quyền sở hữu cái pubkey kia.
+
+--> Address bắt đầu bằng số 3 gọi là pay-to-script hash(P2SH). Nó ra đời vì tạo cơ hội để thêm nhiều tính năng hơn cho address, được giới thiệu với BIP-16. Bên cạnh signature và pubkey, nó đòi hỏi phải thỏa mãn script là cái được tạo ra vào thời điểm cái address được tạo ra. Mọi input to this address cx phải thỏa mãn điều kiện đó. VD: requirement chỉ đc gửi vào tài khoản này 1 lượng coin cố định chẳng hạn.
+Khi đó address sẽ mã hóa đoạn script để tạo ra address thay vì pubkey như trc bằng 2 thuật toán RIPEMD160(SHA256(script)). Version prefix của nó (hex) là 0x05 và base58 encoded nó thành prefix là 3.
+
+Vc tạo ra 1 script có thể là chỉnh số coin or đặt thêm bất cứ điều kiện nào khác. Ứng dụng phổ biến nhất của P2SH là multisignature addresses. Tức là nó cần nhiều hơn 1 chữ ký để chứng tỏ quyền sở hữu của đống fund đó. VD lúc tạo ra địa chỉ ta dùng 1 of 2 thì cần 1 signature trong 2 signature thỏa mãn có thể spend được coin trong blockchain. VD Bob muốn anh ta và vợ anh ta cùng dùng khoản tiền này chẳng hạn thì tạo ra address từ script như v xong ai gửi vào address đó thì cả 2 có thể lấy tiền ra dùng. VD 1 công ty tạo ra address có script 2 of 3 với 3 là 3 người partner trong nhóm kinh doanh, bất cứ 1 transaction nào sử dụng đến địa chỉ này đều phải có ít nhất 2 trong 3 người ký nó thì transaction mới đc thực hiện => gọi là multisignature script
+
+-> Vanity address là địa chỉ có chứa human-readable. 
+VD: 1LoveBPzzD72PUXLzCkYAtGFYmK5vYNR33 có chữ Love ở đầu. Các address như này được hash 1 cách ngẫu nhiên đến khi nào được thì thôi. Tìm bằng cách chạy random đến khi nào được thì thôi. Nó đơn giản là vét cạn các TH của private key rồi dùng ECC và hash để tìm ra địa chỉ thỏa mãn mà thôi. VD: bắt đầu bằng 1Kids thì bắt đầu từ 1Kids11111111111111111111111111111 tới 1Kidszzzzzzzzzzzzzzzzzzzzzzzzzzzzz -> có tất cả 58^29 địa chỉ trong khoảng đó, ký tự các dài tìm càng lâu, cứ 1 ký tự vào thì số lượng địa chỉ giảm 58 lần.
+
+Hacker: ví dụ ta thường kêu gọi donate qua 1 address bitcoin cụ thể, nhưng hacker có thể xâm nhập vào website đó và thay address bitcoin đó thành của hắn. Do address khá là dài nên những người gửi tiền sẽ k check toàn bộ mà họ chỉ nhớ 1 vài ký tự ban đầu r kiểm tra xem có đúng k trong tờ quảng cáo or email -> thấy đúng phát là họ gửi -> thế thì hacker chỉ cần tạo ra 1 địa chỉ address có các ký tự đầu giống với các địa chỉ đó và người gửi tiền sẽ k nhận ra. Nhưng nếu dùng vanity address vd 1Kids8ifwjoifif chẳng hạn thì người dùng sẽ nhớ phần pattern xong nhớ thêm 1 vài ký tự sau nx kiểu 1Kidss8i thì bọn hacker sẽ phải tạo 1 địa chỉ phức tạp hơn trùng nhiều ký tự hơn sẽ khó hơn, nếu tầm 8 ký tự thì gần như các máy tính bth phải mất hơn chục năm ms tìm ra nên kiểu hack này bị ngăn chặn
+
+
+
+# Hiển thị key và address
+Để hiển thị key ra cho người dùng ta cũng phải encode. 
+
+-> Dạng normal uncompressed
+Pivkey là dãy 256 ký tự 01 nhưng thực tế ứng dụng không hiển thị dạng đó. Nó có thể co nhỏ lại với kiểu encode Base58 => từ đây tạo pubkey normal và hiển thị normal dạng Base58 luôn.
+
+-> Dạng compressed
+Thông thường các ứng dụng sử dụng kiểu encode cho private key là hexadecimal để hiển thị thì sẽ k có prefix(gọi là compressed private key và được append 1 số 01, ta dùng nó có thể tạo ra compressed public key): mã hóa hex cho pivkey -> append 01 -> encode Base58 -> sẽ thành WIF-compressed format bắt đầu bằng K.
+Thực ra từ khóa compressed của private key nghĩa là chỉ dùng để tạo ra compressed pubkey chứ kích thước của nó còn dài hơn 1 uncompressed pivkey 1 byte vì suffix nên k dùng để hiển thị pivkey
+
+Public key format uncompress bắt đầu bằng 04, còn compressed bắt đầu bằng prefix 02 hoặc 03=> viết là K = 04xy với x và y là tọa độ điểm K trên curve mà tính đc ra của public key. Đa phần các transaction include public key để validate user và spend bitcoin. Mỗi public key cần 520 bits(prefix+x+y). Tuy nhiên khi biết x ta có thể tìm y qua phương trình của elliptic curve nên nó chỉ cần 256 bits để lưu mỗi x mà thôi, giảm tải kích thước cần lưu càng ít càng tốt. 
+Prefix 02 cho compressed public key nếu là even, 03 nếu là odd. Bởi vì key chỉ lưu x và tự tính ra y mà vế phải có y^2 nên k rõ dấu của nó là gì. Nếu là dấu dương, ở trên trục Ox thì là even và ngược lại nên ta phải dùng số 02 or 03 để đánh dấu điều đó và tìm ra điểm K chuẩn trên đồ thị.
+Tức là: K(x,y) -> uncompressed public key với hexa + prefix 04 -> compressed public key in hexa với 02 nếu y even, 03 nếu odd.
+=> Compressed pubkey giúp giảm tải kích thước transaction đi rất nhiều, compressed pubkey lại tạo compressed address về sau. Tuy nhiên kp client nào cũng hỗ trợ compressed pubkey
+
+-> Vấn đề: newer client hỗ trợ compressed pubkey phải xử lý các transaction from older client k hỗ trợ compressed pubkey. 
+VD: 1 ví import private key từ 1 app ví khác. Ví có nhiệm vụ scan blockchain để tìm các transaction có cái key imported đó để tính lượng tiền đang có (giả sử tk này ok đã từng có giao dịch trên blockchain). Mà compressed và uncompressed pivkey sẽ cho address khác nhau và đều valid thì biết pivkey đó là loại gì và lấy address nào => để giải quyết vấn đề này, pivkey khi exported from a wallet sẽ được xử lý khác nhau để báo hiệu nó là compressed hay uncompressed
+
+Cái compressed pivkey có 1 byte thừa ở cuối -> byte thừa này sẽ khiến cho ký tự đầu tiên được encode sẽ chuyển từ 5 sang K hoặc L. Khi kích thước thay đổi, nó ảnh hưởng tới prefix tùy TH cụ thể. VD 100 > 99 một ký tự thì có prefix 1 và 9 khác nhau. Base58 tương tự chuyển từ prefix 5 tới K và L khi kích thước tăng 1 byte. 
+Như v hoặc là WIF(prefix 5) hoặc là WIF-compressed(prefix K or L), VD sẽ check điều này mà biết search address nào. 
+
+=> Tổng kết theo ta hiểu thì:
+Pivkey Base58 normal -> Pubkey Base58 prefix 0x00 -> address prefix 1
+Pivkey Base58 normal -> Payment script Base58 prefix 0x05 -> address prefix 3
+Pivkey prefix 0x80 (WIF) -> ... -> address prefix 5
+Pivkey suffix 01 (WIF-compressed) -> ... -> address prefix K or L
+Không rõ cụ thể sẽ như nào nhưng nó kiểu dạng v
+
+-> Private key phải giữ secret. Các ứng dụng ví ta dùng thì private key được lưu trong đó và encrypted bởi 1 password rất an toàn. Nhưng cái ví đó phải được backed up. VD đến 1 lúc nào đó ta cần upgrade or replace cái ví đó, khi đó chuyển sang 1 ví khác thì mật khẩu đâu có giống vì mỗi ví là khác nhau -> private key backup phải lưu trên giấy or external storage media vd USB nhưng nếu chính cái USB đó bị stolen or lost thì sao. Nhu cầu đặt ra là phải có 1 tiêu chuẩn để encrypt pivkey mà mọi ví đều hỗ trợ là xong, đó là BIP-38. Ta đã biết từ trước là thuật toán mã hóa cần 1 mk để mã hóa 1 chiều 1 thông điệp thành k thể đọc.
+BIP-38 là 1 tiêu chuẩn mã hóa dùng chung cho mọi pivkey với 1 passphrase và encoded bởi Base58Check. Khi dùng tiêu chuẩn này, ta chỉ cần nhớ cái passphrase và gõ vào ví là xong. Như v thì lưu backup cái private key đã được mã hóa cx đc, kể cả người khác có đc nó mà k có passphrase cx chả làm đc gì và ta có thể chuyển đổi qua lại các ví thoải mái. Khi mã hóa nó dùng AES. Nhờ có passphrase kiểu này mà ta có thể phơi cái pivkey BIP-38 ở bất cứ đâu thoải mái như 1 backup cho cái pivkey của ta mà mọi người thấy đc nó cx k sử dụng đc.
+Sau khi trải qua BIP-38 encryption thì sẽ có prefix 6P báo hiệu là cái key này cần 1 passphrase nào đó để chuyển đc sang WIF-formatted như bình thường
+Và đó là tiêu chuẩn chung vì hầu hết các ví hiện h hỗ trợ BIP-38. VD: dùng cold storage lưu encrypted pivkey BIP-38 bắt đầu là 6P -> lộ cold storage chả sao vì k có passphrase k ra được Pivkey WIF
+
+-> Mnemonic word
+Ban đầu: pivkey + pubkey để trao đổi và pubkey xác thực được signature tạo từ pivkey và pivkey người dùng giấu đi k công khai. Khi cần làm gì ta ký offline transaction bằng pivkey và gửi đi. Khi dùng third party ta cung pivkey cho nó và nó làm mọi thứ. Tuy nhiên pivkey là 1 dãy số vô nghĩa khó nhớ khó lưu khó viết, lộ là mất -> người tạo tạo ra kiểu BIP-38 là passphrase bắt đầu bằng 6P -> có passphrase đó thì mới unlock được cái pivkey còn cái key thực lộ ra thoải mái. Do đó khi vào metamask ta nhập passphrase là xong vì nó lưu sẵn cái address BIP-38 r, chỉ cần kết hợp lại là ra pivkey. Nhưng vẫn chưa thuận tiện khi ta muốn dời ví từ metamask sang coin98 wallet chẳng hạn. VD: hieucuopbien123 là pass ví metamask, ta k thể vào coin98 gõ passphrase để ra được vì coin98 chưa có cái pivkey gốc or cái pivkey encrypted BIP-38 từ trước. Do đó ta lại phải gõ vào 1 đoạn số vô nghĩa là pivkey gốc rất dài. BIP-39 hỗ trợ điều này bằng cách biến pivkey thành mnemonic words.
+
+Nếu kết hợp BIP-38, BIP-39, ta có thể lộ mnemonic word ra ngoài bằng cách tạo nó từ cái pivkey encrypted BIP-38, như v chỉ cần bảo mật passphrase là xong nhưng dù gì thì passphrase ta gõ vào nên vẫn nguy hiểm vào encrypted pivkey luôn bị ẩn. Nó là cách nghĩ của ta, thực tế người ta k làm v.
+VD: Metamask thực chất nó dùng kết hợp BIP-38, BIP-39 nhưng nó làm kiểu khác bên trên. Mnemonic word nó cung là từ pivkey gốc để người dùng backup và chuyển sang các ví khác được luôn và chỉ xuất hiện 1 lần. Vẫn dùng BIP-38 trên key gốc để cho người dùng nhập mk.
+
+--> Quy trình:
+Đăng ký metamask: tạo pivkey(dãy bit 256 số bất kỳ, có thể hash mò để ra vanity address đẹp từ trước) -> sinh pubkey từ pivkey(ECDSA) -> sinh address từ pubkey(với RIPEMD160(SHA256(<pubkey>))) còn nếu BIP-16 P2SH thì cũng tương tự RIPEMD160(SHA256(<script>))) -> dùng BIP-39 sinh mnemonic words 1 lần duy nhất cho người dùng backup lại và từ đó kbh hiển thị mnemonic word đó nữa -> dùng BIP-38 encrypted pivkey và yêu cầu nhập passphrase 
+Khi sử dụng metamask: nó lưu sẵn encrypted BIP-38 sẵn r và ta nhập passphrase vào thôi
+Khi chuyển sang thiết bị khác: nhập vào mnemonic words -> ví dùng BIP-39 sinh lại pivke y-> dùng bth, nhưng đa phần các nền tảng khác cx hỗ trợ BIP-38 nên sẽ lại encrypted nó và yêu cầu ta nhập passphrase
+
+VD: Gabriel dùng Trezor là 1 loại ví lạnh lưu trên 1 thiết bị độc lập, 1 thiết bị có 2 nút bấm để lưu keys(dưới dạng HD wallet) và ký transaction. Khi sử dụng lần đầu tiên, thiết bị sẽ sinh ra 1 seed và encoded BIP-39 tạo ra 1 mnemonic words và Gabriel sẽ ghi lại ra giấy để backup(từ 12 đến 24 từ). Nếu Trezor bị hỏng thì có thể dùng 1 Trezor khác or bất cứ 1 ví cứng, ví lạnh nào tương thích xài tiêu chuẩn đó là ok(có các tiêu chuẩn khác nhưng BIP-39 là phổ biến nhất).
+
+--> Seeds(hay master pivkey) đc encoded thành English words gọi là mnemonic code word khiến nó dễ phát âm, export và import hơn. Tiêu chuẩn của kiểu encoded này gọi là BIP-39.
+VD seeds: 0C1E24E5917779D297E14D45F14E1A1A thành: army van defense carry jealous true garbage claim echo media make crunch. Đa phần các wallet bh xài kiểu HD wallet với BIP-39. Như v ta backup seed trong TH ví bị mất dễ dàng bằng cách ghi đoạn English word đó ra giấy là xong.
+
+-> Các bước tạo ra mnemonic words(ví dụ 12 word): tạo chuỗi bất kỳ có 128 bits; tạo checksum của chuỗi random bằng cách hash nó với SHA256, lấy 4 bits đầu tiên của chuỗi đã hash đó(chính là check sum); thêm checksum vào cuối chuỗi random(bh là 132 bits); chia chuỗi ra từng đoạn 11 bits -> ánh xạ mỗi 11 bits đó với 1 từ trong từ điển 2048 từ.
+
+Chuyển từ mnemonic words sang seed: Đầu tiên dùng function PBKDF2 để chuyển từ mnemonic word + salt để lấy ra 512 bits seed. 512 bits seed này là bản mở rộng của 128 bits, biết được nó chính là biết seed rồi. Đây cũng là seed để build lên cây trong HD wallet và các derived key. 
+Hàm này nhận 2 đối số là mnemonic và salt(ngăn chặn bruteforce mnemonic). Salt bao gồm string constant "mnemonic" + optional passphrase. 
+Cụ thể: PBKDF2 sẽ kéo dài mnemonic và salt bằng cách dùng 2048 vòng hashing với thuật HMAC-SHA512, tạo ra 512 bit value là kết quả cuối cùng là seed cần tìm.
+Chống bruteforce rất tốt vì cực kỳ costly vì số lượng seed có thể có là 2^512 nếu biết salt và đi mò mnemonic. 
+
+Cái optional passphrase có 2 lợi ích: khiến cho tăng bảo mật, đánh lừa thief về số tài sản với passphrase này là tài sản fake có ít tiền, số tiền thực sự nằm ở passphrase khác. 
+Nếu owner chết thì coi như mất, nếu backup passphrase để cùng chỗ vơi seed dùng cx như k. K có passphrase nào sai trong BIP-39, mỗi passphrase sẽ dẫn tới 1 ví nào đó nếu chưa đc sử dụng sẽ là trống nhưng k lo vì số lượng quá lớn gấp rất nhiều lần số nguyên tử trong vũ trụ.
+
+=> Công nghệ ví bitcoin ngày càng phát triển kéo theo nhiều tiêu chuẩn ra đời, giúp mọi thao tác dễ dàng hơn vd BIP-39/32/43/44. User bh có thể export 1 cụm mnemonic từ 1 ví này sang ví khác để sử dụng trong ví khác dễ dàng hơn nh so với trc đây. Cả phần mềm và phần cứng bh đều đc phát triển dùng các standard mới khiến cho bitcoin ngày càng lớn mạnh.
+
+
+
+# Cold Storage
+-> Paper wallet là cold storage hữu hiệu ngăn chặn các kiểu hack online or keylogger.
+
+Ta có thể tạo ra paper wallet thông qua API với JS phía client với bitaddress.org
+paperwallet sẽ hiển thị mã qr, private key, bitcoin address. private key nên là encrypted theo BIP-38 vs passphrase lưu ở chỗ k công khai or ghi nhớ-> như này thì hacker bó tay.
+
+
+
+# Các loại hot wallet
+Ví thực ra là: 1 user interface xử lý data và lưu + manage keys.
+
+-> Nondeterministic wallet hay JBOK wallet(Just a Bunch Of Key)(or Type-0 wallet) là loại ví mà mỗi key được generated độc lập từ 1 random number. Mỗi khi tạo 1 tk mới là nó tạo 1 pivkey mới. Các key k có quan hệ gì vói nhau. Kiểu ví này k được khuyến khích(VD trong bitcoin core) vì rất khó để import, manage, backup. Ta phải giữ bản copy của mọi key tức là phải backup cái wallet thg xuyên. 
+=> Tức là khi dùng ví, ta có thể dùng nhiều private key khác nhau và có nhiều địa chỉ khác nhau tùy mục đích. Nếu thích ta vẫn có thể chỉ dùng 1 private key với 1 địa chỉ cx đc, nhưng như v sẽ k an toàn, người ta khuyên nên dùng 1 address cho 1 loại giao dịch nhất định. VD gây quỹ ta chỉ dùng 1 address, A chuyển vào quỹ dùng 1 address, A chuyển lần 2 dùng 1 address khác. Tức là 1 address for 1 transaction. 
+Cái nondeterministic wallet là loại ví như v nhưng rõ ràng k ổn vì các key k có quan hệ gì. Nó tạo random sẵn 100 private key khi sử dụng lần đầu tiên.
+Vấn đề là mỗi pivkey gắn với 1 địa chỉ mà pivkey lại thay đổi liên tục thì liệu khi ta cần chuyển tiền đi ta sẽ dùng địa chỉ mới, số tiền trong địa chỉ cũ dùng kiểu gì? => thật ra ví nó lưu mãi mãi các pivkey, đồng nghĩa số tiền ở trong địa chỉ cũ k hề mất và ng khác chuyển tiền vào địa chỉ cũ ta vẫn sử dụng đc. Ví dụ gửi tiền đi, nó sẽ tổng hợp số tiền trong các địa chỉ cũ để biết ta đang sở hữu bao nhiêu và sử dụng. 
+
+-> Deterministic wallet là ví mà mọi keys được tạo ra từ 1 single master key(1 passphrase là ok hết, là loại ví thg dùng đó). Vd metamask khi ta tạo 1 tk mới nó generate tiếp address từ pivkey master gốc
+Master key là seed, 1 con số ngẫu nhiên kết hợp với other data như index number để hash và tạo ra 1 private key. Ta cung 1 passphrase -> tạo ra pivkey là master key -> từ đó tạo ra các key khác -> chỉ cần lưu mỗi seed là đc, nếu muốn có thể tạo ra mọi key khác, ví sẽ k cần lưu tất cả các key nữa. Cũng tiện để export hay import khi chỉ cần 1 cái seed là đủ.
+
+--> HD wallet hay hierarchical deterministic wallet là dạng ví phổ biến nhất của deterministic wallet dùng BIP-32 standard. 1 parent key có thể derive 1 chuỗi các children key, 1 children key tạo đc 1 chuỗi các grandchild key khác và cứ như v thành 1 sơ đồ cây. Điểm lợi là nó giúp phân loại tài khoản nếu muốn, cho cái này nhận tiền ở đâu, cái kia nhận tiền ở đâu chẳng hạn. HD wallet có thể tạo ra 1 chuỗi các public key mà k truy cập vào private key, ví dụ ta vào 1 server kém an toàn, nó theo dõi người dùng chẳng hạn thì ta có thể tạo ra pub key để sử dụng trong server đó để mọi người chuyển tiền vào mà ta còn chả đụng chạm gì đến pivkey trong suốt quá trình nên nó theo dõi mình toàn bộ cx chả làm đc gì.
+=> refer tới Cách tạo children key trong HD wallet
+
+
+
+# Cách tạo children key trong HD wallet
+-> Đầu tiên, các seed trong HD wallet đều xuât phát từ root seed: root seed chạy qua HMAC-SHA512 sẽ tạo ra 2 hash sử dụng để tạo master private key và master chain code. Master private key lại đc dùng để tạo ra master pubkey. 
+Root seed ở đây có thể là 1 private key gốc trên cả master private key
+
+-> HD wallets dùng child key derivation function(CKD) để tạo child key từ parent key. Child-key derivation function là thuật toán 1 chiều kết hợp: parent pubkey, seed là chain code(256 bits), an index number(32 bits). Điều này cũng đúng khi tạo grandchild từ child.
+Chain code dùng để tạo random data, để dù biết index và public child key cx k thể tìm đc sibling.
+=> Parent pubkey, chain code, index number được kết hợp và hash qua HMAC-SHA512 để tạo 512 bits hash. Cái hash này sẽ tách 2 nửa, right-half 256 bits trở thành chain code for child, left-half sẽ cùng với parent pivkey tạo ra child pivkey, mà left-half cùng với parent pubkey sẽ ra child pubkey. Without the child chain code, the child key cannot be used to derive any grandchildren either. Nên 1 người lạ sở hữu 1 pivkey suy ra được pubkey vẫn sẽ k thể tìm đc sibling(vì cần chain code của parent), parent(hiển nhiên), child(vì cần chain code của chính nó, cái mà lấy cũng phải có chaincode của parent), hắn chỉ có thê sử dụng 1 address đó mà thôi vì k biết chaincode. 
+
+=> Tức cấp cao nhất là ta có sẵn: master pivkey, master pubkey, master chaincode.
+Chỉ cần master pubkey, master chaincode, index number là tạo được child chain code và child pubkey(do biết parent pubkey), nếu có thêm master pivkey sẽ tạo được child pivkey. Nên nhớ nếu có pivkey mọi TH sẽ luôn suy được pubkey của chính nó.
+
+--> Extended key là key + chain code vì với 2 cái này có thể tạo ra các children key. Nó được biểu diễn là cụm 512 bits đó. 
+Public key + chain code có thể tạo ra cả nhánh public key con luôn, nhưng k bt private là gì => Đây là 1 điểm lợi của HD wallet khi tạo pubkey mà k cần biết pivkey là gì. Khi tạo bằng pubkey, ta có thể sử dụng nó để nhận nhưng lại k dùng đc, chờ cho đến khi vào 1 server an toàn hơn k bị theo dõi thì có thể derive all corresponding pivkey sau để sign transaction và dùng money thoải mái. Chính vì k có pivkey từ đầu nên an toàn tuyệt đối, k có pivkey để mà hack luôn ấy. Nếu k có HD wallet, ta có thể làm tương tự với wallet khác là tạo sẵn ra hàng nghàn địa chỉ bitcoin trên secure server và preload chúng sang server cần dùng, cách làm này rất cồng kềnh.
+
+Ứng dụng: chỉ cần giữ extended pubkey key(xpub) online và tạo ra bao nhiêu địa chỉ nhận tiền tùy ý từ nó, còn pivkey lưu offline trên thiết bị hardware or paper wallet. Để sử dụng tiền, user dùng pivkey master + left 256 bits sinh ra child pivkey và dùng tiền có trong address tạo từ child pubkey bình thường.
+
+-> Cải tiến:
+VD: khách hàng gửi tiền vào address nhưng chỉ có 1 address, ta thắc mắc là khách nào gửi bao nhiêu. Nếu như nhiều khách trả cùng 1 số tiền thì rất dễ lẫn. Khi đó ta có thể dùng HD wallet để tạo ra nhiều pubkey mà kb pivkey là gì. chủ cửa hàng sẽ load cái extended pubkey lên website, sau đó với mỗi customer sẽ derive 1 địa chỉ khác nhau unique. Như v là phân loại đc khách nào gửi vào địa chỉ nào. Bảo mật tuyệt đối như đã nói ở trên. 
+Còn làm sao để tạo ra mỗi địa chỉ khác nhau vì ta k thể để người dùng tự tạo pubkey rồi tạo address từ cái extended key + index number do họ tự chọn được vì 2 người có thể chọn cùng index number => có nh phần mềm hỗ trợ điều đó, VD Mycelium Gear dùng xpub để tạo ra 1 unique address cho mỗi purchase. Quy trình nó lấy extended key và tạo index number k trùng nhau để sinh ra 512 bits và lấy left 256 bits + parent pubkey tạo child pubkey và xử lý thành address show cho người dùng. Left 256 được lưu lại để người chủ sau này muốn lấy tiền chỉ cần cung pivkey gộp với left 256 đó để lấy pivkey con tiêu tiền trong address
+
+Điều đó đồng nghĩa chain code của parent sẽ bị lộ cho ứng dụng để tạo địa chỉ vì ta show cả cái extended pubkey ra mà. Nếu pivkey của 1 child nào đó bị lộ thì nó có thể dùng để derive all other grandchild. Để tránh điều này, HD wallet dùng 1 alternative derivation function là hardened derivation làm mất mối quan hệ giữa parent pubkey với child chain code.
+=> Giải thích: có phải parent chain code đã bị lộ, parent pubkey cx bị lộ -> tìm ra được child chain code. Mà child pivkey bị lộ thì có phải từ đó lộ hết các con của child k. Hardened child key derivation sẽ khiến public key của parent dù biết cx k thể tạo ra child chain node đc nx mà phải là parent private key cơ. Tức parent public key vẫn dùng để tạo ra child public key nhưng k tạo ra chain code đc nx mà phải dùng private.
+Cơ chế: để tạo ra child chain code, nó phải dùng parent private key, parent chain code, index(khác mỗi parent pivkey thay cho parent pubkey trong công thức hash HMAC-SHA512, còn lại như nhau) => bây giờ, ban đầu ta gửi 1 extended key cho ứng dụng thì nó tạo ra các pubkey của child của nó. Nó k thể tạo được grand child hay kiểm soát gì grand child nữa. Nếu 1 child lộ pivkey thì chỉ child đó mất, grandchild của child đó vẫn còn luôn vì k biết chain code của child đó. Child pubkey vẫn được tạo từ parent pubkey
+
+--> Tuy nhiên để dùng đc cả 2, họ chia index ra 2 khoảng: index từ 0 đến 2^31-1 là normal derivation; index từ 2^31 đến 2^32-1 chỉ sử dụng cho hardened derivation. Họ chia ra vì các child private key và chain code tạo ra bởi hardended private derivation khác hoàn toàn so với normal derivation. Để dễ đọc hơn thì người ta gọi first hardened child là 0'(tức 0x80000000), tương tự các vị trí tiếp theo là 1'(0x80000001), 2',... còn normal derivation vẫn là 0, 1,..
+Vd: HD wallet index i' tức là index của nó là 2^31 + i
+
+Họ quy ước ký hiệu các identifier cho key trong HD wallet. pivkey từ master pivkey là "m", pubkey từ master pubkey là "M". Các index của con sẽ là /<index>
+Vd: m/0'/1 thì trong 1 pivkey tạo từ master pivkey, ta tạo ra con của nó với hardened derivation xong lại tạo con thứ 2 của nó với index là 1 thì sẽ như v.
+
+---> Mỗi parent có thể có 4 tỷ con: 2 tỷ con normal và 2 tỷ con hardened. Mỗi con lại có 4 tỷ con khác. depth có thể vô hạn tùy ý ta. Vc navigate giữa infinite tree có thể khó khăn nên có 2 standard nx giúp điều đó dễ dàng.
+
+----> BIP-43 sử dụng first hardened child index như 1 identifier biểu thị purpose của tree. VD: 1 HD wallet chỉ sử dụng nhánh m/i'/ biểu thị 1 mục đích sử dụng nào đó đc identified bởi number i. VD: ta dùng kiểu nhánh m/1' là để mua đồ ăn còn m/2' là để trả tiền học chẳng hạn. 
+
+----> BIP-44 là cấu trúc cây bao gồm các trường được định nghĩa sẵn, các ví theo BIP-44 sẽ có các nhánh như sau(predefined): 
+m/purpose'/coin_type'/account'/change/address_index
+purpose luôn là 44'
+coin_type là loại coin nào. Có 3 loại xác định sẵn là m/44'/0' là bitcoin; m/44'/1' là Bitcoin Testnet; m/44'/2' là Litecoin
+account là user có thể chia ra tùy loại ví khác nhau. VD user chia ra 2 account bitcoin là m/44'/0'/0' và m/44'/0'/1'
+Nên nhớ HD wallet có 2 subtree 1 cho nhận, và 1 cho thối. thì change là để thối còn address_index để nhận. Nó dùng normal derivation để có thể export extend pubkey ra nonsecured env.
+VD: the third receiving address for bitcoin payments in the primary account would be M/44'/0'/0'/0/2
+VD: M/44'/0'/3'/1/14 The fourteenth change-address public key for the fourth bitcoin account
+

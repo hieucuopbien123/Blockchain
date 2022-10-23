@@ -1,0 +1,211 @@
+Tổng quan thị trường: 
+Blockchain: chuỗi các block là sổ cái công khai, P2P network
+Đặc điểm của blockchain: tính bất biến, tính phi tập trung, tính minh bạch. 
+1 block: data, hash, hash của previous block
+3 cơ chế bảo mật: đổi 1 block phải đổi cả, POW tốn thời gian, mọi node xác thực
+Smart contract: chỉ là đặt thêm điều kiện, tiny program trong block -> bitcoin k có, ethereum có
+Permissioned(private) blockchain: có phân quyền, riêng tư, ít phi tập trung
+Permissionless(public) blockchain: công khai
+Bitcoin: POW, 10 phút, tìm nonce(1-4 tỷ), ASIC, tính tổng tiền từ unspent output
+Ý nghĩa của coin: động lực đào
+Chi tiêu kép: ngăn bởi cơ chế đồng thuận, chữ ký số đảm bảo duy nhất.
+POS: Cardano, chọn validator đặt cọc stake, POS dùng tiền và POW dùng NL
+Các ứng dụng của blockchain: track theo dấu 1 cái gì đó, veryfi thật giả, tin tưởng cá cược, lưu data và phân quyền.
+Chữ ký số: pub và piv, pub xác nhận signature tạo từ đúng piv key hay k, tính k thể chối bỏ khi xác nhận bằng khóa riêng.
+DApp: ứng dụng phi tập trung, chọn blockchain có sẵn
+Nền tảng Etherium cho phép tạo Dapp trên nó, sử dụng smart contract, ETH
+Dev: Core(C++,Go,Hashkell), Software(JS,Solidity), Library/framework/tools(Web3,React,Ethers,NodeJS,Metamask,Ganache,truffle)
+Fiat: tiền chính phủ
+Cefi: bên thứ 3
+Defi: nên tài chính phi tập trung
+PolyNetwork: nền tảng Defi
+Cold Storage: ký trans offline, online thì transmit
+Sàn Binance: nơi mua bán coin, đổi tiền
+Binance Chain: chain của sàn Binance, NBN
+Binance Smart Chain: dùng Smart Contract, dùng song song với Binance Chain
+V-Chain
+token: dùng trên 1 blockchain khác, phát hành từ ICO, Token ERC20 của Etherium, là phần thưởng trong ứng dụng cụ thể hơn
+Altcoin
+Stablecoin: token k bị biến động giá
+ERC20: tiêu chuẩn phát triển token
+Infura: cung Etherium API
+
+Part 1: 
+consensus mechanism: POW
+consensus rules: quy tắc vd chỉnh difficulty
+-Ví: ứng dụng tương tác với hệ thống bitcoin; desktop full client, mobile lightweight(SPV), web third party(API); gửi trans lên blockchain network; k chứa coin mà key; thực hiện offline, online transmit; sinh cặp key; output k thể chia nhỏ->tự gửi tiền thừa; 
+BitcoinCore: thao tác với bitcoin network full client
+Trans input - trans output = trans fee
+Cross-compiler; Toolchain
+Full-node: duy trì mạng, chuyển tiếp giao dịch, node ẩn sau tường lửa k nhận trans, node công khai, k cần bên thứ 3
+Piv key->sinh signature->pub key xác nhận signature k cần pivkey
+Base58Check: khác Base64, thêm checksum, ngắn, dễ nhìn, loại bỏ ký tự na ná nhau
+-Pivkey random(0-2^256) bằng CPRNG->raw 32 bytes
+   Uncompressed PivKey
+     Biểu diễn hexa k có prefix
+     Biểu diễn Base58: thêm prefix 0x80->thêm checksum 4 bytes vào cuối->Base58Check bắt đầu bằng 5 (WIF)
+       -> Uncompressed Pubkey: K=k*G ECC prefix là 04, cộng G vào k lần, mỗi lần cộng là vẽ tangent line + reflex
+   Compressed Pivkey: mã hóa hex-> thêm 01(hex-compressed)->encode base58 bắt đầu bằng K or L(WIF-uncompressed)
+     -> Compressed Pubkey: K=k*G prefix là 02 nếu chẵn, 03 nếu lẻ vì có y^2 trong hàm
+->Address: thêm prefix 0x00->A = RIPEMD160(SHA256(pubkey))->thêm checksum 4 bytes ở cuối->biểu diễn address Base58Check bắt đầu với 1
+BIP-38: tiêu chuẩn chung; pivkey(WIF) bắt đầu bằng 5->thêm passphrase + BIP-38-> encrypted key(BIP-38) bắt đầu bằng 6P-> lưu trữ; Khi dùng->cung passphrase-> convert ngược sang WIF
+-P2PKH: pay to addresss is hashed pubkey bắt đầu bằng 1->cung signature from pivkey and pubkey-> pubkey check signature + hash pubkey compare with address
+  =>cải tiến P2SH: BIP-16; thỏa mãn thêm script được tạo ra như số tiền, multisign; tạo address: A=RIPEMD160(SHA256(script))-> hexa thêm prefix 0x05-> Base58 prefix 3; 
+Vanity address: address contain human readable
+Paper wallet: chặn hack pivkey online, keylogger; lộ được khi kết hợp BIP-38; 
+-Nondeterministic wallet(JBOK wallet/Type-0 wallet): keys k có qh; 1 address 1 loại trans; tạo sẵn 100 pivkey; ví lưu tất cả pivkey-> lưu tất cả địa chỉ cũ;
+ Deterministic wallet: passphrase(seed) cho master key; các keys sinh từ master key có index number; chọn fee; 
+   => HD wallet: 1 dạng deterministic wallet, BIP-32; cây; 
+Trezor: ví lạnh 2 nút, sinh seed + BIP-39 cho ng dùng backup;
+-seed dùng mnemonic code word(BIP-39); 
+  seed sang word: SHA256 128 bits-> thêm checksum vào cuối thành 132 bits-> chia từng đoạn 11 bits-> ánh xạ từ điển 
+  word sang seed: PBKDF2 (sẽ stretch từ 128->512) nhận salt("mnemonic" + passphrase) và mnemonic, thực hiện 2048 vòng hash với HMAC-SHA512-> 512 bits seed;
+    root seed-> HMAC-SHA512 512 bits-> master pivkey + master chain code
+      master pivkey-> master pubkey
+        extended key(parent pubkey + parent chain code) + index number-> HMAC-SHA512(CKD)-> child pivkey + child chain code-> tạo child k dùng pivkey của parent trong server nguy hiểm
+          child pivkey-> child pubkey
+            Lại sinh thêm grandchild tương tự
+        =>cải tiến: k lộ parent pivkey an toàn parent, vẫn lộ chain code cho ứng dụng thứ 3-> ứng dụng đó dùng parent chain code, pubkey, index-> child pivkey-> lấy tiền của các child-> fix: hardened derivation thay pubkey thành pivkey thôi
+          index: 0->2^31-1 là normal
+          index: 2^31->2^32-1 hardened dùng '
+            Mỗi parent có 2 tỷ hardened, 2 tỷ normal=> navigate khó=> BIP-43 / BIP-44
+              BIP-43: chia theo purpose
+              BIP-44: m/purpose'/coin_type'/account'/change/address_index
+
+Part 2: 
+double-entry: 2 tài khoản
+UTXO: unspent output-> UTXO set. 
+coinbase trans: đầu tiên
+-trans outputs: vout arr(gửi + change)->mỗi cái có scriptPubKey + value(coin)
+  truyền đi: serialized byte stream-> transmit
+  lưu lại: deserialization(parse)-> lưu data structure 
+input: vin arr 1 ptu(con trỏ tới hash UTXO cũ; unlocking script; sequence number); serialized-> transmit; 
+fee tính từ kích thước trans, fee thấp có thể k đc thực hiện, fee k đều để tránh tắc, k set change mặc định sẽ thành fee hết là toang
+script language: thông dịch, phạm vi nhỏ trong Ct khác; trong bitcoin script lang bị gh, stateless; 
+-Push vào stack: unlocking_script locking_script trả ra TRUE/FALSE lên stack; 
+=> cải tiến: execute unlocking_script-> copy mainstack->execute locking_script-> trả TRUE/FALSE;
+-ECDSA tạo signature 2 phần: 
+  thuật toán tạo signature bằng pivkey từ trans
+  thuật toán cho phép bất cứ ai cũng xác thực được signature
+    Sig=Fsig(Fhash(tran),pivkey)=(R,S)=> serialized R,S thành bytestream(DER)-> SIGHASH flag: 1 byte thêm vào cuối-> xác thực 1 phần trans, 1 input; 
+      kết hợp với modifier flag định kiểu input
+  tạo temp pivkey từ random number k-> tạo temp pubkey; mỗi trans tạo k khác nhau với deterministic-random process seeded with trans data; 
+balancer: phần tiền còn lại
+-Multisignature script: M-of-N scheme; locking script: M <key> N CHECKMULTISIG; thêm 0 ở đầu đủ tham số; 
+  =>Cải tiến P2SH: thay locking script bằng cryptographic hash; unlocking script chứa script match cái hash; có 3 script: 
+    Redeem Script: M <N keys> N CHECKMULTISIG
+      any valid script
+        =>mở rộng: mọi loại giao dịch dù phức tạp đến mấy, locking script vẫn ngắn
+    Unlocking Script: <N Sig> <redeem script>
+      Lỗi nhận cả invalid redeem script
+    Locking Script: HASH160 <20 byte hash of redeem script> EQUAL
+      RIPEMD160(SHA256(redeem script))
+      =>Locking script ngắn gọn hơn; giảm tải cho người gửi vào và kích thước trans, phức tạp cho người spent, giảm fee cho khách hàng; 
+      ->có đúng redeem script-> unlocking script được thực thi trên chính nó
+    BIP-13 encode script hash thành address
+      P2SH thêm version prefix 5 vào address-> Base58Check prefix là 3: báo hiệu là địa chỉ ứng với 1 script chứ kp 1 pubkey.
+-nonpayment data: 0 coin, UTXO kbh spent, blockchain bloat, proof-of-existence 
+  Proof-of-existence: 8bytes prefix DOCPROOF encoded hexa
+  =>cải tiến RETURN: add 80 bytes nonpayment data, k lưu trong UTXO set tránh bloat, chiếm disk storage, lưu dạng hash, k có unlocking script như UTXO.
+-nLocktime: tg sớm nhất giao dịch valid, default 0;
+  < 500 triệu: valid theo blockheight
+  > 500 triệu: valid theo times
+  =>cải tiến kết hợp cùng CLTV: timelock placed on locking script của 1 UTXO chứ k nằm trong trans tránh lừa đảo; BIP-65;
+    A trả vào B sau 3 tháng-> A thêm opcode vào redeem script: blockheight/time value->Bob tạo trans refer tới UTXO với sig+pubkey+nLocktime(>timelock A set)-> Cả 2 đều k thể tác động trong 3 tháng; giao dịch đã xảy ra và bị lock trong 3 tháng tốt hơn là giao kèo 3 tháng sau tự thực hiện giao dịch; 
+-Relative timelock: thực hiện sau 1 giao dịch nào, 2 loại:
+  trans-level nSequence: set trong mỗi input, value < 2^32, diễn ra trong mempool-> nSequence đủ lớn-> thực hiện; BIP-68;
+    BIP-68 define nSequence 32 bits
+      0-15: bits giá trị
+      22: type flag
+        set: nSequence bội số 512s
+        k set: nSequence là số block
+      31: disable flag
+        k set: relative locktime
+  script-level timelock: BIP-112; opcode CSV; nSequence >= CSV para thì được spend; CSV value, nSequence cùng kiểu val: số block or seconds;
+-Median-Time-Past: BIP-113; trễ mạng, miner làm giả timestamp
+  => khắc phục: trung bình timestamp 11 block trước đó, tầm < 1h thời điểm hiện tại->dùng để tính toán thời gian; 
+-Fee snipping: đào lại block cũ thêm trans nhiều tiền kiếm fee cao(cả trans mới)
+  => khắc phục: new trans sẽ có nLocktime là #current block + 1 để block cũ k thêm đc các trans mới
+
+Part 3:
+bitcoin network: flat-topology, bitcoin p2p protocol; server kết nối vào bitcoin network-> other protocol;
+-Node có 4 func CB:
+  routing node: lan truyền, duy trì p2p
+  fullnode: k cần lấy dữ liệu external  X  lightweight: subset of blockchain
+  mining node: cạnh tranh bài toán kho
+  wallet
+  Pool server/Stratum server: gateway router cầu nối với protocol khác
+Bitcoin Relay Network: tăng tốc sync, giảm độ trễ
+1 node mới tham gia mạng: tìm peer đã từng kết nối trước đó-> k có peer đó-> query DNS seeds list IP tĩnh-> chọn random-> tạo TCP connection 8333-> thiết lập handshake gửi version message-> peer gửi verack-> dùng node mới là seed connect tiếp node mới khác-> ghi nhớ node thành công để dùng lại
+Block height: số block nằm trước
+1 fullnode kết nối: chỉ có genesis block-> kết nối vào mạng như trên-> gửi version message chứa bestheight->trao đổi getblocks-> so sánh top block-> inv message share 500 blocks đầu tiên-> k có block nào-> gửi getdata-> peer trả ra các block để cập nhập
+-SPV node: chỉ tải header; xác thực giao dịch phụ thuộc block khác: tạo kết nối với trans bằng merkle path; tự connect serveral node để an toàn; getheaders;
+  =>cải tiến: kết nối với trans từ node khác-> lộ địa chỉ sẽ kết nối với node nào-> SPV tạo list address, key, hash add vào Bloom filter->Bloom Filter: set N bit digits là 0, M hash func-> thêm trans A vào M hash function-> lấy giá trị số từ 1-N-> đổi bit trùng số từ 0 sang 1-> search pattern-> SPV gửi filterload chứa bloom filter cho peer-> Peer dùng bloom filter check trans-> peer send merkle block message chứa header thỏa mãn(block header + merkle path link)-> SPV dùng merkle path connect tới trans cần lấy-> peer send tx mess chứa trans thỏa mãn-> SPV discard trans k cần-> update UTXO-> modify bloom filter
+  =>cải tiến: SPV bị người khác can thiệp vào connection lấy data
+    Tor network
+    P2P authentication and Encryption
+      BIP-151: 2 nodes hỗ trợ thiết lập encrypted connection
+      BIP-150: 2 nodes lập connection BIP-151-> xác thực nhân dạng nhau với ECDSA và pivkey
+-Transaction Pool(mempool): verified but unconfirmed trans-> node khác confirm-> propagate trên mạng
+ Orphan Pool: trans k cha
+  =>2 pool lưu trong local memmory; 
+ UTXO pool: confirmed trans lưu trong persistent storage
+Dưới 6 block k thể đổi
+-Block: blocksize(4 bytes); block header(80 bytes); transaction counter(1-9 bytes); transactions(variable-size);
+  header: prevhash(32 bytes); version(4 bytes); metadata(difficulty(4 bytes), timestamp(4 bytes)); nonce(4 bytes); merkle root(32 bytes);
+  Tạo merkle root: Ha=SHA256(SHA256(Transaction A)) mọi trans-> Hab=SHA256(SHA256(HA+HB)) tạo 1 node của tree-> tương tự được merkleroot
+    trans lẻ-> nhân đôi trans cuối
+    check trans trong tree: check max 2*log2(N) cal; check 1 block chứa trans k chỉ với header;
+Testnet: reset; hỗ trợ y hệt mainnet;
+Segnet: special purpose
+RegTest: tạo từ scratch, mình ta thấy
+
+Part 4:
+deflation: cung giảm
+-người dùng ví tạo transaction gửi tiền đi-> ví thu thập các UTXO cần thiết-> cung unlocking script cho các UTXO đó-> tạo trans với output mới cho new owner-> trans gửi cho node neighbors-> neighbors xác thực-> valid-> gửi tiếp cho toàn bộ mạng-> các node nhận được xác thực-> cho vào mempool-> block mới nhất được đào xong-> lọc các transaction trong mempool bị trùng-> tạo 1 block mới-> add trans còn lại trong mempool vào block mới-> tính fee-> tạo coinbase thêm reward và fee-> thêm coinbase vào block-> đào block đó.
+-coinbase: reward giảm 1 nửa mỗi 210000 block; input is nothing; default mọi bits là 0; thay unlocking script bằng coinbase data; first trans;
+  coinbase data: 2-100bytes; byte đầu chứa version=2, block height,.. + thông điệp
+    thông điệp thường là báo hiệu hỗ trợ tính năng nào or thêm nonce 
+-Đào block: tìm nonce < target; tự chỉnh difficulty; tăng diff bằng cách thêm 0 ở đầu-> giảm target;
+  target = coefficient * 2^(8*(exponent - 3)); coef là 4 byte đầu, expo phần còn lại là target bits của 1 block
+POW retarget: Old target*(actual time of last 2016 blocks/20160 minutes); chỉnh max 4 lần; 
+ASIC: trăm nghàn IC đính sẵn SHA256 algs kết nối mining node qua USB or LAN-> mining node truyền block header tới hardware-> hardware tìm nonce-> tìm được nonce mà hash block nhỏ hơn target-> gửi cho peer-> peer xác thực, cập nhập chain của họ-> dừng đào same block, tính next block với block kia làm parent.
+-1 node có: mainchain, secondary chain, orphans blocks k có parent.
+  mainchain: nhiều height cao hơn or cùng height với sencondary nhg nh NL hơn
+  nhận 1 block
+    thêm vào mainchain-> mainchain k đổi
+    thêm vào secondary chain-> ss 2 chain
+      secondary lớn hơn main chain-> thay thế mainchain
+      secondary nhỏ hơn-> mainchain k đổi
+    k tìm thấy parent ở cả 2 chain-> thêm vào orphans pool chờ parent đến
+  càng nh work thực hiện, mainchain càng rõ ràng và sẽ chọn ra được mainchain cuối cùng, node chỉ chọn chain nhiều cumulative work nhất.
+Fork: đào cùng lúc-> chia 2 phe đào tiếp; thời gian càng lâu, fork càng ít xảy ra.
+-Chip cải tiến: tìm 4 tỷ giá trị k ra kq
+  => fix: đổi timestamp dịch lên thời gian vừa đào-> dễ invalid
+    => fix: đổi coinbase data tăng lượng nonce
+Pool: dùng pool-mining protocol; miner tạo tk trong pool-> được set higher target-> đào thành công nhận share-> đào tiếp đến khi 1 trong số miner thỏa mãn target của bitcoin-> gửi cho pool address-> pool chia cho mn theo số lượng work đóng góp;
+  Managed Pool: owner là pool operator; chạy full node access vào cả blockchain database; Các node connect qua pool-mining protocol như Stratum: Stratum tạo block template chứa candidate block header của pool-> pool tập hợp trans, thêm coinbase trans, tính merkle root, lk hash trước đó-> gửi header đó cho miner-> miner đào với block template đó có target cao hơn-> gửi kết quả để earn share; Mỗi node k cần là fullnode nx;
+  P2P mining pool: vì managed pool có pool operator có thể cheat; share chain; miner đào 1 share block mỗi 30s; 1 share block chứa tỉ lệ share cho miner; 1 share block thỏa mãn target bitcoin network-> truyền block vào blockchain-> gửi reward cho miner; Mỗi node phải là full node, tự tạo và thêm trans vào share block; NL giảm nhưng có thể 51% attack;
+51% attack: valid->invalid by fork below them; 
+-Hard fork: tách k hợp lại; đổi consensus rule, 2 nhánh hoạt động với 2 consensus rule khác nhau;  
+  Dev đổi consensus rule-> deployed cái fork lên network-> 1 tỉ lệ các miner, wallelt, node trung gian chạy cái implementation mới này-> hard fork xảy ra tại 1 block khi block này mine bằng rule mới.
+    NL bị chia theo tỉ lệ số miner ở 2 nhánh-> thời gian đào tăng-> tỉ lệ duy trì cho đến retarget tiếp theo sau 2016 blocks-> cân lại difficulty-> 10p
+      Nhánh nhỏ hơn sẽ giảm capacity mỗi block để đào nhanh hơn và tương tự...
+-Consensus rule đổi-> block mới ra đời vẫn tương thích client dùng consensus rule cũ-> soft fork; k cần upgrade rule vẫn hđ bth với block tạo từ rule mới
+  Tạo softfork
+    đổi NOP opcodes: NOP1 đến NOP10 vô dụng
+    dùng segwit
+  Activate soft fork: đồng ý dùng new consensus rule-> dùng signaling mechanism: BIP-34, BIP-9
+    BIP-34: block version field ở header báo hiệu dùng đc consensus rule change; trường coinbase data phải chứa block height; quy định version >=2 nếu ng dùng báo hiệu dùng đc BIP-34; Khi soft fork BIP-34 activate, mọi block version 1 sẽ invalid kể từ đây; consensus rule activate qua 2 giai đoạn
+      75% of the most 1000 blocks dùng consensus rule mới
+        cả 2 consensus rule mới và cũ tồn tại song song
+      95% of the most 1000 block dùng consensus rule mới
+        mọi block dùng consensus rule cũ là invalid
+    BIP-66: version 3
+    BIP-54: version 4
+    => cải tiến BIP-9: signaling mechanism tiếp theo vì signaling mechanism BIP-34 chỉ cho 1 soft fork(1 proposal) 1 lúc, k thể giảm version, hủy new change; dùng 29 bits + 4 version như cũ-> có thể có 29 thay đổi; set timeout for activation và signaling; max 29 thay đổi có thể được báo hiệu đồng thời;
+      Nếu max time đã qua mà chưa activate thì reject-> submit proposal bit khác, làm mới timeout; timeout qua, tái sử dụng bit cho new feature khác;
+Proposed Change: name(BIPN), bit(block version) báo hiệu dùng proposal nào, starttime bắt đầu proposal, endtime: chưa activate sau endtime sẽ reject
+    vượt quá 95% + sau retarget period tiếp theo sẽ thực hiện; DEFINED state-> MedianTimePast >= starttime -> STARTED state
+      75% sử dụng + timeout chưa exceed-> LOCKED_IN state-> đợt retarget tiếp theo, ACTIVE state-> vĩnh viễn ACTIVE
+      timeout đã qua-> FAILED-> đợt retarget tiếp theo, REJECT
