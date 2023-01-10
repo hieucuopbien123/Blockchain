@@ -90,3 +90,15 @@ EVM dùng ngôn ngữ riêng của nó "EVM bytecode". Ta thg viết bằng ngô
 --> EVM có memory lưu dữ liệu dưới dạng các mảng byte. Memory k ổn định, k lưu dữ liệu lâu dài
 --> EVM có storage lưu dữ liệu non-volatile và được duy trì như 1 phần state của hệ thống. Nó lưu mã Ct trong ROM ảo chỉ có thể truy cập thông qua các lệnh đặc biệt, cũng là non-volatile mem.
 
+
+
+# Tên miền trên Ethereum
+Mỗi địa chỉ ví là duy nhất nhưng rất dài và phức tạp khó nhớ, ENS (Ethereum Name Service) ra đời giải quyết vấn đề.
+VD 1 địa chỉ dài trên ethereum 0xb1j123h213 trở thành abc.eth rồi ta có thể gửi tiền vào abc.eth thay thế cho địa chỉ dài ngoằng kia cũng như search nó trên etherscan được.
+
+Nó giống với DNS của web 2.0, cái này chỉ dùng cho blockchain ethereum. K bị kiểm soát k bị chặn, có thể biến thành NFT token ERC721 để bán được, có thể đặt tên bất kỳ tùy ý miễn k bị trùng, giảm sai sót khi check địa chỉ.
+Có thể mua tên miền ens trên các website bán thoải mái như tên miền bth, trả vài đô 1 năm. Mất phí duy trì và phí gas. Từ 1 host, có thể tạo ra nhiều subdomain con free, chỉ mất fee gas thôi. 
+
+Các blockchain khác cũng có tên miền như .bitcoin, .sol, .near, .crypto, .wallet,... 
+
+

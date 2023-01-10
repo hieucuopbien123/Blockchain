@@ -1,0 +1,8 @@
+PI dùng FBA, do các nhà khoa học đứng sau chuỗi Stellar nghĩ ra. 
+Sự đồng thuận đạt được thông qua 1 loạt cac cuối bỏ phiếu thông qua trao đổi thông điệp. 
+PI dùng lớp FBA bổ sung mỗi nút thiết lập các Quorum slice của riêng mình. Các nút phải tự xác định xem có tin tưởng nút khác không và k dựa vào cơ quan trung ương làm điều đó. Thuật toán bỏ phiếu tương đối nhẹ và tốn ít năng lượng.
+
+
+
+
+

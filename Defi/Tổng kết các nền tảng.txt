@@ -1,0 +1,73 @@
+Huobi: sàn tập trung order-book; ví CEX
+Binance: sàn tập trung order-book; ví CEX
+Bittrex: sàn tập trung order-book; ví CEX
+Okex: sàn tập trung order-book
+Remitano: CEX; ví CEX
+Kucoin: sàn tập trung order-book; ví CEX
+Serum: sàn phi tập trung order-book
+Uniswap: sàn phi tập trung AMM
+Pancakeswap: sàn phi tập trung AMM trên BSC
+Sushiswap: AMM DEX của ethereum
+Honeyswap: AMM DEX trên xDAI là layer2
+Coin98: AMM DEX; Ví defi; web tổng hợp tin tức về blockchain
+Coinbase: CEX, ví cefi
+Bancor: sàn phi tập trung AMM nhưng phải đặt cọc
+Mooniswap: AMM DEX của ethereum
+Balancer: AMM DEX của ethereum nhưng có nhiều loại pool
+Justswap: AMM DEX của Tron
+Airswap: AMM DEX
+FutureSwap: AMM DEX; Future/Perpetual Trading
+Flamingo: AMM DEX của NEO; Future/Perpetual Trading
+MakerDAO: Cho vay; Đấu giá trên ethereum
+Synthetix: Cho vay; phái sinh; tài sản tổng hợp
+Tether: nền tảng centralized trên ethereum và bitcoin cho derivative và spot trading
+VouchForMe: công ty bảo hiểm defi
+Matcha: sàn chứng khoán(broker) defi
+Metamask: ví defi
+MyEtherWallet: ví defi
+IDEX: DEX
+Oasis: Cho vay
+Compound: Cho vay
+Opyn: Decentralized Insurance về kinh tế và kỹ thuật; decentralized option
+Idle: phái sinh phi tập trung
+Hegic: phái sinh phi tập trung; decentralized option do user tùy biến và tokenize option nhưng không bán được
+Tokenlon: Tài sản tổng hợp
+Bounce: DEX AMM trên BSC
+AnySwap: DEX AMM trên BSC
+AAVE: Cho vay
+Chainlink: decentralized Oracle về giá cả
+Band: decentralized Oracle về giá cả, thời tiết,.. trên COSMOS
+Tellor: decentralized Oracle về giá cả
+Dia: decentralized Oracle
+Nest: decentralized Oracle về giá cả
+Nexus Mutual: decentralized insurance về risk smart contract
+KyberSwap: DEX AMM của KyberNetwork trên ethereum
+OpenLaw: platform tạo văn bản pháp lý trên ethereum
+Curve: DEX AMM dành cho stable assets
+3F Mutual: Bảo hiểm defi chỉ dành cho MakerDAO
+YEarn: dùng Fair Launch; lending/borrowing; Insurance; AMM
+UMA: Synthetic assets
+COSMOS: mạng lưới phi tập trung kết nối nhiều blockchain với nhau
+CoinGecko: web tổng hợp tin tức về blockchain
+dYdX: DEX Ethereum order-book; lending, borrowing; spot trading; perpetual trading; margin trading
+Polkadot: mạng lưới phi tập trung kết nối nhiều blockchain với nhau
+Kava: cross-chain cho vay; đấu giá
+Swipe: multi-currency wallet centralized; crypto debit card; lending/borrowing
+Swipe network: AMM DEX; lending, borrowing trên ethereum và bsc
+Augur: decentralized oracle; protocol for prediction market
+Gnosis: decentralized prediction market
+Omen: decentralized prediction market
+PlotX: decentralized prediction market
+PolyMarket: decentralized prediction market dùng layer2
+PredIQt: decentralized prediction market trên chain EOS hiệu suất cao hơn ethereum
+DDEX: order-book DEX; margin trading
+Nuo: order-book DEX; margin trading
+MCDEX: Future/Perpetual Trading; AMM DEX; Orderbook DEX
+Perpetual Protocol: Future/Perpetual Trading; Leveraged AMM trên ethereum dùng layer2 xDAI
+BitMEX: derivatives; exchange
+ACO: decentralized option cho phép thanh toán bằng cash or token, cho phép tokenize option và bán được
+Power Trade: decentralized option
+Primitive: decentralized option
+Pods: decentralized option protocol quy định, cho phép tokenize option và bán được
+Opium: decentralized option protocol quy định, dùng order-book
+Rose.fi: liquidity mining, yield farming trên aura

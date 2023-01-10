@@ -1,0 +1,11 @@
+Decentraland(MANA) là 1 nền tảng thực tế ảo VR hỗ trợ bởi Ethereum. Viết bằng C# unity, Typescript,.. Người dùng có thể mua đất trên thế giới ảo này, tùy ý sáng tạo, xây dựng bất cứ thứ gì trên mảnh đất mua ở đó. Ta có thể trải nghiệm với tai nghe thực tế ảo hoặc browser(phải đáp ứng về cấu hình) để vào game. Nó là 1 loại dự án metaverse như Sandbox,..
+Người dùng có thể đặt quảng cáo, trò chuyện, bán đất,.. Mỗi địa chỉ sẽ vào được metaverse là 1 người trong thế giới
+Pavia tương tự Decentraland nhưng trên Cardano dùng PoS. Mỗi thửa đất được đúc thành 1 Cardano NFT và được đánh số duy nhất dựa trên tọa độ. 
+Ở thời điểm này, người dùng chưa làm gì được trên thửa đất của họ. 
+
+Pavia(PAVIA) 25% token đã được airdrop cho chủ sở hữu
+Pavia hợp tác với nền tảng hình đại diện trò chơi chéo có metaverse readyplayer.me để người dùng thiết kế hình địa diện tương thích bên ngoài hệ sinh thái Pavia trong hơn 700 ứng dụng và trò chơi
+
+Các lô đất đầu tiên được phân bố ngẫu nhien tôn trọng phân phối công bằng
+
+Bổ sung tính thanh khoản cho các sàn Cardano, bán thêm đất -> xây dựng giao diện Pavia.io -> cross chain, tăng khả năng tương tác -> sự kiện và các cổng thông tin

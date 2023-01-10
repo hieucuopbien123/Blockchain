@@ -1,0 +1,110 @@
+Các nền tảng defi khác
+
+
+
+# Oasis Network
+Là 1 blockchain layer 1. Token ROSE. Dùng PoS, tổng cung giới hạn 10 tỷ.
+Đặc điểm: nó là 1 blockchain bình thường cho phép xây dựng các ứng dụng phi tập trung chỉ là riêng tư hơn, nhanh hơn, khả năng mở rộng cao hơn (so với Ethereum truyền thống), bảo mật tốt. Để làm được v, nó có nhiều điểm khác biệt về cơ chế bảo mật cũng như tính năng khác mà các blockchain khác không có.
+
+Người dùng có thể stake data để nhận thưởng, gọi là tokenized data, các blockchain khác chỉ được stake token. Điều này dễ hiểu vì data cũng có giá trị như tiền. Data Provider stake data vào Oasis Network và nhận thưởng, Data Consumer trả phí và nhận về data. 
+
+Oasis có 2 thành phần kiến trúc chính tách biệt là:
+Consensus Layer: PoS thực hiện bảo mật, nó dùng SDK của Cosmos.
+Paratime Layer: là lớp phi tập trung cho phép bất cứ ai cũng có thể xây dựng được paratime của riêng họ. 
+=> Cái lớp paratime này cho phép khả năng mở rộng cao và hỗ trợ các nhu cầu tính toán chuyên biệt vì: nó lưu trữ nhiều thời gian chạy song song. Mỗi paratime đại diện cho 1 môi trường tính toán sao chép và chia sẻ được trạng thái cho nhau. Bất cứ ai cũng có thể tạo ra paratime cho 1 mục đích chuyên biệt như paratime tính toán bí mật, paratime được cấp phép, EVM paratime,...; Paratime là nơi xử lý phần tính toán được tách biệt khỏi phần đồng thuận nên nhanh hơn, mà phần tính toán người dùng tạo ra tùy ý theo ý họ phục vụ cho riêng mục đích cụ thể nên khả năng mở rộng cao
+
+Các paratimme riêng tư người dùng tạo ra có thể viết các ứng dụng trên đó, tạo ra các smart contract riêng tư. Nó mở ra các TH sử dụng mới như private lending, private AMM,.. với khả năng mở rộng cao vì người dùng có thể tùy ý chỉnh sửa paratime phù hợp với nhu cầu ứng dụng của mình như lớn hay nhỏ, mở hay đóng, chỉ mở cửa vào 1 khung giờ cụ thể chẳng hạn.
+=> Thêm nhiều tính năng thú vị vào blockchain trong khi chỉ cần duy trì cái cốt lõi là sổ cái đồng thuận. 
+Các paratime chạy song song nhau
+Phí chắc chắn thấp hơn ethereum và bitcoin. 
+
+Token ROSE: dùng làm phí giao dịch, staking hay delegator tại lớp đồng thuận; dùng trả thưởng cho các staker và delegator để bảo mật cho mạng lưới
+
+(Tránh nhầm với dự án rose.fi là 1 smart contract trên Aura blockchain, k liên quan gì đến oasis, chỉ là trùng tên token ROSE mà thôi)
+
+Oasis tạo ra nền kinh tế dữ liệu có trách nhiệm đầu tiên.
+Việc tách biệt đồng thuận và thực thi thành 2 lớp cho phép nhiều paratime xử lý các giao dịch song song làm cho khối lượng công việc phức tạp được xử lý trên 1 paratime không làm chậm các giao dịch nhanh hơn được xử lý trên 1 paratime khác
+Tính năng phát hiện giả mạo tinh vi trong oasis hiệu quả hơn sharding và parachain dù chưa hiểu vì sao nó nhanh và an toàn hơn
+
+Mạng oasis thiết kế ra paratime bảo mật đầu tiên với sự hỗ trợ của các smart contract bảo mật. Paratime đó sử dụng công nghệ tính toán là TEE(Trusted Execution Environment - môi trường thực thi đáng tin cậy)
+TEE hoạt động như 1 hộp đen giả định, dữ liệu mã hóa đi vào hộp đen cùng với smart contract và được giải mã, xử lý bởi smart contract và được mã hóa trở lại trước khi gửi ra ngoài TEE. Từ bên ngoài thì dữ liệu luôn trong trạng thái mã hóa nên được bảo mật và kbh rò rỉ. Có thể dùng nó với các thông tin cần bảo mật như dữ liệu sức khỏe cá nhân nhạy cảm, số an sinh xh, sao kê ngân hàng.
+Encrypted data + smart contract -> Secure enclave -> Encrypted Result
+
+VD: Nền tảng cryptosafe được phát triển bởi Oasis Labs và Binance cho phép các sàn giao dịch chia sẻ dữ liệu 1 cách bí mật giữa các sàn giao dịch về các mối đe dọa từ các cuộc tấn công
+VD: 1 nhà cung cấp dịch vụ chăm sóc sức khỏe muốn chia sẻ dữ liệu với bên thứ 3 trong khi vẫn giữ quyền kiểm soát dữ liệu và bảo vệ tính bí mật của dữ liệu bệnh nhân. Sử dụng API do Oasis Labs xd, công ty chăm sóc sức khỏe có thể quản lý, theo dõi, kiểm soát tất cả việc sử dụng dữ liệu ngay cả khi được chia sẻ với bên thứ 3, chứ kp chia sẻ ra là mất quyền kiểm soát data
+Vd: Công ty muốn cho người dùng kiểm soát dữ liệu di truyền của họ, nhờ oasis, khách hàng có thể giữ quyền sở hữu dữ liệu bộ gen của họ và công ty có thể phân tích dữ liệu mà k cần xem thông tin thô của khách hàng
+=> Khá mơ hồ
+
+
+
+# Ve(3,3)
+Phát triển bởi Andre Cronje(bố già DeFi, Yearn, Fantom blockchain) và Daniele(người đứng sau nhiều dự án DeFi 2.0, Wonderland) là KOL
+KOL: Key opinion leader là người dẫn dắt dư luận
+
+ve(3,3)(token SOLID): thì (3,3) chỉ win-win, mọi người tham gia đều thắng. Còn ve(vote escrow) là ký hiệu token được khóa vào pool. 
+VD người dùng lock CRV vào pool để nhận về veCRV, tức nó là phần thưởng tương tự nhưng kèm quyền biểu quyết. (3,3) tượng trưng mô hình OlympusDAO, người dùng stake càng nhiều OHM càng tốt.
+=> ve(3,3) khuyến khích người dùng lock token vào pool đồng thời tạo ra mô hình giá trị win-win cho người tham gia
+
+1 dự án ra đời muốn tạo doanh thu thì cần có người dùng trả phí. Nhưng 1 dự án mới ra thì làm gì có ai. Bình thường họ sẽ làm kiểu trả token để khuyến khích người dùng vào. Nhưng token cứ in mãi sẽ giá giảm và lạm phát.
+Cơ chế emission token: tùy vào tỉ lệ cung lưu thông, VD chưa có token nào khóa thì emission rate là 2 triệu. Nếu có 50% token khóa thì emisstion là 1 triệu và 100% thì giảm về 0.
+veCRV thì yêu cầu người dùng khóa token CRV vào càng lâu thì nhận càng nhiều veCRV. Khi đó họ dùng để quản trị, nhận fee giao dịch, boosting phần thưởng. Nhược điểm lại là vốn bị khóa cứng trong giao thức và k thể lưu thông được.
+Còn (3,3) là mô hình lý thuyết trò chơi của OlympusDAO. Nó cũng chỉ là khuyến khích người dùng stake càng nhiều OHM càng tốt. Lý do là vì giá trị tối thiểu của giao thức này là giá trị kho bạc mà nó sở hữu. Giá trị token càng cao thì lợi nhuận càng nhiều. Nhược điểm là giá trị OHM mint ra càng nhiều giá càng giảm.
+
+=> ve(3,3) là sự kết hợp 2 cái đó. Mọi người khóa tài sản vào và ăn phí. Emission rate diễn ra hàng tuần và toàn bộ token phân phối ra thị trường đều trao cho những ai khóa token. Điều này tạo động lực để người dùng khóa token vì khóa nó 1 tuần không unstake là nhận thêm khoảng 5% lượng bỏ vào r.
+Câu hỏi đặt ra là khóa để làm gì? nó sẽ hình thành dưới dạng NFT và được phép bán trên thị trường thứ cấp. Các NFT đó là token bị khóa hay gọi là bán quyền biểu quyết, ta có thể bán trên OpenSea chẳng hạn. Toàn bộ phí gửi hết cho người lock ve(3,3). Việc này khắc phục nhược điểm của CRV khi mà người dùng lock là bị khóa cứng luôn.
+Nếu có ai muốn lạm dụng stake token để chiếm quyền kiểm soát thì lượng token trả thưởng cho họ sẽ thấp lại, phòng ngừa rủi ro.
+
+ve(3,3) có 100% lượng token lưu hành thuộc về cộng đồng. K có nhà đầu tư hay private sale này nọ. Người dùng k thể mua SOLID theo hình thức bình thường mà nó phân phối cho 20 giao thức hàng đầu trên Fantom blockchain theo TVL. Nhờ v lượng ví blockchain fantom tăng vọt
+
+ve(3,3) khuyến khích thu phí giao dịch hơn là cung cấp thanh khoản. Dự án k cần tạo pool thanh khoản cho tài sản. Những người khóa tài sản vào giao thức sẽ nhận được 100% phí thu được từ các pool mà họ vote cho, ở chiều ngược lại, các pool có thể đặt mức phí cao hơn. 
+
+
+
+# API3
+API3(token API3) là nền tảng oracle cho phép các DApp truy cập vào dữ liệu và dịch vụ thế giới thực thông qua API, hay gọi là dAPI.
+API3 quản lý bởi tổ chức tự trị phi tập trung DAO, gọi là API3 DAO nên open source và minh bạch
+
+Thông thường API giúp ứng dụng và thư viện kết nối với nhau nhằm trao đổi dữ liệu. Nhưng để đưa các dữ liệu này vào blockchain là không thể vì API bình thường k hoạt động với smart contract. Điều này khiến cho blockchain là 1 mạng lưới khác nhưng cô lập với mạng lưới internet bình thường ta hay dùng v. API3 giải quyết vấn đề đó.
+
+API3 là token ethereum ERC20 giúp API truyền thống kết nối với hệ sinh thái blockchain. API3 dùng để quản trị API3 DAO, vote các upgrade.
+
+-> Cơ chế: Nó xây dựng bằng cách kết hợp nhiều oracle node do nhà cung cấp vận hành thành nguồn cấp dữ liệu tổng hợp, k cần bên thứ 3
+Thông thường ở các loại oracle trước đó có cơ chế kiểu nhét thông tin vào oracle và lấy thông qua các node của bên thứ 3 trung gian. Bởi vì các nhà cung cấp API gặp nhiều rào cản khi tự vận hành 1 oracle node riêng. Bởi vì các công ty quản lý dữ liệu không quen thuộc với blockchain, họ không có kiến thức về mảng này và cũng chẳng cần phải làm vậy. Oracle node vận hành tốn tài nguyên và chi phí, nhân lực. Vận hành oracle node bình thường sẽ phải thanh toán phí gas cho mạng lưới và giao dịch tiền điện tử rắc rối. 
+=> API3 loại bỏ bên trung gian bằng cách sử dụng luôn Oracle Node của bên thứ nhất(là nhà cung cấp dữ liệu gốc). Họ cho ra phần mền Airnode để nhà cung cấp API chuyển API của họ thành dAPI và mn vào thẳng nguồn trực tiếp. Như vậy sẽ phi tập trung hơn bản cũ. Lưu ý điều này khác với kiểu của The Graph nhé. Ở đây ta vẫn dùng Oracle nhưng bỏ node đi thôi. Cơ chế của Oracle là người dùng tổng hợp thông tin từ nhiều node để cho ra kết quả cuối đúng nhất khác với Graph là chọn 1 subgraph để lấy thông tin vì đã tin tưởng subgraph là đã phi tập trung sẵn r.
+Với phần mềm Airnode thì các nhà cung API có thể dễ dàng triển khai, ít bảo trì và không cần nắm rõ kiển thức về blockchain. Nó cho toàn quyền nhà cung cấp API có thể chạy oracle miễn phí nếu thích và chỉ trả phí nếu họ bắt đầu tạo ra doanh thu. Airnode chính là mấu chốt cũng chỉ là tool giúp tạo node dễ hơn, nó là 1 node oracle k có máy chủ thiết kế dành riêng cho API provider. Các nhà cung node cx kp trả phí mà người dùng trả hết.
+
+Điểm nổi bật:
+Chính là việc cung cấp lấy dữ liệu và dịch vụ trực tiếp từ nhà cung cấp API. Tránh được tình trạng nhiều node trung gian liên kết với nhau cung ra kết quả sai.
+Bỏ qua node trung gian giúp tiết kiệm chi phí vì bình thường trong các dự án họ thường xử lý vấn đề khi có 1 khâu nào đó là tập trung bằng cách phạt rất nặng so với tiền thưởng, kiểu stake token vào chẳng hạn. Nhưng nhờ kiểu này thì đã xử lý khâu trung gian có nguy cơ tập trung rồi. Tuy API3 xử lý vấn đề đó thì người dùng k cần stake token vào để trở thành node nhưng cơ chế staking khác trong API3 có mục đích bảo hiểm cho người dùng. Nếu gặp rủi ro họ sẽ đền bù bằng token API3, ngược lại trong TH bình thường thuận lợi, người dùng stake API3 sẽ được profit.
+=> Tức là tổng hợp từ nhiều dAPI thành 1 API hoàn chỉnh + người cung stake để đền bù, nếu hoạt động tốt sẽ được profit từ người dùng trả phí.
+
+-> So sánh 4 oracle nổi tiếng:
+ChainLink: Data Provider -> Oracle Nodes -> chuỗi tổng hợp -> data consumers
+Band Protocol: Data Provider -> BandChain: Nodes/Validators (có delegator) -> chuỗi tổng hợp -> data consumers
+Pyth: Data Provider -> chuỗi tổng hợp (có curator và delegator trong Solana) -> data consumers
+API3: Data Provider -> chuỗi tổng hợp -> data consumers
+
+API3 và Pyth ra đời sau và cho phép data provider truyền thẳng vào chuỗi tổng hợp mà không cần qua oracle nodes trung gian như 2 dự án trước đó.
+Data Provider có thể cung dữ liệu free or fee. 1 ví dụ về nhà cung cấp dữ liệu free là CoinGecko.
+
+Các node của Band Protocol vận hành 1 chuỗi khối riêng biệt BandChain. Nó có tập hợp các Validataor riêng cho mình để đồng thuận nx. Còn Chainlink thì tương tự nhưng các node không vận hành 1 chuỗi khối riêng mà các node sẽ liên kết với nhau tạo thành mạng P2P off-chain DONs. Nó có nhiều nhóm chạy node riêng biệt với quy mô khác nhau, cung cấp dữ liệu khác nhau cho các chuỗi khác nhau. Mõi chuỗi có 1 lượng node riêng như ETH, BSC, Matic, xDai.
+Với chainlink có 2 hình thức tổng hợp dữ liệu là tổng hợp trên chuỗi FluxAggregator(FL) hoặc offchain(OCR). Với FL thì mỗi nút oracle cần trả tiền gas khi họ gửi giá của mình cho hợp đồng trên chuỗi. Với OCR thì chỉ 1 giá tổng hợp duy nhất được gửi lên chuỗi, về cơ bản thay vì có 21 node oracle đều phải trả tiền gas, chỉ cần 1 node theo phương pháp OCR. FL là hình thức phổ biến nhất là trên các chuỗi có chi phí gas thấp.
+Doanh thu đến từ: người dùng trả phí để sử dụng dữ liệu; phần thưởng là mã thông báo
+Chi phí đến từ: chi phí vận hành node; trả tiền gas theo từng chuỗi riêng vì cung data cho các chuỗi khác nhau mất phí nhiều hay ít khác nhau; trả tiền cho data provider. Khi khí gas trên chuỗi tăng quá lớn dẫn đến các node chainlink có thể lỗ do chi phí luôn cao hơn doanh thu
+
+Pyth, API3 tiếp cận theo cách khác, loại bỏ các node oracle kiểu chainlink nằm trung gian ở giữa, yêu cầu data provider trực tiếp gửi data lên chuỗi tông hợp. Điều này giúp loại bỏ bên thứ 3, các data provider sẽ nhận nhiều tiền hơn do không phải san sẻ với các node. 
+Pyth tổng hợp data trên chuỗi Solana. Chi phí cực rẻ và tốc độ cao nên lợi nhuận cao. Nhưng điều quan trọng là truyền thông từ Solana đến cac chuỗi khác, nơi có nhu cầu sử dụng dữ liệu. Pyth dùng Wormhole để làm điều này.
+API3 cũng tương tự nhưng người dùng trả phí gas chứ kp provider. Nó k có tổng hợp ngoài chuỗi nên user cần thanh toán cho mỗi đơn phí gas của data provider. Phía cung giảm chi phí nhưng phía cầu bị tổn hại. 
+
+--> Về bảo mật, do oracle được rất nhiều các mảnh ghép defi dùng tới và giá trị có thể lên tới chục tỷ đô la. Để giải quyết vấn đề bảo mật, thông thường ta cho họ đặt cược và phạt data không chính xác nhưng trong oracle thì nhu cầu phụ thuộc vào nó quá nhiều với số tiền khổng lồ và không ai có thể cược 1 khoản khổng lồ như v. Đây là vấn đề khó đối với oracle đòi hỏi sự tin tưởng vào các thợ đào và validator. Các hình thức vẫn cho đặt cọc để khuyến khích chứ k thể bảo mật hoàn toàn. Còn pyth và api3 tốt hơn khi mà nhà cung dữ liệu đặt chính uy tín của họ lên hàng đầu. Họ trực tiếp cung vào chuỗi tổng hợp, càng nhiều người dùng dùng của họ thì uy tín họ càng xây dựng lớn dần theo thời gian.
+Ngược lại thì Chainlink cac node hoàn toàn ẩn danh thì lòng tin càng khó. Tuy nhiên các giải pháp khác như DECO và Town Crier của Chainlink ghi trong sách trắng v2 cho phép bên thứ 3 chứng minh họ không can thiệp vào dữ liệu từ nguồn.
+
+Khi có thông tin sai lệch xảy ra, người dùng là những người bị thiệt hại. Với chainlink v2 thì nó sử dụng khoản phạt của node oracle đền bù cho user sử dụng. Pyth thì các data provider đặt cọc. API3 thì data provider k cần đặt cọc, họ chả bị phạt gì khi cung cấp thông tin sai. Họ không cần có token API3 khi provide data. Nếu cung sai thì uy tín giảm sẽ k có ai dùng nx. API3 phù hợp cho các nhà cung cấp API lớn và uy tín cao vì họ cung gần như k mất thêm chi phí. 
+
+Chainlink họ phải mua LINK token để khóa data để họ cung. Bên cạnh việc lỗ hay lãi vì phí gas thì họ còn gặp vấn đề về giá token LINK giảm làm ảnh hưởng giá trị họ mua để đặt cọc. Chainlink để giải quyết tình trạng này đã phải cung 35% token khuyến khích người dùng để dành riêng cho việc này.
+
+
+
+# 
+
+

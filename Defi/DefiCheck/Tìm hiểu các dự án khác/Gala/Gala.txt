@@ -1,0 +1,61 @@
+Gaming NFT trên Ethereum và BCS. Cung tính năng gồm đa dạng trò chơi(Gala Games) và NFT Marketplaces(Gala Store)
+Gala Store: người dùng tham gia game dùng GALA để trao đổi vật phẩm NFT
+Gala Games: truy cập vào không gian gaming
+TownStar: game đầu tiên phát hành bởi Gala mô tả việc trồng trọt
+
+Vật phẩm trong game là NFT xd dựa vào tiêu chuẩn trên Ethereum nên k phụ thuộc vào GalaGames nên kể cả người dùng bị cấm khỏi game, họ vẫn sở hữu vật phẩm đã mua. Và các NFT game này có thể sử dụng trong game khác nếu 1 công ty muốn tích hợp NFT đó vào game của họ
+
+Gala dùng kết hợp PoW, PoS và Proof of Storage với 3 loại node vận hành
+
+Định hướng của Gala Games là không chỉ phát triển dự án là một game blockchain thông thường, mà còn thu thập những trải nghiệm và phản hồi từ người dùng. Việc xây dựng một cộng đồng mới là mục đích lớn nhất của Gala Games. Do đó, bất cứ ai cũng có quyền tham gia vận hành trò chơi trong Gala Games, là tiêu chí kêu gọi cộng đồng của Gala
+
+Để sở hữu Gala token. Staking gala để nhận Gala, play to earn gala, mua token trên sàn
+
+Gala Games kp 1 trờ chơi đơn lẻ mà là hệ sinh thái các trò chơi công nghệ blockchain. Có nhiều trò chơi đa dạng thể loại trên nhiều nền tảng khác nhau. 
+
+Mirandus: Đây là một trò chơi nhập vai giả tưởng, lấy bối cảnh một thế giới sử thi rộng lớn được cai trị bởi năm vị vua. Bạn sẽ phải chiến đấu với quái vật ở nhiều địa điểm khác nhau và xây dựng vùng đất để kiếm vật phẩm. Role playing game giống runescape
+
+The Walking Dead: Empires là survival game
+
+Spider Tank: Đây là một đấu trường chiến đấu trực tuyến cho phép nhiều người chơi (MOBA) cùng nhau. Người chơi sẽ phải chiến đấu với các đối thủ khác khác trên nhiều bản đồ bằng cách sử dụng xe tăng và nhiều loại vũ khí khác nhau.
+
+Town Star: Đây là một trò chơi nhẹ nhàng để bạn xây dựng một nông trại, quản lý sản xuất và sử dụng nguyên liệu để chế tạo hàng hóa. Người chơi từ khắp nơi trên thế giới sẽ phải cạnh tranh với nhau để kiếm NFT. Game này giống Farmvile trên facebook(vì cùng người sáng lập). TownStar thực ra có token riêng là TOWN token kiếm được trong quá trình chơi game và được dùng để purchase TownStar NFTs từ Gala Store
+
+Fortified: Người chơi game này sẽ phải cạnh tranh với nhau để xây dựng các chiến lược phòng thủ tháp tốt nhất, chiến đấu với những người khác để mang về giải thưởng. Town Defense game.
+
+Echoes of Empire: Là một trò chơi chiến lược khoa học viễn tưởng sử thi. Tại đây, ​​người chơi sẽ phải tiến hành cuộc chiến tranh giành các nguồn tài nguyên khan hiếm được rải rác khắp vũ trụ. Game này giống tựa game đình đám StarCraft
+
+Play-to-earn game khiến free-to-play game có thể kiếm lợi nhuận đồng thời cho người dùng nhiều quyền kiểm soát tài sản của họ cũng như on-chain goverance. Điều này khiến Gala Games ra đời khi mà các game profitable, họ tập trung vào chất lượng game và vui là chính, đánh giá cao phản hồi trải nghiệm của người dùng, mọi thứ trong Gala Games Network sẽ phụ thuộc vào các Node của người chơi: Fun First, Owned by Players, Comminity Rule, Powered by the People
+
+Legacy: game giống tựa game Sim nổi tiếng
+
+Last Expedition: similar to DeadSpace
+
+K có VC funding và ICO for GALA token
+
+Gala game có initial funding từ founder và kiếm lợi nhuận bằng cách bán NFT của các game. Càng lâu theo thời gian thì lượng game trong Gala Games sẽ ngày càng tăng lên.
+
+Mọi token và NFT trong game đang ở trên Ethereum và BSC(nhờ bridge) và sẽ có tren sidechain là Galachain
+
+Mọi thứ hoạt động trên Gala Games được handled bởi separate set of Gala nodes. Các node này cũng sẽ là các node power cho gala chain sidechain phát hành trong tương lai. 
+
+Để trở thành founder node của Gala Network, phải trả khoảng 354,073.691 Gala token cho founder's node license
+Founder node nhận GALA và NFT từ các game hiện tại và tương lai. Founder node cũng quản trị hệ sinh thái game gala VD như họ có thể vote game nào nên được thêm vào Gala. Họ cũng phải online ít nhất 6h 1 ngày để nhận thưởng và online càng nhiều, càng nhận nhiều thưởng.
+
+Khi sidechain của Gala đi vào hoạt động, họ dự tính có thêm 2 loại node nx là paid node vận hành cơ sở hạ tầng cho các game cụ thể, và free node cung support cho paid node và founder node và nhận về 1 phần trong số phần thưởng của họ
+Khi đó gala chain sẽ ứng dụng 3 concensus khác nhau: Founders nodes chạy PoW, Paid Nodes chạy Proof of Stake, Free Nodes chạy Proof of Storage để đảm bảo toàn bộ hệ thống decentralized hoàn toàn. Họ sẽ điều chỉnh tỉ lệ phần thưởng tùy vào hệ sinh thái cần cái gì. VD cung nhiều token cho founder node nếu họ cần nhiều hơn computing power, cho paid node nếu họ cần bảo mật hơn, cho free node nếu họ cần bộ nhớ hơn. Cơ chế này giống như cơ chế incentive của Thor's chain                                    
+
+GALA là token ERC20 trên Ethereum và BEP20 trên BSC dùng để tra founder node license và mua bán NFT. Nó sẽ được dùng để trả phí giao dịch khi Gala chain ra mắt. Nó bị đốt 1 nửa vào tháng 7 hàng năm
+50% GALA đi vào founder node và sẽ được split cho paid và free node, 50% lượng gala được mint còn lại sẽ đi vào gala conservatorship để support cho gala games mới được phát hành. Coinbase và Binance đều list GALA
+Founder node phải trả gas fee là eth để open treasure chest để nhận token GALA và các phần thưởng khác. 
+
+Quá nhiều gala được mint mỗi tuần để trả thưởng cho founder node và supple nhiều hơn demand
+
+Họ không công bố roadmap và sách trắng nên rất mơ hồ. Rất có thể gala sẽ loại bỏ vai trò của free node và paid node mà thay bằng Game Specific Node. Game specific node sẽ chỉ có quyền quản trị trong phạm vi game của họ. Lợi nhuận của họ bị giới hạn trong phạm vi game đó và k được nhận GALA hay lợi nhuận nào từ những người chạy Founder's Node
+
+Gala games hợp tác với flare network. Flare network là smart contract sidechain của xrp. Họ note rằng ta có thể mint gala trong on flare và flare sẽ support gala token khi nó hoàn thành bridge
+
+Mn hold gala 1 phần là vì chơi game hay, 1 phần là vì lợi nhuận
+
+Nhược điểm: họ có support nhưng support cx k rõ ràng, đọc khó hiểu
+gala software để chạy gala node k centralized, nếu ai vi phạm các điều khoản trong license thì họ có thể chặn user hay kiểm soát ứng dụng các founder. Dù họ làm v với mục đích là để phạt các user có hành vi sai 

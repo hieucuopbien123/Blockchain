@@ -1,0 +1,15 @@
+Byzantine Fault Tolerance(BFT) hay hệ thống chịu lỗi là 1 thuận toán đồng thuận blockchain. Nó không hẳn là 1 thuật toán đồng thuận mà là 1 hệ thống giải quyết được vấn đề lỗi Byzantine. Nó xuất hiện từ việc các máy tính trao đổi các gói tin cho nhau trước cả khi blockchain ra đời.
+
+Bài toán 2 vị tương quân: 2 vị tướng quân thành phố A, C tấn công thành phố B ở giữa và chỉ thành công khi cả 2 cùng đồng thuận tấn công cùng lúc. Thế nhưng họ phải dùng người đưa thư để chuyển tin nhắn cho nhau. A gửi "hay tấn công vào 12h" nhưng người đưa thư của A có thể bị bắt trong quá trình gửi thư và C nhận được nghi ngờ điều đó, k có cách nào xác thực phải gửi lại "Đã rõ, 12h tấn công", A nhận về tin đó nhưng lại nghi ngờ người của mình bị bắt cóc nên lại phải gửi lại C "OK, 12h tấn công" để xác nhận. Và cứ thế lặp vô tận.
+=> Đây chính là vấn đề truyền thông máy tính đầu tiên không có lời giải.
+
+Bài toán các vị tướng Byzantine: Khi 5 tướng quân vây 1 thành phố, họ chỉ chiếm được thành công khi 3/5 đồng ý cùng tấn công. Giả sử 2 tướng tấn công, 2 tướng rút lui, 1 vị tướng cuối xác nhận tấn công nhưng người này thực chất chơi đểu(hacker) vì rút lui khiến 2 vị tướng kia thât bại. Khó đạt được sự đồng thuận chính là vấn đề mà các hệ thống máy tính phân tán đang gặp phải
+
+Blockchain đầu tiên Bitcoin của Satoshi Nakamoto giải quyết được bài toán này thông qua PoW(thực tế PoW có từ trước đó rất lâu). 
+
+BFT là từ chỉ hệ thống chịu lỗi Byzantine tức là các hệ thống network giải quyết được vấn đề đồng thuận Byzantine. Các thuật toán phổ biến của BFT trong blockchain là PoW, PoS.
+Các hệ thống BFT là các hệ thống vẫn hoạt động trơn tru dù đến 50% node trong nó gian lận
+
+Thực tế PoW không đảm bảo 100% chịu lỗi Byzantine vì tấn công 51% nhưng do quá trình đào tốn kém và chi phí kỹ thuật mã hóa đắt nên mới chịu được hoàn toàn và đây là mô hình bitcoin bảo mật nhất.
+
+Sau bitcoin, hiện tại có rất nhiều các blockchain khác là các hệ thống BFT mới ra đời

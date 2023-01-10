@@ -1,0 +1,88 @@
+Mintr là DApp tương tác với Synthetix contract, người dùng có thể stake SNX qua app này và nó sẽ mint ra synthetic assets
+
+Người dùng phải back cho Synth bằng SNX với tỉ lệ 750%
+
+Synthetix hỗ trợ thế chấp Ether, trader có thể borrow Synth bằng ETH và trade ngay lập tức với tỉ lệ 150%. Nếu họ mint ra sETH thì họ k cần phải tham gia vào pool nợ toàn cầu nhưng cx k nhận được phí và thưởng theo tg. Mỗi khi có trade thì sinh ra exchange fee gửi vào fee pool, SNX staker sẽ claim phần thưởng theo tỉ lệ hàng tuần. Họ cx nhận staking reward thông qua cơ chế lạm phát.
+
+C-ratio là 750% đảm bảo Synth được back bởi đủ lượng tài sản. Giá của SNX cũng ảnh hưởng đến đến tỉ lệ hiện tại. Người dùng phải chỉnh ratio ở mức tối ưu C-ratio bằng cách mint tiếp Synth or burn Synth. Nếu nhỏ hơn 750%, họ k thể nhận phí giao dịch.
+
+Người dùng stake SNX và nhận về sUSD chẳng hạn, giá của sUSD được xác định bởi tài sản cơ sở USD và Synthetix lấy nó thông qua Oracle. Khoản tiền mà người dùng tách rời với khoản nợ. Khoản tiền mà người dùng sở hữu là sUSD được biến động phụ thuộc vào USD. Còn khoản tiền mà người dùng nợ là phần trăm tổng tiền trong pool quy về 1 mệnh giá. Tùy vào pool có tổng tiền tăng hay giảm mà nợ nhiều lên hay ít lên.
+
+Để tài sản tổng hợp luôn đúng giá với tài sản nó track, có Synth Pegging Mechanism 3 cách:
+Arbitrage: SNX staker burn/mint sUSD
+sETH: mỗi tuần, 1 phần SNX thêm vào tổng cung thưởng cho người tạo sETH/ETH trên Uniswap, nhờ v có các pool thanh khoản rất lớn và người dùng có thể mua bán trao đổi Synth
+SNX auction: giống dFusion trên Gnosis, đấu giá SNX giá rẻ, sau đó có thể mua Synth dưới mức peg
+
+Open market VD cặp sUSD/ETH trên pancake swap. Khi chênh giá thì mn sẽ arbitrary tiền trên các decentralized market đó để duy trì giá. 
+Đáng lẽ trao đổi synth này cho synth khác thì dùng synthetix.exchange là ok nhưng do các sUSD nó cũng là ERC20 và synthetix muốn người dùng stake cũng như làm mọi thứ kbh là kbh bị vô dụng nên nhiều người tùy ý tạo các pool thanh khoản synth với các đồng khác trên thị trường được. VD sETH/ETH với tỉ giá 1 sETH= 1 ETH thoải mái
+
+Synthetix.Exchange: mở rộng khả năng tiếp cận tài sản cơ sở
+P2C(peer to contract). Giá trao đổi tài sản thông qua price feeds cung bởi oracle và converted dùng Synthetix.Exchange DApp.
+
+Back là để chứng thực số tài sản đó tồn tại thực tế chứ kp ai cũng tạo bừa được. VD ta có 100 đô và ta sẵn sàng trao đổi nó lấy 1 cuốn sách do ta xuất bản chẳng hạn thì ta có thể nói cuốn sách đó giá 100$ và ai bán là ta mua nó. Cuốn sách thực tế k có giá trị nhưng ta làm cho nó có giá trị bằng cách back nó với 100$. Thực tế sUSD, sETH được back bởi 750% SNX lock trong SM nên mới có giá trị trao đổi
+
+Có 5 types Synths: fiat currency là sEUR, sUSD; commodities là gold, silver; cryptocurrencies là sETH, sBTC; inverse cryptocurrencies là giá của iBTC luôn theo giá của BTC thực tế; cryptocurrencies index là sDEFI và sCEX(and inverse của nó) track theo các defi assets và centralized token
+
+System Architecture:
+Minting Synths: SNX holder lock SNX và mint sUSD -> Synthetix contract check lượng SNX muốn mint thỏa mãn tỉ lệ nhỏ hơn 750% -> Debt sẽ add vào Debt Register là lương sUSD -> nợ được gán cho staker, synthetix contract hướng sUSD contract phát hành thêm lượng mới vào total supply và user's wallet -> Nếu giá SNX tăng thì lượng bằng giá trị cũ sẽ lock như cũ, phần còn lại unlocked và user tùy ý quyết định mint thêm sUSD hay k
+
+Trao đổi sUSD cho sBTC, đốt sUSD, 0.3% lượng đốt vào fee pool(SNX staker nhận về sau). 99.7% còn lại thì sBTC sẽ mint ra lượng tương ứng 
+Khoản nợ tổng k đổi vì same value burn và mint. 
+
+Khi có staker nhận fee: check fee có không và staker eligible k -> lượng fee tính bằng sUSD gửi từ fee pool cho staker's wallet
+Fee phân chia dựa vào tỉ lệ debt mỗi staker phát hành. 
+
+Mỗi lần SNX holder mint or burn thì đều check debt pool cũng như nợ của mỗi staker bằng cách update Cumulative Debt Delta Ratio trên Debt Register. Mỗi khi có ai tham gia hay rời khỏi Synthetix đều ảnh hưởng đến debt của người khác. Nó k cần tính liên tục mọi lúc mà chỉ cần update thông số này cần thiết để tính debt của những người còn lại khi cần. 
+
+Thông tin về lần gần nhất mint và burn lưu trong Debt Register với issuance data + index number mà action diễn ra. Chi tiết nó lưu phần trăm khoản nợ so với debt pool:
+User debt percentage = (new debt + existing debt)/(previous debt pool + new debt)
+Cumulative Debt Delta Ratio là tích của nó với relative time(index) mà phần debt mới được add => dùng để tính bất cứ user tại bất cứ index nào trong tương lai. 
+Khi burn: user's new debt percentage = (existing debt - debt to be burned)/(debt pool - debt to be burned)
+Update Cumulative Debt Delta update là = debt to be burned/(debt pool -debt to be burned)
+Còn khi mint: = New Debt Minted/( Total Existing Debt + New Debt)
+
+Ta tính debt pool bằng cách cộng số lượng token tổng trong Synth contract và nhân với exchange rate của nó(chắc kiểu giá tiền ấy)-> debt pool này có giá bằng số lượng token*giá 1 token ez
+Oracle thì nó dùng thuật toán duyệt nhiều nguồn, hiện tại thì lấy từ node operator độc lập của chainlink
+
+1 risk hiện tại là debt dao động due to exchange rate shift ngay bên trong system khiến user thg bỏ nhiều hơn synth hơn lượng họ mint ban đầu. 
+contract cũng dùng nhiều proxy contract để update dễ hơn sau này nhưng như v thì centralized và phải tin tưởng vào dev của synthetix
+Họ dùng SIP's(Synthetix Improvement Proposals) cho phép cộng đồng đề xuất các ý tưởng change cho system.
+
+Thanh khoản vô hạn của Synthetix là vì ta có thể đổi bất cứ 1 synth nào lấy 1 synth khác bằng Synthetix.Exchange, nó tự làm hết điều đó cho ta mà k cần người nào cung cấp thanh khoản với cơ chế nó tự burn và mint mới cho ta(thế mới gọi là P2C). Do đó ta có thể đổi bao nhiêu tùy ý vì k thể quá max lượng synth tồn tại trong hệ thống được, VD ta sở hữu tất cả synth và đổi hết sang sUSD thì Exchange sẽ sinh hết sUSD = tổng lượng synth có trong toàn bộ hệ thống là xong. Do đó ta có thể đổi từ synth này sang synth khác ngay tức khắc bất cứ lúc nào mà kp chờ khớp lệnh như mô hình order book nên giảm được slippage ~0, giá cả để đổi nó lấy từ oracle 
+
+Khi giao dịch, 0.3% fee được đưa vào fee pool để gửi cho SNX staker hàng tuần tương ứng khoảng thời gian mà tỉ lệ thế chấp của họ luôn >=750%. Fee này k hề được exchange mint thêm nhé nên tổng synth luôn k tự đổi nhé.
+
+Kwenta dùng P2C của synthetix, slippage = 0, phí gas giảm đến 50 lần vì dùng trên layer 2 Optimism của Ethereum
+
+Slippage xảy ra khi thị trường biến động mạnh, trader sẽ bán tháo gây trượt giá cao. VD: Khi thị trường đang dump, bạn không thể bán BTC đúng giá $60,000 vì chắc chắn lệnh này sẽ không khớp. Bạn sẽ phải đặt lên thấp hơn là $59,990 hay $59,980. Ở trường hợp này, độ trượt giá là $10 - $20 cho giao dịch 1 BTC. Cx có thể do khối lượng giao dịch cao VD ta mua vài trăm ngìn USDT trong khi tường buy và Sell chỉ vài nghìn USDT. Or thanh khoản thấp
+Slippage (%) = ( |Giá cuối cùng – Giá ban đầu| / Giá cuối cùng) x 100%
+
+Để giảm slippage có thể lựa chọn pool thanh khoản cao, hạn chế giao dịch khi có tin tức quan trọng, tăng phí gas cao hơn
+
+Synthetix là 1 giao thức thanh khoản phái sinh dựa trên Ethereum để phát hành và giao dịch các tài sản tổng hợp(Synth). Nhận được lợi ích như là ta đang sở hữu tài sản dù không thực sự nắm giữ nó trực tiếp
+
+Ngoại hối(foreign exchange) là từ chỉ các phương tiện sử dụng trong giao dịch quốc tế. 
+
+Synthetix cung cấp phát hành và giao dịch 19 synth(sAsset) khác nhau đại diện cho tiền điện tử, stablecion, hàng hóa cũng như 11 Synths inverse khác nhau (iAsset) đại diện cho tiền điện tử
+
+Inverse Synths(chỉ số đảo ngược). VD khi giá BTC giảm thì iBTC tăng
+
+Nó hỗ trợ long và short với tài sản tổng hợp bằng sTOKEN và iTOKEN. VD khi thế chấp short thì bán đến khi giảm thì mua vào trả lại người cho vay thì ăn khoản lãi. Thì ở đây ta dùng iGOLD. Do ta k có gold nên phải mua iGOLD, khi vàng giảm thì cái iGOLD sẽ tăng bán ăn lãi.
+
+VD: ta sở hữu sBTC và có các đặc tính của BTC dù bản thân ta k sở hữu BTC thực tế thì khi giá BTC x2 thì sBTC cũng x2. Vc hold sBTC là ta đang long.
+
+synthetic có từ rất lâu đời. VD: game FIFA nó có các nhân vật như Neymar, Messi,.. và các nhân vật đó hiếm và có giá đắt hơn các nhân vật bình thường. Điều này là vì game này đã mô phỏng giá trị các nhân vật cũng như các skill của họ ngoài đời thực vào trong game 1 cách vô cùng thực tế để đánh giá nhân vật. Khi đó những nhân vật trong game mới có giá trị để mua bán đắt đỏ mà ta có thể gọi nó là Synthetic Neymar or Synthetic Messi. Vc mô phỏng giá trị ngoài đời thực vào ảo như v có thể gọi là synthetic assets nhưng hiển nhiên phải được back đầy đủ. Nếu sau này Neymar chơi kém đi thì game có thể update giảm chỉ số nhân vật
+
+Synthetic về sau có thể hỗ trợ cả các stock như Apple, Amazon
+Vd ta sở hữu giá trị của sAPPLE xong đổi ra sGOLD thông qua Synthetix.Exchange tức là ta chuyển đổi giá trị từ fame của hãng Apple thành giá trị của vàng ez thậm chí trong thực tế để mua cổ phiếu Apple và bán đi lấy vàng còn khó hơn là trong Synthetix
+
+Tại sao người ta lại dùng synthetic mà k mua mẹ tài sản thật ? Bởi vì khi sở hữu synthetic, họ dễ trade hơn và có thể nhìn giá 1 cách trực tiếp sản phẩm đó mà không cần nguồn centralized nào làm điều đó. Thêm vào đó các tính năng của Synthetix như exchange with 0 slippage cũng tiện cho trader, họ kp vào hàng đống exchange khác nhau để trade ra cái mình muôn
+
+Cách dùng exchange: ta vào và đầu tiên phải mua 1 lượng sUSD or mua ở ngoài sUSD là trade được. sUSD chính là represent cho USD nên vai trò như stablecoin
+Ban đầu, Synthetic chưa decentralized hoàn toàn. VD: ta trade 1000 sUSD lấy 5.99 sETH thì cái giá này nó lấy từ Oracle và cái oracle này cung giá 1 cách centralized và quản lý bởi synthetic team. Nó đã integrate với chain link để decentralized hoàn toàn
+
+SNX cũng stake để dành quyền vote quyền quản trị
+
+Để khuyến khích người dùng cung synth outside, synthetix trả thưởng cho người dùng hàng tuần. Reward như nào được thể hiện trên Mintr DApp. Nó liệt kê các pool có thưởng SNX VD sBTC trên Curvepool mà ta supply vào đó sẽ nhận SNX free. 
+
+Synthetix.Exchange chính là Synthetix Protocol kết hợp với Kwenta

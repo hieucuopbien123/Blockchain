@@ -1,0 +1,11 @@
+Metaverse giống như 1 thế giới ảo nơi mn có thể tương tác, làm việc, chơi game và kiếm lợi nhuận. 
+
+Axie Infinity game NFT đầu tiên. Bên trong có nhiều mảnh đất(gọi là lunacy) mà sẽ phát triển dựa vào vc ta cung item kiếm được khi chơi game. AXS token có thể xuất hiện ở trên land của họ để thu thập or họ dùng axie monster để explore thêm các node tài nguyên trên bản đồ để farm thêm AXS và nhận thêm tài nguyên. Cac tài nguyên này có thể dùng để nâng cấp land và axie của họ. Họ có thể dùng axie để real-time battle với monster để nhận item trên land của họ. Vật phẩm có nhiều loại, land cũng có nhiều loại và độ hiếm khác nhau... Còn nhiều tính năng khác.
+
+Decentraland: Ethereum; sở hữu land thì có thể làm mọi thứ trên land với height cao tùy ý, xây dựng, tạo phong cảnh, tổ chức event; Có thể dùng token MANA(decentraland native token) or LAND để trade; có thể mua đất trên marketplace or opensea
+
+The Sandbox: giống decentraland vl
+
+BitCountry: dùng subtrate-powered blockchain cho phép developer tự tạo metaverse và game của riêng họ. BitCountry đã thắng 1 parachain slot trong hệ sinh thái kusama. Người dùng có thể tự tạo 1 virtual world của mình trên BitCountry. User sẽ có 1 bản đồ of land blocks giống với gg map
+
+Aavegotchi: Crypto collectible game trên Ethereum. Người dùng có thể mua và tạo aavegotchi là các NFT avatar dùng để tương tác với gotchy verse. Mỗi aavegotchi có trait và độ hiểm riêng phân biệt. Token GHST là native utility token dùng để mua bán trong aavegotchi world. Cũng có mua bán Land bằng token GHST. Các parcel đó được đặt trong gotchy citadel

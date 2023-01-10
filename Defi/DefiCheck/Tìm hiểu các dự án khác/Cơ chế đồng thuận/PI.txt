@@ -1,0 +1,22 @@
+PI dùng SCP(Stellar Consensus Protocol) được nâng cấp dựa trên giao thức đồng thuận Stellar nhưng công bằng hơn.
+
+VD trong 1 hệ thống, để đạt được sự đồng thuận với kết quả đúng thì 2/3 số nút phải đưa ra kết quả đúng. Để mọi nút biết được, tức là 2/3 số nút phải chấp thuận và gửi cho tất cả các nút khác. Ta có thể làm kiểu 1 nút sẽ chờ 1 block mới, nếu 2/3 số nút trong mạng đều gửi cùng 1 block đó thì block đó là block đúng. Nhưng có thể giảm tải việc này để k nhất thiết phải 2/3 toàn bộ người mà bầu ra 1 lượng người nhất định và 2/3 số người đó xác thực sẽ tăng tốc độ xác thực lên mà vẫn đảm bảo về bảo mật. Lượng người đó có thể bầu ra bằng lượng tiền đặt cọc, số lần xác thực đúng trước đó or ngẫu nhiên hoàn toàn tạo ra các cơ chế đồng thuận khác nhau. 
+
+Các nút được xác định bởi sự chấp thuận 2/3 tất cả các nút trong liên kết. 
+PI cạnh tranh với Ripple và Stellar. Nó cho phép các thiết bị cá nhân đóng góp và nhận phần thưởng ở cấp độ giao thức. 
+
+PI có:
+Người tin phòng: người dùng PI dành cho di động. Người dùng sẽ xác nhận sự tồn tại của họ mỗi khi đăng nhập vào ứng dụng
+Người đóng góp: người dùng ứng dụng di động đống góp bằng cách cung cấp danh sách những người tiên phong mà họ biết và tin tưởng
+Đại sứ: Người dùng ứng dụng PI cho di động, giới thiệu với người khác dùng PI
+Node: Là người dùng Pioneer, chạy phần mềm PI có thuật toán cốt lõi SCP
+=> Tất cả đều được thưởng PI mỗi ngày
+
+PI dùng biểu đồ tin cậy do những người đóng góp PI cun cấp dưới dạng thông tin mà các nút có thể sử dụng để thiết lập cấu hình với mạng PI chính. Khi chọn 1 nhóm các đại biểu, các nút sẽ phải xem xét biểu đồ tin cậy bởi những người đóng góp. 
+Pioneer khi cần xác nhận 1 giao dịch được thực hiện chưa thì sẽ kết nối với 1 or nhiều nút để check giao dịch được ghi trên sổ cái chưa. Nếu Pioneer cũng chạy 1 nút thì ứng dụng di dộng sẽ kết nối với nút riêng đó của Pioneer
+PI k cần nhóm khai thác mà phát coin mỗi ngày
+PI k cần phí giao dịch, luôn luôn là free, nhưng nếu ai đó muốn nhanh thì có thể đưa fee vào và các nút sẽ sắp xếp giao dịch có chi phí cao nhất ở trên cùng để thực hiện
+Chi phí chia theo tỷ lệ các nút hàng ngày. Trong mỗi khối thì chi phí giao dịch được đưa vào ví tạm thời, cuối cùng được phân phối cho thợ đào hoạt động ngày hôm đó. 
+
+=> Có thể ứng dụng thanh toán free và nhanh
+

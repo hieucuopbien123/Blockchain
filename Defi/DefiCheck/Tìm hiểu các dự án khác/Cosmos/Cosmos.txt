@@ -1,0 +1,45 @@
+COSMOS(đồng ATOM): là 1 blockchain platform rất to, chứa nhiều blockchain layer 1 bên trong. Nó là 1 blockchain Layer 1 phát triển với mô hình "Internet of Blockchain" hay gọi là blockchainn 3.0
+
+Trước khi Cosmos ra đời, ethereum và bitcoin k thể tương tác trực tiếp với nhau. Các blockchain này khó xây dựng vì phải hiểu sâu về lập trình core của blockchain, phí cao, tốc độ chậm, mở động kém. Cosmos sẽ giải quyết các vấn đề đó. Tính năng nổi bật nhât hiện tại là mọi blockchain khác nhau có thể liên kết với nhau để giao dịch token cho nhau chỉ trên 1 nền tảng duy nhất.
+VD: Ehtereum và Bitcoin khi muốn nâng cấp họ dùng hardfork gây nhiều ý kiến trái chiều. Cosmos hướng đến việc tạo ra 1 nền tảng blockchain duy nhất phù hợp với mọi TH sử dụng. Khả năng mở rộng vô hạn của cosmos làm tăng tốc độ giao dịch và phí rẻ hơn
+VD: Để tương tác ta có thể tạo bridge giữa mọi token với nhau nhưng số lượng bridge vô cùng lớn khi nhiều coin ra đời. Họ muốn 1 thứ mà liên kết vào nó là mọi coin đều trao đổi được cho nhau luôn cơ.
+
+VD: Kava và Band Protocol là các dự án có chain riêng trên Cosmos. Binance chain là blockchain xây dựng bằng cosmos sdk.
+
+Cơ chế:
+Để xây dựng blockchain cần xây 3 lõi cơ bản: networking-consensus-application ngay từ đầu. Bitcoin thì chỉ có 1 và 2, ethereum thì có 1,2,3 và nó đơn giản hóa công đoạn 3 cho tất cả mọi người đều tạo được app thông qua EVM cài trên nó. Nhưng vấn đề là công đoạn 1 và 2 thì k hề đơn giản. Nếu 1 người nào khác k chỉ muốn tạo 1 ứng dụng mà muốn tạo hẳn 1 blockchain cơ thì 3 lõi trên làm rất khó vì phải nắm rõ về core. Vì đâu phải ai cũng muốn dùng ethereum đâu, mỗi blockchain có thể thiên về 1 tính năng riêng như tốc độ hoặc bảo mật chẳng hạn và người dùng muốn tùy chỉnh 1 blockchain tốc độ cao hơn thì chưa vì Ethereum là 1 công nghệ nguyên khối rất khó tùy chỉnh. Tức người dùng xd ứng dụng trên ethereum fix.
+Trên cosmos họ dùng Tendermint BFT là 1 byzantine fault tolerant consensus engine phát triển cho Cosmos PoS. Nó có sẵn các chức năng về consensus cũng như transmit transaction trên network của blockchain. Dev có thể dùng nó có sẵn cộng với Cosmod SDK giúp phát triển phần application của blockchain. Tức là xây blockchain có những đặc tính riêng cho ứng dụng thì dùng cosmos SDK này. Điều này giúp dev tạo ra 1 blockchain tùy chỉnh tùy ý họ trong 1 tuần so với thời gian 1 năm để tạo ra 1 blockchain từ scatch. 
+Cosmos SDK xúc tiến quá trình tạo blockchain dựa trên 2 nguyên tắc: tính mô-đun: nó tạo ra hệ sinh thái các mô-đun cho phép các nhà phát triển tạo ra các blockchain với từng chức năng riêng. Mọi người tạo ra mô-đun cho SDK và chia sẻ cho cộng đồng mà ta có thể tích hợp có vào úng dụng nếu thích. Càng lâu sẽ càng có nhiều mô-đun làm sẵn ra đời và xd sẽ càng dễ; Hạn chế được tác động không mong muốn giữa các modun; 
+Còn Tendermint BFT(Tendermint core) có thể xử lý đến vài nghìn trans 1 giây. Dev dùng nó là có sẵn 2 tầng network và consensus tốc độ cao rồi, chỉ cần tập trung xây ứng dụng. Nó cung cấp web-server, lib cho các ứng dụng blockchain, giải quyết vấn đề về năng lượng và khả năng mở rộng sẵn.
+=> 2 cái kết nối vói nhau thông qua ABCI(Application Blockchain Interface). Nó như 1 cái ổ cắm có thể đóng gói bất cứ ngôn ngữ nào như C++, Java,.. sang ngôn ngữ mà cosmos hiểu được.
+
+Nhờ v mà cosmos cũng xử lý vấn đề về quyền hạn. VD ta cần xây dựng 1 ứng dụng mà cần tới 1 tính năng mới của EVM. Để làm điều đó, ta phải submit 1 cái proposal EIP và cộng đồng của ethereum phải xem xét trong thời gian dài mới được đưa vào sử dụng. Thế thì bao h ta mới chạy được cái app của ta.
+=> Nếu dùng cosmos, ta xây 1 blockchain riêng với custom governance structure và ta tự quản trị blockchain đó luôn.
+
+Cosmos còn xử lý vấn đề về interoperability mà k cần bridge(cấp số mũ lượng bridge sinh ra) hay exchange(centralized). 
+Nó dùng kiến trúc module 2 lớp: Hub và Zone. Zone là các blockchain k đồng nhất vd ethereum và bitcoin. Khi 1 zone kết nối IBC với 1 Hub, nó có thể tự động truy cập mọi zone khác kết nối với nó. Cái kết nối IBC(Inter Blockchain Communication) là giao thức truyền thông liên khối cho phép chuyển giá trị token cho nhau. Khi 1 zone nhận được token từ 1 Hub thì zone đó chỉ cần tin tưởng Hub và Zone gốc của token này.
+Hub đầu tiên là Cosmos Hub là 1 blockchain PoS có staking token ATOM. Ngoài ra còn nhiều Hub khác. 
+Bất kỳ blockchain có consensus chính xác nhanh đều kết nối được với cosmos bằng cách điều chỉnh IBC. VD: ethereum hoạt động với Casper thì có thể chỉnh IBC để tạo 1 kết nối trực tiếp giữa 2 cái.
+Còn các blockchain không có độ hoàn thiện nhanh như PoW, ta phải dùng 1 loại proxy gọi là Peg-Zone. Peg-zone cũng chỉ là blockchain theo dõi trạng thái của blockchain khác mà chính peg-zone là 1 blockchain tương thích với IBC. Nó thiết lập đặc tính cuối cho blockchain mà nó bridge. 
+=> Tức là khi đã có mô hình Hub, Zone thì các Zone tương tác thông qua chỉnh cầu nối IBC, còn với các blockchain hoàn thiện chậm thì dùng pegzone làm bridge thôi.
+         Ethereum   các zone là blockchain dựa trên Tendermint(connect trực tiếp)
+                \        /
+               pegzone  /
+                  \    /
+Bitcoin --pegzone-- Hub1 -- Hub2 -- các zones khác
+  
+VD: aragon là 1 dự án migrate từ ethereum sang hoàn toàn cosmos bằng ethereum compatibily layer for cosmos SDK. Cái SDK làm cho aragon migrate quá dễ dàng. NN của sự di chuyển này là vấn đề quyền quản trị. Ethereum upgrade đã break hàng trăm contract trên Aragon. Điều này sẽ k xảy ra nếu aragon có 1 blockchain riêng chứ k build on top of ethereum. Trong khi các dự án đua nhau phát triển thêm từ blockchain thì cosmos cho phép blockchain nào dù cùi bắp hay hiện đại đều connect được vào. 
+
+VD: Khi ta bán collectible NFT thì ta chẳng hạn muốn có 1 chain riêng và bán sao cho mọi người trade được trên đó. Nhưng 1 chain như v thì k có thanh khoản thực tế chả ai thấy được vào mua. Với cosmos, ta có thể dùng IBC module và lock đống collection NFT vào chain đó và ta gửi IBC package tới cosmos hub và bảo nó tài sản đã bị khóa trong chain này. Cosmos nhận được package đó và thuật toán đồng thuận tendermint sẽ validate điều đó và gửi lại là thành công. Sau đó mn vào trade được assets đó. 
+
+Đồng ATOM có thể dùng tra cosmos hub fee để swap sang chain khác, chỉ cosmos hub mà thôi, còn nhiều hub khác có thể trả đồng khác. 
+ATOM cũng dùng để vote validator cho cosmos hub or vote proposal trên cả cosmos.
+Token ATOM dùng để trả phí giao dịch trong Cosmos Hub. Validator stake ATOM. Delegator stake ATOM vào các validator mình chọn. 1 phần nguồn thu từ fee đưa vào treasury, khoản quỹ này chia cho các dự án mới tiềm năng mà hold token ATOM
+
+
+Hầu hết các blockchain dùng PoS đều kết nối được IBC, IBC cũng hỗ trợ cả subtrate để connect các blockchain của POLKADOT hay Kusama.
+IBC giống Wraptoken trong ethereum. Khi cần đổi A cho B thì ta lock A vào blockchain ở A và mint 1 lượng B tương ứng trong blockchain của B. ATOM là 1 trong các đồng trả phí giao dịch crosschain thông qua cosmos hub.
+IBC tận dụng tính cuối cùng tức thì của sự đồng thuận Tendermint để các chuỗi k đồng nahast chuyển giá trị cho nhau
+Với các PoW coin thì khác. VD transfer BTC sang Terra blockchain bằng IBC, ta send BTC vào 1 wallet trên Bitcoin blockchain được quản lý bởi Pegzone mà ta đang tương tác với. Khi IBC thấy điều đó sẽ mint BTC token trên Terra blockchain và gửi nó vào address ta provider ban đầu. 
+Cơ chế này giống như cơ chế của Thor chain(cũng built với Tendermint). Thor chain releases với Thorswap dex là 1 sàn giao dịch multichain. Tức là bh có thể trao đổi coin giữa các nền tảng với nhau decentralized mà k cần WrapCoin và hay sàn CEX
+

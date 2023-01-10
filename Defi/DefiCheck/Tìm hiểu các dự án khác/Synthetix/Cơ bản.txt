@@ -1,0 +1,59 @@
+Các kiến thức liên quan cơ bản:
+Phái sinh: Hợp đồng mà giá trị phụ thuộc vào tài sản cơ sở. Vd hợp đồng xác nhận quyền và nghĩa vụ các bên trong việc thanh toán tiền và chuyển giao tài sản cơ sở vào thời điểm xác định trong tương lai với mức giá thỏa thuận trước. Synthetic assets có nói rõ về nó.
+
+Hệ sinh thái Defi gồm: Decentralized Coins(ETH, DAI,..); Decentralized Lending and Borrowing(Compound, Oasis,..); Decentralized Insurance(Opyn, VouchForMe,..); Decentralized Exchanges(Uniswap, Bancor,..); Liquidity Mining; Decentralized Oracles; Decentralized Derivatives(Idle, Hegic, Synthetix..); Synthetic Assets(Tokenlon, Synthetix,..)
+
+VD: cung DAI vào YPool(nền tảng riêng) nó sẽ tự động convert DAI của ta sang các token kia và cung vào pool-> ta nhận lại Y Curve chứng thực quyền sở hữu. Ta hiểu là mỗi nền tảng có stable assets của riêng nó VD Synthetic có sBTC, Y có YUSDT,..
+Khi các nền tảng mới ra đời, họ phát hành ra stable assets của riêng nền tảng đó nhưng k có liquidity, họ đã dùng curve(CRV) để khuyến khích nhà đầu tư cung thanh khoản cho stable coin của họ.
+Cứ dự án nào có stable assets là họ lại contact với curve để tạo ra những pool riêng, thu hút thêm trader, kiếm thêm lợi nhuận
+
+Underlying assets(tài sản cơ bản): vàng, nhà, xe, cổ phiếu, tiền tệ,..
+Derivatives: tài sản phái sinh của tài sản cơ bản bên trên. Đây là các hợp đồng giữa các bên mà giá trị dựa trên tài sản cơ bản. Nó có thể là hợp đồng tương lai, hợp đồng tùy chọn, hợp đồng trao đổi. VD ta sở hữu tài sản phái sinh là 1 Option contract của vàng là ta được quyền mua 1gam vàng với mức giá 1 triệu trong 30 ngày tới thì dù 30 ngày tới giá vàng lên xuống như nào, ta vẫn có thể mua được với mức giá đó
+Synthetic assets là sự kết hợp của nhiều loại phái sinh khác nhau VD là sự kết hợp của 1 hợp đồng quyền chọn mua và 1 hợp đồng quyền chọn bán. Nó là sự kết hợp của nhiều sản phẩm phái sinh như future contract, forward contract,... để mô phỏng giá của 1 tài sản cơ bản như hàng hóa, cổ phiếu, chỉ số chứng khoán,.. Synthetic assets sinh ra nhằm mô phỏng, bắt chươc giá của 1 tài sản căn bản or 1 khoản đầu tư. 
+Vai trò: đa dạng hóa đầu tư thay vì chỉ tập trung vào 1 tài sản; giảm rủi ro khi mà người mua không cần mua đứt tài sản đó mà vẫn có thể kiếm lời dựa trên sự biến đổi giá của tài sản đó; lợi nhuận cao hơn; mở rộng khả năng tiếp cận của 1 loại ts với nhà đầu tư
+=> Đó là synthetic assets trong tài chính truyền thống
+Trong crypto cx có synthetic assets để bắt chước giá trị của tài sản khác, phát triển thêm 1 mặt của cefi vào thị trường crypto => nhà đầu tư có thể dùng crypto assets để tiếp xúc với nhiều loại tài sản mà không cần thiết phải nắm giữ chúng. VD synthetic assets như DAI của MakerDAO hay sUSD của Synthetic,..
+crypto synthetic assets dễ dàng trao đổi và không phân quyền với pool toàn cầu. 
+Dự án Synthetic cung giao thức cho phép phát hành và giao dịch các synthetic assets trên ethereum. Người dùng có thể tiếp xúc với các loại tài sản như tiền fiat, hàng hóa, cổ phiếu,.. thông qua việc thế chấp token gốc của nền tảng là SNX. 
+Trong hệ sinh thái Synthetic có: synthetic exchange giúp trao đổi synthetic assets và đồng SNX trực tiếp; Mint của Synthetic là 1 DApp nơi chủ sở hữu SNX phát hành synthetic assets; Dashboard cung cấp cho người dùng tổng quan về ecosystem của synthetix. VD ta có 1 lượng SNX trị giá 7500 đô ta đem lên synthetix thế chấp và nhận về 1000 sUSD thì 1000 sUSD chính là synth mô phỏng cho tài sản USD tiền ngoài đời thực. Sau đó ta có thể đem số sUSD này trade trên nền tảng DEX của synthetic. Ta cũng có thể đốt sUSD để nhận lại SNX ban đầu.
+VD: Mai và Tuấn là 2 người duy nhất ở hoạt động trên synthetic. Mỗi người có 750 đô SNX. Mai thế chấp 750$ SNX để nhận được 10$ synthetic assets của vàng. Giả sử 1 Gold = 10$ thì Mai nhận được 1 Gold. Chú ý trên synthetix tài sản quy đổi có tỉ lệ rất cao 750% thì 750$ chỉ đổi được có mỗi 10$ mà thôi. Tuấn thì 750$SNX đổi sang 10$ bạc và nhận 2 Silver(tức 1 Silver=5$). Khi 2 người tham gia vào hệ thống tức là đã vay tiền của synthetix, họ sẽ tham gia vào 1 total Global debt tổng là 20$. Về sau giá bạc tăng lên 1 Silver = 10$. tức Tuấn có 2Silver = 20$ thì pool nợ toàn cầu thành 30$ mà Tuấn và Mai ban đầu cùng nợ 10$ tức 10$ thì bh Mai vẫn nợ 50% tức 15$ và Tuấn cx 15$. Có thể thấy Tuấn có 20$ mà nợ 15$ thì lãi 5$ trong khi Mai lỗ 5$. 
+Điều đặc biệt là Mai không hề động gì đến Silver nhưng silver tăng thì Mai vẫn lỗ. Trong thực tế có nhiều người tham gia vào pool chứ k chỉ có 2 người như v. Qtr là khi kiếm tiền kiểu này của synthetic thì phải thế chấp để nhận lại tài sản mà giá nó phải tăng mới có lãi. Khi có synth thì người ta thg dùng nó để trade tiếp các thứ khác trên synthetic cơ. 
+Các dự án Synthetic assets: Synthetix, UMA, Market Protocol,..
+
+Đồng nghĩa có nhiều nền tảng tạo synthetic assets và synthetix là 1 trong số đó thôi
+
+Có 2 loại Stable coin: 1 là USD-backed 1:1 là các đồng chuyển từ $ tỉ lệ 1:1 như USDT, USDC, TUSD,..; 2 là crypto-collateral như DAI(sinh từ MaketDAO), sUSD(sinh từ Synthetix),.., loại này chỉ được sinh mới khi ta thế chấp 1 loại tài sản crypto khác
+
+Synthetix: Cho vay; phái sinh; tài sản tổng hợp trên Ethereum
+
+PEG là chỉ số: Price Earning to Growth thể hiện mỗi quan hệ giữa P/E(Earning per Share) và tốc độ tăng trưởng thu nhập EPS.
+
+Người dùng có thể chuyển đổi giữa các synth trên DEX của synthetic. Muốn lấy lại số SNX thế chấp vào phải burn số Synth theo tỉ lệ ban đầu. Khi người dùng giao dịch các synth với nhau qua DEX thì phí giao dịch sẽ được chia sẻ thưởng cho họ.
+
+Ưu điểm là nguồn vốn được tối ưu hóa thông qua phát hành synth chứ nó k bị khóa trong contract tạo synth 1 cách vô dụng. 
+
+SNX dùng để staking và nhận reward là SNX token, dùng làm ts thế chấp phát hành synth ra thị trường, khoản phí nhận được cho staker khi có trade
+
+Người dùng stake SNX trong staking pool -> dùng SNX làm ts thế chấp để mint ra sUSD với tỉ lệ 500%, từ sUSD ta có thể đổi sang các synth assets khác như sBTC, sETH. Mỗi khi có giao dịch thì 1 phần phí thu về Synthetix. Người staking SNX còn được hưởng SNX token từ ngân quỹ Synthetix assets. 
+Synth thực chất là tài sản nợ mà ta phải stake SNX để nhận được
+Cơ chế nợ chỉ áp dụng cho những SNX staker mint ra synth còn trader giao dịch sUSD, sBTC bình thường k chịu rủi ro thanh lý
+
+Vc nó trả thưởng cho vc stake SNX là để bootstrap network thu hút người vào. Dù điều này lạm phát giá SNX nhưng nên nhớ nó cho stake tỉ lệ rất cao là 500%, tức là tạo ra sUSD cần 1 lượng rất lớn SNX. Chính vì cần nhiều như v nên nhu cầu mua SNX cao. Khi hệ thống càng phát triển thì càng nhiều synth được tạo ra. Càng nhiều giao dịch thì phí SNX cho staker càng nhiều.
+
+Có các pool stable coin swap ts synth. Chẳng hạn sETH/ETH thì SNX mỗi tuần sẽ cung 1 lượng làm thưởng cho những người cung thanh khoản trên các stable pool trên Uniswap, Curve
+Điều này giúp các nhà cung cấp thanh khoản cho các ts synth mà k lo quá nhiều về biến động giá vì có các stable pool đó sẽ tự cân bằng. 
+
+Nếu ss Uniswap thì Synthetix k có liquidity provider nhưng thực chất các SNX staker chính là người tạo ra thanh khoản và đảm bảo thanh khoản cho các Synth. Giá trị toàn bộ synth trên thị trường đảm bảo bởi SNX token được staking. Các SNX staker có thể phải chịu khoản lỗ, exchange có vai trò giống như 1 AMM, các staker vì v xứng đáng nhận phần phí giao dịch tương đường LP trong các AMM bth
+
+Giao dịch trên Synthetix Exchange k chịu slippage vì các synth được giao dịch theo cơ chế burn and mint theo giá mà oracle cung cấp. 
+
+Phí gas cao vì dùng cơ chế mint and burn thay vì swap thông thường. VD người dùng gửi ts synth của mình đến 1 burn address vd gửi 45000sUSD thì lượng đó đốt và mint ra lượng sBTC tương ứng với giá cung cấp bởi oracle, lượng sBTc này sẽ chuyển đến ví người dùng luôn. 
+
+Synthetix còn kết hợp với dHedge(nền tảng quản lý tài sản phi tập trung trên Ethereum)
+Còn có Kwenta(nền tảng phái sinh), Lyra và Thale(thị trường options)
+
+Tương lai chuyển sang Layer 2 Optimism để có 1 dạng AMM slippage =0 và phí gas ~0 thì quá đẳng cấp. Đó là 2 vấn đề mà các AMM gặp phải
+
+Chú ý là fee SNX trong Synthetix exchange là do exchange sinh ra trả cho người cung chứ người trader k cần phải sơ hữu SNX cũng đc
+
+Trong Synthetix, ta vào 1 pool có nhiều đồng và stake SNX để mint 1 đồng trong pool. Nếu giá đồng đó tăng thì ta lãi, giá các đồng khác giảm thì ta cũng lãi. Giá đồng đó giảm or giá các đồng khác tăng thì ta lỗ

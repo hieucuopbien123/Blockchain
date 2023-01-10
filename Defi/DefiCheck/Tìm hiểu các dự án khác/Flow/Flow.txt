@@ -1,0 +1,74 @@
+Flow(FLOW) là blockchain layer 1 riêng, là blockchain có tốc độ tăng trưởng nhanh nhất. Số lượng NFT trên flow lớn nhất. 
+Người sáng lập Flow cũng đồng sáng lập CryptoKitty là team Dapper Labs
+
+Ethereum hay Bitcoin yêu cầu các node làm công việc như nhau. Mỗi node yêu cầu vùng nhớ và vi xử lý cao sẽ rất chậm và tốn dù bảo mật tốt, phí cao. Dù có thêm 100 hay 1000 node thì tốc độ vẫn v thôi vì các node làm công việc như nhau.
+Flow thì càng nhiều người dùng vào node xử lý thì tốc độ sẽ càng nhanh hơn. Họ có tham vọng tiếp cận hàng tỉ người dùng như 1 fly wheel càng nhiều người dùng càng nhanh, càng hút user lại càng hút node. Để làm điều đó họ đánh đổi sự phi tập trung ban đầu khi mà các nút hiện tại đa phần là của nhà phát triển nhưng sau này hệ thống mở rộng thì các nút đó sẽ phi tập trung hoàn toàn, chuyển giao cho người dùng và còn hơn các blockchian đi trước
+
+Flow sẽ tách ra nhiều 4 node khác nhau xử lý các khía cạnh kỹ thuật khác nhau:
+Collection Node: gom các giao dịch lại để gửi tới các node khác xử lý. Chỉ cần bộ nhớ 200GB và vi xử lý thông thường. Collection node giúp tăng hiệu suất, network connectivity và data availability
+Concensus Node: chịu trách nghiệm bảo mật phi tập trung, sắp xếp lại thứ tự các transaction, đóng gói vào block. Cấu hình tương tự collection node. Nó chạy BFT concensus.
+Execution Node: xử lý logic các transaction. Cấu hình rất cao vì liên quan đến tốc độ và khả năng mở rộng nên kp ai cũng làm được. Tính toán đầu ra cuối cùng của block
+Verification Node: Kiểm tra và duy trì giám sát các execution node, đảm bảo xử lý đúng. Điều kiện cấu hình chỉ như máy tính bth. Execution và collection node perform deterministic task khiến nó ít bị tấn công hơn nhưng phải có cấu hình phần cứng chuyên dụng
+=> Các loại node được chuyên môn hóa với từng chức năng. Tăng khả năng mở rộng và giảm fee hàng nghìn lần so với ethereum
+Flow còn có nhóm node thứ 5 là Access Node giúp Collection Node tập hợp transaction nhưng k được kết hợp vào cơ chế của Flow blockchain và cx k cần stake any Flow coin
+=> Node nào cũng phải stake Flow tùy vai trò phải stake nhiều hay ít. Phần thưởng khối mà các node nhận được cũng khác nhau và đổi theo nhu cầu của thị trường cần node nào nhiều hơn. 
+
+1000 transaction 1s, phí cực rẻ, dùng PoS HotStuff là preferred option cho các dự án NFT, smart contract trên Flow mặc định là có thể update được và author cũng có thể làm cho nó immutable nếu muốn. Account tự động được tạo ra bởi blockchain và cũng support multiple public key.
+
+Multi-role architecture
+Nhiều loại node cũng tăng tính phi tập trung, người bth cũng có thể trở thành 1 node. Sự phức tạp đã bị abstract đi vào trong protocol để developer đơn giản hơn khi khi tạp app nhanh hơn mà k cần quan tâm tới cơ sở hạ tầng bên dưới; Tăng trải nghiệm người dùng, tránh các giải pháp layer 2; Tăng bảo mật vì tất cả đều xử lý onchain, k có transaction nào cần dựa trên việc tính toán off-chain tiềm năng rủi ro như 1 số layer2 và mọi sự tương tác giữa các entities có thể xảy ra trong 1 atomic(nguyên tử), consistent(rắn chắc), isolated(độc lập) and durable(bền vững) (ACID) transaction
+Trải nghiệm người dùng của Flow tốt vì nó tập trung vào người dùng cuối, người dùng vào trang web như 1 trang thương mai điện tử bình thường chứ kp 1 trang web blockchain phức tạp.
+
+Ngôn ngữ lập trình mới Cadence để lập trình smart contract trên Flow thích hợp với người mới, có sẵn khả năng upgrade, tiết kiệm tài nguyên, chuyên về NFT. 
+
+VD: 1 thao tác đơn giản là mua mũ cho CryptoKitty trong game dùng USDT với cơ chế sharding sẽ mất 12 giao dịch và 7 block trong khi với Flow thì chỉ mất 1 block nguyên tử
+VD: Năng lượng tạo ra 1 NFT trên Flow tương đương với năng lượng dùng 1 lần search Google
+
+Flow là blockchain nền tảng chuyên biệt về NFT
+Flow dùng bộ nhớ cloud ngoài chuỗi của Filecoin phi tập trung 
+
+Nhược điểm:
+Ngôn ngữ Cadence chưa được kiểm chứng, chưa có nhiều dev, chưa kết nối được với nhiều blockchain khác. Hiện tại mới chỉ connect với Ethereum. Token quản trị vẫn đang ở trạng thái tập trung do đội ngũ phát triển vận hành. Nguồn cung coin vô hạn
+
+Để tăng tính phi tập trung trong tương lai, họ phải chuyển nhượng các execution node cho cộng đồng. Nó sẽ tự phi tập trung dần khi số node của commmunity nhiều lên hoặc nó có thể dùng mô hình DAO để quản trị trong group của nó mọi việc thông qua voting community để tăng tính phi tập trung. Cả cái community đó là 1 tổ chức tự trị
+
+Các mạng lưới nhanh rẻ thường bị tấn công DDoS vì phí rẻ nên có thể bỏ ra 1 khoản tiền lớn để tạo ra 1 khối lượng giao dịch cực kỳ lớn là giao dịch thực. Như Solona bị tấn công. Kiểu này chắc phải có cơ chế timeout, xác thực, lọc IP address, collection node phải dùng các cơ chế đặc biệt để check giao dịch đầu tiên đi qua chứ
+Flow cũng có thể dùng thuật toán sao cho collection node chỉ chấp nhận 1 lượng giao dịch mà execution node có thể xử lý. Nếu DDoS xảy ra thì chỉ làm tắc collection node.
+=> Bài toán tấn công DDoS kiểu này mà lại là giao dịch có nghĩa k thể ngăn chặn thì nó giống như là vấn đề về chịu tải của blockchain chứ k còn là malicious attack nx. 
+
+Ta có thể hiểu sai là collection node càng nhiều thì công việc càng chia ra cho các node, thực ra có thể là tất cả làm công việc như nhau và share cho nhau để check cơ chế đồng thuận. Nhưng nếu thế thì tất cả các node phải rời nhau chứ k thể collection thì rời còn verification thì k rời, vì nếu verification mà rời thì làm sao đảm bảo đồng thuận toàn bộ mạng nên khả năng cao là ta hiểu sai. Khả năng là tất cả các node type như nhau sẽ làm 1 công việc và phải đồng thuận với nhau
+
+Bộ ba bất khả thi của blockchain: khả năng mở rộng, decentralize, bảo mật. VD blockchain bitcoin có bảo mật và decentralize nhưng khả năng mở rộng(tốc độ, phí,..) kém
+Flow thì có bảo mật vì có PoS và node verification. Flow hi sinh tính decentralize hiện tại vì chưa có traffic nên các node execution vẫn là team dev. Flow có khả năng mở rộng tốt vì tốc độ nhanh và phí rẻ. Nó gần như có thể giải quyết bộ ba bất khả thi nếu sau này nó decentralize hoàn toàn các node và vẫn có cơ chế chống DDoS, xử lý giao dịch lớn thì ok => thực ra là ta thấy nó ok rồi ấy chứ vì tốc độ và phí ngang layer 2 trong khi chưa dùng đến layer 2. Dùng các nghiệp vụ thông thường ngăn chặn DDoS là ok
+Flow cũng dùng 1 biến thể của HotStuff - 1 concensus mechanism. Nói là dùng PoS nhưng áp dụng biến thể này, nó k cần validator.
+
+Trong các ứng dụng như Google Search hay gì thì nó xử lý DDoS kiểu: load balancer chia ra làm rất nhiều server trên thế giới cũng như kiểm duyệt các địa chỉ IP gửi nhiều request.
+Do đó ta k nói đến DDoS trong blockchain vì nó có các biện pháp ngăn chặn thông thường. Quan trọng là khả năng mở rộng khi đạt đến 1 tỷ người dùng thì số transaction rất nhiều
+Ethereum mở rộng bằng layer2, Near mở rộng bằng sharding, Flow nhanh như khi các blokchain kia dùng giải pháp mở rộng rồi. Còn nếu sau này vượt đến chục tỷ giao dịch 1s mà kp là DDoS thì chưa rõ
+
+API của Flow chỉ cho truy cập tối đa 2000 request 1s. Nếu nhiều hơn thì các hệ thống thông thường có thể lưu lại vào cache, queue or từ chối
+
+Nếu Flow lưu data trên Filecoin phi tập trung nhưng nếu sau này filecoin tăng chi phí lưu trữ sẽ ảnh hưởng tới fee của Flow. Nó lưu âm thanh, hình ảnh của NFT chẳng hạn.
+
+Đương nhiên đồng FLOW dùng cho những người tham gia vào node và họ cho mint vô tận để đáp ứng nhu cầu hàng tỉ người dùng trong tương lai. 
+Token cũng có nhiều dạng. Ta có thể mint 1 phát như ô bitcoin cho 21 triệu coin thì sau này dù 1 tỷ người dùng thì mỗi người vẫn có thể có 1 satoshi. Ta có thể mint như ô Shiba, dù nguồn cung vô hạn nhưng ngay từ đầu có thể mint ra hàng tỷ token để giá của nó kiểu 0.0003 chẳng hạn, sau này cần thì mint hay burn tùy nhu cầu. Nhưng ô Flow lại mint ra 1 tí vô hạn từ từ thì rất nguy hiểm. Chắc chắn sẽ lạm phát và đồng thời đó là NN giá flow ngay từ đầu đã vài đô chứ kp 0.0001 đô từ đầu như các đồng khác. Mà vc mint hay k lại tùy thuộc vào dev thì có thể họ mint hàng đống cho họ r scam được. Cần kiểm soát lượng mint ra ít hay nhiều tùy thuộc vào transaction fee mà giảm cơ chế lạm phát
+
+Cadence là 1 ngôn ngữ hướng tài nguyên. Có docs và ví dụ rất cụ thể. Người dùng có thể tạo tài sản số của họ tự do có thể trade trên thị trường mở. Nó có tính chất:
+Safety: cung hệ thống type system mạnh mẽ tránh bug compiletime. Tự động chặn overflow và underflow of integer, ép phải khởi tạo biến trước khi sử dụng
+Security: developer state pre-conditions và post-conditions để đảm bảo code chạy đúng
+Clarity, approachability and extensibility: mặc định upgradable SM. Dễ đọc và audit, review. Học ez trực tiếp trên docs
+
+VD: 1 giao dịch trung bình trên Ethereum là tầm $20, còn flow là 0.001FLOW tức 0.006$ ở thời điểm hiện tại.
+
+Lập trình viên trên Flow có thể tự tin xây dựng 1 DApp mà mặc định là nhanh và sẵn sàng chào đón đến hàng tỉ người dùng chứ kp lo là phí cao và chỉ có thể ít người tham gia tránh nghẽn này nọ
+
+Hiện tại Flow sử dụng ít hơn 1/3 số concensus node trên mạng (chức năng mở rộng mạng lưới) và những service account quản trị key protocol factors được kiểm soát bởi đa chữ ký nên k có 1 cá nhân nào nắm giữ majority of signing => hình như đây là cơ chế vote. Mỗi lần vote là smart contract update và thực hiện theo, k chắc lắm
+
+Làm phát tùy vào transaction fee, càng nhiều trans sẽ càng ít lạm phát vì nhu cầu tăng. Với 1 lượng transaction volume đủ lớn, lạm phát sẽ giảm hẳn về 0 và nếu phí giao dịch vượt quá annualized staking rewared thì sẽ tạo ra phần fee thừa vì lượng reward k thể quá lớn. Phần fee thừa được đưa vào treasury để xử lý lạm phát trong tương lai
+
+Flow trả cho phí giao dịch cũng như data storage và sắp tới sẽ là quản trị dự án
+Về Data Storage, Flow yêu cầu tất cả ví thao tác phải có 1 lượng minimum balance of Flow mà k thể spent, khoảng 1 cent thôi
+=> user cần 1 lượng minimum flow cho wallet thì developer cũng cần 1 lượng minimum flow balance cho DApp của họ. Dev phải lock 1 flow để có 100MB on-chain space. Trong tương lại họ sẽ cho phép user delete wallet và Dapp data để lấy lại lượng flow lock up mà gọi là 'recycling'
+=> Đó là quá trình trước đó, bh Flow đã hợp tác thêm với Filecoin. Cái flow recycling giống kiểu gas refund của Ethereum
+
+Flow tối ưu hóa decentralization và bảo mật của Consensus Nodes vì nó yếu trước Byzantine attacks và nó limit scalability nhưng trong phạm vi chấp nhận được vì những node này có khối lượng tính toán nhỏ. Còn execution node mở rộng tốt nhưng do phần cứng bị hạn chế nên nó k được decentralized cho lắm. Nhưng nó kp vấn đề vì dishonest execution node sẽ bị detect và punish by verification node, which is decentralized and secure

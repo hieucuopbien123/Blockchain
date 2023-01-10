@@ -1,0 +1,122 @@
+# Kiếm tiền trong defi:
+
+-> Các cách của dev
+Dev Bounty là các sự kiện mà code đặc biệt là defi họ thg đăng code của mình lên các dev bounty như serium bug bounty để cộng đồng dev sẽ vào test và kiểm lỗi. Nếu có lỗi ta sẽ submit lại cho họ và đến ngày họ công bố lỗi nào tùy theo mức độ nghiêm trọng mà trả thưởng cho dev
+Serium cũng là nền tảng mà các dev vào để code cho các module của dự án họ treo thưởng. Giá thg rất cao cho mỗi phần code.
+Dev có thể tạo open source project cho cộng đồng xong kèm link donation. VD dự án sushi.zippo.io chỉ là 1 trang web rất đơn giản cập nhập thông tin về của dự án sushiswap mà những ngày đầu sushiswap ra không có những thông tin này xong họ kèm link donation bên dưới là xong. Thông tin càng giá trị càng tốt
+Gitcoin là nền tảng cho các content creator và dev trên ethereum submit các dự án nhỏ thậm chí là các video youtube, twitter của họ lên web này và mọi người sẽ donate ủng hộ nếu thấy content của ta có giá trị
+Start project và issue token. VD yEarn, sushiswap, uniswap,.. là các dự án đi lên như v
+
+-> Early supporter:
+Ủng hộ và nhận airdrop, các early supporter phải thực hiện các task do họ đề ra và skin in the game cùng dự án -> ăn trọn 1 kèo lớn là đổi đời
+VD: Early Adopter như Uniswap hay MEME Protocol(làm về NFT) chỉ cần tương tác với smart contract or điền 1 cái form thôi nhưng về sau nhận được cả trăm ngàn đô. 
+VD Competition/Testing như:
+PowerPool(CVP) yêu cầu test cái platform bản alpha, beta, gamma. Nó làm về lending/browing
+Perpertual Protocol(PERP) yêu cầu testnet trading competition chỉ cần testnet, trade 1 lệnh là có nghìn đô. Nó làm về derivatives
+dHedge(DHT) làm về quản lý tài sản trên Synthetix(SNX), yêu cầu testnet trading competition tổ chức 2 lần, thắng thì được tiền.
+=> Để bắt được các kèo như v cần phải follow các dự án, có kiến thức về defi, k bỏ qua cơ hội.
+
+Hiện giờ task phải làm khó hơn và airdrop xảy ra liên tục
+
+-> Yield Farming:
+Yield Farming tương tự trong Cefi người dùng gửi tiền vào tk ngân hàng và ngân hàng đem tiền đi cho vay trả 1 phần lãi cho ta. Chỉ khác là trong defi thì ta k gửi ngân hàng mà gửi vào pool
+User -> khóa tài sản vào pool thanh khoản -> user khác vào vay trên giao thưc đó. Tức là hình thức này hoạt động trên các nền tảng lending borrowing. Các yield farmer chính là người giúp duy trì tính thanh khoản bằng việc sử dụng giao thức. Nhờ có họ mà nguồn tiền luôn dồi dào cho mọi người mua bán, vay, hoán đổi token. Cũng tương tự với các giao thức swap. Càng nhiều người sử dụng thì farmer càng có nhiều tiền và nó được trả bằng phần trăm tiền người đó sở hữu trong pool. VD như các AMM như Uniswap chính là yield farming.
+
+Liquidity Mining tương tự Yield Farming nhưng chỉ thay đổi có 1 chút và người ta dùng nó với mục đích để bootstrap network. 
+VD Compound là điển hình nhất. Compound với ý định xây dựng là 1 nền tảng lending borrowing với token quản trị là COMP. Nhưng vấn đề là làm sao để phân phát token quản trị này công bằng nhất cho những người tham gia đóng góp vào protocol và làm sao để kéo thêm nhiều người lender và borrower. Nếu ta cho vay và cho vay ở ngân hàng thì khoản tiền nhận được sẽ rất nhỏ và cố định. Nhưng Compound thì khi cung vào pool cho vay và người đi vay sẽ đều nhận được token quản trị COMP. Như v lender vừa có fee của người vay lại vừa nhận được thêm token quản trị COMP(k cần biết giá COMP tăng hay giảm nhưng cứ thêm token là thêm tiền vào). Điều này kéo nhiều lender vào hơn và lender càng nhiều thì lãi suất càng giảm nên borrower càng nhiều ưu đãi nên lại càng tăng. Cứ thế cả lender và borrower đều tăng chóng mặt nên Liquidity Mining là PP bootstrap network tốt nhất hiện tại. Nhược điểm là lạm phát nếu k tìm được nhu cần dùng token đó. Trên nền tảng này thì người dùng vay vẫn phải thế chấp như bth k khác gì.
+
+=> Như v Liquidity Mining chính là Yield Farming nhưng được phát triển thêm được dùng để bootstrap network, thg dùng cho các giao thức mới xuất hiện cần thu hút người dùng mà thôi. 
+=> Như v 2 hình thức này người dùng gửi vào token nào thì sẽ nhận lại 1 lượng lớn hơn token đó chứ k bị đổi sang token khác. Còn liquidity mining thì người dùng nhận thêm native token của nền tảng đó mà thôi.
+
+Staking Coin để chỉ các validator stake vào nền tảng 1 lượng coin để được chọn làm validator trong các blockchain sử dụng PoS để xác thực giao dịch và nhận thưởng.
+Rủi ro rất ít. Càng nhiều tiền đổ vào càng nhận được nhiều tiền vì xác suất làm validator cao hơn. Phần tiền nhận được tùy theo thị trường nếu đồng coin nền tảng tăng hay giảm giá nhưng thường k quan trọng vì downtrend r sẽ uptrend thôi mà. Còn farming chơi 2 đồng stable coin thì kbh lỗ được. Nếu farming k chơi stable coin thì giá 1 đồng coin mà giảm thì nhiều người sẽ đổ xô vào đồng coin còn lại và LP phải chịu rủi ro nhận về 1 đồng token bị downtrend hay nếu thị trường downtrend khiến giá token giảm thì việc add liquidity cho 2 đồng token cùng giảm thì dù số lượng tăng lên nhưng giá trị sở hữu thì éo nên stable coin vẫn được nhiều người chuộng farm nhất.
+Khác biệt: Staking có thời gian cụ thể và chỉ stake vào 1 đồng coin nền tảng trong khi Farming sẽ stake vào ít nhất là 1 cặp pair dù nhiều nơi cho phép add hẳn 3 token 1 pool để swap giữa 3 token
+
+Nhiều nền tảng như rose.fi nó sáng chế ra nhiều hình thức mới và những khái niệm trên được dùng lộn xộn. VD rose.fi là 1 nền tảng lending, borrowing chạy trên aura nó có riêng các tính năng add liquidity và pool, farming, staking cũng có nhưng kp như bên trên. Đây là 1 nền tảng chuyên farm stable coin. Bằng cách liên kết với các nền tảng blockchain khác nó cho phép các đồng stable coin như USDT, USDC, DAI, liên kết với các đối tác như BSC thì có thêm BUSD. 
+Cơ chế bên trong khác: kiểu người dùng add Liquidity các cặp vào trong pool và nhận lại LP token của từng cặp pool. Xong lại đem LP token đó để đi farm ở 1 mục riêng. Phần này thì farm cung vào LP token nhận lại đồng Rose là token quản trị của protocol này
+=> Các hình thức ra đời sau có thể hiểu là cơ chế của nó cũng chỉ xuất phát từ liquidity mining và yield farming, hiểu 2 cái đó là hiểu các dạng khác ngay. VD đồng rose ở đây nó cung token quản trị theo kiểu farm như này chứ k ăn fee nên nếu người dùng add liquidity mà k farm thì sẽ k có lãi. Lợi nhuận từ protocol này tầm 20% 1 năm nhưng do đồng Rose nhu cầu out nhiều tương tự 1 cách bootstrap network cung token 1 cách công bằng với liquidity mining ấy, nên giá nó bị lạm phát giảm đều đều thành ra chung qua lại cũng chỉ vài phần trăm 1 năm. Đây là 1 nền tảng cho lợi nhuận ít nhưng ổn định. Nhiều người deposit trên defi hơn cefi vì ngân hàng nó khóa 1 năm cơ còn defi muốn rút lúc nào cx đc. Chức năng stake của rose thì stake vào Rose để nhận lại stRose làm gì đó cũng éo biết nx.
+
+=> Để kiếm tiền, ta chỉ cần chọn protocol nào hot nhất, có lãi suất cao nhất thì add coin vào và nhận thưởng đều đều. Nó như gửi ngân hàng nhưng đây là defi. Do đó hình thức này k được xem là hình thức kiếm tiền tốt trong defi vì nó quá dễ và quá phổ biến nên đa phần nó cũng chỉ như gửi ngân hàng bth. 
+Yield Farming chỉ xuất hiện trong 3 nhóm protocol là lending/borrowing(phổ biến nhất), margin trading x nhiều lần(chỉ là 1 dạng khác của lending/borrowing), các nền tảng cho liquidity mining.
+coingecko.com/en/yield-farming là trang tổng hợp các nền tảng có pool nào có lãi suất cao nhất. Vì hiện tại có nhiều nền tảng và mỗi nền tảng có nhiều pool, mỗi pool lại cho mức lãi suất khác nhau nên cần những trang như này để check
+Impermanent loss là risk trong các AMM khi farm các token bị biến động mà giá token ta farm xong bị giảm mạnh vì user xu thế trả lại cho ta nhiều token thanh khoản yếu
+Có thể phân ra 3 loại pool:
+pool cặp stable coin: cho lợi nhuận thấp, rủi ro thấp VD DAI-USDC
+pool cặp coin top: 2 coin top là 2 coin có giá biến động theo BTC nên giảm thiểu impermanent loss. Lợi nhuận và rủi ro ở mức trung bình. VD ETH-LINK
+pool 1 coin top và 1 yield farming coin: rủi ro cao và lợi nhuận cao. Lợi nhuận có thể hơn 1000% để khuyển khích người dùng farm nhưng sẽ lỗ nếu như giá token giảm xuống. VD: SUSHI-ETH
+Người ta thg tìm các protocol có pool 0 + pool 2 or pool 1 + pool 2 để farm trên các nền tảng đó và tạo ra cách chơi không thể nào thua được. VD họ farm pool 0 cung vào 2 stable coin và nhận được thêm yield farming coin đồng thời có lãi vì stablecoin cản impermanent loss. Xong họ lấy phần coin lãi để farm tiếp ở pool 2 với lợi nhuận cao nhất có thể đến 1000%. Như v dù giá token ở pool 2 có giảm họ vẫn k lỗ vì họ chỉ trade trên số tiền lãi thôi
+Uniswap bản cũ ta đã biết còn bản mới nếu người dùng cung thanh khoản thì còn nhận đồng UNI nx cơ, 1 cơ chế Liquidity Mining.
+
+-> Retail Investor(nhà đầu tư nhỏ lẻ) có thể kiểm tiền bằng primary market or secondary market
+
+Primary market là private sale mua trực tiếp từ dự án chứ kp mua bán qua lại giữa các trader với nhau, VD ICO, IEO, pools. Khi mà các ICO và IEO đã k còn phổ biến như thời kỳ đầu thì bh người ta mua token dự án thông qua các pool. Người mua phải chấp nhận điều khoản của dự án và thường được trả token từng phần trong bao lâu, VD trả 25%, sau 6 tháng lại trả tiếp 25%,.. giúp tránh xả coin ngay sau khi list vì ko biết sau 6 tháng 6 giá token là bnh. Luôn mua được giá thấp hơn giá sau khi lên sàn. Số lượng coin có giới hạn, Rủi ro scam.
+=> Cách chơi hiệu quả: bán ra chốt lời ở 1 lãi suất thấp để có được khoản tiền ít nhất là hòa vốn. Sau đó phần coin dư lãi thì chờ target giá lên cao hơn thì bán => chơi kbh lỗ, tâm lý tốt k bị FOMO, k còn bị ảnh hưởng bởi tin đồn thị trường
+
+Secondary Market: mua bán qua các exchanges giữa các trader, investor với nhau
+Kinh nghiệm với các liquidity mining token là sau khi token được list sàn thì trong 1, 2 ngày đầu k nên mua vào vì giá đang tụt dần về đáy và mua vào sẽ lỗ luôn. Đa phần là như v mặc dù có nhiều token khác sau vài chục ngày mới chạm đáy. Với liquidity mining, token trả ra trong tuần đầu lớn hơn rất nhiều so với các loại khác vì thời gian đầu reward rất lớn nên hút nhiều người vào làm token mint ra nhanh và bị xả lấy lời luôn nên giá dump sấp mặt. Nếu vào ngay trong 2 ngày đầu sau khi list sàn thì gần như 99% là lỗ. Còn vài ngày mới vào thì có thể ăn lãi rất lớn or lỗ rất lớn. Tầm 7 ngày đầu mà vào thì xác suất bị lỗ vẫn khá cao.
+Các token liquidity mining có xu hướng xả ra nhiều làm lạm phát giá dump sẽ tăng nhanh trong 2 ngày đầu và chạm đáy trong 7 ngày đầu, sau đó sẽ tăng 1 phát lên ATH r dump kéo dài. Nếu đầu tư ở secondary market thì nên đầu tư vào các token khác khi mà nhu cầu mua vào nhiều tốc độ xả chậm, xu hướng giá giảm tạo đáy để pump lên cao
+Mua ở second xem chừng khó hơn nhưng ta có thể mua vô tận, hạn chế được rủi ro scam, unlock token vì đã được list sàn. Nếu scam thì vẫn có thể bán hết kịp vì trên sàn luôn có thể mua bán trước khi dump về 0. Nhưng trader đoán giá rất khó ha.
+
+-> Kinh nghiệm trader:
+Tùy vào các loại coin mà có mức view phù hợp, tốt nhất là tầm trong 1 tháng
+Khi cây nến đi ngang kéo dài tức là nó còn tăng nx vì khi đạt đỉnh, cây nến kbh đi ngang mà nhấp nhô lên r xuống ngay
+Nên chốt lời sao cho khoản lãi tầm 70% vốn bỏ ra, phần còn lại dự đoán thị trường đi lên hay xuống mà để lại hay rút hết luôn
+Đã chơi là chơi đến cùng, éo có giảm thì bán ra hết
+Giá đang giảm thì bán, đang trend tăng trong cực ngắn hạn mới mua
+Mua vào cây nến đỏ vì xác suất tiếp theo là 1 cây xanh cao hơn là tiếp theo là 1 cây đỏ
+K nghe theo bất cứ mô hình nào
+Trong phạm vi 1 tháng mà cây nến cứ tăng or cứ giảm sau mỗi ngày thì k phải trend đi ngang, cần xem xét trc khi mua
+
+-> Tokenomics là token và economic là các thông tin dùng để xem xét, đánh giá sơ bộ nền kinh tế của 1 token(tiền mã hóa) nào đó. Tokenomics cho thấy quá trình vận hành và phát triển của tiền điện tử => trader dựa vào số liệu đó để đưa ra quyết định
+
+Các thuật ngữ APR, APY:
+APR(Annual percentage rate) là tỷ lệ phần trăm hàng năm. APY(Annual percentage yield) là lợi suất phần trăm hàng năm
+Trong đó APR không tính ảnh hưởng lãi gộp còn APY thì có. Tuy nhiên 2 thuật ngữ này có thể dùng thay thế cho nhau.
+TVL là tổng giá trị các thanh khoản mà tất cả người tham gia trong pool. Càng lớn càng khỏe, giá trị này mà giảm liên tục thì dễ bong bóng nổ sml
+
+Phân biệt: total supply là tổng cung tức số coin đang lưu thông trên thị trường(circulating supply) + số coin đang bị khóa - số coin đã burn
+
+Market cap(market capital) là vốn hóa thị trường của dự án = circulating supply * token price => tức tổng giá trị của token đang lưu thông trên thị trường
+FDV(Fully dilluted valuation) là vốn hóa của dự án nhưng tính bằng cả tổng lượng token đang lưu thông và chưa được mở khóa của dự án = total supply * token price
+
+Token allocation:
+Team gồm founder, co-founder, developer, marketer, advisor,... những người có đóng góp quan trọng và lý tưởng đề xuất là 20% vì nếu quá thấp thì đội ngũ dự án không có động lực, quá cao thì sẽ bị tập trung, cộng đồng không muốn nắm giữ token của dự án nx
+Foundation reserve(dự trữ) là khoản dự trữ cho việc phát triển sản phẩm cũng như các tính năng trong tương lai
+Liquidity Mining như phần thưởng cho các trader tích cực cung cấp thanh khoản cho dự án
+Seed/Private/Public sale: token còn được dùng cho các đợt mở bán để huy động vốn phát triển sản phẩm. Thông thường sẽ có 3 đợt mở bán như v
+Airdrop/retroactive: token 1 phần còn được dùng làm quà tặng tri ân miễn phí cho người dùng ủng hộ dự án, lý tưởng tầm dưới 5%. Ngày xưa đơn giản là follow hay retweet còn bh phải skin in the game mới được nhận
+
+--> Các hình thức huy động vốn: 
+Seed sale: mở bán đầu tiên khi mà đa số sản phẩm dự án chưa hoàn thiện
+Private sale: khi dự án đã có sản phẩm và minh chứng được 1 vài thành tích nhất định để cho thấy tiềm năng của mình
+Public sale: là đợt mở bán cho toàn cộng đồng. Có thể launch token dưới 3 hình thức chủ yếu là ICO, IDO, IEO
+
+Tuy nhiên 1 số dự án lựa chọn phân phối theo testnet, airdrop, staking, liquidity providing => fair token distribution giúp phân bố token bình đẳng giữa những người quan tâm đến dự án. VD UNI, SUSHI, Yearn(YFI) gọi là fair launch đã biết và khi dùng hình thức này thì dự án không được kêu gọi vốn như bth
+
+Token governance có thể là tập trung or phi tập trung. Ngoài ra còn có hình thức đi từ tập trung đến phi tập trung VD như Binance coin lúc đầu quản trị hoàn toàn bởi Binance nhưng sau khi ra mắt BSC thì Binance đã dần dần phân quyền BSC và chia BNB cho cộng đồng kiểm soát và họ sẽ toàn quyền quyết định
+
+-> Spot trading là giao dịch giao ngay, là phương thức mua và bán tài sản theo tỷ giá trị trường hiện tại và nhận ts ngay lập tức. VD ta có 10 coin giá 100$ thì dùng spot trading ta có thể nhận được 100$ thanh toán tiền mặt ngay lập tức nếu có ý định bán và có người mua. Chỉ là kiểu giao dịch bình thường khác với hợp động tương lai phải chờ mua/bán ở tương lai thì ở đây mua bán ngay lập tức mà thôi
+=> 1 cách kiếm tiền nhanh dựa vào chênh giá nhưng rủi ro cực cao, y như cá cược v.
+
+-> Các hình thức kiếm tiền mới: lucky draw, airdrop, mint nft tham gia các sự kiện cá độ. 
+Bluemove là nền tảng NFT hàng đầu trên aptos. Chờ bán NFT r mua bán lại => dead trend luôn
+Sui là blockchain layer 1 như aptos ấy. Bluemove cũng có cả trên sui
+Souffle3 cũng là 1 NFT Marketplace mới trên aptos.
+Okex là sàn CEX giao dịch tiền mã hóa
+Trader Jode là nền tảng NFT số 1 trên avalanche
+
+Vài tính năng:
+Trang báo xem có airdrops nào chưa claim không: https://earndrop.io/airdrops
+Trang báo check cùng lúc nhiều chain về coin và NFT: https://allchains.xyz/
+Check token 1 lúc nhiều ví đa mạng: https://cointool.app/batchCheckBalance/eth
+Faucet gas free: https://stakely.io/en/faucet
+
+2 tk:
+1) discord HieuNT mới số đt chính
+Twitter gốc nick hieucuopbien123@gmail.com
+metamask account 1
+2) discord NTH cũ số điện thoại của tân
+Twitter mới nick hieucuopbien1234@gmail.com
+metamask account 2
+
+

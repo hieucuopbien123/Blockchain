@@ -1,0 +1,80 @@
+Các giao thức đồng thuận giải quyết 2 vấn đề: khối tiếp theo phải là khối đúng nhất và thống nhất nhằm tránh các vấn đề phân nhánh; mạng phải chịu lỗi khi kẻ tấn công có nguồn lực mạnh mẽ nhằm phá hủy mạng(không xét lớn hơn 1 nửa vì hơn 1 nửa thì chính nó là số đông phải theo r)
+
+Cơ chế đồng thuận thì luôn phải có sự thỏa thuận với các thành viên trong mạng lưới nhằm đạt được giá trị dữ liệu chung cụ thể. Các thành viên có thể không tham gia trao đổi, mất kết nối, hacker,.. nên các hệ thống phải có khả năng chịu lỗi cao. 
+Các giao thức phải khả thi trong thực tế: quá trình đồng thuận không được kéo dài vô hạn mà trong ktg cho phép; quyết định của 1 thành viên sẽ k bị đổi; các thành viên phải đồng ý về cùng 1 giá trị.
+
+Bình thường, nếu như bất cứ ai cũng đề xuất 1 khối mới vào bất cứ thời điểm nào thì sẽ rất khó để mạng lưới đi đến đồng thuận cuối cùng vì ai cũng tương tác đề xuất khối liên tục sẽ kb nên đồng thuận phương án nào. Do đó PoS ra cơ chế bầu chọn random người lãnh đạo là validator, nhưng 1 node có thể giả dạng nhiều node nên cơ chế này cần tạo sự khan hiếm hơn nx cho validator, thành ra họ phải stake vào coin. PoS và PoW là VD điển hình của dạng này.
+
+1 loại đồng thuận mà đi theo hướng khác hơn theo cơ chế kháng lỗi BFT truyền thống: khi đó, không có các hđ minh chứng công việc hay cổ phần stake của các thành viên mà họ sẽ gửi các thông điệp chứa chữ ký của mình đến các thành viên khác. Cuối cùng, khi nhận được cùng 1 thông điệp có giá trị nhất định 1 lượng đủ để chứng minh, các thành viên sẽ đạt được thỏa thuận chung.
+Khi số lượng thành viên nhiều thì cơ chế này lại k tốt khi mà thông điệp gửi đến quá dồn dập. Vì 1 người gửi đi cho 1 người khác rồi cả 2 cùng gửi đi tiếp và cứ thế cho đến khi 1 người nhận được 1 số lượng thông điệp đó để xác minh tính chính xác. Mà lại có nhiều người cùng gửi thông điệp 1 lúc thì số lượng tăng rất lớn. Khi đó PoS và PoW lại tốt nhưng tốc độ lại chậm
+
+
+Delegated Proof of Stake(DPoS)-Bằng chứng cổ phần ủy quyền:
+Cơ chế đồng thuận nhanh sử dụng trong EOS. EOS là một hệ thống phân cấp dựa trên Blockchain cho phép phát triển, lưu trữ và thực hiện các ứng dụng phi tập trung quy mô thương mại. Các cơ chế cơ bản thì giống PoS
+DPOS coi là nền dân chủ kỹ thuật số do hệ thống bỏ phiếu có trọng số tương tự như quá trình các cuộc bầu cử hiện đại. Người dùng bỏ phiếu cho 1 số lượng đại biểu nhất định bằng cổ phần của họ. VD: A đặt 10 xu bầu đại biểu, B đặt 1 xu bầu đại biểu thì đại biểu của A có giá trị trọng số gấp 10 lần đại biểu do B bầu. Đại biểu được bầu sẽ tạo block và nhận thưởng. Số lượng đại biểu phụ thuộc vào thiết kế blockchain.
+Các đại biểu có thể vận động tranh cử cho mình bằng cách cắt giảm chi phí xác thực khối or tiếp thị. Vì khi đại biểu nhận được càng nhiều phiếu tốt thì họ càng tạo ra những thứ có giá trị cho cộng đồng. 
+DPoS tốt hơn PoS và PoW. Xử lý hàng triệu giao dịch mỗi giây. 
+Người tạo khối là những người chịu trách nhiệm tạo và ký các khối mới được bầu bởi cử tri nắm giữ cố phần trong mạng
+Người xác nhận là bất kỳ ai chạy fullnode tải dầy đủ blockchain và thực hiện xác minh lại tính hợp lệ của cac khối tạo ra bởi người tạo khối. Khác với PoS, khi mà người xác nhận còn có vai trò tạo ra các khối. 
+Số lượng người tạo khối tùy thuộc vào quy tắc đồng thuận từng loại blockchain: EOS là 21, BitShares: 101, Steemit: 21, Lisk: 101, Ark: 51
+Bầu chọn N người tạo khối từ nhóm ứng viên -> các thành viên trong mạng sử dụng cổ phần của mình để bầu chọn ra đủ N thành viên có nhiệm vụ tạo khối -> Từ N người tạo khối, 1 thuật toán sẽ chọn ra người có quyền được tạo khối trong 1 thời điểm nhất định. Có nhiều cách VD round-robin tùy vào thiết kế
+1 khối được xác minh hoàn chỉnh khi 2/3 số người tạo khối + 1. Người xác nhận sẽ loại bỏ những người tạo khối độc hại bằng cách kiểm duyệt lại tính hợp lệ và k bỏ phiếu cho những người tạo khối gian lận trong vòng tiếp theo.
+
+Proof of Burn(PoB)-Bằng chứng tiêu thụ:
+Người dùng burn tài sản của họ để mở đặc quyền được khai báo trên hệ thống dựa trên 1 qtr lựa chọn ngẫu nhiên. Vc người dùng burn 1 lượng tài sản để chịu 1 khoản lỗ ngắn hạn đổi lấy lợi ích dài hạn. Càng đốt nhiều tiền, họ sẽ càng có cơ hội khai thác thành công khối tiếp theo và nhận thưởng. 
+Thợ đào có thể tiêu thụ tiền tự nhiên or tiền tệ của 1 chuỗi khác như bitcoin. Nhược điểm của cách này là lãng phí nguồn lực khi mà quyền khai thác trao cho người lãng phí nhiều tiền hơn. Slimcoin là 1 coin dựa trên peercoin dùng bằng chứng tiêu thụ
+
+Proof of Authority(PoA):
+các giao dịch được xác thực bởi các tk được phê duyệt giống như các quản trị viên của hệ thống. Các tk này là cơ quan trung gian xác nhận cho toàn mạng. PoA có thông lượng cao và được tối ưu hóa cho các mạng private blockchain, khả năng mở rộng tốt. PoA k phù hợp với public blockchain vì tính chất tập trung của nó
+PoA được dùng trong POA network, Kovan testnet của ethereum
+ 
+Proof of Weight:(PoWeight):
+Là tên của 1 họ các thuận toán đồng thuận. Các thuật toán này giống PoS vì số lượng cổ phần của thành viên đại diện cho xs được chọn làm miner tiếp theo nhưng nó còn mở rộng bằng các sử dụng 1 số trọng số tương đối để điều chỉnh như Proof-of-spacetime của filecoin dựa trên số dữ liệu IPFS mà người dùng lưu trữ or trong các hệ thống khác có thể bao gồm các trọng số như Proof-of-reputation
+Nó được dùng trong Algorand, Filecoin, Chia. Tính mềm dẻo cao nhưng có thể phức tạp trong các cơ chế trao thưởng
+
+Proof of Activity(PoActivity):
+Kêt hợp cả PoS và PoW. Đầu tiên thợ đào sẽ khai thác kiểu truyền thống PoW giải đố, sau khi xong thì các khối được khai thác sẽ k có giao dịch nào mà chỉ chứa header và phần thưởng cho thợ đào. Lúc này, hệ thống chuyển sang PoW. Validator sở hữu nhiều tiền hơn được chọn nhiều hơn sẽ ký vào khối mới dựa vào thông tin header đã có. Khi tất cả các trình ký xác nhận thì mẫu sẽ được thêm vào khối mới. 
+Nếu 1 validator k có mặt để hoàn thành khối thì khối chiến thắng được chọn bởi 1 trong các trình xác nhận mới được chọn và cứ thế đến khi đủ số chữ ký. Lệ phí chia giữa người xác nhận và người miner giải bài toán khó. 
+VD: Decredcoin là đồng tiền ảo sử dụng PoA. Nhược điểm vẫn tốn nl như PoW và nhược điểm của PoS thì những người kiểm chứng vẫn có thể liên kết với nhau
+
+Proof of Elapsed Time(Bằng chứng thời gian chờ):
+Tạo bởi nsx chip Intel. Hoạt động tương tự PoW nhưng tiêu thụ ít điện hơn. Thay vì có người giải đố, nó dùng môi trường thực thi tin cậy(TEE) chẳng hạn như SGX(Software Guard Extensions) để đảm bảo 1 khối mới được sx ngẫu nhiên mà k cần PoW cần thiết. Cách tiếp cận dựa trên thời gian chờ cung cấp qua TEE. Thuật toán này hoạt động hiệu quả trên bất cứ bộ xử lý Intel nào hỗ trợ SGX. Vấn đề là ta phải tin vào Intel.
+PoET được phát triển cho blockchain được cấp phép xác định ai đủ điều kiện dựa vào thời gian chờ xác định trước ngẫu nhiên, được áp dụng trong mọi vòng của quá trình khai thác khối. Sao cho nút có thời gian chờ ngắn nhất sẽ được khai thác. Nó như kiểu quay xổ số theo tg đã trôi qua. 
+
+Proof of Capacity(Bằng chứng sức chứa):
+Thay vì tiền thì ta dùng khoảng trống ổ cứng. Ai càng nhiều không gian ổ cứng thì cơ hội khai thác nhận thưởng càng cao. Trước khi khai thác, hệ thống tạo ra các bộ dữ liệu lớn là Plots. Ai có càng nhiều không gian ổ cứng sẽ càng có nhiều Plots thì cơ hội tìm kiếm chuỗi kế càng cao. 
+Các biến thể của nó là bằng chứng lưu trữ và bằng chứng về không gian. Burstcoin là đồng tiền dùng PoC
+
+Proof of Importance(PoI): thuật toán đồng thuận do NEM giới thiệu, xác định nút nào có thể thu hoạch 1 khối dựa trên chỉ số quan trọng. User cung vào lượng XEM nhất định để tính mức độ quan trọng. K như PoS chỉ đặt cọc tiền thì cái này phải dựa trên việc xác nhận, đối tác giao dịch xung như quy mô, tần suất,..
+
+
+Các thuật toán đồng thuận dựa trên BFT:
+Practical Byzantine Fault Tolerance(PBFT):
+1 trong những giải pháp đầu tiên cho BFT là PFBT, đang dùng trong Hyperledger Fabric. PBFT hiệu quả với mạng lưới ít thành viên(tầm <20). 
+Nó cung cấp 1 bản sao state machine chịu được Byzantine. Các nút được sắp xếp theo thứ tự nút chính và nút dự phòng. Tất cả các nút giao tiếp với nhau và không chỉ phải chứng mình các tin nhắn đến từ 1 nút ngang hàng mà còn phải xác minh tin nhắn k bị sửa đổi khi truyền đi.
+Giả sử nút độc hại không quá 1/3 tổng số nút. Khi càng nhiều nút thì càng khó có hành vi độc hại.
+Quy trình 1 vòng đồng thuận: 1 nút nào đó gửi yêu cầu đến nút chính yêu cầu xác thực -> nút chính đồng thời gửi đến các nút dự phòng -> nút dự phòng xác thực và phản hồi -> chờ đủ f+1 node (f đại diện cho số nút tối đa có thể bị lỗi) phản hồi từ các nút cùng kết quả thì chốt đó là kết quả cuối. Nút chính có thể thay đổi theo vòng or bằng các guao thức lựa chọn. Đa số các nút trung thực có thể quyết định nút chính có bị lỗi không và thay thế chúng. 
+Thông lượng giao dịch cao nhưng tập trung và chỉ phù hợp với private blockchain
+
+Delegated Byzantine Fault Tolerance:
+Dùng trong tiền ảo NEO.
+VD nước A có nhiều dân cư(dự án nhiều người sở hữu coin) -> Mỗi cư dân bỏ phiếu lựa chọn 1 đại biểu đại diện. Người đại diện phải thông qua các đạo luật có lợi cho công dân, nếu k sẽ k bầu cho họ nx trong TL(Các validator) -> chọn random trong số người đại diện ra 1 người phát ngôn -> người phát ngôn nhìn vào yêu cầu của công dân và tạo 1 đạo luật mới(block mới) và tính toán chỉ số hài lòng(mã hash) -> các đại diện khác sau đó kiểm tra tính toán người phát ngôn. Nếu con số phù hợp thì lấy, k thì k lấy. Ít nhất 66% số lượng đại diện đồng ý thì đạo luật mới được thông qua(block được mine)
+Nếu người phát ngôn gian lận thì các đại diện sẽ check và bác bỏ cái sai, miễn là k lừa được 66% người đại diện.
+Nếu các đại diện gian lận thì cũng phải 66% số đại diện gian lận mới hack được.
+
+VBFT:
+1 biến thể khác của BFT, kết hợp PoS. Dùng hàm ngẫu nhiên VRF(Verifiable Random Function trong chainlink). Các node chọn ngẫu nhiên bằng VRF chịu trách nhiệm đề xuất, xác minh, bỏ phiếu khối mới. Nó giống BFT nhưng kết hợp PoS chọn đại biểu hoàn toàn ngẫu nhiên với VRF
+
+Federated Byzantine Agreement(FBA):
+
+Directed Acyclic Graphs(DAGs):
+là 1 hình thức đồng thuận không xử lý giao dịch ko đồng bộ. Về lý thuyết nó cho xử lý vô hạn giao dịch 1s. 
+Trong IOTA: 
+Tangle là thuật toán đồng thuận DAG dùng trong blockchain IOTA. Để gửi đi giao dịch, ta cần xác thực 2 giao dịch trước đó ta nhận được. Tức là sự đồng thuận được thiết lập bởi các giao dịch và ai tạo ra 1/3 số lượng giao dịch thì có thể gian lận các giao dịch khác nhưng điều này k khả thi. IOTA còn kiểm tra lại tất cả các giao dịch trên 1 nút "The Coordinator". Nút tập trung này hoạt động như 1 bánh xe huấn luyện hệ thống và bị xóa khi Tangle đủ lớn. 
+Trong Hashgraph:
+Các node chia sẻ giao dịch đã biết của họ với các node khác ngẫu nhiên để đến cuối, tất cả các giao dịch được phát tán xung quanh các node. Do đó nó hoạt động nhanh nhưng dễ bị tấn công bằng cách giả mạo node trên mạng. Hashgraph chỉ phù hợp cho private network có cấp phép và khó triển khai trên các public blockchain
+SPECTRE:
+là 1 giải pháp mở rộng bitcoin bằng cách tuần tự hóa các sự kiện PoW. Nó kết hợp PoW và DAG để mở rộng sự đồng thuận. Trong SPECTRE, các block được khai thác trỏ đến nhiều block cha mẹ. Vì v mạng xử lý nhiều block hơn 1s. VD: 1 khối được khai thác sẽ trỏ đến khối cha và xác định tính hợp lệ khối cha đó. Trong PoW, các block thuộc chuỗi dài nhất, còn trong SPECTRE thì các khối có nhiều con nhất là khối đáng tin cậy nhất vì khối đó được xác thực nhiều lần bởi các con. 
+
+Khi quyết định làm trên nền tảng nào cần biết nhu cầu là gì, cần tính bất biến, bảo mật hay tốc độ, trải nghiệm người dùng. Vd dùng Cosmos SDK có thể dùng để xây ứng dụng cho phép dev tận dụng tốc độ đồng thuận cao của Tendermint Core.
+Vấn đề tập trung hóa cũng cần quan tâm vì ngay cả ethereum và bitcoin cũng có sự tập trung ở các nhóm validator hay các mining pool. VD: ta sử dụng EOS với giao thức DPOS cho phép tốc độ nhanh và chi phí ~0 nhưng lại tập trung vào nhóm khai thác. Ta có thể xem xét 1 số nền tảng cho phép phân cấp mức độ tùy nhu cầu. Kiểu gì cũng phải đánh đổi có cái này mất cái kia

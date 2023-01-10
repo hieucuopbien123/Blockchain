@@ -1,4 +1,5 @@
 Blockchain Solana
+Ethereum ra đời khắc phục nhược điểm chậm của Bitcoin nhưng Ethereum lại gặp vấn đề phí cao khi mà bị nghẽn mạng -> nh blockchain khác như Algorand, solona ra đời nhằm khắc phục tiếp các nhược điểm của ethereum. 
 
 
 

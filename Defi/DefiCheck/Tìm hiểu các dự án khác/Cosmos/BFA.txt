@@ -1,0 +1,37 @@
+FBA cải tiến dự trên FBT, tiên phong dùng trong mạng blockchain Ripple, sau đó là Stellar cải tiến hơn nữa để đạt được sự chịu lỗi và an toàn hơn.
+
+FBA đưa ra 1 hệ thống thành viên mở bất cứ ai cũng có thể tham gia. Các nút có thể chọn người mà họ tin tưởng. Các đại biểu là các quorum trên hệ thống được đưa ra bởi các nút riêng lẻ. Nó dựa trên cơ sở các nhóm Quorum phải đạt được sự đồng thuận, đó là các nhóm quorum chồng chéo hình thành bởi người xác nhận, k cần cơ quan trung ương quyết định ds người xác nhận.
+
+FBA chia thành các nhóm liên kết với nhau. Nhờ Quorum và Slice để đạt sự đồng thuận nhanh hơn bình thường:
+Quorum(Đại biểu) là 1 tập hợp các nút đủ để đạt được thỏa thuận. Có nhiều quorum giao nhau tức là 1 nút có thể thuộc nhiều quorum
+Quorum slice: 1 tập hợp các node đủ để thuyêt phục 1 node khác về tính hợp lệ 1 câu lệnh
+
+Hệ thống đồng bộ phân tán phải có: khả năng chịu lỗi khi 1 tác nhân gây hại ở bất kỳ điểm nào; khả năng ngăn chặn lỗi xâm nhập vào sổ cái sau đó là ngăn chặn tiến trình của nó
+
+Vd: 1 tập hợp node ABCDEFG thay vì hoạt động như BFT là mọi node xác nhận, ta chia thành từng nhóm Quorum1(ABCD) và Quorum2(EFG) và hoạt động độc lập rồi đi đến thống nhất sau
+Thực tế thì các quorum để đạt được sự đồng thuận thì phải có ít nhất 1 giao điểm với quorum khác. 
+VD: Quorum1(ABCD) và Quorum2(DEFG) thì mới hợp lý. 2 đại biểu có chung 1 node để thực hiện thỏa thuận thống nhất trong cả 2 quorum đó. 
+Các quorum rời rạc tồn tại là điều không mong muốn
+
+Blocked là trạng thái khi các node không đi đến thỏa thuận cuối cùng được, làm hệ thống bị chậm đi trong quá trình đồng bộ. Các node sẽ phải thỏa thuận lại.
+Các nút Divergent là các nút có output không phù hợp với output nút khác cũng phá vỡ thỏa thuận hệ thống. Trạng thái này xảy ra khi các ledgers do các nút khác nhau lại nắm giữ trạng thái khác nhau và không thể hòa giải.
+=> Trong khi blocked làm chậm quá trình đồng thuận thì Divergent làm hệ thống hiển thị dữ liệu trái ngược nhau rất nguy hiểm
+
+Trong BFA, các node riêng lẻ tự quyết định người mà họ tin tưởng để cung cấp thông tin. Mỗi node có thể có nhiều slice. Các nút riêng lẻ quyết định dựa trên các tiêu chí bên ngoài. 
+FBA an toàn vì việc dùng sức mạnh tính toán để hack là không thể. Kể cả các tác nhân xấu cấu kết với nhau thì hầu như không thể tạo ra mạng đa số được vì hệ thống hình thành từ 1 mạng phức tạp gồm các lát cắt slice số quorum chồng chéo lên nhau
+
+Điểm yếu là việc tin tưởng giữa các node vì nếu node ta chọn phản bội thì sẽ ảnh hưởng đến tốc độ đồng thuận. Sẽ được thay thế bằng node dự khuyết
+
+FBA cũng chịu lỗi của BFT là N=3f+1 với N là tổng số nút và f là số nút lỗi hay nó hoạt động tốt khi f <= (N-1)/3
+Ngoài ra FBA còn thêm độ chịu lỗi của giao điểm là T=2f+1 với T là kích cỡ quorum(T>N/2)
+
+FBA có thông lượng giao dịch cực kỳ lớn, chi phí thấp và khả năng mở rộng tuyệt vời. mà vẫn phi tập trung. Được coi là giao thức tốt nhất cho các hệ thống đồng thuận phân tán.
+
+Hiện tại các giao thức phổ biến toàn của BFT như PoS, PoW và còn các giao thức nhóm FBA thì ít hơn. BFT dùng nhiều trong các các dự án cryptocurrency.
+Có nhiều biến thể của FBA mở rộng hơn như mFBA, SCP(của PI).
+Tuy nhiên thực tế, tùy mục đích tùy dự án khác nhau mà nên dùng cơ chế đồng thuận khác nhau.
+
+Để xử lý vấn đề node tin tưởng phản bội. PI dùng Trust Graph để rank thứ tự về độ tin cậy, 1 node lỗi sẽ out ra để node khác nhảy vào. Cái hay của SCP mà PI đang cải tiến là cả mạng sẽ k bị phụ thuộc nhiều vào Validator Node(mà PI gọi là Supernode). Quorum slice + trust graph sẽ tăng tính phi tập trung hơn. Trên testnet của PI thì có 3 supernode do họ quản lý, sau này mainnet họ có thể cho vài ngìn supernode chọn random dựa trên lịch sử chạy node của các thành viên
+
+VD: trong Ripple, mỗi thành viên có vai trò người xác thực sẽ được Riplle chọn trước. Còn trong Stellar, bất kỳ ai cũng có thể là người xác nhận và user tự chọn cho mình người xác thực đáng tin. 
+Mỗi thành viên sẽ tự chịu trách nhiệm về chuỗi khối của riêng họ, sắp xếp và công bố nó.
