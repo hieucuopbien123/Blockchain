@@ -1,0 +1,41 @@
+Aptos frontend
+
+
+# Basic
+-> Khi trong browser có ví aptos thì sẽ có window.aptos
+Cách rất pro để chắc chắn window.ethereum hay window.aptos tồn tại ta phải bắt sự kiện onLoad xong mới xây cấu hình DOM cho trang web. Sẽ tránh được lỗi vừa vào browser đã mở web lên mà chưa bắt được ví ethereum.
+window.addEventListener('load', () => {
+  root.render(
+    <React.StrictMode>
+      <App />
+    </React.StrictMode>
+  );
+});
+=> Trong aptos đôi khi k bị, check nếu bị thì dùng
+
+
+
+# Tương tác aptos
+Thực tế để gọi các hàm của aptos, ta chỉ cần biết 1 cái payload của hàm đó là xong. Trong aptos gọi và connect đơn giản hơn ethereum rất nhiều
+Để gọi hàm phải có biến AptosAccount chứa private key của người dùng là phía server. Còn frontend chỉ cần lấy hàm từ provider extension ví của người dùng gọi được.
+
+Với mọi blockchain khi sử dụng, phía frontend tối thiểu cần thao tác được những function là:
+Thực hiện các hàm getter chung kiểu check balance có sẵn của blockchain k cần connect ví. Có thể thực hiện các hàm tạo transaction phải connect ví nhưng k từ SM mà core có sẵn
+Thực hiện connect ví và hàng loạt các thao tác đổi ví, đổi account, đổi mạng phức tạp
+Thực hiện transaction trong SM, bắt trạng thái của transaction
+Thực hiện các hàm call getter bình thường từ SM mà k cần connect ví
+Multicall
+Nếu có thể ta sẽ cần ký message và có thể verify ở server để đi tiếp
+
+-> Connect ví
+Dùng thư viện aptos thuần và window.aptos sẽ phức tạp. VD: window.aptos.account() 
+Dùng @manahippo/aptos-wallet-adapter dưới dạng hook giúp connect và gọi hàm ez: thêm provider bao app và dùng hook useWallet để kết nối
+
+-> Trong aptos có các hàm sẵn trong core thao tác với NFT or coin balance mà k cần viết smartcontract, chỉ cần biết payload là gọi được hết. Cài thư viện "aptos", VD xem các thao tác với NFT có sẵn trong node_modules/aptos/src/token_client.ts
+
+-> Thực hiện các hàm call bth mà k cần connect ví:
+const client = new AptosClient('https://fullnode.devnet.aptoslabs.com/v1'); // or bất cứ full node nào
+client.getAccount(address).then(...); => lấy thông tin về 1 address bất kỳ
+await client.getAccountResources("0xf173ae939aa8d8388dc359ad38e2b2cf33a2fa20210f73bb8e9c9dd6da6801e7");
+
+

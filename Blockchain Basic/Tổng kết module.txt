@@ -390,3 +390,24 @@ Nó kiểu A muốn rửa tiền thì A tham gia vào 1 dịch vụ, dịch vụ
 
 --> Khi tiền rửa xong thì tội phạm phải giải thích được làm sao có được nó đề phòng nếu bị điều tra. Chúng sẽ tạo ra 1 công ty trực tuyến chấp nhận bitcoin là 1 khoản thanh toán để biện minh cho thu nhập của chúng. Cách khác là tuyên bố nó đến từ 1 hoạt động kinh doanh có lãi cao của 1 loại tài sản khác. Sau khi nhận bitcoin thì nó mới đổi ra tk ngân hàng như v chứ kp rủa tiền mà ra.
 
+-> Hack blockchain: 
+PP hack phổ biến: hacker sẽ tạo ra 1 trang fake, người bị lừa sẽ vào đó thực hiện giao dịch approve cho hacker dùng các đồng coin của mình (thg là stable coin). VD có thể lừa là airdrop hay gì mà người dùng tin. Để chống, cách tốt nhất là k vào các đường link k uy tín và khi thực hiện transaction phải đọc hiểu nội dung nó cho phép làm gì. Khi săn airdrop nên tạo 1 tk riêng.
+https://revoke.cash/ => trang web cho phép check những đồng nào đang được approve cho ai, có thể vào từng tk để check là tk người hay tk contract để biết. Nó check được cả NFT.
+Kiểu hack này khó phát hiện vì disconnect khỏi website cũng k thể làm mất cái approve cho hacker được. Khi có quyền approve for all, hacker k cần phải làm thủ công rút tất cả tiền của người bị lừa ra mà chỉ cần đặt 1 con bot bắt sự kiện khi người dùng nhận tiền thì phải transfer cho hắn là được.
+
+-> Sandwich attack: 
+Kẻ tấn công là người hoặc bot khi biết rằng chuẩn bị có 1 giao dịch sẽ tác động lớn đến giá cả thì đặt lệnh ngay trước giao dịch đó nhằm kiếm lời từ chênh lệch giá.
+VD: A chạy 1 full node, A bắt được 1 giao dịch swap lượng lớn từ ETH sang BNB trong 1 pool, giao dịch này sẽ làm giá BNB trong pool đó tăng cao, A liền chèn trước đó 1 giao dịch swap ETH sang BNB của chính hắn. Sau khi kết thúc, BNB hắn vừa swap tăng giá thì hắn lại swap ngược về ETH là ăn lời
+=> Tức kẹp giao dịch chênh giá vào giữa cái bánh sandwich của hắn ăn lời
+
+-> Front running thg xuất hiện cả trong chứng khoán: 
+Một tin tức khi lan truyền ra ngoài cộng đồng sẽ làm ảnh hưởng giá. 1 kẻ biết trước điều đó đã thực hiện các giao dịch từ trước để khi tin lan ra cộng đồng, hắn sẽ có lợi.
+VD: ElonMusk mua hàng đống bitcoin giá normal rồi tung tin sẽ sử dụng bitcoin, tin này lan ra làm giá bitcoin tăng, hắn được lời thì bán ra
+
+Hoặc nhiều case khác: 1 người biết ai đó sẽ cần mua gì đó, hắn mua nó trước với giá rẻ rồi bán lại cho người cần mua với giá cao hơn chút
+
+-> Back running
+Một người thực hiện transaction ngay sau khi 1 người khác thực hiện trans làm biến động giá.
+VD: 1 người đặt 1 con bot tự động, khi ai đó swap ETH với BNB trong 1 pool với 1 số lượng lớn thì ngay lập tức swap 1 lượng BNB sang ETH rồi bán ETH luôn cho 1 sàn khác để ăn chênh lệch giá, đó là những người kinh doanh chênh lệch giá. Họ phần nào giúp cho các pool luôn cân bằng
+
+

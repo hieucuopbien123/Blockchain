@@ -1,13 +1,3 @@
-Solidity
+Solidity 
 
-
-
-# Basic
-
-
-
-## Các tool khác
-# Dùng ganache
-# Dùng truffle
-
-
+=> ref tới "Solidity"

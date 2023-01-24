@@ -1,0 +1,11 @@
+Aptos core
+
+
+# Basic
+cargo là 1 rust package manager, giúp tải các rust package's dependency
+
+Trong aptos k có class này nọ mà mỗi cục là 1 module - tương đương 1 contracts
+Move là ngôn ngữ viết SM trong Aptos, ngôn ngữ dựa trên Rust
+
+-> Cài Aptos cli để compile aptos smart contract. Cài trên window k được, phải theo tut trên linux
+Khi cài aptos cũng tự cài rust cho ta
