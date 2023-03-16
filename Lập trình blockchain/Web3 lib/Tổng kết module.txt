@@ -26,7 +26,7 @@ script unpkg.com/web3@1.2.4/dist/web3.min.js trong file html luôn
 # Dùng JSON-RPC thuần
 Smart contract <-> Ethereum API <-> UI
 Chỉ tiết: Web3 <-- json rpc --> Web3 Provider -> Ethereum Blockchain
-Trong web bình thường ta dùng REST API nhưng blockchain sử dụng json-rpc protocol phức tạp hơn. 
+Trong web bình thường ta dùng REST API nhưng blockchain sử dụng json-rpc protocol phức tạp hơn nhưng tốc độ nhanh hơn.
 
 VD: trong web app VD ta cần làm 1 action get hay edit 1 blog thì ta dùng route kiểu blogs/get/id1 or blogs/edit/id1/username gửi request đó tới server 1 là 1 endpoint để phản hồi
 Nhưng nếu thế thì trong blockchain sẽ có vô số endpoints vì số lượng smart contract là vô kể mà mỗi smart contract lại có 1 endpoint khác nhau vì mỗi smart contract lại có get và edit khác nhau. Tốc độ tạo ra smart contract rất nhanh thì chẳng lẽ mỗi lần SM tạo ra, ta lại phải bảo blockchain Ethereum thêm 1 route mới -> điều này là bất khả thi nên dev của ethereum dùng RPC protocol cho phép dev tạo ra bao nhiêu dynamically endpoint đều được. Nhưng dùng json protocol thuần sẽ rất phức tạp nên các thư viện như web3, ethers ra đời làm đơn giản hóa việc này.
@@ -37,8 +37,9 @@ Vc dùng web3 có đủ hết chức năng để tương tác với smart contra
 -> RPC (remote procedure call) cũng chỉ là gọi procedure từ 1 máy khác không cùng tiến trình với máy thực thi procedure mà thôi. 
 VD A yêu cầu remote B thực thi 1 function -> B thực thì vì function implement trên B -> trả kết quả lại cho A dưới dạng message
 
--> VD tạo 1 blockchain: ganache-cli --host 127.0.0.1
+-> VD tạo 1 blockchain: ganache-cli --host 127.0.0.1 (--blockTime 2 --networkId 12345678)
 Có thể dùng remix tương tác với mạng trên bằng cách chuyển sang web3 provider và gõ vào rpc url http://127.0.0.1:8545
+chainId mặc định là 1337
 
 Lời gọi RPC sẽ có dạng: curl -X POST --data '{"jsonrpc":"2.0","method":"","params":[],"id":64}' http://127.0.0.1:8545
 => Method là tên procedure muốn gọi VD: web3_clientVersion, web3_sha3,..; params là tham số trong request thực hiện các filter; id là giá trị hữu dụng khi dùng websocket nhận 1 luồng response có tác dụng mapping giữa các request và response, TH này dùng POST đơn giản thì k có tác dụng gì
