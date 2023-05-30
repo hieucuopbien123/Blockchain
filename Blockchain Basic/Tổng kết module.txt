@@ -369,6 +369,7 @@ VD: The LAP dùng Shared-based DAO, Compound dùng Token - Based DAO
 # Tương tác crosschain
 # POLKADOT
 # Layer2
+# The Merge
 
 
 

@@ -1,0 +1,12 @@
+Cơ chế đồng thuận:
+Các giao thức đồng thuận giải quyết 2 vấn đề: khối tiếp theo phải là khối đúng nhất và thống nhất nhằm tránh các vấn đề phân nhánh; mạng phải chịu lỗi khi kẻ tấn công có nguồn lực mạnh mẽ nhằm phá hủy mạng(không xét lớn hơn 1 nửa vì hơn 1 nửa thì chính nó là số đông phải theo r)
+
+Điều kiện: Cơ chế đồng thuận thì luôn phải có sự thỏa thuận với các thành viên trong mạng lưới nhằm đạt được giá trị dữ liệu chung cụ thể. Các thành viên có thể không tham gia trao đổi, mất kết nối, hacker,.. nên các hệ thống phải có khả năng chịu lỗi cao. 
+Các giao thức phải khả thi trong thực tế: quá trình đồng thuận không được kéo dài vô hạn mà trong ktg cho phép; quyết định của 1 thành viên sẽ k bị đổi; các thành viên phải đồng ý về cùng 1 giá trị mới được thực hiện.
+
+=> ref tới "Blockchain Basic" có nói về PoW và PoS
+
+
+
+# PoS
+

@@ -1,7 +1,4 @@
-Các giao thức đồng thuận giải quyết 2 vấn đề: khối tiếp theo phải là khối đúng nhất và thống nhất nhằm tránh các vấn đề phân nhánh; mạng phải chịu lỗi khi kẻ tấn công có nguồn lực mạnh mẽ nhằm phá hủy mạng(không xét lớn hơn 1 nửa vì hơn 1 nửa thì chính nó là số đông phải theo r)
 
-Cơ chế đồng thuận thì luôn phải có sự thỏa thuận với các thành viên trong mạng lưới nhằm đạt được giá trị dữ liệu chung cụ thể. Các thành viên có thể không tham gia trao đổi, mất kết nối, hacker,.. nên các hệ thống phải có khả năng chịu lỗi cao. 
-Các giao thức phải khả thi trong thực tế: quá trình đồng thuận không được kéo dài vô hạn mà trong ktg cho phép; quyết định của 1 thành viên sẽ k bị đổi; các thành viên phải đồng ý về cùng 1 giá trị.
 
 Bình thường, nếu như bất cứ ai cũng đề xuất 1 khối mới vào bất cứ thời điểm nào thì sẽ rất khó để mạng lưới đi đến đồng thuận cuối cùng vì ai cũng tương tác đề xuất khối liên tục sẽ kb nên đồng thuận phương án nào. Do đó PoS ra cơ chế bầu chọn random người lãnh đạo là validator, nhưng 1 node có thể giả dạng nhiều node nên cơ chế này cần tạo sự khan hiếm hơn nx cho validator, thành ra họ phải stake vào coin. PoS và PoW là VD điển hình của dạng này.
 

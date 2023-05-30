@@ -43,3 +43,27 @@ Giảm độ trễ, tăng tốc độ => layer 2 giúp thời gian xác thực g
 Giảm tác động ngoại cảnh => lúc cryptokitty mới nổi, các dự án khác của ether bị nghẽn kinh khủng, L2 có thể giảm bằng cách đưa rất ít dữ liệu lên layer1
 Giảm chi phí => L2 tốn ít gas hơn
 
+
+
+# Đào sâu layer2
+Layer2 rẻ hơn nên xử lý logic và tổng hợp nhiều tx lại, còn layer 1 chỉ như 1 nơi lưu data thống nhất chung mà thôi.
+Dù dùng pp nào thì cơ chế chung vẫn là xử lý logic trên layer 2 và đồng bộ state với layer 1 nhưng điều này k dễ dàng vì thao tác này bất đồng bộ.
+
+Layer 1 và layer 2 độc lập nhau và thao tác trên những khoảng tg khác nhau, có thể 1 tx xác thực ở layer 2, nhưng layer 1 chưa có.
+Sau 1 khoảng time period, layer 2 sẽ submit tx lên để đồng bộ state với layer 1.
+
+-> Giải quyết vấn đề đồng bộ: VD dùng 5ETH trên layer 2 thành công nhưng chưa submit lên layer 1 vì có delay lớn, lại vào layer1 double spend 5ETH đó cũng thành công. Nó xảy ra 3 bước:
+- Layer 2 xác thực tx là đúng
+- Layer 2 commit proof lên layer 1 (VD ZKP)
+- Layer 1 nhận commitment sẽ chốt trạng thái mới nhất cho blockchain
+
+Để phòng tránh double spend có nhiều phương pháp, Vd fraud proof system:
+Commitment process là qtr layer 2 gửi bằng chứng lên layer 1 để chứng minh trạng thái trong layer2 hiện tại là đúng. Layer 2 sẽ có 1 ktg challenge cho phép mọi người tham gia kiểm tra xem có state nào bị conflict hay không. Trong khoảng thời gian này, bất cứ ai tham gia cũng có thể imlement 1 fraud proof nếu tìm thấy conflict và gửi lên cho layer 1. 
+Tùy cơ chế thiết kế mà layer 1 sẽ đánh giá fraud proof đúng hay sai. Nó có thể revert transaction thứ 2 để lấy state chuẩn của layer2. 1 vài TH nó lấy tx thứ nhất và rollback lại state cũ của cả layer2.
+Vc gian lận có thể xảy ra ở cả validator trên layer 2 or từ phía người dùng. Cơ chế fraud proof cho phép bất cứ ai cũng có thể check và submit bằng chứng lên layer 1 báo cáo về tx k hợp lệ, người phạm lỗi bị phạt rất nặng. Do đó nếu trong challenge time, k có fraud proof nào được gửi lên thì tx hợp lệ. 
+
+VD: Bob và Alice tạo 1 State channels và giao dịch. Alice gửi Bob 5ETH, nhưng chưa submit lên layer 1 thì alice thực hiện 1 tx khác trên layer1 double spend lượng ETH đó. Bob thấy thế liền tạo fraud proof submit lên layer 1. Validator trên layer1 accepts fraud proof đó thì sẽ reject double spend tx của Alice và chốt state cuối lấy từ State Channel.
+
+Thực tế delay k cao, layer2 phải có cơ chế chuẩn để giảm thiểu tình trạng conflict
+
+

@@ -1,3 +1,0 @@
-ZKSync
-
-=> ref tới "ZKSync"

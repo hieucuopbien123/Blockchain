@@ -1,0 +1,46 @@
+The Merge: Chuyển Ethereum từ PoW sang PoS
+
+Để merge, Ethereum dev tạo ra 1 Beacon Chain dùng PoS chạy song song với Ethereum 1.0 vào 12/2020. Sau đó merge Ethereum 1.0 với BeaconChain là xong. 
+Beacon Chain có rất nhiều validator. Nó còn có cơ chế cho người dùng stake ETH vào nhận reward trực tiếp trên mạng Ethereum, k giới hạn.
+
+Ethereum PoS giúp giảm tiêu thụ năng lượng 99.95%. Giảm nguy cơ bị hack qua các bridge từ Ethereum tới L2. Tăng TPS từ 30 lên 100000.
+Phía người dùng hay dev hoàn toàn kp làm gì, chỉ có miner phải chuyển thành validator. Mọi data ở chain cũ đều move sang chain mới hoàn toàn, chỉ thay đổi cơ chế đồng thuận.
+Để trở thành validator phải deposit 32 ETH, stake vào sẽ k thể lấy lại được, cái này khác với stake để nhận reward định kỳ.
+
+Sau Ethereum Merge sẽ là ShardChain - bản nâng cấp tiếp theo vào năm 2023. Shard Chain sẽ cung khả năng mở rộng cho Ethereum với việc mang tới 64 blockchain mới
+
+Các ứng dụng layer 2 cũng không cần thay đổi gì hết. 
+
+Sau The Merge, Ethereum xoá bỏ 2 từ khoá gây nhầm lẫn là Ethereum 1.0 và Ethereum 2.0 mà dùng Execution layer và Consensus layer. Bởi vì Ethereum 2.0 ra đời k có nghĩa là Ethereum 1.0 bị xoá bỏ. 
+Nó coi trước The Merge thì Ethereum mainnet PoW gọi là Execution Layer nơi có hàng ngàn ứng dụng Defi hoạt động, còn Beacon Chain PoS là Consensus Layer cũng là 1 blockchain độc lập.
+Sau The Merge, đơn giản nó kết hợp 2 layer lại với nhau thôi: Ethereum = Execution Layer + Consensus Layer
+
+Pre-Merge:
+[PoW[ExecutionLayer[Txs, difficulty,...]]]
+
+Post-Merge: bỏ PoW thành ConsensusLayer từ Beacon Chain chuyên lo bảo mật
+[ConsensusLayer[ExecutionLayer[Txs, random,...]]]
+=> K còn difficulty nx vì k dùng PoW mà thành 1 số random
+
+Lộ trình:
+Ethereum PoW blockchain -> | The Merge | -> Merge hard Fork = Ethereum -> Shard Chain
+Beacon Chain PoS --------> |           |
+
+Lưu ý:
+Khác với các dự án Bitcoin Cash hardfork hay Bitcoin SV đổi sang đồng coin nền tảng mới, The Merge thì Ethereum state k thay đổi và vẫn giữ nguyên đồng ETH cũ.
+The Merge k làm giảm phí gas mà vẫn vậy, chỉ giảm năng lượng.
+Hiện tại (năm 2023) số ETH staked vào The Merge đã đạt 12 triệu ETH. Trước The Merge thì stake ETH là 1 chiều, các nhà đầu tư k thể rút. Nhưng phải sau sự kiện Shanghai Upgrade trong tương lai mới được rút tiền stake và reward, và để tránh áp lực xả của mọi người sau khi rút, họ sẽ giới hạn lượng có thể withdraw mỗi ngày.
+
+-> The Merge ảnh hưởng tới nguồn cung ETH:
+Nguồn cung trước The Merge là từ 2 layer:
+- Execution Layer: block reward là 2ETH/block và tầm 13s-13.5s 1 block thì 1 ngày có 13000-13500 ETH mới được phát hành. Trước bản update Consstantinople vào năm 2019, reward là 3ETH/block cơ.
+- Consesus Layer: 1 lượng ETH mới phát hành làm staking reward cho ETH staker trên Beacon Chain. Stake càng nhiều thì càng nhiều ETH mới được phát hành. Tầm 1600 ETH phát hành mỗi ngày làm phần thưởng
+=> 1 ngày có tầm 14000-15000 ETH phát hành và 90% đến từ Execution Layer
+
+Vào 2021, EIP-1559 ra đời sinh ra 1 cơ chế burn base fee. Base fee là phí tối thiểu để đưa giao dịch vào 1 block trên Ethereum. Tỉ lệ base fee/total fee tầm 80%. Tức nếu người dùng trả 1ETH để đưa 1 giao dịch vào block mới thì tầm 0.8ETH bị burn khỏi hệ thống luôn. Kể từ khi EIP-1559 apply, Ethereum đã burn hơn 2.1M ETH.
+
+Nguồn cung ETH là: New ETH issued on Execution Layer (Ethereum mainnet) + New ETH issued on Consensus Layer (Beacon chain) - total fee burn
+Sau The Merge k còn block reward trên Execution Layer nữa nên thành: New ETH issued on Ethereum PoS Chain - total fee burn.
+=> Giảm từ 14000 ETH xuống tầm 1600 ETH issue 1 ngày có tác động lớn tới giá ETH. 
+
+
