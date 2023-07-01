@@ -198,3 +198,125 @@ Về Data Storage, Flow yêu cầu tất cả ví thao tác phải có 1 lượn
 Flow tối ưu hóa decentralization và bảo mật của Consensus Nodes vì nó yếu trước Byzantine attacks và nó limit scalability nhưng trong phạm vi chấp nhận được vì những node này có khối lượng tính toán nhỏ. Còn execution node mở rộng tốt nhưng do phần cứng bị hạn chế nên nó k được decentralized cho lắm. Nhưng nó kp vấn đề vì dishonest execution node sẽ bị detect và punish by verification node, which is decentralized and secure
 
 
+
+# Synthetix
+Phái sinh: Hợp đồng mà giá trị phụ thuộc vào tài sản cơ sở. Vd hợp đồng xác nhận quyền và nghĩa vụ các bên trong việc thanh toán tiền và chuyển giao tài sản cơ sở vào thời điểm xác định trong tương lai với mức giá thỏa thuận trước.
+Underlying assets(tài sản cơ bản): vàng, nhà, xe, cổ phiếu, tiền tệ,..
+Synthetix cung cấp phát hành và giao dịch 19 synth(sAsset) khác nhau đại diện cho tiền điện tử, stablecion, hàng hóa cũng như 11 Synths inverse khác nhau (iAsset) đại diện cho tiền điện tử
+
+Synthetic có từ rất lâu đời. VD: game FIFA nó có các nhân vật như Neymar, Messi,.. và các nhân vật đó hiếm và có giá đắt hơn các nhân vật bình thường. Điều này là vì game này đã mô phỏng giá trị các nhân vật cũng như các skill của họ ngoài đời thực vào trong game 1 cách vô cùng thực tế để đánh giá nhân vật. Khi đó những nhân vật trong game mới có giá trị để mua bán đắt đỏ mà ta có thể gọi nó là Synthetic Neymar or Synthetic Messi. Vc mô phỏng giá trị ngoài đời thực vào ảo như v có thể gọi là synthetic assets nhưng hiển nhiên phải được back đầy đủ. Nếu sau này Neymar chơi kém đi thì game có thể update giảm chỉ số nhân vật
+Synthetic về sau có thể hỗ trợ cả các stock như Apple, Amazon
+
+Vd ta sở hữu giá trị của sAPPLE xong đổi ra sGOLD thông qua Synthetix.Exchange tức là ta chuyển đổi giá trị từ fame của hãng Apple thành giá trị của vàng ez thậm chí trong thực tế để mua cổ phiếu Apple và bán đi lấy vàng còn khó hơn là trong Synthetix
+Tại sao người ta lại dùng synthetic mà k mua mẹ tài sản thật ? Bởi vì khi sở hữu synthetic, họ dễ trade hơn và có thể nhìn giá 1 cách trực tiếp sản phẩm đó mà không cần nguồn centralized nào làm điều đó. Thêm vào đó các tính năng của Synthetix như exchange with 0 slippage cũng tiện cho trader, họ kp vào hàng đống exchange khác nhau để trade ra cái mình muôn
+
+Ngoại hối(foreign exchange) là từ chỉ các phương tiện sử dụng trong giao dịch quốc tế. 
+
+Derivatives: tài sản phái sinh của tài sản cơ bản bên trên. Đây là các hợp đồng giữa các bên mà giá trị dựa trên tài sản cơ bản. Nó có thể là hợp đồng tương lai, hợp đồng tùy chọn, hợp đồng trao đổi. VD ta sở hữu tài sản phái sinh là 1 Option contract của vàng là ta được quyền mua 1gam vàng với mức giá 1 triệu trong 30 ngày tới thì dù 30 ngày tới giá vàng lên xuống như nào, ta vẫn có thể mua được với mức giá đó
+Synthetic assets là sự kết hợp của nhiều loại phái sinh khác nhau VD là sự kết hợp của 1 hợp đồng quyền chọn mua và 1 hợp đồng quyền chọn bán. Nó là sự kết hợp của nhiều sản phẩm phái sinh như future contract, forward contract,... để mô phỏng giá của 1 tài sản cơ bản như hàng hóa, cổ phiếu, chỉ số chứng khoán,.. rồi trade trên đó. Synthetic assets sinh ra nhằm mô phỏng, bắt chươc giá của 1 tài sản căn bản or 1 khoản đầu tư. 
+Vai trò: đa dạng hóa đầu tư thay vì chỉ tập trung vào 1 tài sản; giảm rủi ro khi mà người mua không cần mua đứt tài sản đó mà vẫn có thể kiếm lời dựa trên sự biến đổi giá của tài sản đó; lợi nhuận cao hơn; mở rộng khả năng tiếp cận của 1 loại ts với nhà đầu tư
+=> Đó là synthetic assets trong tài chính truyền thống
+
+Trong crypto cx có synthetic assets để bắt chước giá trị của tài sản khác, phát triển thêm 1 mặt của cefi vào thị trường crypto => nhà đầu tư có thể dùng crypto assets để tiếp xúc với nhiều loại tài sản mà không cần thiết phải nắm giữ chúng. VD synthetic assets như DAI của MakerDAO hay sUSD của Synthetic,.. là thứ mô phỏng USD. Crypto synthetic assets dễ dàng trao đổi hơn và không phân quyền với pool toàn cầu. 
+Dự án Synthetix cung giao thức cho phép phát hành và giao dịch các synthetic assets trên ethereum. Người dùng có thể tiếp xúc với các loại tài sản như tiền fiat, hàng hóa, cổ phiếu,.. thông qua việc thế chấp token gốc của nền tảng là SNX. 
+Trong hệ sinh thái Synthetic có: synthetic exchange giúp trao đổi synthetic assets và đồng SNX trực tiếp; Mint của Synthetic là 1 DApp nơi chủ sở hữu SNX phát hành synthetic assets; Dashboard cung cấp cho người dùng tổng quan về ecosystem của synthetix. VD ta có 1 lượng SNX trị giá 7500 đô ta đem lên synthetix thế chấp và nhận về 1000 sUSD thì 1000 sUSD chính là synth mô phỏng cho tài sản USD tiền ngoài đời thực. Sau đó ta có thể đem số sUSD này trade trên nền tảng DEX của synthetic. Ta cũng có thể đốt sUSD để nhận lại SNX ban đầu. 
+
+VD: Mai và Tuấn là 2 người duy nhất ở hoạt động trên synthetic. Mỗi người có 750 đô SNX. Mai thế chấp 750$ SNX để nhận được 10$ synthetic assets của vàng. Giả sử 1 Gold = 10$ thì Mai nhận được 1 Gold. Chú ý trên synthetix tài sản quy đổi có tỉ lệ rất cao 750% thì 750$ chỉ đổi được có mỗi 10$ mà thôi. Tuấn thì 750$SNX đổi sang 10$ bạc và nhận 2 Silver(tức 1 Silver=5$). Khi 2 người tham gia vào hệ thống tức là đã vay tiền của synthetix, họ sẽ tham gia vào 1 total Global debt tổng là 20$. Về sau giá bạc tăng lên 1 Silver = 10$. tức Tuấn có 2Silver = 20$ thì pool nợ toàn cầu thành 30$ mà Tuấn và Mai ban đầu cùng nợ 10$ tức 10$ thì bh Mai vẫn nợ 50% tức 15$ và Tuấn cx 15$. Có thể thấy Tuấn có 20$ mà nợ 15$ thì lãi 5$ trong khi Mai lỗ 5$. 
+Điều đặc biệt là Mai không hề động gì đến Silver nhưng silver tăng thì Mai vẫn lỗ. Trong thực tế có nhiều người tham gia vào pool chứ k chỉ có 2 người như v. Qtr là khi kiếm tiền kiểu này của synthetic thì phải thế chấp để nhận lại tài sản mà giá nó phải tăng mới có lãi. Khi có synth thì người ta thg dùng synth assets đó để trade tiếp các thứ khác trên Synthetix cơ, vd đổi vàng lấy bạc.
+Trong Synthetix, ta vào 1 pool có nhiều đồng và stake SNX để mint 1 đồng trong pool. Nếu giá đồng đó tăng thì ta lãi, giá các đồng khác giảm thì ta cũng lãi. Giá đồng đó giảm or giá các đồng khác tăng thì ta lỗ
+Các dự án Synthetic assets: Synthetix, UMA, Market Protocol,..
+Synthetix còn kết hợp với dHedge(nền tảng quản lý tài sản phi tập trung trên Ethereum). Còn có Kwenta(nền tảng phái sinh), Lyra và Thale(thị trường options)
+Kwenta dùng P2C của synthetix, slippage = 0, phí gas giảm đến 50 lần vì dùng trên layer 2 Optimism của Ethereum
+
+Người dùng có thể chuyển đổi giữa các synth trên DEX của synthetic. Dùng SNX thế chấp phát hành synth ra thị trường. Muốn lấy lại số SNX thế chấp vào phải burn số Synth theo tỉ lệ ban đầu. Khi người dùng giao dịch các synth với nhau qua DEX thì sẽ nhận được phí thưởng.
+Ưu điểm là nguồn vốn được tối ưu hóa thông qua phát hành synth chứ nó k bị khóa trong contract tạo synth 1 cách vô dụng.
+Nó y hệt cơ chế lending borrowing bình thường là thế chấp để nhận synth, synth là tài sản nợ. VD: Người dùng stake SNX trong staking pool -> dùng SNX làm ts thế chấp để mint ra sUSD với tỉ lệ 500%, từ sUSD ta có thể đổi sang các synth assets khác như sBTC, sETH. Mỗi khi có giao dịch thì 1 phần phí thu về Synthetix. Người staking SNX còn được hưởng SNX token từ ngân quỹ Synthetix assets. 
+Cơ chế nợ chỉ áp dụng cho những SNX staker mint ra synth còn trader giao dịch sUSD, sBTC bình thường k chịu rủi ro thanh lý
+
+Vc Synthetix trả thưởng cho vc stake SNX là để bootstrap network thu hút người vào (giống liquitidy mining). Dù điều này lạm phát giá SNX nhưng nên nhớ nó cho stake tỉ lệ rất cao là 500%, tức là tạo ra sUSD cần 1 lượng rất lớn SNX. Chính vì cần nhiều như v nên nhu cầu mua SNX cao. Khi hệ thống càng phát triển thì càng nhiều synth được tạo ra. Càng nhiều giao dịch thì phí SNX cho staker càng nhiều. Lượng fee SNX trong Synthetix exchange là do exchange sinh ra trả cho người cung chứ người trader k cần phải sơ hữu SNX cũng đc
+SNX staker chính là người tạo ra thanh khoản và đảm bảo thanh khoản cho các Synth. Giá trị toàn bộ synth trên thị trường đảm bảo được backed bởi SNX token được staking. Các SNX staker có thể phải chịu khoản lỗ vì v xứng đáng nhận phần phí giao dịch tương đương với LP token trong các AMM bth.
+
+Còn có các pool stable coin swap ts synth (như 1 token bth). Chẳng hạn sETH/ETH thì SNX mỗi tuần sẽ cung 1 lượng làm thưởng cho những người cung thanh khoản synth trên các stable pool trên Uniswap, Curve. Điều này khuyến khích các nhà cung cấp thanh khoản cho các ts synth.
+
+Giao dịch trên Synthetix Exchange k chịu slippage vì các synth được giao dịch theo cơ chế burn and mint theo giá mà oracle cung cấp. 
+Phí gas cao vì dùng cơ chế mint and burn thay vì swap thông thường. VD người dùng gửi ts synth của mình đến 1 burn address vd gửi 45000sUSD thì lượng đó đốt và mint ra lượng sBTC tương ứng với giá cung cấp bởi oracle, lượng sBTc này sẽ chuyển đến ví người dùng luôn. 
+Tương lai chuyển sang Layer 2 Optimism để có 1 dạng AMM slippage =0 và phí gas ~0 thì quá đẳng cấp. Đó là 2 vấn đề mà các AMM gặp phải
+P2C(peer to contract). Giá trao đổi tài sản thông qua price feeds cung bởi oracle và converted dùng Synthetix.Exchange DApp.
+
+Mintr là DApp tương tác với Synthetix contract, người dùng có thể stake SNX qua app này và nó sẽ mint ra synthetic assets. Người dùng phải back cho Synth bằng SNX với tỉ lệ 750%. C-ratio là 750% đảm bảo Synth được back bởi đủ lượng tài sản. Giá của SNX cũng ảnh hưởng đến đến tỉ lệ hiện tại. Người dùng phải chỉnh ratio ở mức tối ưu C-ratio bằng cách mint tiếp Synth or burn Synth. Nếu nhỏ hơn 750%, họ k thể nhận thưởng phí giao dịch.
+Back là để chứng thực số tài sản đó tồn tại thực tế chứ kp ai cũng tạo bừa được. VD ta có 100 đô và ta sẵn sàng trao đổi nó lấy 1 cuốn sách do ta xuất bản chẳng hạn thì ta có thể nói cuốn sách đó giá 100$ và ai bán là ta mua nó. Cuốn sách thực tế k có giá trị nhưng ta làm cho nó có giá trị bằng cách back nó với 100$. Thực tế sUSD, sETH được back bởi 750% SNX lock trong SM nên mới có giá trị trao đổi
+Để khuyến khích người dùng cung synth outside, synthetix trả thưởng cho người dùng hàng tuần. Reward cụ thể như nào được thể hiện trên Mintr DApp. Nó liệt kê các pool có thưởng SNX VD sBTC trên Curvepool hay Uniswap mà ta supply vào pool đó sẽ nhận SNX free. 
+
+Synthetix hỗ trợ thế chấp Ether, trader có thể borrow Synth bằng ETH và trade ngay lập tức với tỉ lệ 150%. Nếu họ mint ra sETH chính nó luôn thì họ k cần phải tham gia vào pool nợ toàn cầu nhưng cx k nhận được phí và thưởng theo tg. Mỗi khi có trade thì sinh ra exchange fee gửi vào fee pool, SNX staker sẽ claim phần thưởng theo tỉ lệ hàng tuần. Họ cx nhận staking reward thông qua cơ chế lạm phát.
+Người dùng stake SNX và nhận về sUSD chẳng hạn, giá của sUSD được xác định bởi tài sản cơ sở USD và Synthetix lấy nó thông qua Oracle. Khoản tiền mà người dùng tách rời với khoản nợ. Khoản tiền mà người dùng sở hữu là sUSD được biến động phụ thuộc vào USD. Còn khoản tiền mà người dùng nợ là phần trăm tổng tiền trong pool quy về 1 mệnh giá. Tùy vào pool có tổng tiền tăng hay giảm mà nợ nhiều lên hay ít lên.
+
+Để tài sản tổng hợp luôn đúng giá với tài sản nó track, có Synth Pegging Mechanism 3 cách:
+Arbitrage: SNX staker burn/mint sUSD
+sETH: mỗi tuần, 1 phần SNX thêm vào tổng cung thưởng cho người tạo sETH/ETH trên Uniswap, nhờ v có các pool thanh khoản rất lớn và người dùng có thể mua bán trao đổi Synth
+SNX auction: giống dFusion trên Gnosis, đấu giá SNX giá rẻ, sau đó có thể mua Synth dưới mức peg
+
+Open market VD cặp sUSD/ETH trên pancake swap. Khi chênh giá thì mn sẽ arbitrary tiền trên các decentralized market đó để duy trì giá. 
+Đáng lẽ trao đổi synth này cho synth khác thì dùng synthetix.exchange là ok nhưng do các sUSD nó cũng là ERC20 và synthetix muốn người dùng stake cũng như làm mọi thứ kbh bị vô dụng nên nhiều người tùy ý tạo các pool thanh khoản synth với các đồng khác trên thị trường được. VD sETH/ETH với tỉ giá 1 sETH= 1 ETH thoải mái
+
+Có 5 types Synths: fiat currency là sEUR, sUSD; commodities là gold, silver; cryptocurrencies là sETH, sBTC; inverse cryptocurrencies là giá của iBTC luôn theo giá của BTC thực tế; cryptocurrencies index là sDEFI và sCEX(and inverse của nó) track theo các defi assets và centralized token
+Inverse Synths(chỉ số đảo ngược). VD khi giá BTC giảm thì iBTC tăng
+
+Ta tính debt pool bằng cách cộng số lượng token tổng trong Synth contract và nhân với exchange rate của nó(chắc kiểu giá tiền ấy) -> debt pool này có giá bằng số lượng token*giá 1 token ez
+Oracle thì nó dùng thuật toán duyệt nhiều nguồn, hiện tại thì lấy từ node operator độc lập của chainlink
+Ban đầu, Synthetic chưa decentralized hoàn toàn. VD: ta trade 1000 sUSD lấy 5.99 sETH thì cái giá này nó lấy từ Oracle và cái oracle này cung giá 1 cách centralized và quản lý bởi synthetic team. Hiện giờ nó đã integrate với chain link để decentralized hoàn toàn
+
+System Architecture:
+Minting Synths: SNX holder lock SNX và mint sUSD -> Synthetix contract check lượng SNX muốn mint thỏa mãn tỉ lệ nhỏ hơn 750% -> Debt sẽ add vào Debt Register là lương sUSD -> nợ được gán cho staker, synthetix contract hướng sUSD contract phát hành thêm lượng mới vào total supply và user's wallet -> Nếu giá SNX tăng thì lượng bằng giá trị cũ sẽ lock như cũ, phần còn lại unlocked và user tùy ý quyết định mint thêm sUSD hay k
+SNX cũng stake để dành quyền vote quyền quản trị
+
+Trao đổi sUSD cho sBTC, đốt sUSD, 0.3% lượng đốt vào fee pool(SNX staker nhận về sau). 99.7% còn lại thì sBTC sẽ mint ra lượng tương ứng 
+Khoản nợ tổng k đổi vì same value burn và mint. 
+Khi có staker nhận fee: check fee có không và staker eligible k -> lượng fee tính bằng sUSD gửi từ fee pool cho staker's wallet. Fee phân chia dựa vào tỉ lệ debt mỗi staker phát hành. 
+Mỗi lần SNX holder mint or burn thì đều check debt pool cũng như nợ của mỗi staker bằng cách update Cumulative Debt Delta Ratio trên Debt Register. Mỗi khi có ai tham gia hay rời khỏi Synthetix đều ảnh hưởng đến debt của người khác. Nó k cần tính liên tục mọi lúc mà chỉ cần update thông số này cần thiết để tính debt của những người còn lại khi cần. 
+Khi giao dịch, 0.3% fee được đưa vào fee pool để gửi cho SNX staker hàng tuần tương ứng khoảng thời gian mà tỉ lệ thế chấp của họ luôn >=750%. Fee này k hề được exchange mint thêm nhé nên tổng synth luôn k tự đổi nhé.
+
+Thông tin về lần gần nhất mint và burn lưu trong Debt Register với issuance data + index number mà action diễn ra. Chi tiết nó lưu phần trăm khoản nợ so với debt pool:
+User debt percentage = (new debt + existing debt)/(previous debt pool + new debt)
+Cumulative Debt Delta Ratio là tích của nó với relative time(index) mà phần debt mới được add => dùng để tính bất cứ user tại bất cứ index nào trong tương lai. 
+Khi burn: user's new debt percentage = (existing debt - debt to be burned)/(debt pool - debt to be burned)
+Update Cumulative Debt Delta update là = debt to be burned/(debt pool - debt to be burned)
+Còn khi mint: = New Debt Minted/( Total Existing Debt + New Debt)
+
+1 risk hiện tại là debt dao động due to exchange rate shift ngay bên trong system khiến user thg bỏ nhiều hơn synth hơn lượng họ mint ban đầu. 
+contract cũng dùng nhiều proxy contract để update dễ hơn sau này nhưng như v thì centralized và phải tin tưởng vào dev của synthetix
+Họ dùng SIP's(Synthetix Improvement Proposals) cho phép cộng đồng đề xuất các ý tưởng change cho system.
+
+Thanh khoản vô hạn của Synthetix là vì ta có thể đổi bất cứ 1 synth nào lấy 1 synth khác bằng Synthetix.Exchange, nó tự làm hết điều đó cho ta mà k cần người nào cung cấp thanh khoản với cơ chế nó tự burn và mint mới cho ta(thế mới gọi là P2C). Do đó ta có thể đổi bao nhiêu tùy ý vì k thể quá max lượng synth tồn tại trong hệ thống được, VD ta sở hữu tất cả synth và đổi hết sang sUSD thì Exchange sẽ sinh hết sUSD = tổng lượng synth có trong toàn bộ hệ thống là xong. Do đó ta có thể đổi từ synth này sang synth khác ngay tức khắc bất cứ lúc nào mà kp chờ khớp lệnh như mô hình order book nên giảm được slippage ~0, giá cả để đổi nó lấy từ oracle. Nó kp là trao đổi người với người mà contract mint hay burn
+Synthetix.Exchange chính là Synthetix Protocol kết hợp với Kwenta
+
+Slippage xảy ra khi thị trường biến động mạnh, trader sẽ bán tháo gây trượt giá cao. VD: Khi thị trường đang dump, bạn không thể bán BTC đúng giá $60,000 vì chắc chắn lệnh này sẽ không khớp. Bạn sẽ phải đặt lên thấp hơn là $59,990 hay $59,980. Ở trường hợp này, độ trượt giá là $10 - $20 cho giao dịch 1 BTC. Cx có thể do khối lượng giao dịch cao VD ta mua vài trăm ngìn USDT trong khi tường buy và Sell chỉ vài nghìn USDT. Or thanh khoản thấp
+Slippage (%) = ( |Giá cuối cùng – Giá ban đầu| / Giá cuối cùng) x 100%
+Để giảm slippage có thể lựa chọn pool thanh khoản cao, hạn chế giao dịch khi có tin tức quan trọng, tăng phí gas cao hơn
+
+Nó hỗ trợ long và short với tài sản tổng hợp bằng sTOKEN và iTOKEN. VD khi thế chấp short thì bán đến khi giảm thì mua vào trả lại người cho vay thì ăn khoản lãi. Thì ở đây ta dùng iGOLD. Do ta k có gold nên phải mua iGOLD, khi vàng giảm thì cái iGOLD sẽ tăng bán ăn lãi.
+VD: ta sở hữu sBTC và có các đặc tính của BTC dù bản thân ta k sở hữu BTC thực tế thì khi giá BTC x2 thì sBTC cũng x2. Vc hold sBTC là ta đang long.
+
+
+
+# The Graph
+The Graph index data trên block giúp query data trên blockchain tốc độ cao. Nhiều nền tảng dùng TheGraph như Uniswap, AAVE, Balancer, Decentraland.
+Cơ chế: Nó đánh index data để query tốc độ cao bằng cách bắt mọi event phát bởi SM và tổng hợp lại thành 1 subgraph. Indexing node sẽ được chọn để đánh index cho data. Sau đó data có thể được queried bởi DApp khác bằng GraphQL rất dễ.
+
+Nếu chỉ là lấy data trên blockchain thì ta hoàn toàn có thể dùng hàm getter. Nhưng VD 1 sàn giao dịch muốn hiển thị lịch sử giao dịch của người dùng sẽ phải bắt mọi event và check event nào là của người đó, VD ứng dụng tồn tại 10 năm thì ta phải bắt event trong quá khứ 10 năm liền sẽ rất lâu thậm chí là vài ngày, chưa kể phải xử lý kết hợp nhiều event lại mới tạo data hoàn chỉnh. Giải pháp là ta có thể bắt thủ công r lưu vào database, rồi tiếp tục bắt event từ thời điểm hiện tại trở đi, nhưng như v thì data show ra sẽ centralized. The Graph giúp làm điều đó dễ dàng hơn mà đảm bảo data là decentralized.
+
+Các node của TheGraph phải stake đồng GRT vào mới thực hiện được vai trò của mình. Họ sẽ được thưởng khi người khác trả GRT để dùng data.
+Có 4 đối tượng: consumer, indexer, curator, and delegator.
+- Consumers là người dùng cuối trả phí cho Indexers khi dùng subgraph của họ để query data blockchain tốc độ tức thì, cường độ cao. 1 ứng dụng như Uniswap có thể có nhiều Indexer tạo subgraph và consumer tùy chọn subgraph nào giá rẻ hay có data mình cần để dùng.
+- Indexers là người đánh index tạo subgraph. Họ có thể đánh index cho Uniswap hay AAVE hay bất cứ 1 nền tảng nào. Đơn giản là họ tổng hợp events rồi lưu vào DB và cung ra 1 URL. Để trở thành indexer, người dùng phải chạy GraphNode trên máy và duy trì database luôn bật cho customer lấy, phải stake GRT, phải có máy cấu hình đủ lớn. 
+Họ sẽ nhận reward từ consumer trả khi sử dụng, họ được tùy ý set price cạnh tranh với các indexers khác. Họ sẽ được hoàn trả 1 phần tiền đã stake sau 1 khoảng thời gian. 
+Subgraph chứa thông tin data source, block nào cần đánh index, event nào cần bắt, data được lấy dạng nào. Indexing node phải tuân theo các quy tắc đó khi đánh index cho subgraph. 
+- Curator: vì có quá nhiều ứng dụng, indexer kb nên đánh index cho nền tảng nào có người sử dụng thì curator sẽ môi giới, curator thông báo indexers về subgraph nào nên tạo. Vd khi curator tìm được 1 nền tảng nên đánh index, họ deposit GRT vào "bonding curve reserve" của subgraph và nhận lại "curation shares", nếu càng nhiều curator deposit vào 1 subgraph tức nhiều người tin là nó có ích thì họ càng nhận nhiều curation shares. 
+Curator có thể là người tạo ra 1 nền tảng và muốn indexer đánh index cho data của họ (họ k muốn tự làm vì k muốn cài GraphNode và thỏa mãn các điều kiện phần cứng khác). 
+Curator có thể là trader tùy ý deposit hoặc remove GRT từ subgraph. Vd họ đoán 1 subgraph sẽ có nhiều người dùng thì deposit vào, thấy giá trị giảm thì rút ra. Phí nhận được là từ người dùng chia cho indexer, 1 phần được trích ra cho curator.
+- Delegator hỗ trợ Indexer trong việc staking GRT vào pool. Nếu indexer kiểu muốn đánh index nhưng k có GRT để stake, delegator sẽ stake vào pool thay cho indexer đó và ăn 1 phần phí từ query của consumer, hoặc họ có thể stake thêm vào cho indexer để tăng độ uy tín của subgraph(càng nhiều đồng stake thì subgraph càng uy tín và càng nhiều người chọn vì nếu indexer gian lận sẽ mất hết tiền đã staked). Delegator phải chọn indexer cẩn thận để ăn phí và hoàn vốn.
+
+Khi có vấn đề, 2 role mới xuất hiện:
+- Fisherman: chạy 1 loại node có nhiệm vụ tìm data sai lệch cung bởi indexer và report tới Arbitrators.
+- Arbitrators: Khi indexers bị report sẽ bị phạt. Arbitrators có quyền giảm GRT stake của defective Indexer bị report, thậm chí xóa họ khỏi network nếu tình huống nghiêm trọng.
+
+

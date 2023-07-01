@@ -1,0 +1,13 @@
+type AddressValue @entity {
+  id: ID!
+  value: BigInt!
+  count: Int!
+}
+
+type Address @entity {
+  id: ID!
+  timesChange: Int!
+  blockNumber: BigInt!
+  timestamp: BigInt!
+  currentValue: BigInt!
+}

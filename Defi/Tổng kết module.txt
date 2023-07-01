@@ -107,6 +107,8 @@ Tất cả stablecoin đều được hỗ trợ trong ethereum, các blockchain
 USDT là stablecoin đầu tiên dùng được trong tất cả các blockchain. Dù về sau có nhiều đồng stablecoin khác ra đời thì họ vẫn dùng USDT. USDT cũng luôn luôn thử phát triển trên nhiều platform khác nhau nên nó mới dùng được trong tất cả các blockchain. Ta chỉ cần chọn 1 nền tảng rẻ và nhanh nhất mà dùng thôi. 
 Các stable coin luôn luôn muốn mở rộng từ các platform chậm sang platform nhanh hơn, rẻ hơn. Hiện các đồng như DAI,.. cx đang phát triển tiếp trên các blockchain khác ngoài ethereum với mong muốn rẻ hơn, nhanh hơn.
 
+Có 2 loại Stable coin: 1 là USD-backed 1:1 là các đồng chuyển từ $ tỉ lệ 1:1 như USDT, USDC, TUSD,.. do công ty phát hành; 2 là crypto-collateral như DAI(sinh từ MaketDAO), sUSD(sinh từ Synthetix),... loại này chỉ được sinh mới khi ta thế chấp 1 loại tài sản crypto khác, cũng được backed bởi 1 pool các đồng khác duy trì giá cho nó như khác cái trước là phi tập trung
+
 -> Có 2 loại Stable coin: 1 là USD-backed 1:1 là các đồng chuyển từ $ tỉ lệ 1:1 như USDT, USDC, TUSD,.. Các đồng này là do tổ chức uy tín phát hành chứ k rõ có backed thực hay k; 2 là crypto-collateral như DAI(sinh từ MaketDAO), sUSD(sinh từ Synthetix),.., loại này chỉ được sinh mới khi ta thế chấp 1 loại tài sản crypto khác
 
 2 loại này là stablecoin cũ -> nếu ta có bnh trong ví thì mãi mãi nó là tưng đấy k có sự biến động. Nhưng smart stablecoin sẽ = stablecoin cũ + yield lãi suất. Tức là ví ta có smart stablecoin thì coin sẽ tự tăng lên
@@ -229,6 +231,9 @@ Nhu cầu swap stable coin hiện tại rất lớn. Thông qua curve, ta không
 VD: Supplier cung liquidity cho curve và nhận lại đồng quản trị (CRV), curve có liquidity tăng cao. Khi các DApps, retail trader có nhu cầu hoán đổi stable coin, nó sẽ lái user tới curve để họ dùng trong curve. Stable coin trong curve có liquidity rất cao nên slippage nhỏ, càng nhỏ thì trader càng thích -> cứ thế giao dịch nhiều thì fee trong curve trả cho supplier càng nhiều. Tức là curve dùng liquidity mining, người dùng cung thanh khoản vào curve, sau này rút ra sẽ được thưởng CRV token + 50% fee. Lúc đó họ có thể bán CRV kiếm lời or dùng để quản trị bằng cách lock CRV lấy ra veCRV. Token veCRV sẽ có chức năng vote trên nền tảng, bao gồm cả việc quyết định 50% fee còn lại sẽ đi đâu hay chia lại cho họ.
 
 => Họ đã tìm ra 1 nhu cầu sử dụng đồng CRV chứ kp liquidity mining ra CRV nhưng r nó chả dùng làm gì cả. Họ xử lý bằng cách thay vì nhận được 100% fee thì họ chỉ nhận được 50% fee thôi và muốn ăn 50% fee còn lại thì phải lock CRV vào làm tăng nhu cầu CRV. Dù v chưa đủ vì liquidity mining cung quá nhiều mỗi tháng nhanh hơn doanh thu đầu vào nên giá vẫn dump.
+
+VD: Ta hiểu là mỗi nền tảng có stable assets của riêng nó VD Synthetic có sBTC, Y có YUSDT,.. Khi các nền tảng mới ra đời, họ phát hành ra stable assets của riêng nền tảng đó nhưng k có liquidity, họ đã dùng curve(CRV) để khuyến khích nhà đầu tư cung thanh khoản cho stable coin của họ.
+Cứ dự án nào có stable assets là họ lại contact với curve để tạo ra những pool riêng, thu hút thêm trader, kiếm thêm lợi nhuận
 
 -> vAMM
 => refer tới Leveraged Trading
@@ -646,5 +651,5 @@ Total Value Locked(TLV) là tổng giá trị tài sản khóa trong smart contr
 -> Quantum Computer không thể break được blockchain vì kể cả nó có thử sai được tất cả các TH của private key đi chăng nx thì khoảng thời gian delay giữa request với response vẫn là rào cản. VD ta thử sai mật khẩu wifi vậy vì chờ nó response mk đúng hay sai lâu vl ra. Nhưng máy tính phát triển thì blockchain và thuật toán cũng phát triển chứ k dậm chân tại chỗ
 
 -> Tỷ giá hối đoái cũng chỉ là tỉ giá tiền tệ đổi tiền nước này sang tiền nước khác
-
+PEG là chỉ số: Price Earning to Growth thể hiện mỗi quan hệ giữa P/E(Earning per Share) và tốc độ tăng trưởng thu nhập EPS.
 

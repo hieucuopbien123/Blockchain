@@ -21,6 +21,10 @@ NodeJS, React ez rồi
 Với HTML thuần:
 script unpkg.com/web3@1.2.4/dist/web3.min.js trong file html luôn
 
+unpkg là dự án giúp dùng tất cả các public npm package như CDN cho dự án mà k cần install npm package
+unpkg.com/:package@:version/:file
+VD: unpkg.com/web3@1.2.4/dist/web3.min.js => có thể script nó trong file html luôn
+
 
 
 # Dùng JSON-RPC thuần
@@ -106,13 +110,15 @@ Trường address của instance truyền vào là optional params vì nhiều l
 -> Call function
 
 -> Send transaction
---> Dùng hàm send:
+--> Dùng hàm send
 Ở frontend k cần truyền gasPrice và gas vì kiểu gì user cũng override lên với setup trong ví của họ
 
 Có 4 cách xử lý trans async: 
 async await, .then().catch(), callback để thực hiện trans
 Dùng event emitter để xử lý trạng thái trans vì hàm send trả về 1 event emitter  => thg dùng phía frontend
 => refer tới "## React / React lập trình web3 # Pattern xử lý trạng thái transaction"
+
+--> Send tx qua chữ ký
 
 ---> Tương tác với payable smart contract
 
@@ -128,6 +134,8 @@ Dùng event emitter để xử lý trạng thái trans vì hàm send trả về 
 
 -> Subscribe to event
 Để subscribe to event, ta buộc dùng WebsocketProvider.
+
+=> ref tới "Solidity / Solidity Other / Dùng web3"
 
 
 

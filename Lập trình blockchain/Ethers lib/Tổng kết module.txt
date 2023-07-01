@@ -31,7 +31,7 @@ Có thể lấy kiểu ethers.getDefaultProvider(rpcURL); với rpcURL global đ
 -> Call getter function
 Trong web3 có sẵn thư viện BN.js xử lý số lớn. Trong ethers cũng có sẵn thư viện bignumberjs chức năng tương tự. Hàm nó khá giống nhau nhưng thư viện lại khác nhau. Thường thì các dữ liệu lấy về từ smart contract mà là số thì đều là 1 bignumber object.
 
--> Send transactions: 
+-> Send transactions 
 --> Gửi tiền vào địa chỉ nào
 
 --> Thực hiện 1 transaction của SM

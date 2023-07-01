@@ -8,5 +8,192 @@ Các giao thức phải khả thi trong thực tế: quá trình đồng thuận
 
 
 
+# BFT
+Byzantine Fault Tolerance(BFT) hay hệ thống chịu lỗi là 1 thuận toán đồng thuận blockchain. Nó không hẳn là 1 thuật toán đồng thuận mà là 1 hệ thống giải quyết được vấn đề lỗi Byzantine. Nó xuất hiện từ việc các máy tính trao đổi các gói tin cho nhau trước cả khi blockchain ra đời.
+
+Bài toán 2 vị tương quân: 2 vị tướng quân thành phố A, C tấn công thành phố B ở giữa và chỉ thành công khi cả 2 cùng đồng thuận tấn công cùng lúc. Thế nhưng họ phải dùng người đưa thư để chuyển tin nhắn cho nhau. A gửi "hãy tấn công vào 12h" nhưng người đưa thư của A có thể bị bắt trong quá trình gửi thư và C nhận được nghi ngờ điều đó, k có cách nào xác thực phải gửi lại "Đã rõ, 12h tấn công", A nhận về tin đó nhưng lại nghi ngờ người của mình bị bắt cóc nên lại phải gửi lại C "OK, 12h tấn công" để xác nhận. Và cứ thế lặp vô tận.
+=> Đây chính là vấn đề truyền thông máy tính đầu tiên không có lời giải.
+
+Bài toán các vị tướng Byzantine: Khi 5 tướng quân vây 1 thành phố, họ chỉ chiếm được thành công khi 3/5 đồng ý cùng tấn công. Giả sử 2 tướng tấn công, 2 tướng rút lui, 1 vị tướng cuối xác nhận tấn công nhưng người này thực chất chơi đểu(hacker) vì rút lui khiến 2 vị tướng kia thât bại. Khó đạt được sự đồng thuận chính là vấn đề mà các hệ thống máy tính phân tán đang gặp phải
+
+Blockchain đầu tiên Bitcoin của Satoshi Nakamoto giải quyết được bài toán này thông qua PoW(thực tế PoW có từ trước đó rất lâu). 
+
+BFT là từ chỉ hệ thống chịu lỗi Byzantine tức là các hệ thống network giải quyết được vấn đề đồng thuận Byzantine. Các thuật toán phổ biến của BFT trong blockchain là PoW, PoS.
+Các hệ thống BFT là các hệ thống vẫn hoạt động trơn tru dù đến 50% node trong nó gian lận
+
+Thực tế PoW không đảm bảo 100% chịu lỗi Byzantine vì tấn công 51% nhưng do quá trình đào tốn kém và chi phí kỹ thuật mã hóa đắt nên mới chịu được hoàn toàn và đây là mô hình đồng thuận được cho là bảo mật nhất.
+Sau bitcoin, hiện tại có rất nhiều các blockchain khác là các hệ thống BFT mới ra đời
+
+
+
+# BFA
+FBA cải tiến dựa trên FBT, tiên phong dùng trong mạng blockchain Ripple, sau đó là Stellar cải tiến hơn nữa để đạt được sự chịu lỗi và an toàn hơn.
+FBA đưa ra 1 hệ thống thành viên mở bất cứ ai cũng có thể tham gia. Các nút có thể chọn người mà họ tin tưởng. Các đại biểu là các quorum trên hệ thống được đưa ra bởi các nút riêng lẻ. Nó dựa trên cơ sở các nhóm Quorum phải đạt được sự đồng thuận, đó là các nhóm quorum chồng chéo hình thành bởi người xác nhận, k cần cơ quan trung ương quyết định ds người xác nhận.
+FBA chia thành các nhóm liên kết với nhau. Nhờ Quorum và Slice để đạt sự đồng thuận nhanh hơn bình thường:
+Quorum(Đại biểu) là 1 tập hợp các nút đủ để đạt được thỏa thuận. Có nhiều quorum giao nhau tức là 1 nút có thể thuộc nhiều quorum
+Quorum slice: 1 tập hợp các node đủ để thuyêt phục 1 node khác về tính hợp lệ 1 câu lệnh
+
+Hệ thống đồng bộ phân tán phải có: khả năng chịu lỗi khi 1 tác nhân gây hại ở bất kỳ điểm nào; khả năng ngăn chặn lỗi xâm nhập vào sổ cái, sau đó là ngăn chặn tiến trình của nó
+Vd: 1 tập hợp node ABCDEFG thay vì hoạt động như BFT là mọi node xác nhận, ta chia thành từng nhóm Quorum1(ABCD) và Quorum2(EFG) và hoạt động độc lập rồi đi đến thống nhất sau. 
+=> Thực tế thì các quorum để đạt được sự đồng thuận thì phải có ít nhất 1 giao điểm với quorum khác. VD: Quorum1(ABCD) và Quorum2(DEFG) thì mới hợp lý. 2 đại biểu có chung 1 node để thực hiện thỏa thuận thống nhất trong cả 2 quorum đó. Các quorum rời rạc tồn tại là điều không mong muốn.
+
+Blocked là trạng thái khi các node không đi đến thỏa thuận cuối cùng được, làm hệ thống bị chậm đi trong quá trình đồng bộ. Các node sẽ phải thỏa thuận lại. Các nút Divergent là các nút có output không phù hợp với output nút khác cũng làm phá vỡ thỏa thuận hệ thống. Trạng thái này xảy ra khi các ledgers do các nút khác nhau lại nắm giữ trạng thái khác nhau và không thể hòa giải.
+=> Trong khi blocked làm chậm quá trình đồng thuận thì Divergent làm hệ thống hiển thị dữ liệu trái ngược nhau rất nguy hiểm
+
+Trong BFA, các node riêng lẻ tự quyết định người mà họ tin tưởng để cung cấp thông tin. Mỗi node có thể thuộc nhiều slice. Các nút riêng lẻ quyết định dựa trên các tiêu chí bên ngoài. 
+=> Điểm yếu là việc tin tưởng giữa các node vì nếu node ta chọn phản bội thì sẽ ảnh hưởng đến tốc độ đồng thuận, sẽ được thay thế bằng node dự khuyết
+FBA an toàn vì việc dùng sức mạnh tính toán để hack là không thể. Kể cả các tác nhân xấu cấu kết với nhau thì hầu như không thể tạo ra mạng đa số được vì hệ thống hình thành từ 1 mạng phức tạp gồm các lát cắt slice số quorum chồng chéo lên nhau
+=> FBA cũng chịu lỗi của BFT là N=3f+1 với N là tổng số nút và f là số nút lỗi hay nó hoạt động tốt khi f <= (N-1)/3
+Ngoài ra FBA còn thêm độ chịu lỗi của giao điểm là T=2f+1 với T là kích cỡ quorum(T>N/2)
+
+FBA có thông lượng giao dịch cực kỳ lớn, chi phí thấp và khả năng mở rộng tuyệt vời mà vẫn phi tập trung. Được coi là giao thức tốt nhất cho các hệ thống đồng thuận phân tán. Hiện tại các giao thức phổ biến toàn của BFT như PoS, PoW và còn các giao thức nhóm FBA thì ít hơn. BFT dùng nhiều trong các các dự án cryptocurrency. 
+Có nhiều biến thể của FBA mở rộng hơn như mFBA, SCP(của PI). Tuy nhiên thực tế, tùy mục đích tùy dự án khác nhau mà nên dùng cơ chế đồng thuận khác nhau.
+
+
+
+# PI
+Là 1 blockchain dùng BFA.
+Để xử lý vấn đề node tin tưởng phản bội. PI dùng Trust Graph để rank thứ tự về độ tin cậy, 1 node lỗi sẽ out ra để node khác nhảy vào. Cái hay của SCP mà PI đang cải tiến là cả mạng sẽ k bị phụ thuộc nhiều vào Validator Node(mà PI gọi là Supernode). Quorum slice + trust graph sẽ tăng tính phi tập trung hơn. Trên testnet của PI thì có 3 supernode do họ quản lý, sau này mainnet họ có thể cho vài ngìn supernode chọn random dựa trên lịch sử chạy node của các thành viên
+VD: trong Ripple, mỗi thành viên có vai trò người xác thực sẽ được Ripple chọn trước. Còn trong Stellar, bất kỳ ai cũng có thể là người xác nhận và user tự chọn cho mình người xác thực đáng tin. Mỗi thành viên sẽ tự chịu trách nhiệm về chuỗi khối của riêng họ, sắp xếp và công bố nó.
+
+PI dùng FBA, cụ thể là SCP(Stellar Consensus Protocol) được nâng cấp dựa trên giao thức đồng thuận Stellar nhưng công bằng hơn, cũng do các nhà khoa học đứng sau chuỗi Stellar nghĩ ra. Sự đồng thuận đạt được thông qua 1 loạt cac chuỗi bỏ phiếu thông qua trao đổi thông điệp. 
+PI dùng lớp FBA bổ sung mỗi nút thiết lập các Quorum slice của riêng mình. Các nút phải tự xác định xem có tin tưởng nút khác không và k dựa vào cơ quan trung ương làm điều đó. Thuật toán bỏ phiếu tương đối nhẹ và tốn ít năng lượng.
+
+VD trong 1 hệ thống, để đạt được sự đồng thuận với kết quả đúng thì 2/3 số nút phải đưa ra kết quả đúng. Để mọi nút biết được, tức là 2/3 số nút phải chấp thuận và gửi cho tất cả các nút khác. Ta có thể làm kiểu 1 nút sẽ chờ 1 block mới, nếu 2/3 số nút trong mạng đều gửi cùng 1 block đó thì block đó là block đúng. Nhưng có thể giảm tải việc này để k nhất thiết phải 2/3 toàn bộ người mà bầu ra 1 lượng người nhất định và 2/3 số người đó xác thực sẽ tăng tốc độ xác thực lên mà vẫn đảm bảo về bảo mật. Lượng người đó có thể bầu ra bằng lượng tiền đặt cọc, dựa vào số lần xác thực đúng trước đó hoặc chọn 1 cách ngẫu nhiên hoàn toàn sẽ tạo ra các cơ chế đồng thuận khác nhau. 
+Các nút được xác định bởi sự chấp thuận 2/3 tất cả các nút trong liên kết. 
+PI cạnh tranh với Ripple và Stellar. Nó cho phép các thiết bị cá nhân đóng góp và nhận phần thưởng ở cấp độ giao thức. 
+
+PI có:
+Người tin phòng: người dùng PI dành cho di động. Người dùng sẽ xác nhận sự tồn tại của họ mỗi khi đăng nhập vào ứng dụng
+Người đóng góp: người dùng ứng dụng di động đóng góp bằng cách cung cấp danh sách những người tiên phong mà họ biết và tin tưởng
+Đại sứ: Người dùng ứng dụng PI cho di động, giới thiệu với người khác dùng PI
+Node: Là người dùng Pioneer, chạy phần mềm PI có thuật toán cốt lõi SCP
+=> Tất cả đều được thưởng PI mỗi ngày, chỉ cần sử dụng cũng được thưởng. 
+
+PI dùng biểu đồ tin cậy do những người đóng góp PI cung cấp dưới dạng thông tin mà các nút có thể sử dụng để thiết lập cấu hình với mạng PI chính. Khi chọn 1 nhóm các đại biểu, các nút sẽ phải xem xét biểu đồ tin cậy bởi những người đóng góp. 
+Pioneer khi cần xác nhận 1 giao dịch được thực hiện chưa thì sẽ kết nối với 1 or nhiều nút để check giao dịch được ghi trên sổ cái chưa. Nếu Pioneer cũng chạy 1 nút thì ứng dụng di dộng sẽ kết nối với nút riêng đó của Pioneer.
+PI k cần phí giao dịch, luôn luôn là free, nhưng nếu ai đó muốn nhanh thì có thể đưa fee vào và các nút sẽ sắp xếp giao dịch có chi phí cao nhất ở trên cùng để thực hiện. Chi phí chia theo tỷ lệ các nút hàng ngày. Trong mỗi khối thì chi phí giao dịch được đưa vào ví tạm thời, cuối cùng được phân phối cho thợ đào hoạt động ngày hôm đó. 
+=> Có thể ứng dụng thanh toán free và nhanh
+
+
+
 # PoS
+Bình thường, nếu như bất cứ ai cũng đề xuất 1 khối mới vào bất cứ thời điểm nào thì sẽ rất khó để mạng lưới đi đến đồng thuận cuối cùng vì ai cũng tương tác đề xuất khối liên tục sẽ kb nên đồng thuận phương án nào. Do đó PoS ra cơ chế bầu chọn random người lãnh đạo là validator, nhưng 1 node có thể giả dạng nhiều node nên cơ chế này cần tạo sự khan hiếm hơn nx cho validator, thành ra họ phải stake vào coin. PoS và PoW là VD điển hình của dạng này.
+
+-> Delegated Proof of Stake(DPoS) - Bằng chứng cổ phần ủy quyền:
+Cơ chế đồng thuận nhanh sử dụng trong EOS. EOS là một hệ thống phân cấp dựa trên Blockchain cho phép phát triển, lưu trữ và thực hiện các ứng dụng phi tập trung quy mô thương mại. Các cơ chế cơ bản thì giống PoS.
+DPOS coi là nền dân chủ kỹ thuật số do hệ thống bỏ phiếu có trọng số tương tự như quá trình các cuộc bầu cử hiện đại. Người dùng bỏ phiếu cho 1 số lượng đại biểu nhất định bằng cổ phần của họ. VD: A đặt 10 xu bầu đại biểu, B đặt 1 xu bầu đại biểu thì đại biểu của A có giá trị trọng số gấp 10 lần đại biểu do B bầu. Đại biểu được bầu sẽ tạo block và nhận thưởng. Số lượng đại biểu phụ thuộc vào thiết kế blockchain. 
+=> Các đại biểu có thể vận động tranh cử cho mình bằng cách cắt giảm chi phí xác thực khối or tiếp thị. Vì khi đại biểu nhận được càng nhiều phiếu tốt thì họ càng tạo ra những thứ có giá trị cho cộng đồng, tức họ cũng có quyền hạn trong việc quản lý blockchain chứ k chỉ là xác thực. 
+
+DPoS tốt hơn PoS và PoW. Xử lý hàng triệu giao dịch mỗi giây. Người tạo khối là những người chịu trách nhiệm tạo và ký các khối mới được bầu bởi cử tri nắm giữ cố phần trong mạng. Người xác nhận là bất kỳ ai chạy fullnode tải dầy đủ blockchain và thực hiện xác minh lại tính hợp lệ của cac khối tạo ra bởi người tạo khối. Khác với PoS, khi mà người xác nhận kiêm luôn vai trò tạo ra các khối. 
+Số lượng người tạo khối tùy thuộc vào quy tắc đồng thuận từng loại blockchain: EOS là 21, BitShares: 101, Steemit: 21, Lisk: 101, Ark: 51
+Bầu chọn N người tạo khối từ nhóm ứng viên -> các thành viên trong mạng sử dụng cổ phần của mình để bầu chọn ra đủ N thành viên có nhiệm vụ tạo khối -> Từ N người tạo khối, 1 thuật toán sẽ chọn ra người có quyền được tạo khối trong 1 thời điểm nhất định. Có nhiều cách VD round-robin tùy vào thiết kế
+1 khối được xác minh hoàn chỉnh khi 2/3 số người tạo khối + 1. Người xác nhận sẽ loại bỏ những người tạo khối độc hại bằng cách kiểm duyệt lại tính hợp lệ và k bỏ phiếu cho những người tạo khối gian lận trong vòng tiếp theo.
+
+
+
+# Các cơ chế đồng thuận khác
+-> 1 loại đồng thuận mà đi theo hướng khác hơn theo cơ chế kháng lỗi BFT truyền thống: khi đó, không có các hđ minh chứng công việc hay cổ phần stake của các thành viên mà họ sẽ gửi các thông điệp chứa chữ ký của mình đến các thành viên khác. Cuối cùng, khi nhận được cùng 1 thông điệp có giá trị nhất định 1 lượng đủ để chứng minh, các thành viên sẽ đạt được thỏa thuận chung.
+Khi số lượng thành viên nhiều thì cơ chế này lại k tốt khi mà thông điệp gửi đến quá dồn dập. Vì 1 người gửi đi cho 1 người khác rồi cả 2 cùng gửi đi tiếp và cứ thế cho đến khi 1 người nhận được 1 số lượng thông điệp đó để xác minh tính chính xác. Mà lại có nhiều người cùng gửi thông điệp 1 lúc thì số lượng tăng rất lớn. Khi đó PoS và PoW lại tốt nhưng tốc độ lại chậm
+
+-> Proof of Burn(PoB) - Bằng chứng tiêu thụ:
+Người dùng burn tài sản của họ để mở đặc quyền được khai báo trên hệ thống dựa trên 1 qtr lựa chọn ngẫu nhiên. Vc người dùng burn 1 lượng tài sản để chịu 1 khoản lỗ ngắn hạn đổi lấy lợi ích dài hạn. Càng đốt nhiều tiền, họ sẽ càng có cơ hội khai thác thành công khối tiếp theo và nhận thưởng. 
+Thợ đào có thể tiêu thụ tiền tự nhiên or tiền tệ của 1 chuỗi khác như bitcoin. Nhược điểm của cách này là lãng phí nguồn lực khi mà quyền khai thác trao cho người lãng phí nhiều tiền hơn. Slimcoin là 1 coin dựa trên peercoin dùng bằng chứng tiêu thụ
+
+-> Proof of Authority(PoA):
+Các giao dịch được xác thực bởi các tk được phê duyệt giống như các quản trị viên của hệ thống. Các tk này là cơ quan trung gian xác nhận cho toàn mạng. PoA có thông lượng cao và được tối ưu hóa cho các mạng private blockchain, khả năng mở rộng tốt. PoA k phù hợp với public blockchain vì tính chất tập trung của nó
+PoA được dùng trong POA network, Kovan testnet của ethereum
+
+-> Proof of Weight (PoWeight):
+Là tên của 1 họ các thuận toán đồng thuận. Các thuật toán này giống PoS vì số lượng cổ phần của thành viên đại diện cho xs được chọn làm miner tiếp theo nhưng nó còn mở rộng bằng các sử dụng 1 số trọng số tương đối để điều chỉnh như Proof-of-spacetime của filecoin dựa trên số dữ liệu IPFS mà người dùng lưu trữ. Hoặc trong các hệ thống khác có thể bao gồm các trọng số như Proof-of-reputation
+Nó được dùng trong Algorand, Filecoin, Chia. Tính mềm dẻo cao nhưng có thể phức tạp trong các cơ chế trao thưởng
+
+-> Proof of Activity (PoActivity):
+Kêt hợp cả PoS và PoW. Đầu tiên thợ đào sẽ khai thác kiểu truyền thống PoW giải đố, sau khi xong thì các khối được khai thác sẽ k có giao dịch nào mà chỉ chứa header và phần thưởng cho thợ đào. Lúc này, hệ thống chuyển sang PoS. Validator sở hữu nhiều tiền hơn được chọn nhiều hơn sẽ ký vào khối mới dựa vào thông tin header đã có. Khi tất cả các trình ký xác nhận thì mẫu sẽ được thêm vào khối mới. Nếu 1 validator k có mặt để hoàn thành khối thì khối chiến thắng được chọn bởi 1 trong các trình xác nhận mới được chọn và cứ thế đến khi đủ số chữ ký. Lệ phí chia giữa người xác nhận và người miner giải bài toán khó. 
+VD: Decredcoin là đồng tiền ảo sử dụng PoA. Nhược điểm vẫn tốn nl như PoW và nhược điểm của PoS thì những người kiểm chứng vẫn có thể liên kết với nhau
+
+-> Proof of Elapsed Time (Bằng chứng thời gian chờ):
+Tạo bởi nsx chip Intel. Hoạt động tương tự PoW nhưng tiêu thụ ít điện hơn. Thay vì có người giải đố, nó dùng môi trường thực thi tin cậy(TEE) chẳng hạn như SGX(Software Guard Extensions) để đảm bảo 1 khối mới được sx ngẫu nhiên mà k cần PoW cần thiết. Cách tiếp cận dựa trên thời gian chờ cung cấp qua TEE. Thuật toán này hoạt động hiệu quả trên bất cứ bộ xử lý Intel nào hỗ trợ SGX. Vấn đề là ta phải tin vào Intel.
+PoET được phát triển cho blockchain được cấp phép xác định ai đủ điều kiện dựa vào thời gian chờ xác định trước ngẫu nhiên, được áp dụng trong mọi vòng của quá trình khai thác khối. Sao cho nút có thời gian chờ ngắn nhất sẽ được khai thác. Nó như kiểu quay xổ số theo tg đã trôi qua. 
+
+-> Proof of Capacity (Bằng chứng sức chứa):
+Thay vì tiền thì ta dùng khoảng trống ổ cứng. Ai càng nhiều không gian ổ cứng thì cơ hội khai thác nhận thưởng càng cao. Trước khi khai thác, hệ thống tạo ra các bộ dữ liệu lớn là Plots. Ai có càng nhiều không gian ổ cứng sẽ càng có nhiều Plots thì cơ hội tìm kiếm chuỗi kế càng cao. 
+Các biến thể của nó là bằng chứng lưu trữ và bằng chứng về không gian. Burstcoin là đồng tiền dùng PoC
+
+-> Proof of Importance (PoI): 
+Thuật toán đồng thuận do NEM giới thiệu, xác định nút nào có thể thu hoạch 1 khối dựa trên chỉ số quan trọng. User cung vào lượng XEM nhất định để tính mức độ quan trọng. K như PoS chỉ đặt cọc tiền thì cái này phải dựa trên việc xác nhận, đối tác giao dịch xung như quy mô, tần suất,..
+
+-> Các thuật toán đồng thuận khác dựa trên BFT
+--> Practical Byzantine Fault Tolerance(PBFT):
+1 trong những giải pháp đầu tiên cho BFT là PFBT, đang dùng trong Hyperledger Fabric. PBFT hiệu quả với mạng lưới ít thành viên(tầm <20). 
+Nó cung cấp 1 bản sao state machine chịu được Byzantine. Các nút được sắp xếp theo thứ tự nút chính và nút dự phòng. Tất cả các nút giao tiếp với nhau và không chỉ phải chứng mình các tin nhắn đến từ 1 nút ngang hàng mà còn phải xác minh tin nhắn k bị sửa đổi khi truyền đi.
+Giả sử nút độc hại không quá 1/3 tổng số nút. Khi càng nhiều nút thì càng khó có hành vi độc hại.
+Quy trình 1 vòng đồng thuận: 1 nút nào đó gửi yêu cầu đến nút chính yêu cầu xác thực -> nút chính đồng thời gửi đến các nút dự phòng -> nút dự phòng xác thực và phản hồi -> chờ đủ f+1 node (f đại diện cho số nút tối đa có thể bị lỗi) phản hồi từ các nút cùng kết quả thì chốt đó là kết quả cuối. Nút chính có thể thay đổi theo vòng or bằng các giao thức lựa chọn. Đa số các nút trung thực có thể quyết định nút chính có bị lỗi không và thay thế chúng. 
+=> Thông lượng giao dịch cao nhưng tập trung và chỉ phù hợp với private blockchain
+
+--> Delegated Byzantine Fault Tolerance:
+Dùng trong tiền ảo NEO.
+VD nước A có nhiều dân cư(dự án nhiều người sở hữu coin) -> Mỗi cư dân bỏ phiếu lựa chọn 1 đại biểu đại diện. Người đại diện phải thông qua các đạo luật có lợi cho công dân, nếu k sẽ k bầu cho họ nx trong TL(Các validator) -> chọn random trong số người đại diện ra 1 người phát ngôn -> người phát ngôn nhìn vào yêu cầu của công dân và tạo 1 đạo luật mới(block mới) và tính toán chỉ số hài lòng(mã hash) -> các đại diện khác sau đó kiểm tra tính toán người phát ngôn. Nếu con số phù hợp thì lấy, k thì k lấy. Ít nhất 66% số lượng đại diện đồng ý thì đạo luật mới được thông qua(block được mine)
+Nếu người phát ngôn gian lận thì các đại diện sẽ check và bác bỏ cái sai, miễn là k lừa được 66% người đại diện. Nếu các đại diện gian lận thì cũng phải 66% số đại diện gian lận mới hack được.
+
+--> VBFT:
+1 biến thể khác của BFT, kết hợp PoS. Dùng hàm ngẫu nhiên VRF(Verifiable Random Function trong chainlink). Các node chọn ngẫu nhiên bằng VRF chịu trách nhiệm đề xuất, xác minh, bỏ phiếu khối mới. Nó giống BFT nhưng kết hợp PoS chọn đại biểu hoàn toàn ngẫu nhiên với VRF
+
+--> Federated Byzantine Agreement(FBA):
+
+-> Directed Acyclic Graphs(DAGs):
+là 1 hình thức đồng thuận không xử lý giao dịch ko đồng bộ. Về lý thuyết nó cho xử lý vô hạn giao dịch 1s. 
+
+Vd ứng dụng trong IOTA: 
+Tangle là thuật toán đồng thuận DAG dùng trong blockchain IOTA. Để gửi đi giao dịch, ta cần xác thực 2 giao dịch trước đó ta nhận được. Tức là sự đồng thuận được thiết lập bởi các giao dịch và ai tạo ra 1/3 số lượng giao dịch thì có thể gian lận các giao dịch khác nhưng điều này k khả thi. IOTA còn kiểm tra lại tất cả các giao dịch trên 1 nút "The Coordinator". Nút tập trung này hoạt động như 1 bánh xe huấn luyện hệ thống và bị xóa khi Tangle đủ lớn.
+
+VD ứng dụng trong Hashgraph:
+Các node chia sẻ giao dịch đã biết của họ với các node khác ngẫu nhiên để đến cuối, tất cả các giao dịch được phát tán xung quanh các node. Do đó nó hoạt động nhanh nhưng dễ bị tấn công bằng cách giả mạo node trên mạng. Hashgraph chỉ phù hợp cho private network có cấp phép và khó triển khai trên các public blockchain
+
+VD trong SPECTRE:
+Là 1 giải pháp mở rộng bitcoin bằng cách tuần tự hóa các sự kiện PoW. Nó kết hợp PoW và DAG để mở rộng sự đồng thuận. Trong SPECTRE, các block được khai thác trỏ đến nhiều block cha mẹ. Vì v mạng xử lý nhiều block hơn trong 1s. VD: 1 khối được khai thác sẽ trỏ đến khối cha và xác định tính hợp lệ khối cha đó. Trong PoW, các block thuộc chuỗi dài nhất, còn trong SPECTRE thì các khối có nhiều con nhất là khối đáng tin cậy nhất vì khối đó được xác thực nhiều lần bởi các con. 
+
+=> Khi quyết định làm trên nền tảng nào cần biết nhu cầu là gì, cần tính bất biến, bảo mật hay tốc độ, trải nghiệm người dùng. Vd dùng Cosmos SDK có thể dùng để xây ứng dụng cho phép dev tận dụng tốc độ đồng thuận cao của Tendermint Core.
+Vấn đề tập trung hóa cũng cần quan tâm vì ngay cả ethereum và bitcoin cũng có sự tập trung ở các nhóm validator hay các mining pool. VD: ta sử dụng EOS với giao thức DPOS cho phép tốc độ nhanh và chi phí ~0 nhưng lại tập trung vào nhóm khai thác. Ta có thể xem xét 1 số nền tảng cho phép phân cấp mức độ tùy nhu cầu. Kiểu gì cũng phải đánh đổi có cái này mất cái kia.
+
+
+
+# Cosmos
+COSMOS(đồng ATOM) là 1 blockchain platform rất to, chứa nhiều blockchain layer 1 bên trong. Nó cũng là 1 blockchain Layer 1 phát triển với mô hình "Internet of Blockchain" hay gọi là blockchainn 3.0
+VD: Kava và Band Protocol là các dự án có chain riêng trên Cosmos. Binance chain cũng là blockchain xây dựng bằng cosmos sdk.
+Trước khi Cosmos ra đời, ethereum và bitcoin k thể tương tác trực tiếp với nhau. Các blockchain này khó xây dựng vì phải hiểu sâu về lập trình core của blockchain, phí cao, tốc độ chậm, mở động kém. Cosmos sẽ giải quyết các vấn đề đó. Tính năng nổi bật nhât hiện tại là mọi blockchain khác nhau có thể liên kết với nhau để giao dịch token cho nhau chỉ trên 1 nền tảng duy nhất.
+VD: Ehtereum và Bitcoin khi muốn nâng cấp họ dùng hardfork gây nhiều ý kiến trái chiều. Cosmos hướng đến việc tạo ra 1 nền tảng blockchain duy nhất phù hợp với mọi TH sử dụng. Khả năng mở rộng vô hạn của cosmos làm tăng tốc độ giao dịch và phí rẻ hơn. 
+
+Để tương tác ta có thể tạo bridge giữa mọi token với nhau nhưng số lượng bridge vô cùng lớn khi nhiều coin ra đời. Họ muốn 1 thứ mà liên kết vào nó là mọi coin đều trao đổi được cho nhau luôn cơ.
+Cơ chế: Để xây dựng blockchain cần xây 3 lõi cơ bản: networking-consensus-application ngay từ đầu. Bitcoin thì chỉ có 1 và 2, ethereum thì có cả 1, 2, 3 và nó đơn giản hóa công đoạn 3 cho tất cả mọi người đều tạo được app thông qua EVM cài trên nó. Nhưng vấn đề là công đoạn 1 và 2 thì k hề đơn giản. Nếu 1 người nào khác k chỉ muốn tạo 1 ứng dụng mà muốn tạo hẳn 1 blockchain cho ứng dụng đó cơ thì 3 lõi trên làm rất khó vì phải nắm rõ về core. Vì đâu phải ai cũng muốn dùng ethereum đâu, mỗi blockchain có thể thiên về 1 tính năng riêng như tốc độ hoặc bảo mật chẳng hạn và người dùng muốn tùy chỉnh 1 blockchain tốc độ cao hơn thì chưa vì Ethereum là 1 công nghệ nguyên khối rất khó tùy chỉnh. Tức người dùng xd ứng dụng trên ethereum fix.
+Trên cosmos họ dùng Tendermint BFT là 1 byzantine fault tolerant consensus engine phát triển cho Cosmos PoS. Nó có sẵn các chức năng về consensus cũng như transmit transaction trên network của blockchain. Dev có thể dùng nó có sẵn cộng với Cosmos SDK, nó cũng giúp phát triển phần application của blockchain. Tức là xây blockchain có những đặc tính riêng cho ứng dụng bằng cái engine trên và cosmos SDK rất dễ. Điều này giúp dev tạo ra 1 blockchain tùy chỉnh tùy ý họ trong 1 tuần so với thời gian 1 năm để tạo ra 1 blockchain từ scatch. 
+Cosmos SDK xúc tiến quá trình tạo blockchain dựa trên 2 nguyên tắc: 
+- Tính mô-đun: nó tạo ra hệ sinh thái các mô-đun cho phép các nhà phát triển tạo ra các blockchain với từng chức năng riêng. Mọi người tạo ra mô-đun cho SDK và chia sẻ cho cộng đồng mà ta có thể tích hợp có vào úng dụng nếu thích. Càng lâu sẽ càng có nhiều mô-đun làm sẵn ra đời và xd sẽ càng dễ; Hạn chế được tác động không mong muốn giữa các module.
+- Còn Tendermint BFT(Tendermint core) có thể xử lý đến vài nghìn trans 1 giây. Dev dùng nó là có sẵn 2 tầng network và consensus tốc độ cao rồi, chỉ cần tập trung xây ứng dụng. Nó cung cấp web-server, lib cho các ứng dụng blockchain, giải quyết vấn đề về năng lượng và khả năng mở rộng sẵn.
+=> 2 cái kết nối vói nhau thông qua ABCI(Application Blockchain Interface). Nó như 1 cái ổ cắm có thể đóng gói bất cứ ngôn ngữ nào như C++, Java,.. sang ngôn ngữ mà cosmos hiểu được, gắn các module vào Tendermint BFT. 
+=> Nhờ v mà cosmos cũng xử lý vấn đề về quyền hạn. VD ta cần xây dựng 1 ứng dụng mà cần tới 1 tính năng mới của EVM. Để làm điều đó, ta phải submit 1 cái proposal EIP và cộng đồng của ethereum phải xem xét trong thời gian dài mới được đưa vào sử dụng. Thế thì bao h ta mới chạy được cái app của ta => Nếu dùng cosmos, ta có thể xây 1 blockchain riêng với custom governance structure và ta tự quản trị blockchain đó luôn.
+
+Cosmos còn xử lý vấn đề về interoperability mà k cần bridge(vì cấp số mũ lượng bridge sinh ra k tốt) hay exchange(trao đổi bị centralized). Nó dùng kiến trúc module 2 lớp: Zone và Hub
+- Zone là các blockchain k đồng nhất vd ethereum và bitcoin. Khi 1 zone kết nối IBC với 1 Hub, nó có thể tự động truy cập mọi zone khác kết nối với nó. Cái kết nối IBC(Inter Blockchain Communication) là giao thức truyền thông liên khối cho phép chuyển giá trị token cho nhau. Khi 1 zone nhận được token từ 1 Hub thì zone đó chỉ cần tin tưởng Hub và Zone gốc của token này.
+- Hub đầu tiên là Cosmos Hub là 1 blockchain PoS có staking token ATOM. Ngoài ra còn nhiều Hub khác. 
+=> Bất kỳ blockchain có consensus chính xác nhanh đều kết nối được với cosmos bằng cách điều chỉnh IBC. VD: ethereum hoạt động với Casper thì có thể chỉnh IBC để tạo 1 kết nối trực tiếp giữa 2 cái. Còn các blockchain không có độ hoàn thiện nhanh như PoW, ta phải dùng 1 loại proxy gọi là Peg-Zone. Peg-zone cũng chỉ là blockchain theo dõi trạng thái của blockchain khác mà chính peg-zone là 1 blockchain tương thích với IBC. Nó thiết lập đặc tính cuối cho blockchain mà nó theo dõi, nó là trung gian để tương tác Hub với blockchain có độ hoàn thiện chậm.
+=> Tức là khi đã có mô hình Hub, Zone thì các Zone tương tác thông qua chỉnh cầu nối IBC, còn với các blockchain hoàn thiện chậm thì dùng pegzone làm bridge thôi.
+          Ethereum   Các zone là blockchain dựa trên Tendermint(connect trực tiếp)
+                 \        /
+               pegzone   /
+                   \    /
+Bitcoin --pegzone-- Hub1 -- Hub2 -- các zones khác
+  
+VD: aragon là 1 dự án migrate từ ethereum sang hoàn toàn cosmos bằng ethereum compatibily layer for cosmos SDK. Cái SDK làm cho aragon migrate quá dễ dàng. NN của sự di chuyển này là vấn đề quyền quản trị. Ethereum upgrade đã break hàng trăm contract trên Aragon. Điều này sẽ k xảy ra nếu aragon có 1 blockchain riêng chứ k build on top of ethereum. Trong khi các dự án đua nhau phát triển thêm từ blockchain thì cosmos cho phép blockchain nào dù cùi bắp hay hiện đại đều connect được vào. 
+VD: Khi ta bán collectible NFT thì chẳng hạn ta muốn có 1 chain riêng và bán sao cho mọi người trade được trên đó. Nhưng 1 chain như v thì k có thanh khoản thực tế chả ai thấy được mà vào mua. Với cosmos, ta có thể dùng IBC module và lock đống collection NFT vào chain đó và ta gửi IBC package tới cosmos hub và bảo nó tài sản đã bị khóa trong chain này. Cosmos nhận được package đó và thuật toán đồng thuận tendermint sẽ validate điều đó và gửi lại báo là thành công. Sau đó mn vào trade được assets đó. Tức cosmos hub lo việc đồng thuận cho rồi.
+
+Đồng ATOM có thể dùng trả cosmos hub fee để swap sang chain khác, chỉ cosmos hub mà thôi, còn nhiều hub khác có thể trả đồng khác. ATOM cũng dùng để vote validator cho cosmos hub or vote proposal trên cả cosmos.
+Token ATOM dùng để trả phí giao dịch trong Cosmos Hub. Validator stake ATOM. Delegator stake ATOM vào các validator mình chọn. 1 phần nguồn thu từ fee đưa vào treasury, khoản quỹ này chia cho các dự án mới tiềm năng mà hold token ATOM
+
+Hầu hết các blockchain dùng PoS đều kết nối được IBC, IBC cũng hỗ trợ cả subtrate để connect các blockchain của POLKADOT hay Kusama.
+IBC giống Wraptoken trong ethereum. Khi cần đổi A cho B thì ta lock A vào blockchain ở A và mint 1 lượng B tương ứng trong blockchain của B. ATOM là 1 trong các đồng trả phí giao dịch crosschain thông qua cosmos hub. 
+IBC tận dụng tính cuối cùng tức thì của sự đồng thuận Tendermint để các chuỗi k đồng nhất chuyển giá trị cho nhau.
+Với các PoW coin thì khác. VD transfer BTC sang Terra blockchain bằng IBC, ta send BTC vào 1 wallet trên Bitcoin blockchain được quản lý bởi Pegzone mà ta đang tương tác với. Khi IBC thấy điều đó sẽ mint BTC token trên Terra blockchain và gửi nó vào address ta provider ban đầu. 
+Cơ chế này giống như cơ chế của Thor chain(cũng built với Tendermint). Thor chain releases với Thorswap dex là 1 sàn giao dịch multichain. Tức là bh có thể trao đổi coin giữa các nền tảng với nhau decentralized mà k cần WrapCoin và hay sàn CEX
+
 
