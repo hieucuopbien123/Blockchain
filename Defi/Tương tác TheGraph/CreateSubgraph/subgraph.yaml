@@ -1,3 +1,4 @@
+# The Graph / Tạo 1 subgraph
 specVersion: 0.0.2
 schema:
   file: ./schema.graphql

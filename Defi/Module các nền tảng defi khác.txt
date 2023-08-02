@@ -319,4 +319,12 @@ Khi có vấn đề, 2 role mới xuất hiện:
 - Fisherman: chạy 1 loại node có nhiệm vụ tìm data sai lệch cung bởi indexer và report tới Arbitrators.
 - Arbitrators: Khi indexers bị report sẽ bị phạt. Arbitrators có quyền giảm GRT stake của defective Indexer bị report, thậm chí xóa họ khỏi network nếu tình huống nghiêm trọng.
 
+=> ref tới "Tương tác The Graph"
+-> Tương tác với graph như http bth
+
+-> Tạo 1 subgraph
+Phần lớn code là tự gen. Ta cần tạo Schema cho các data cần lấy, viết yaml cho config rồi viết file mapping handler return data cụ thể
+Phải setting cài đặt các tool
+
+URL: https://thegraph.com/docs/vi/developing/creating-a-subgraph/
 
