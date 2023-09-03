@@ -1,0 +1,586 @@
+The Graph Protocol
+The Graph cho nhiều người đánh index, ai vi phạm thì có người check để phạt. Oracle cũng cho nhiều người cung data, ai vi phạm thì bị phạt. 
+Điểm khác nhau là The Graph có bộ quy tắc riêng để đánh index theo là dựa vào subgraph. Còn Oracle thì data provider lấy data hoàn toàn offchain kiểu gì cũng được, miễn là cung được ra ngoài, sau đó nó tổng hợp data từ nhiều nguồn và cho ra kq cuối.
+
+
+
+# Basic
+Họ dùng Ethereum để để xây dựng các decentralized app nhưng các app càng phức tạp thì càng lag vì xử lý dữ liệu cồng kềnh, họ quyết định xây thêm 1 indexing protocol 
+
+1 DApp hoạt động cần: data on-chain, data off-chain, data storage 
+VD: offchain thì các dữ liệu ở ngoài đời thực được đưa vào blockchain dành cho những dapp cần dùng nó. Điều này được thực hiện thông qua oracle
+VD: data storage như filecoin, cea là các dự án offer decentralized data storage. Hiện tại thì phần lớn các dapp dùng lưu data trên ethereum blockchain luôn mà không cần các protocol khác, nhưng ta có thể lưu trên các nền tảng phi tập trung khác rồi blockchain chỉ cần lưu hash thôi.
+Điều đó dẫn đến vấn đề thứ 3 là query data onchain phức tạp như tìm tạo 1 dapp cần dùng đến số lượng land đã được bán trên ethereum của 1 dự án virtual world. Nhưng nhìn lại có vô số marketplace mà người ta lên đó bán land của virtual world tức là ta phải fetch data từ từng market place và add nó vào marketplace của ta. Điều này thực ra không khó vì ethereum open source và ta hoàn toàn có thể làm được. Nhưng nâng cao hơn ta muốn xem selling history của từng marketplace trong 1 khoảng thời gian nào đó cơ vì nhiều người muốn xem các thông tin đó.
+=> Điều này có thể mất vài tiếng để dapp lấy được vì thậm chí smart contract không có hàm getter nào lấy lịch sử trực tiếp như thế, xong vừa lấy được thì các lô đất đó đã bị dịch đi chỗ khác. Và cũng gây khó cho dev để viết code mà query điều đó
+Solve: Blockchain -> The Graph -> dApp
+
+Tại sao lại gọi là indexing? Vd ta search 1 thứ gì đó trong 1 cuốn sách, việc search bừa và search theo mục lục sẽ có tốc độ khác nhau. Lập chỉ mục index chỉ công việc sắp xếp, phân loại, tổng hợp như v. VD sắp xếp sẵn theo bảng chữ cái chẳng hạn thì như v việc query data sẽ ez hơn. Vd trong database ta dùng SQL để query thì việc indexing sẽ giúp SQL query dễ dàng hơn
+
+Trong blockchain ta đang k xét các data lấy dễ dàng bởi smart contract mà các data phức tạp thì chỉ có cách lấy thẳng từ blockchain nhưng nó cũng như là search trong 1 cuốn sách dài vô tận vậy. Các khối nối với nhau chứa hàng trăm transaction ngẫu nhiên và ta phải tìm từng transaction 1 để search cái thông tin của ta
+Điều này là quá occho nên nhiều nền tảng VD etherscan là 1 ví dụ 1 tổ chức tập trung. Họ đơn giản lấy toàn bộ data trên blockchain -> nhét vào database của họ -> lập 1 chỉ mục indexing 1 bảng query theo address -> người dùng query nó bằng cách gõ address vào thanh bar để tìm transaction tương ứng
+=> Nó là 1 ví dụ tương tự The Graph nhưng nó là tập trung tức người dùng phải tin tưởng tổ chức etherscan không làm giả dữ liệu nhưng 1 ứng dụng phi tập trung không thể lấy data tập trung được. Thêm vào đó là etherscan chi search được theo địa chỉ và 1 vài hình thức khác trong khi blockchain rất đa dạng chứ k chỉ như v. Nếu so với graph thì search địa chỉ của etherscan chỉ được coi như 1 subgraph nhỏ mà thôi. 
+
+Các công ty đương nhiên là k muốn tin tưởng bất cứ 1 api nào bên ngoài mà họ chỉ muốn trust their own service => The Graph chính là decentralized query protocol for blockchain giải quyết vấn đề. Nhờ có nó mà ta có thể build 1 ứng dụng lấy data bên ngoài cũng như xử lý data bên trong phi tập trung hoàn toàn không có bất cứ ai can thiệp được
+=> Ta có thể query different network như ethereum, ipfs bằng GraphQL. 1 dapp có thể dùng 1 or nhiều subgraph để lấy dữ liệu. 1 subgraph cũng có thể chưa nhiều subgraph khác để hợp nhất thành 1 data set mà dapp dùng. Graph cung ứng dụng Explorer cung cấp api of a lot of most popular protocol như uniswap, compound, aave,...
+
+The Graph có hosted service để test centralized.
+
+-> The Graph là giao thức phi tập trung cung cấp dịch vụ thống kê, lập chỉ mục và truy vấn dữ liệu từ blockchain đến cho người dùng. Điểm đặc biệt là cho phép truy vấn dữ liệu khó truy vấn trực tiếp
+Vấn đề: các dự án như Uniswap hay NFT như Bored Ape Yacht Club lưu data trên Ethereum có việc đọc data ngoài dữ liệu cơ bản rất khó. VD Bored Ape Yacht Club thì ta cần lấy thông tin chỉ cần gọi hàm getter trên smart contract sẽ cho phép lấy thông tin owner của 1 Ape vì nó lập trình trực tiếp vào smart contract. Nhưng nhu cầu là họ muốn thao tác nâng cao hơn như tổng hợp, search, check các relation, filter data. VD họ truy vấn tập hợp Ape thuộc 1 địa chỉ nhất định hoặc lọc 1 trong các đặc điểm của 1 ape thì smart contract solidity không thể tạo mọi hàm getter làm việc đó được. Đương nhiên chủ của dự án có thể dựng 1 server cho người dùng lấy nhưng sẽ tập trung. The Graph đưa ra giải pháp phi tập trung cho vấn đề này.
+
+Bất cứ ai cũng có thể xây dựng và xuất bản các subgraph - các API mở mà các ứng dụng có thể truy vấn dữ liệu từ nó bằng GraphQL. Nó như là 1 google của blockchain vậy vì có những tài liệu trên mạng nhưng giả sử k có google thì ta truy cập các tài liệu đó rất khó và bị hạn chế nhiều, khi có google ta search phát được luôn thì The Graph có ích như v. Search gg tương đương với truy vấn GraphQL
+The Graph hiện tại đang xử lý hơn 4 tỷ truy vấn hàng tháng cho các ứng dụng như Uniswap, CoinGecko, Synthetix bao gồm trích xuất data như giá token, khối lượng giao dịch, tính thanh khoản
+
+-> Các thuộc tính hay của blockchain như tổ chức lại chuỗi(khi conflict chọn cái nhiều cumulative energy hơn với bitcoin) hay truy gốc các khối làm phức tạp quá trình tổng hợp chuỗi dữ liệu. 
+The Graph phải giải quyết vấn đề nhà cung cấp nền tảng giao dịch thao túng dữ liệu như báo giá cao hơn trên website để hưởng lợi từ phần chênh lệch
+=> The graph giải quyết bằng cách tạo ra 1 giao thức lập chỉ mục phi tập trung và cho phép user truy vấn data từ blockchain thông qua subgraph. Mỗi subgraph là 1 API mở để dev dùng ngôn ngữ GraphQL để truy vấn dữ liệu blockchain thông qua cái subgraph đó vì nó là cái luôn theo dõi data ta cần lấy trên blockchain.
+
+The graph hoạt động đơn giản nhờ cách tìm hiểu thông tin và cách lập chỉ mục dữ liệu. Điều này được xđ dựa trên subgraph manifest(bản kê lệnh subgraph). Trong bản kê lệnh, The Graph xđ smart contract và các event đáng lưu ý của sm đó và cả cách lập bản đồ dữ kiện với thông tin được lưu trong csdl của hệ thống.
+VD: 1 dev viết xong 1 bản mô tả của subgraph -> họ dùng Graph CLI để lưu nó vào hệ thống lưu trữ IPFS -> và thuật toán của The Graph sẽ bắt đầu lập chỉ mục dữ liệu cho subgraph đó
+
+Quá trình: DApp sendTransaction đổi data của ethereum -> smart contract thực thi và phát ra event -> Graph Node liên tục quét trên ethereum để tìm ra block mới và dữ liệu cho subgraph của nhà phát triển ứng dụng -> VD Graph Node tìm thấy các events ethereum cho subgraph đó trong các khối thì sẽ chạy tiếp trình xử lý mapping - module WASM tạo ra và cập nhập các data vào Graph Node, lưu lại tương ứng với các sự kiện trên ethereum -> 1 dapp khác truy vấn Graph Node về dữ liệu được lập chỉ mục bằng việc dùng GraphQL API (GraphQL cũng chỉ là 1 ngôn ngữ truy vấn API mà thôi) -> Graph Node lần lượt biên dịch các truy vấn GraphQL đó thành các truy vấn về kho dữ liệu cơ sở của nó. Mục đích là trích xuất dữ liệu, dùng khả năng lập chỉ mục của kho lưu trữ -> thế là có dữ liệu, dapp sẽ hiển thị ra cho người dùng với giao diện thân thiện, nơi mà họ dùng để thực hiện tiếp các giao dịch mới trên ethereum
+
+=> Tổng kết thì The Graph là 1 giao thức sắp xếp cơ cấu lại data blockchain và giúp các thông tin này truy cập dễ hơn mà thôi. Nó cung cấp dữ liệu cho nhiều ứng dụng defi và web3
+
+-> Vai trò:
+Mạng lưới gồm các Node được trả tiền để giữ cho dịch vụ hoạt động. The Graph cũng cho phép bất kỳ người dùng tích cực đóng góp vào mạng lưới có quyền tham gia vào cơ chế kiếm thu nhập như các provider thay vì trao quyền đó cho những đơn vị độc quyền như hiện nay. 
+
+3 đối tượng dưới cũng earn reward từ rebate pool thưởng grt cho người nào đóng góp nhiều nhất vào graph network. Toàn bộ stake của 3 đối tượng bị lock trong 20 ngày
+
+Indexer là người vận hành các node trong mạng lưới, họ phải có trình độ kỹ thuật cao, stake GRT để đk dịch vụ lập chỉ mục và xử lý truy vấn và nhận lại GRT là phí truy vấn là thưởng cho họ. Họ là người xây dựng The Graph Node giúp tăng tốc việc truy cập dữ liệu trên The Graph Networks. Để trở thành indexer cần nhiều điều kiện về phần cứng và kỹ thuật ta k làm
+1 subgraph có thể có nhiều indexers xử lý và nhiều curators stake vào. Chính vì có nhiều indexers cùng xử lý nên mới chắc chắn dữ liệu lấy được từ các indexer là đúng đắn, có tool check các subgraph để biết indexer nào gian lận. Trong future, họ có thể check dễ dàng hơn với 1 vài queries đặc biệt có tác dụng check
+Indexer lập chỉ mục cho subgraph. Nhiều indexer cạnh tranh với nhau về giá cả và chất lượng của indexer như kiểu 1 marketplace cung bởi các indexer bán data mà các consumer vào mua v
+
+Curator là những người giúp phát triển subgraph có trình độ kỹ thuật ở mức trung bình. Khi người dùng dữ liệu or thành viên nào đó báo với Indexer rằng API nào nên được lập chỉ mục trong mạng The Graph -> Curator sẽ gửi GRT vào 1 đường cong liên kết bondingcurve để báo hiệu rằng 1 subgraph cụ thể cần được phát triển -> Curator nhận phí truy vấn dựa trên các subgraph mà họ đã báo và đặt thưởng khuyến khích cho các nguồn dữ liệu chất lượng cao nhất -> Curator sẽ chịu trách nghiệm quản lý các subgraph và nạp GRT vào hệ thống thông qua ứng dụng Graph Explorer để báo hiệu subgraph nào có giá trị để đưa vào Graph Node
+Curator stake vào 1 subgraph càng sớm càng nhận được nhiều tiền. Điều này thể hiện bằng tỉ lệ share của họ trong The Graph qua bonding curve. 1 subgraph có nhiều curator vào stake thì nhận được share tượng trưng cho phần trăm tỉ lệ sở hữu trong pool. Các subgraph có nhiều tiền của curator sẽ càng uy tín và mn có xu hướng chọn nó để lấy dữ liệu. Việc của họ chỉ là báo hiệu cho indexer rằng những API nào nên được lập chỉ mục để hưởng GRT mà thôi.
+Để đảm bảo curator luôn leading indexer data có chất lượng cao nhất, họ cũng phải stake grt trên subgraph bonding curve là 1 curational signal dùng bởi indexer. Nch là cái curve là động lực khiến họ luôn muốn là người nhanh nhất báo cho indexer biết nên dùng subgraph nào vì họ nhận 1 phần phí trả cho indexer. Họ stake grt vào subgraph đó
+Dù curator không bị phạt nếu index sai nhưng họ bị phạt với withdrawal task nếu move stake khỏi subgraph. Điều này tạo động lực họ tìm cái highest quality subgraph vì nếu không thì user k query được thì họ k nhận được querying fee và lost withdrawal task
+Curator cũng có thể là các dev tạo ra subgraph và yêu cầu indexer đánh chỉ mục cho subgraph của họ or là end-user trả tiền để yêu cầu subgraph của ai đó cần được index để họ dùng.
+
+Delegator - người ủy quyền là người chọn indexer. Delegator đóng gói vào việc bảo mật mạng lưới nhưng lại k cần chạy bất cứ node nào của The Graph, họ chỉ ủy thác GRT cho indexer nên chả cần có chuyên môn về kỹ thuật. Họ sẽ chọn indexer dựa trên hiệu suất làm việc của họ thông qua các thông số như phí truy vấn, các lần phạt trọng quá khứ, thời gian hoạt động, tỉ lệ phân chia chi phí và thưởng. Delegator sẽ thực hiện ủy quyền or k ủy quyền GRT cho indexer thông qua ứng dụng phi tập trung Graph Explorer và họ kiếm được 1 phần phí truy vấn và phần thưởng lập chỉ mục là token GRT. Họ đầu tư GRT vào indexer và chia fee cùng indexer nên cần chọn chuẩn.
+=> Để đảm bảo indexer không yêu cầu giá quá cao làm các dev dùng graph k muốn dùng nx vì họ tùy ý set giá mà, thì delegator stake grt để chọn indexer nào được chọn để fetch data for developer tối ưu nhất vì họ cũng ăn 1 phần query fee và indexing reward.
+
+Customer dùng tool nhận data check nếu sai -> báo với arbitrator -> nếu check sai thật -> phạt indexer bằng cách lấy 1 phần stake của họ gửi cho customer. Họ truy vấn các subgraph và trả phí cho indexer, curator, delegator
+
+--> VD: 1 dự án exchange launch trên mainnet -> đội ngũ phát triển muốn những người khác dùng GraphQL truy cập vào thông tin của exchange này -> 1 curator nào đó or dev của dự án ban đầu tạo ra 1 subgraph -> thấy có subgraph mới, curator signal rằng subgraph mới đáng để indexing
+  TH1: dự án phát triển mạnh -> curator stake GRT vào subgraph và yêu cầu indexer index nó
+  TH2: dự án phát triển kém, ít người muốn query subgraph của nó -> đội ngũ dự án tự stake grt để trở thành curator và tự trở thành curator cho subgraph của chính họ
+Indexer vào index cho cái subgraph đó, việc index có thể mất vài ngày tùy vào dữ liệu index nhiều hay không -> consumer query subgraph trả grt cho indexer -> query engine xác định indexer nào xử lý cái query này để nhận phí. 
+Nhưng để đơn giản họ làm 1 payment channel giữa consumer và indexer để consumer trả tiền cho indexer -> nếu indexer trả lại thông tin sai sẽ diễn ra dispute process 
+
+-> The Graph nhận truy vấn, thu thập, phân tích, tổng hợp dữ liệu mà không có tương tác với bên thứ 3. Token GRT với các đối tượng như Indexer, Curator, Delegator thì:
+Indexer: sau khi stake GRT vào hệ thống sẽ phụ trách vận hành các Node của The Graph và kiếm tiền bất cứ khi nào truy vấn được xử lý. Giá của truy vấn sẽ lập bởi indexer và thay đổi dựa trên chi phí để lập chỉ mục subgraph
+Curator: quyết định thông tin nào cần để lập chỉ mục và sẽ được trả tiền cho hđ đó
+Delegator: nhận được 1 phần thu nhập từ người lập chỉ mục mà họ ủy thác cho dù k chạy các node
+
+GRT là token dùng giao thức DPoS(Delegated Proof of stake). 3 người indexer, curator, delegator phải stake GRT vào nhằm đk cung cấp các dịch vụ lập chỉ mục và quản lý mạng lưới The Graph và nhận thưởng. GRT đã stake cũng để bảo hiểm nếu Indexer có dấu hiệu bất thường khi cung cấp dữ liệu sẽ trừ rất nặng vào khoản đã stake
+GRT là token ERC20, số lượng GRT staked và số lượng job 3 đối tượng làm tỉ lệ thuận với lợi nhuận
+
+GRT stake bị khóa trong 1 khoảng thời gian, indexer gây hại or đánh chỉ mục sai sẽ bị phạt, curator và delegator sẽ chịu khoản thuế tiền gửi để hạn chế vc ra qđ kém hiệu quả phá hoại tính bền vững của hệ thống. Curator cũng nhận phí thấp hơn nếu họ quản lý trên 1 subgraph chất lượng kém
+
+Nó là giao thức lập chỉ mục để truy vấn các mạng như Ethereum và hệ thống tệp liên hành tinh IPFS. Nó cũng hoàn thành tích hợp với ChainLink giúp dữ liệu sau khi được lập chỉ mục từ API của The Graph sẽ chuyển tiếp đến các smart contract thông qua chain link oracles
+
+-> Cụ thể, ta là 1 thành viên kỹ thuật của 1 dự án đang xây dựng dapp phục vụ người dùng cuối, ta có thể tạo các subgraph trong The Graph Network để sử dụng.
+VD: các thông tin về số dư các token của 1 số ví có address nào đó => quá ez ta truy cập bằng etherscan search phát là có. Thế nhưng những thông tin phức tạp hơn phục vụ nghiên cứu or phục vụ mục tiêu trải nghiệm người dùng VD 1 hệ thống tổng hợp thanh khoản các sàn phi tập trung. Khi đó yếu tố chênh giá giao dịch cùng 1 cặp coin ở những sàn khác nhau là 1 thứ rất quan trọng, nhưng làm sao ta có thể truy vấn chuẩn xác, không bị thao túng và nhanh chóng trong thời gian thực. Thêm vào đó dữ liệu trong SM không phải lúc nào cũng sử dụng trực tiếp mà phải thực hiện chuyển đổi. Tức là nếu DApp truy vấn data từ blockchain thì cần phải có 1 cơ sở hạ tầng để xử lý những data đó.
+=> Thực tế điều này vẫn có thể làm được mà k dùng The Graph nhưng cực kỳ phức tạp
+
+VD: ta cần xây 1 ứng dụng phi tập trung với chuyên môn giải quyết 1 vấn đề cụ thể thì ta thường không có chuyên môn để truy vấn và xây dựng dữ liệu từ blockchain. Khi đó ta phải thuê nhân lực giải quyết vấn đề truy vấn dữ liệu trên 1 cơ sở hạ tầng tập trung. Nhưng 1 ứng dụng phi tập trung thì dữ liệu không thể nào lại tập trung được
+Kể cả ta sử dụng 1 đơn vị vận hành phi tập trung như Ankr Network để chạy hạ tầng cơ sở dữ liệu thì những dịch vụ như vậy không có sự tối ưu, chính xác về thông tin. Không có ai xác minh cho họ rằng thời gian thực dữ liệu đó là đúng được như TheGraph
+
+--> So sanh sự tiện lợi:
+VD: Contract HumanityDAO ta cần theo dõi những owner đề xuất trong nó mà không dùng The Graph thì quy trình là: Chạy 1 node đầy đủ bắt từng giao dịch -> check mỗi giao dịch có phải là call tới address contract HumanityDAO không -> nếu có thì check xem phương thức được gọi có phù hợp với 1 trong các data cần lấy không -> từ đó đánh dấu người sender và theo dõi nó.
+VD dùng The Graph cho vấn đề trên: tạo 1 HumanityDAO subgraph trên The Graph Network và gọi khoảng 5 dòng lệnh là có data cần luôn
+
+
+
+# Cơ chế
+  Blockchain                      Graph Node(The Graph)
+smartcontracts --events--> subgraphs -> database -> API -> consumer
+
+-> User
+REST API ->  GET/users  <- Frontend
+             GET/projects
+             GET/teams
+Nhưng GraphQL chỉ cần 1 single endpoint. Với 1 single query, ta có thể co mbine data từ nhiều routes:
+API of Graph ->  POST/  <--GraphQL query--  Front end
+=> Chú ý query GraphQL luôn là post request. Có thể dùng The Graph for Nodejs app, ta chỉ query như bình thường bằng nodejs axios mà thôi
+
+--> Bản test thử của the graph là hosted service có các nền tảng có sẵn để ta test free. Ở đây ta lấy url binh thường. Còn trên Graph Explorer, ta muốn dùng các graph ở đây thì phải có GRT trong tài khoản để đăng ký API key từ đó dùng để query subgraph.
+Thực tế phần tiền GRT phải trả là từ DApp chứ kp end user vì user cuối đâu phải lúc nào cũng có GRT để trả mà dùng DApp đâu. Tức đội dev dùng phải trả
+
+Để faucet GRT: Vào group discord -> hoàn thành captcha -> lấy role testnet indexer -> hiện channel testnet faucet -> vào gửi !grt <address> -> import token vào metamask là có 100000 GRT
+
+--> Dùng online playground của The Graph: vào Graph Explorer và chọn graph của uniswap r mở playground.
+
+Cột trái là GraphQL, giữa là kết quả, phải là các schema mà ta có tức là các entities mà ta có thể query. Ấn vào schema sẽ hiển thị các field mà ta có thể query trong 1 schema. Hiển thị tên field và type of field. 1 vài field phức tạp ta click tiếp sẽ hiển thị thêm các field bên trong field đó
+
+Để query GraphQL, ta dùng theo các schema bên phải là được. Trường to nhất đầu tiên luôn là số nhiều viết thường của các schema. Xong cứ dựa vào schema để viết thôi
+Ta để ý có nhiều subgraph cùng 1 nền tảng như Uniswap, NN là bởi vì có nhiều người tạo nhiều subgraph khác nhau cùng 1 dự án vì mỗi người có các trường query có thể khác nhau và họ cạnh tranh trở thành 1 subgraph tốt nhất. Các subgraph mà trạng thái indexing chưa xong thì ta k thể query
+
+Khi dùng mặc định thì nó query 100 item đầu tiên nhưng ta hoàn toàn có thể thay đổi nó bằng tham số đầu tiên. VD  trong 1 uniswap v3 subgraph nào đó:
+{
+  pools(
+    where:{ # cái này là để filter
+      volumeUSD_gt: "10000"
+    }
+    first: 10,
+    skip: 1, 
+    orderBy: volumeUSD
+    orderDirection: desc
+  ){
+    token0{
+      symbol
+    }
+    token1{
+      symbol
+    }
+    volumeUSD
+  }
+}
+
+Trong mỗi subgraph luôn kèm link github mà ta có thể vào file yaml của nó để xem subgraph đó được build như thế nào, để hiểu các schema có vai trò gì
+Nhìn vào code biết được source data lấy từ đâu, nó track những event nào. Mỗi event nó bắt nó sẽ gửi vào handler xử lý. Ở trong phần source/mapping sẽ là các file typescript chứa các handler
+
+-> Indexer
+Subgraph define data nào được take from blockchain, thường thì là event
+Bất cứ ai cũng có thể tạo subgraph: ta phải tải ứng dụng Graph Node là 1 open source viết bằng rust available trên github. Ta có thể tự run graph node đó và deploy my subgraph trên nó. Sau đó ta phải duy trì cái node này online để mọi người có thể dùng subgraph của ta. Or ta có thể deploy subgraph của ta lên 1 hosted graph node khác run bởi company của The Graph
+
+-> Curator
+Các nhà phát triển subgraph xác định dữ liệu nào được lập chỉ mục từ blockchain và cách nó lưu trữ và cung cấp qua 1 lớp API. Để tạo subgraph ta dùng subgraph studio và graph cli
+VD: tạo 1 subgraph cho smart contract Zora và xuất bản nó, rồi phát signal báo cho indexer indexing cho nó
+
+
+
+# Code subgraph
+Cài theo hướng dẫn trong Subgraph Studio
+
+-> Codebase của subgraph bao gồm: 
+subgraph.yaml chứa tệp kê khai subgraph, cấu hình và định nghĩa chính cho 1 subgraph nằm trong subgraph.yaml
+schema.graphql: 1 sơ đồ GraphQL xác định kiểu dữ liệu nào được lưu trữ cho subgraph và cách truy vấn bằng GraphQL
+AssemblyScript Mappings: Mã AssemplyScript chuyển từ sự kiện trong Ethereum sang các entity xác định để lấy ra => là file mapping.ts
+
+--> Trong subgraph.yaml có các entity là: 
+dataSource.source là địa chỉ smart contract, các nguồn subgraph và ABI mà ta đang dùng. Địa chỉ là tùy chọn, nếu k có thì nó indexing các sự kiện phù hợp từ mọi contract
+dataSouce.source.startBlock: số block mà nguồn dữ liệu bắt đầu lập chỉ mục. Ta nên dùng block mà smart contract được tạo ra nếu không indexer sẽ phải tìm từ block gốc là genesis rất tốn
+dataSource.mapping.entities: các thực thể mà nguồn dữ liệu ghi vào store. Lược đồ cho mỗi thực thể xđ trong schema.graphql
+dataSources.mapping.abis: 1 or nhiều tệp abi cho contract nguồn cũng như bất kỳ smart contract nào khác mà ta tương tác từ trong mappings
+dataSources.mapping.eventHandlers: liệt kê các sự kiện smart contract mà subgraph này track theo và xử lý định nghĩa trong các handler trong mapping.ts
+
+-> Quy trình: 
+Cài graph-cli -> graph init dự án -> chỉnh sửa schema.graphql cho các entities muốn lấy -> edit file subgraph.yaml muốn bắt sự kiện nào, entities nào -> codegen -> cài graph-ts -> code handler mapping.ts -> build -> deploy -> public -> signal 
+Lệnh init của ta như sau: graph init --contract-name Token --index-events --product subgraph-studio --from-contract 0xabEFBc9fD2F806065b4f3C237d4b59D9A97Bcac7
+- Param --index-events giúp cho nó tự track mọi event, có thể thấy trong file subgraph.yaml, tham số --product chỉ định ta hợp nhất graph này với subgraph trên phần mềm subgraph studio đã tạo
+- Tham số --contract-name Token là ta gom tất cả contract tại address nào thành 1 biến Token dùng trong code mà tương tác với contract đó chứ kp bản thân contract có 1 contract tên là Token đâu
+
+-> Từ khóa @derivedFrom cho phép 1 field của entity này lấy từ entities khác. Điều này giúp tốc độ nhanh hơn khi đỡ phải query cho cả 2 mà 1 cái có rồi thì cái kia lấy luôn. Đặc biệt là one-to-many relationship thì many sẽ derived from one sẽ tăng performance. 
+Hạn chế lưu 1 array trên 1 entity
+
+Để làm việc với smart contract, event, thực thể dễ dàng và type-safe thì Graph CLI có hàm codegen sinh ra type assemblyscript từ 1 tổ hợp GraphQL schema của subgraph và contract ABI -> chạy lệnh này sẽ sinh ra file script đó
+Chạy xong là ta có thể update configuration trong subgraph.yaml để dùng entities mà ta vừa create
+-> Mở mapping.ts để viết logic handler -> mapping viết bằng assymblyscript rất giống typescript về cú pháp. Mapping cho phép ta đọc và lưu data vào Graph Node.
+
+Lúc này ta có 2 loại API sẵn sàng sử dụng là Graph TypeScript(@graphprotocol/graph-ts) và mã được tạo từ tệp subgraph bằng lệnh graph codegen. VD @graphprotocol/graph-ts cung các API:
+API làm việc với SM, event, block, trans, các giá trị blockchain
+API để tải và lưu thực thể qua lại từ Graph Node store
+API để log các message ở đầu ra GraphNode và Graph Explorer
+API cho phép tải tệp từ IPFS
+JSON API để phân tích cú pháp dữ liệu JSON
+1 crypto API để sử dụng các chức năng mật mã
+Low-level primitives để chuyển qua lại giữa các type khác nhau như Ethereum, JSON, GraphQL, AssemblyScript
+=> Để chạy phải tự cài npm install @graphprotocol/graph-ts thì mới code được graph bằng typescript
+
+-> Chú ý tên của graph phải trùng với tên graph tạo ra trong Subgraph Studio convert sang lowercase
+VD lệnh deploy phải là: graph deploy --studio testsubgraph
+
+Sau khi publish subgraph thì mọi người đều nhìn thấy nhưng chưa đc index. Vì ở đây cái subgraph này test thử nên chả có curator nào vào signal cho nó cả nên ta có thể signal cho subgraph này để trở thành curator, stake vào nó 1 lượng GRT -> khi đó ta có thể view nó trên explorer nhưng sẽ k có ai index cho nó đâu vì đây là testnet mà. Ta sẽ tự trở thành indexer để index cho nó nếu muốn
+
+-> Để cài trong hosted service ta làm như bình thường rất ez, nó cũng có sẵn graph-ts trong package.json mà ta chỉ cần npm install để tự động cài về chứ kp làm như cái trước
+Để deploy ta phải sign in link github vào hosted service của The Graph -> và dùng cú pháp theo hướng dẫn. Tên graph phải là hieucuopbien123/zoranftethworkshop tức là <Github name>/<Subgraph name>
+=> Khi deploy như v nó sẽ nằm trong phần hosted service và được sync(hay gọi là indexing khi dùng decentralized ấy) 1 cách tự động bởi The Graph => tức là ta có thể tự tạo The Graph dùng cho dự án mình như v => Nếu k có token GRT trên mainnet thì dùng như này luôn
+Trong quá trình sync là nó đang index từ block ta set cho đến block mới nhất để lấy event và sau đó nó sẽ tự bắt tiếp event theo thời gian thực và cung cho ta thông qua API
+graph init --from-contract 0xabEFBc9fD2F806065b4f3C237d4b59D9A97Bcac7 --network mainnet --contract-name Token --index-events với tên subgraph là hieucuopbien123/zoranftethworkshop
+Các flags trong command là các thứ ta định nghĩa trước, nếu k có thì về sau cũng phải điền. Ta phải có link file abi nhé nếu chưa publish code
+VD hosted services: graph init --from-contract <address> --network <network> --abi <link file> git/subgraphname <tên folder> => tạo subgraph từ 1 contract có sẵn
+graph init --from-example git/subgraphname <tên folder> => tạo subgraph từ 1 subgraph mẫu của Graph team
+
+
+
+# Chi tiết code subgraph
+-> subgraph.yaml: gọi là subgraph manifest
+description là mô tả về Graph, là thứ sẽ hiển thị bởi Graph Explorer khi subgraph được deployed
+repository: chứa repo's url nơi subgraph manifest được located. URL cũng display bởi Graph Explorer
+dataSources.source: xác định thông tin contract và abi. address là optional, nhưng nếu k có thì subgraph sẽ index event từ mọi contract sẽ rất lâu
+dataSources.mapping.entities: entity xđ ở file graphql
+dataSources.mapping.abis:
+dataSources.mapping.eventHandler: bắt event nào và sẽ xử lý gì
+dataSources.mapping.callHandler: entry này cho phép ta list mọi function of smart contract mà subgraph sẽ tương tác với nó. Cũng dùng nó cho handler trong mapping.ts chuyển đổi input và output of funtion thành entities lưu trong store. Ta xử lý hết
+dataSource.mapping.blockHandlers: xđ blocks mà subgraph sẽ tương tác với và handle trong file mapping.ts khi block đó thêm vào chain. Block handler sẽ run với mọi block nếu ta k specific 1 cái filter cho nó. Trong VD mới nhất, ta dùng filter kind: call tức là handler này sẽ chạy chỉ khi block chứa ít nhất 1 call tới smart contract đó
+
+Có thể tương tác với nhiều contract cùng 1 lúc bằng cách trong dataSource ta khai báo nhiều cục như v bên dưới. VD:
+dataSource:
+  - kind: ethereum/contract
+    ... đây là 1 contract...
+  - kind: ethereum/contract
+    ... contract tiếp theo...
+
+Thứ tự trigger các handler 1 datasource trong 1 block: event và call trigger(là cái eventHandler và callHandler được gọi đó) theo thứ tự block. Nếu trong cùng 1 transaction vừa có event và call trigger thì xử lý event trước, call sau. Sau event và call trigger, block trigger được run sau đó theo thứ tự defined trong file này
+Dùng abi đúng phiên bản của contract, nếu k sẽ k chạy. Có thể lấy thẳng contract về rồi compile từ truffle ra abi cho chuẩn. Nếu dùng trên etherscan cũng ok nhưng có thể k đáng tin.
+
+schema.graphql: xác định lưu data nào cho người dùng lấy và cách nó query bằng GraphQL
+Dấu ! ở sau mỗi type là bắt buộc phải định nghĩa entities đó ở trong file mapping, ngược lại là optinal vì đâu phải entities nào cũng lấy được. 
+ID! là type buộc có và nó là type string bth thôi, unique
+Bytes: Byte array, bd hex string thg dùng cho hash và address
+String, Boolean
+Int: int size 32 bytes
+BigInt: large int dùng cho uint32, uint64,..., uint256. Các type < uint32 như int32, uint24, int8 sẽ dùng như Int
+BigDecimal: số thập phân có độ chính xác cao, số mũ trải từ -6143 tới 6144 làm tròn tới 34 chữ số có nghĩa
+
+Có thể định nghĩa enum trong schema. VD sử dụng enum trong 1 entity:
+enum TokenStatus {
+  Original Owner
+  SecondOwner
+  ThirdOwner
+} 
+type Token @entity {
+  id: ID!
+  name: String!
+  tokenStatus: TokenStatus!
+}
+
+Relationship:
+- 1 to 1: 
+type Transaction @entity {
+  id: ID!
+  transactionReceipt: TransactionReceipt
+}
+type TransactionReceipt @entity {
+  id: ID!
+  transaction: Transaction
+}
+- 1 to many: => store oneside to increase performance
+type Token @entity {
+  id: ID!
+}
+type TokenBalance @entity {
+  id: ID!
+  amount: Int!
+  token: Token!
+}
+
+ReserveLookup cũng chỉ là 1 thuộc tính, cái này lây 1 thuộc tính cái kia:
+type Token @entity {
+  id: ID!
+  tokenBalances: [TokenBalance!]! @derivedFrom(field: "token")
+}
+type TokenBalance @entity {
+  id: ID!
+  amount: Int!
+  token: Token!
+}
+=> Ý là Token sẽ tự lấy trường tokenBalances từ TokenBalance -> token
+=> Có derivedFrom là lấy từ trường nào, k có là lấy cả. [] tức là khai báo 1 mảng, ở đây tokenBalances là 1 mảng các type [TokenBalance]. 
+=> Khi nào Token được sinh ra thì có id mới. Khi nào TokenBalance được sinh ra thì 1 entity mới vói id và amount mới(nếu chưa được sinh ra trước đó) và trường token của nó lại update id, k cần update tokenBalances vì lại recursive chính nó, đồng thời 1 entity Token mới cũng sinh ra với id đó(nếu chưa được sinh ra) với tokenBalances là 1 mảng sẽ add cái TokenBalance vào 
+
+- Many to many: 1 User thuộc về nhiều Organization, 1 Organization có nhiều User
+type Organization @entity {
+  id: ID!
+  name: String!
+  members: [User!]!
+}
+type User @entity {
+  id: ID!
+  name: String!
+  organizations: [Organization!]! @derivedFrom(field: "members")
+}
+=> Khi 1 Organization mới được thêm thì update id, name của O và member thì update id, name của U và organization lại quay về chính nó. Đồng thời 1 instance U được sinh ra có id, name đó(nếu chưa được sinh ra) và trường organizations là 1 array các Organization sẽ add cái O đó vào
+=> Khi 1 U mới được thêm thì update id, name của U và organizations của nó k cần set nx
+
+Cách khác để tăng performance là:
+type Organization @entity {
+  id: ID!
+  name: String!
+  members: [UserOrganization]! @derivedFrom(field: "user")
+}
+type User @entity {
+  id: ID!
+  name: String!
+  organizations: [UserOrganization!] @derivedFrom(field: "organization")
+}
+type UserOrganization @entity {
+  id: ID!   # Set to `${user.id}-${organization.id}`
+  user: User!
+  organization: Organization!
+}
+=> NN là vì trong The Graph việc lưu 1 mảng rất tốn kém, cách này k hề lưu mảng vào store nên nhanh hơn
+VD ta muốn lấy organization of 1 user nào đó:
+query usersWithOrganizations {
+  users {
+    organizations { # this is a UserOrganization entity
+      organization {
+        name
+      }
+      "comment"
+    }
+  }
+}
+
+--> Tính năng filter(search) và rank các entities:
+type _Schema_
+  @fulltext(
+    name: "bandSearch",
+    language: en
+    algorithm: rank,
+    include: [
+      {
+        entity: "Band",
+        fields: [
+          { name: "name" },
+          { name: "description" },
+          { name: "bio" },
+        ]
+      }
+    ]
+  )
+type Band @entity {
+  id: ID!
+  name: String!
+  description: String!
+  bio: String
+  wallet: Address
+  labels: [Label!]!
+  discography: [Album!]!
+  members: [Musician!]!
+}
+=> Nó hỗ trợ khá nhiều lang
+=> Algorithm có 2 options "rank" là sắp xếp kết quả chỉ khi giống hoàn toàn và "proximityRank" bao gồm tất cả giống và gần giống
+=> VD này ta enable tính năng filter trên entity Band ở 3 trường name, description, bio. User search và trả ra các từ giống nhất xuất hiện qua trường bandSearch. VD:
+query {
+  bandSearch(text: "breaks & electro & detroit") {
+    id
+    name
+    description
+    wallet
+  }
+}
+
+-> AssemblyScript Mappings(mapping.ts): Chuyển blockchain event thành entities xđ trong schema r lưu vào GraphNode. Ta phải viết mapping bằng typescript mà nó gọi là AssemblyScript. Script này sẽ compiled vào WASM(WebAssembly).
+Thực chất AssemblyScript kp là typescript mà nó chặt hơn, chỉ là cú pháp giống thôi.
+Ta viết các eventHandler nhận vào params là event đó
+Thường dùng các hàm này cho id: event.transaction.from.toHex(); event.transaction.hash.toHex(); event.logIndex.toString();
+1 số ít trường hợp các hàm readonly bị revert vì 1 lỗi nào đó thì ta dùng prefix try_ trước hàm để check như dưới:
+  let gravity = Gravity.bind(event.address)
+  let callResult = gravity.try_gravatarToOwner(gravatar)
+  if (callResult.reverted) {
+    log.info("getGravatar reverted", [])
+  } else {
+    let owner = callResult.value
+  }
+
+graph codegen [--output-dir <tên folder>]
+=> Ta có thể call read-only method từ contract trong block đang xử lý. Command này cũng cho ta access vào event params và block và transaction mà phát ra cái event này bằng cách tạo ra 1 class for mọi contract event.
+=> Folder này ở trong thư mục mặc định là generated: bên trong thì mỗi entity có 1 class riêng cung cấp type-safe mà ta dùng trong typescript phải xđ kiểu của từng var ấy, khả năng read và write vào entity, save function để write chính thức vào store
+=> Ta phải codegen lại nếu có thay đổi trong schema, file config yaml, abi
+=> yarn build để compile và check lỗi trong file mapping.ts
+
+--> Các loại contract như registry, factory thì ta k thể tạo vô số subgraph or tạo vô số dataSource trong 1 subgraph để lấy hết dữ liệu của các contract con tạo ra từ factory được, khi đó phải dùng data source templates. Vd ở đây ta có dataSource của 1 factory contract:
+dataSources:
+  - kind: ethereum/contract
+    name: Factory
+    network: mainnet
+    source:
+      address: '0xc0a47dFe034B400B47bDaD5FecDa2621de6c4d95'
+      abi: Factory
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.2
+      language: wasm/assemblyscript
+      file: ./src/mappings/factory.ts
+      entities:
+        - Directory
+      abis:
+        - name: Factory
+          file: ./abis/factory.json
+      eventHandlers:
+        - event: NewExchange(address,address)
+          handler: handleNewExchange
+=> mỗi khi 1 contract NewExchange được tạo ra thì nó phát event cùng tên và ta xử lý lấy data bằng handleNewExchange
+Còn dataSource của Dynamically Created Contracts ta khai báo cũng trong yaml file đó:
+dataSources:
+  - kind: ethereum/contract
+    name: Factory
+    # ... other source fields for the main contract ...
+templates:
+  - name: Exchange
+    kind: ethereum/contract
+    network: mainnet
+    source:
+      abi: Exchange
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.1
+      language: wasm/assemblyscript
+      file: ./src/mappings/exchange.ts
+      entities:
+        - Exchange
+      abis:
+        - name: Exchange
+          file: ./abis/exchange.json
+      eventHandlers:
+        - event: TokenPurchase(address,uint256,uint256)
+          handler: handleTokenPurchase
+        - event: EthPurchase(address,uint256,uint256)
+          handler: handleEthPurchase
+        - event: AddLiquidity(address,uint256,uint256)
+          handler: handleAddLiquidity
+        - event: RemoveLiquidity(address,uint256,uint256)
+          handler: handleRemoveLiquidity
+=> Phần source ta k điền 1 địa chỉ cố định như bình thường tức là nó bắt event từ mọi address
+=> Cái entities Exchange này ta cũng xử lý ở 1 file ts riêng trên cùng 1 subgraph. Khi codegen sẽ sinh ra templates và ta import để dùng
+import { Exchange } from '../generated/templates'
+
+Trên file mapping của contract Factory, ta dùng:
+export function handleNewExchange(event: NewExchange): void {
+  // Start indexing the exchange; `event.params.exchange` is the address of the new exchange contract
+  Exchange.create(event.params.exchange)
+}
+=> Mỗi khi có sự kiện NewExchange từ Factory thì ta tạo ra thêm 1 Exchange contract cần phải indexed thì gọi Exchange.create(address của contract exchange mới) => các contract tạo ra từ Factory đều giống nhau về code nên ta dùng chung 1 dataSource template và làm thêm cái bước create bên trên mà thôi. Còn đâu ta vẫn index như index 1 cái bình thường
+
+Có thể thêm DataSourceContext để truyền thêm các config bổ sung vào riêng cái Exchange với dataSource là template đó:
+import { Exchange } from '../generated/templates'
+export function handleNewExchange(event: NewExchange): void {
+  let context = new DataSourceContext()
+  context.setString("tradingPair", event.params.tradingPair)
+  Exchange.createWithContext(event.params.exchange, context)
+}
+=> Ta lấy context trong exchange mapping ts:
+import { dataSource } from "@graphprotocol/graph-ts"
+let context = dataSource.context()
+let tradingPair = context.getString("tradingPair")
+
+--> Nhiều contract nó không dùng log để giảm gas cost nên dùng event k thể bắt được state change của blockchain => Giải pháp là dùng callhandler - signature of function
+Nó dùng ethereum.call trong mapping handler để thực hiện call. Nó bắt hđ của contract datasource bằng proxy contract. 
+CallHanlder chỉ được kích hoạt khi hàm được gọi bởi người dùng or hàm là external và được gọi như 1 phần của function khác trong cùng contract
+=> Ganache và Rinkeby không hỗ trợ call handler vì k support Parity tracing API là cái mà handler phụ thuộc vào. 
+VD:
+dataSources:
+  - kind: ethereum/contract
+    name: Gravity
+    network: mainnet
+    source:
+      address: '0x731a10897d267e19b34503ad902d0a29173ba4b1'
+      abi: Gravity
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.2
+      language: wasm/assemblyscript
+      entities:
+        - Gravatar
+        - Transaction
+      abis:
+        - name: Gravity
+          file: ./abis/Gravity.json
+      callHandlers:
+        - function: createGravatar(string,string)
+          handler: handleCreateGravatar
+và trong mapping:
+import { CreateGravatarCall } from '../generated/Gravity/Gravity'
+import { Transaction } from '../generated/schema'
+export function handleCreateGravatar(call: CreateGravatarCall): void {
+  let id = call.transaction.hash.toHex()
+  let transaction = new Transaction(id)
+  transaction.displayName = call.inputs._displayName
+  transaction.imageUrl = call.inputs._imageUrl
+  transaction.save()
+}
+=> callHandler nhận param có type tương ứng với cái function
+=> CreateGravatarCall (which is a subclass of ethereum.Call and provided by @graphprotocol/graph-ts) ta có thể dùng call để lấy thông tin về transaction đó
+=> Tên sinh ra bằng codegen tuân thủ quy tắc VD hàm createGravatar thì codegen có type là CreateGravatarCall
+
+-> Block handler còn giúp ta xử lý mỗi khi 1 block mới sinh ra thì chạy function gì để update các entities or filter các block mới cx ok với:
+filter:
+  kind: call
+=> tức là chỉ tính block mới mà chứa call tới contract cần tính
+VD:
+dataSources:
+  - kind: ethereum/contract
+    name: Gravity
+    network: dev
+    source:
+      address: '0x731a10897d267e19b34503ad902d0a29173ba4b1'
+      abi: Gravity
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.2
+      language: wasm/assemblyscript
+      entities:
+        - Gravatar
+        - Transaction
+      abis:
+        - name: Gravity
+          file: ./abis/Gravity.json
+      blockHandlers:
+        - handler: handleBlock
+        - handler: handleBlockWithCallToContract
+          filter:
+            kind: call
+Trong file mapping:
+import { ethereum } from '@graphprotocol/graph-ts'
+export function handleBlock(block: ethereum.Block): void {
+  let id = block.hash.toHex()
+  let entity = new Block(id)
+  entity.save()
+}
+=> ethereum.block lưu thông tin về block bắt được 
+
+--> Subgraph còn xử lý được anonymous event với:
+eventHandlers:
+  - event: LogNote(bytes4,address,bytes32,bytes32,uint256,bytes)
+    topic0: "0xbaa8529c00000000000000000000000000000000000000000000000000000000"
+    handler: handleGive
+=> topic0 là hash của event signature mặc định. Nếu signature và topic0 khác nhau thì event k đc trigger
+
+--> Nhiều contract k lưu data trên blockchain mà code trên đó lưu lại đường link còn data thực là trên ipfs cơ.
+import ipfs trên graph-ts
+const result = ipfs.cat(<hash>);
+if(result == null){handle error} else {
+  let data = json.fromBytes(result); 
+  data.toObject();
+=> nhưng thông thường ta k trust data nên dùng
+  let data = json.try_fromBytes(result);
+  if(data.error){...}
+}
+ipfs.map(hash, callback, userData);
+=> Dùng cat và map để lấy data từ ipfs bằng việc cung vào IPFS hash. Thực tế bên trên ta check null vì IPFS khi lấy về có thể bị lỗi network hay gì đó mà k lấy được. Để đảm bảo data ipfs luôn lấy được và reliable thì có thể pin vào ipfs node mà Graph Node khi index subgraph connect vào tại https://api.thegraph.com/ipfs/ (trên hosted service)
+
+Query bằng command:
+C1: curl có sẵn window10
+Lỗi 1: X is not parameter -> remove-item alias:\curl -> là xong
+Lỗi 2: vài query cơ bản thì được nhưng query với graph phải dùng git bash nó mới lấy được
+
+C2: http là package cài được trên mọi hệ điều hành giúp thao tác test API nhanh chóng
+=> python -m pip install --upgrade pip 
+=> pip install --upgrade pip setuptools pip install --upgrade httpie
+Cài bằng python cho dễ, cài như v là global luôn. Máy phải có python trước
+=> Dùng ez hơn curl, vd: http post " https://api.thegraph.com/subgraphs/name/hieucuopbien123/newsubgraph" query='{addressValues(first: 5) {
+    id
+    value
+    count
+  }
+  addresses(first: 5) {
+    id
+    timesChange
+    blockNumber
+    timestamp
+  }
+}' 
+=> VD trên VSC
+
+
+
+# Other
+-> IPFS là file sharing system còn blockchain là sharing ledger. Nó khá giống nhau nhưng IPFS chia sẻ file ngang hàng không được coi là 1 blockchain hoàn chỉnh
+
+-> Để dùng yarn: npm install -g yarn
+Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy Unrestricted => Thì mới hết lỗi, dùng yarn như bth
+
+

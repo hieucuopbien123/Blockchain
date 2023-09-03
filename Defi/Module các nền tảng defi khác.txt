@@ -299,6 +299,8 @@ VD: ta sở hữu sBTC và có các đặc tính của BTC dù bản thân ta k 
 
 
 # The Graph
+=> ref tới "The Graph Protocol"
+
 The Graph index data trên block giúp query data trên blockchain tốc độ cao. Nhiều nền tảng dùng TheGraph như Uniswap, AAVE, Balancer, Decentraland.
 Cơ chế: Nó đánh index data để query tốc độ cao bằng cách bắt mọi event phát bởi SM và tổng hợp lại thành 1 subgraph. Indexing node sẽ được chọn để đánh index cho data. Sau đó data có thể được queried bởi DApp khác bằng GraphQL rất dễ.
 
@@ -327,4 +329,5 @@ Phần lớn code là tự gen. Ta cần tạo Schema cho các data cần lấy,
 Phải setting cài đặt các tool
 
 URL: https://thegraph.com/docs/vi/developing/creating-a-subgraph/
+
 

@@ -1,0 +1,32 @@
+# Randomness
+Bộ sinh số giả ngẫu nhiên là thuật toán sinh chuỗi số có tính chất xấp xỉ tính chất của 1 chuỗi số ngẫu nhiên. Vì sự ngẫu nhiên trong thực tế là k thể đạt được 100% nên người ta mới dùng các thuật toán giả ngẫu nhiên để có được số đó
+Với 1 người hiểu về thuật toán sinh số giả ngẫu nhiên có thể đoán được 1 số trong tương lai thì k coi ngẫu nhiên. Nhưng xét 1 nhóm người k hiểu về thuật toán đó thì bọn họ k đoán được số thì đối với họ, đó chính là ngẫu nhiên thực sự => cần có PP để ngẫu nhiên với tất cả mn
+
+-> 7 phương pháp tạo ngẫu nhiên thông dụng trong blockchain:
+1) Self entropy là phương pháp dùng công nghệ sẵn có để xác định số ngẫu nhiên như block hash, block timestamp, signature. 3 cái này đều có thể manipulate bởi miner
+Blockhash và signature: miner chọn k đào nếu xác định blockhash ở output k đúng ý họ
+Blocktimestamp: miner manipulate được
+=> Điều này dễ thực hiện và có thể dùng trong các dự án nhỏ mà phần thưởng k đủ lớn để miner đánh đổi công sức làm chuyện này. Thực tế thuật toán phải chứa tính toán phức tạp để tạo randomizer
+
+2) Beacons: bitcoin blockchain được dùng làm nguồn sinh số ngẫu nhiên có entropy cao.
+Entropy càng cao thì randomizer càng tốt và blockhash trên bitcoin là 1 VD của beacons có entropy cao.
+Vì bitcoin blockchain tốn năng lượng lớn để đào ra 1 block và đào mất 10p nên xác suất 1 người dành được chiến thắng khó hơn vì k thể cứ 15s họ được đào 1 block mới mà hẳn 10p cơ nên khó mà manipulate giá trị của block tiếp theo. Miner cố manipulate nhưng 10p quá đông người thực hiện tìm ra và rất khó vào 1 miner cụ thể nào => tiếc là éo dùng được vào sm của solidity
+Blocktimstamp k tốt bằng blockhash vì time của PoS là cố định nên đoán được
+
+3) Oraclize(Provable): người ngoài cung data cho SM từ outside blockchain, nhược điểm là centralized nhưng ưu điểm là có thể đạt được true random từ bên ngoài. Vì SM bình thường k thể đạt được true random
+
+4) Commit and Reveal: 1 nhóm người submit secret number của từng người -> sau khi submit sẽ k thể thay đổi, khi submit xong hết thì reveal secret number của tất cả -> tính số random thông qua 1 hàm tính random dùng tất cả giá trị.
+Vấn đề là nút thắt cổ chai người cuối cùng của commit and reveal nhưng do thông tin public nên có thể biết được ai là người cuối cùng và người đó gian lận được.
+Nếu các số mn submit đều k reveal thì chắc có thể đảm bảo random nhỉ nhưng lại phải bí mật như v
+
+5) Publicly verificable secret sharing(PVSS):
+Cơ chế là 1 chủ hội chia sẻ secret s cho n người sao cho mọi subset t người trong người có thể lấy được s. Chủ hội có thể luân phiên thay đổi. Honest majority là t người bao h cũng phải > n/2
+
+6) Verifiable Delay Function(VDF) là áp dụng 1 lượng tính toán liên tục khá lớn để cho ra kết quả(bất chấp dùng parallel computing) nhưng khi tìm ra số random thì rất dễ để mọi người check -> kiểu PoW mất nh tg tính nhưng check dễ
+
+7) Verifiable Random Function(VRF) là các hàm sinh số giả ngẫu nhiên. Cho input và lấy được đầu ra và ta có bằng chứng cho rằng đầu ra đúng là số ngẫu nhiên dù ta k tương tác gì với chúng.
+VD: Đưa số seed vào -> oracle có 7 node offchain do chainlink tự lập ra, 7 node sinh số random sẽ được trả thưởng bằng token, họ dùng private key sinh ra số ngẫu nhiên xong trả lại cho contract của ethereum check bằng public key(check đúng là số ngẫu nhiên được tạo từ private key) r trả lại cho contract chuẩn nếu hợp lệ => tốn gas vì submit, tạo r check và trả thưởng nx.
+Nó sẽ cực kỳ an toàn nếu kết hợp tất cả số ngẫu nhiên của 7 node đó lại và sinh ra 1 số ngẫu nhiên duy nhất. Trước tiên, ta có thể chắc chắn số ngẫu nhiên được sinh từ pivkey và pivkey kbh lộ thì chắc chắn an toàn người ngoài kb. 7 người kia phải thông đồng với nhau cả 7 người và chấp nhận lộ pivkey cho nhau nhưng điều này khó xảy ra vì oracle sẽ check cẩn thận trước khi 7 người cùng là 1 node của link.
+=> Oracle có lợi là dùng offchain thì cung cho nhiều chain trong khi dùng 1 sidechain tốn nhiều phí và k cùng được cho mọi chain 
+
+

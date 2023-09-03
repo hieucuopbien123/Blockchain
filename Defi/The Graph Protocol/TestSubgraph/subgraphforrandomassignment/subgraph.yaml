@@ -1,0 +1,25 @@
+specVersion: 0.0.2
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: RandomAssignment
+    network: rinkeby
+    source:
+      address: "0x261eceB52b36D931f3Ec3742a6b66Deb720d8Fe4"
+      abi: RandomAssignment
+      startBlock: 10263362
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.5
+      language: wasm/assemblyscript
+      entities:
+        - AddressValue
+        - Address
+      abis:
+        - name: RandomAssignment
+          file: ./abis/RandomAssignment.json
+      eventHandlers:
+        - event: Assign(indexed address,indexed uint256)
+          handler: handleAssign
+      file: ./src/mapping.ts

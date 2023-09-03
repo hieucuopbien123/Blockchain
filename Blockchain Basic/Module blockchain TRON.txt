@@ -1,0 +1,18 @@
+# Blockchain TRON
+TRON blockchain có coin TRX. Ví TRON chuyên dùng cho TRON blockchain.
+TRC20 giống ERC20
+Trong TRON có 2 mạng test là Nile và Shasta. Diamond Network(LOVE) là 1 dự án ERC10 trên TRON. TRON k liên quan gì đến POLKADOT hết
+
+Trên mạng này để compile và deploy và phải vào: https://tronscan.io/#/contracts/contract-compiler và connect ví rồi up code rồi deploy
+
+Tạo ví k cần mạng, nhưng kích hoạt ví trên ứng dụng thì cần. VD ví tronlink thì kích hoạt ví cần 1.1 TRX vì địa chỉ chưa có trên mạng blockchain. Trên tronscan có total account là các địa chỉ ví đã được kích hoạt. Số lượng địa chỉ ví được kích hoạt trên các nền tảng cũng thể hiện sự phổ biến của nền tảng đó.
+Tron Blockchain ảo có transaction k mất phí và energy, chuyển coin 1 số loại token như DiamondLove không mất phí. Nó cũng đốt 1 lượng TRX cho băng thông. TRON có phí rẻ.
+
+Trên các sàn tập trung như sàn Binance họ có rất nhiều loại coin từ các blockchain khác nhau vì bản thân nó cũng là 1 node trên mạng, nó giống như cá mập thực chất chứa tổng số coin của tât cả mọi người tham gia Binance gửi cho Binance nắm giữ là gửi vào address node đó. Do đó ta thấy các cái node trên các blockchain vào phần holder có tên như Huobi, Binance là các node của các sàn DEX nổi tiếng đó. Nó mà scam là tưng đó số tiền ra đi.
+
+Trên Tron Blockchain cũng có các đồng như BTC, USDC, Tether,... dưới dạng TRC20.
+
+Tạo token TRC20:
+Để tạo token TRC20 trên testnet nile ta phải deploy code và còn phải xác thực tạo loại token nào trên trang nile.tronscan nx cơ chứ k có luôn như ethereum.
+
+

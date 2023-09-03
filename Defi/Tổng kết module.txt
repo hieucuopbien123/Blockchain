@@ -638,6 +638,8 @@ Token ngày đầu nên trade ở AMM, sau thanh khoản lớn sẽ trade ở or
 
 # Cơ chế đồng thuận
 
+# Randomess
+
 
 
 # Other
@@ -652,4 +654,5 @@ Total Value Locked(TLV) là tổng giá trị tài sản khóa trong smart contr
 
 -> Tỷ giá hối đoái cũng chỉ là tỉ giá tiền tệ đổi tiền nước này sang tiền nước khác
 PEG là chỉ số: Price Earning to Growth thể hiện mỗi quan hệ giữa P/E(Earning per Share) và tốc độ tăng trưởng thu nhập EPS.
+
 
